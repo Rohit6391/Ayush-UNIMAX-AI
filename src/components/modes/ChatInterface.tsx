@@ -216,7 +216,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
                         placeholder="Message Ayush Unimax AI..." 
-                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-16 pr-24 resize-none transition-colors min-h-[52px]" 
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1} 
                     />
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -224,12 +224,11 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                             <Plus size={20} />
                         </Button>
                         <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
-
+                    </div>
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                         <Button onClick={handleListen} variant="ghost" size="icon" className={isListening ? 'text-red-500' : ''} title="Voice Input">
                             <Mic size={20} />
                         </Button>
-                    </div>
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                         <Button onClick={() => handleSend()} disabled={isLoading} size="icon">
                             <Send size={20} />
                         </Button>
