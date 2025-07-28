@@ -10,3 +10,4 @@ import '@/ai/flows/write-song-and-music.ts';
 import '@/ai/flows/create-document-from-prompt.ts';
 import '@/ai/flows/text-to-speech.ts';
 import '@/ai/flows/video-generator.ts';
+import '@/ai/flows/video-editor.ts';

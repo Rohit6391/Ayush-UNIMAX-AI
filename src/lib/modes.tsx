@@ -1,11 +1,12 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
-    FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic
+    FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
 import { PhotoEditor } from '@/components/modes/PhotoEditor';
-import { VideoStoryboarder } from '@/components/modes/VideoStoryboarder';
+import { VideoGenerator } from '@/components/modes/VideoGenerator';
+import { VideoEditor } from '@/components/modes/VideoEditor';
 import { CodeGenerator } from '@/components/modes/CodeGenerator';
 import { TextGenerator } from '@/components/modes/TextGenerator';
 import { WebsiteMaker } from '@/components/modes/WebsiteMaker';
@@ -17,7 +18,7 @@ import { Translator } from '@/components/modes/Translator';
 import { SongWriter } from '@/components/modes/SongWriter';
 
 export type ModeId = 
-  | 'chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'code_generator' 
+  | 'chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
   | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
   | 'file_editor' | 'story_generator' | 'summarizer' | 'translator' | 'song_writer' 
   | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
@@ -37,7 +38,8 @@ export const modes: Mode[] = [
     { id: 'chat', name: 'Ayush Unimax AI Chat', icon: BrainCircuit, description: 'Your primary AI assistant for any question.', component: ChatInterface },
     { id: 'photo_generator', name: 'Photo Generator', icon: Image, description: 'Create stunning images from text prompts.', component: PhotoGenerator },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
-    { id: 'video_generator', name: 'Video Generator', icon: Video, description: 'Generate a video from a text prompt with Veo.', component: VideoStoryboarder },
+    { id: 'video_generator', name: 'Video Generator', icon: Video, description: 'Generate a video from a text prompt with Veo.', component: VideoGenerator },
+    { id: 'video_editor', name: 'Video Editor', icon: Film, description: 'Upload a video and edit it with an AI prompt.', component: VideoEditor },
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
     { id: 'code_analyzer', name: 'Code Analyzer', icon: Search, description: 'Analyze code for quality and errors.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Paste code here to analyze...",

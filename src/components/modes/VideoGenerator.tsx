@@ -10,7 +10,7 @@ import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateVideo } from '@/ai/flows/video-generator';
 
-export function VideoStoryboarder({ mode }: { mode: any }) {
+export function VideoGenerator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
