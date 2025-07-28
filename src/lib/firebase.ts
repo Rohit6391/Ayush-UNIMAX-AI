@@ -6,10 +6,10 @@ import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   "projectId": "unimax-ai-studio",
   "appId": "1:55447697750:web:c85323df972fa91555fef7",
-  "storageBucket": "unimax-ai-studio.firebasestorage.app",
+  "storageBucket": "unimax-ai-studio.appspot.com",
   "apiKey": "AIzaSyBm8jjONQzF8n3BOfgEEEGsTJRiA2RyZeM",
   "authDomain": "unimax-ai-studio.firebaseapp.com",
-  "measurementId": "",
+  "measurementId": "G-5G75362521",
   "messagingSenderId": "55447697750"
 };
 
