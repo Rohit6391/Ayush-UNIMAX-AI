@@ -9,6 +9,7 @@ import { Settings, AlertTriangle, Download, Copy, Check } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
+import { MakerOptions } from './MakerOptions';
 
 interface MakerProps {
   mode: any;
@@ -17,9 +18,10 @@ interface MakerProps {
   resultType: 'website' | 'code';
   codeLanguage?: string;
   promptPlaceholder: string;
+  showMakerOptions?: boolean;
 }
 
-export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLanguage, promptPlaceholder }: MakerProps) {
+export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLanguage, promptPlaceholder, showMakerOptions = false }: MakerProps) {
     const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -82,6 +84,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
 
     return (
         <ModeWrapper mode={mode}>
+            {showMakerOptions && <MakerOptions />}
             <Textarea 
                 value={prompt} 
                 onChange={(e) => setPrompt(e.target.value)} 

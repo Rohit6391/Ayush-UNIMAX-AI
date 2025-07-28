@@ -13,6 +13,7 @@ export function GameMaker({ mode }: { mode: any }) {
             resultType="code"
             codeLanguage="markdown"
             promptPlaceholder="e.g., A simple platformer game with a hero collecting coins..."
+            showMakerOptions={true}
         />
     );
 }

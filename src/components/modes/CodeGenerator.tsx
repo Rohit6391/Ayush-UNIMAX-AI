@@ -10,6 +10,7 @@ import { Code, Settings, AlertTriangle, Clipboard, Check } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
+import { MakerOptions } from './MakerOptions';
 
 export function CodeGenerator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
@@ -55,6 +56,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
     
     return (
         <ModeWrapper mode={mode}>
+            <MakerOptions />
             <div className="flex flex-col md:flex-row gap-2 mb-2">
                 <Select value={language} onValueChange={setLanguage}>
                     <SelectTrigger className="w-full md:w-[180px]">

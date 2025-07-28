@@ -12,6 +12,7 @@ export function WebsiteMaker({ mode }: { mode: any }) {
             resultTitle="Website Preview"
             resultType="website"
             promptPlaceholder="e.g., A modern landing page for a new coffee shop..."
+            showMakerOptions={true}
         />
     );
 }

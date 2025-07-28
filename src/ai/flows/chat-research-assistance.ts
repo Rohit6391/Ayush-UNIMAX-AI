@@ -15,6 +15,7 @@ import {z} from 'genkit';
 const ChatResearchAssistanceInputSchema = z.object({
   prompt: z.string().describe('The prompt for the AI to research.'),
   isDeepResearch: z.boolean().describe('Whether to perform deep research or not.'),
+  history: z.array(z.any()).optional().describe('The chat history.'),
 });
 export type ChatResearchAssistanceInput = z.infer<typeof ChatResearchAssistanceInputSchema>;
 
@@ -33,7 +34,16 @@ const prompt = ai.definePrompt({
   name: 'chatResearchAssistancePrompt',
   input: {schema: ChatResearchAssistanceInputSchema},
   output: {schema: ChatResearchAssistanceOutputSchema},
-  prompt: `{{#if isDeepResearch}}
+  prompt: `You are Ayush Unimax AI.
+  {{#if history}}
+  Here is the conversation history:
+  {{#each history}}
+  {{#if (eq this.role 'user')}}User: {{this.text}}{{/if}}
+  {{#if (eq this.role 'model')}}AI: {{this.text}}{{/if}}
+  {{/each}}
+  {{/if}}
+
+  {{#if isDeepResearch}}
     You are a Deep Researcher AI. Provide a detailed, well-structured, and comprehensive answer to the following user query. Explore multiple angles and provide supporting details.
     User Query: {{{prompt}}}
   {{else}}

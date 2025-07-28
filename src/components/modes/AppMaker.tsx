@@ -13,6 +13,7 @@ export function AppMaker({ mode }: { mode: any }) {
             resultType="code"
             codeLanguage="markdown"
             promptPlaceholder="e.g., A simple to-do list app with cloud sync..."
+            showMakerOptions={true}
         />
     );
 }

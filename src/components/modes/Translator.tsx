@@ -11,7 +11,7 @@ import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { translateText } from '@/ai/flows/translate-text-ai';
 
-const languages = ["French", "Spanish", "German", "Japanese", "Hindi", "Russian", "Chinese", "Italian", "Portuguese", "Arabic", "Korean", "Turkish"];
+const languages = ["English", "French", "Spanish", "German", "Japanese", "Hindi", "Russian", "Chinese", "Italian", "Portuguese", "Arabic", "Korean", "Turkish"];
 
 export function Translator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();

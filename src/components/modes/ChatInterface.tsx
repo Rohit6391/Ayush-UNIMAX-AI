@@ -24,12 +24,15 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
     const [isListening, setIsListening] = useState(false);
     const [isDeepResearch, setIsDeepResearch] = useState(false);
     const recognitionRef = useRef<any>(null);
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (initialMessages && initialMessages.length > 0) {
             setMessages(initialMessages);
         } else {
-            setMessages([{ role: 'model', text: `Hello! I am Unimax AI. How can I assist you today?` }]);
+            setMessages([{ role: 'model', text: `Hello! I am Ayush Unimax AI. How can I assist you today?` }]);
         }
     }, [initialMessages]);
 
@@ -52,6 +55,26 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
         }
     }, []);
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setUploadedFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewUrl(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    
+    const removeFile = () => {
+        setUploadedFile(null);
+        setPreviewUrl(null);
+        if(fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
+
     const handleListen = () => {
         if (isListening) {
             recognitionRef.current?.stop();
@@ -71,23 +94,29 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
     };
 
     const handleSend = async () => {
-        if (!input.trim() || isLoading) return;
+        if ((!input.trim() && !uploadedFile) || isLoading) return;
         
-        const newUserMessage: Message = { role: 'user', text: input };
+        let userMessageText = input;
+        if (uploadedFile) {
+            userMessageText = `[File: ${uploadedFile.name}] ${input}`;
+        }
+
+        const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
         setMessages(updatedMessages);
 
         const currentInput = input;
         setInput('');
+        removeFile();
         setIsLoading(true);
 
         try {
-            const result = await chatResearchAssistance({ prompt: currentInput, isDeepResearch });
+            const result = await chatResearchAssistance({ prompt: currentInput, isDeepResearch, history: messages });
             const aiMessage: Message = { role: 'model', text: result.response };
             const finalMessages = [...updatedMessages, aiMessage];
             setMessages(finalMessages);
             setInitialMessages([]); 
-            addHistoryItem('chat', currentInput, result.response, finalMessages);
+            addHistoryItem('chat', userMessageText, result.response, finalMessages);
         } catch (error: any) {
             const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}. Please try again.` };
             setMessages(prev => [...prev, errorMessage]);
@@ -142,23 +171,43 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                 </div>
             </ScrollArea>
             <div className="p-4 bg-card/50 backdrop-blur-sm border-t border-border">
+                {previewUrl && (
+                    <div className="relative mb-2 w-24 h-24 rounded-md overflow-hidden">
+                        <img src={previewUrl} alt="File preview" className="w-full h-full object-cover" />
+                        <Button
+                            variant="destructive"
+                            size="icon"
+                            className="absolute top-1 right-1 h-6 w-6"
+                            onClick={removeFile}
+                        >
+                            <X size={14} />
+                        </Button>
+                    </div>
+                )}
                 <div className="relative">
                     <Textarea 
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder="Message Unimax AI..." 
-                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-12 resize-none transition-colors min-h-[52px]" 
+                        placeholder="Message Ayush Unimax AI..." 
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1} 
                     />
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon">
+                            <Plus size={20} />
+                        </Button>
+                        <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+
                         <Button onClick={handleListen} variant="ghost" size="icon" className={isListening ? 'text-red-500' : ''}>
                             <Mic size={20} />
                         </Button>
                     </div>
-                    <Button onClick={handleSend} disabled={isLoading} className="absolute right-3 top-1/2 -translate-y-1/2" size="icon">
-                        <Send size={20} />
-                    </Button>
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                        <Button onClick={handleSend} disabled={isLoading} size="icon">
+                            <Send size={20} />
+                        </Button>
+                    </div>
                 </div>
                 <div className="flex items-center justify-center mt-2">
                     <label htmlFor="deep-research" className="flex items-center gap-2 text-sm cursor-pointer text-muted-foreground hover:text-foreground">

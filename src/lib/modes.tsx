@@ -36,9 +36,9 @@ export interface Mode {
 export const modes: Mode[] = [
     { id: 'chat', name: 'Ayush Unimax AI Chat', icon: BrainCircuit, description: 'Your primary AI assistant for any question.', component: ChatInterface },
     { id: 'photo_generator', name: 'Photo Generator', icon: Image, description: 'Create stunning images from text prompts.', component: PhotoGenerator },
-    { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Describe an image to get AI-powered editing suggestions.', component: PhotoEditor },
+    { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
     { id: 'video_generator', name: 'Video Storyboarder', icon: Video, description: 'Generate a visual storyboard for a video.', component: VideoStoryboarder },
-    { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate code in any language.', component: CodeGenerator },
+    { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
     { id: 'code_analyzer', name: 'Code Analyzer', icon: Search, description: 'Analyze code for quality and errors.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Paste code here to analyze...",
         buttonText: "Analyze Code",
@@ -46,9 +46,9 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Analyze the following code snippet for quality, bugs, and potential improvements. Also, give an opinion on whether it appears safe or malicious. Code:\n\n${p}`,
         resultTitle: "Code Analysis"
     }},
-    { id: 'website_maker', name: 'Website Maker', icon: Globe, description: 'Generate, preview, and publish a website.', component: WebsiteMaker },
-    { id: 'app_maker', name: 'App Maker', icon: AppWindow, description: 'Scaffold and plan a mobile application.', component: AppMaker },
-    { id: 'game_maker', name: 'Game Maker', icon: Gamepad2, description: 'Design and create a plan for your game.', component: GameMaker },
+    { id: 'website_maker', name: 'Website Maker', icon: Globe, description: 'Generate, preview, and import websites.', component: WebsiteMaker },
+    { id: 'app_maker', name: 'App Maker', icon: AppWindow, description: 'Scaffold, import, and plan mobile applications.', component: AppMaker },
+    { id: 'game_maker', name: 'Game Maker', icon: Gamepad2, description: 'Design, import, and create plans for your game.', component: GameMaker },
     { id: 'file_maker', name: 'File Maker', icon: FilePlus, description: 'Create downloadable files from a prompt.', component: FileMaker },
     { id: 'file_editor', name: 'File Editor', icon: FileEdit, description: 'Edit uploaded files with AI instructions.', component: FileEditor },
     { id: 'story_generator', name: 'Story Generator', icon: BookOpen, description: 'Write creative stories and scripts.', component: TextGenerator, componentProps: {

@@ -15,7 +15,7 @@ const NavContent = ({ activeMode, setActiveMode }: SidebarProps) => (
   <>
     <div className="flex items-center gap-2 mb-6 p-4">
       <BrainCircuit className="h-8 w-8 text-primary" />
-      <h1 className="text-2xl font-headline font-bold">Unimax AI</h1>
+      <h1 className="text-2xl font-headline font-bold">Ayush Unimax AI</h1>
     </div>
     <ScrollArea className="flex-1">
       <ul className="space-y-1 px-4">
