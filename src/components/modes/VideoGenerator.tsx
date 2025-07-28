@@ -1,31 +1,59 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Video, Settings, AlertTriangle, Sparkles } from 'lucide-react';
+import { Video, Settings, AlertTriangle, Sparkles, UploadCloud, Image as ImageIcon } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateVideo } from '@/ai/flows/video-generator';
 import { editVideo } from '@/ai/flows/video-editor';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from '../ui/label';
+import { Switch } from '../ui/switch';
 
 export function VideoGenerator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [editPrompt, setEditPrompt] = useState('');
+    const [negativePrompt, setNegativePrompt] = useState('');
+    const [allowPersonGeneration, setAllowPersonGeneration] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [error, setError] = useState('');
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [activeTab, setActiveTab] = useState("text");
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = e.target.files?.[0];
+        if (selectedFile) {
+            setImageFile(selectedFile);
+            const reader = new FileReader();
+            reader.onload = (event) => setImagePreviewUrl(event.target?.result as string);
+            reader.readAsDataURL(selectedFile);
+        }
+    };
 
     const handleGenerate = async () => {
         if (!prompt.trim()) { setError('Please enter a prompt for your video.'); return; }
+        if (activeTab === 'image' && !imagePreviewUrl) { setError('Please upload an image to generate a video from.'); return; }
+
         setIsLoading(true); setVideoUrl(null); setError('');
         
         try {
-            const result = await generateVideo({ prompt });
+            const result = await generateVideo({ 
+                prompt,
+                photoDataUri: activeTab === 'image' ? imagePreviewUrl! : undefined,
+                negativePrompt: negativePrompt || undefined,
+                allowPersonGeneration
+            });
+
             if (result.videoUrl) {
                 setVideoUrl(result.videoUrl);
                 addHistoryItem('video_generator', prompt, `Generated a video.`);
@@ -61,13 +89,66 @@ export function VideoGenerator({ mode }: { mode: any }) {
 
     return (
         <ModeWrapper mode={mode}>
-            <Textarea 
-                value={prompt} 
-                onChange={(e) => setPrompt(e.target.value)} 
-                placeholder="e.g., A majestic dragon soaring over a mystical forest at dawn." 
-                className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
-                rows={3} 
-            />
+            <Tabs defaultValue="text" className="w-full mb-4" onValueChange={setActiveTab}>
+                <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="text">From Text</TabsTrigger>
+                    <TabsTrigger value="image">From Image</TabsTrigger>
+                </TabsList>
+                <TabsContent value="text" className="space-y-4 text-left pt-2">
+                    <Label htmlFor="prompt-text">Prompt</Label>
+                    <Textarea 
+                        id="prompt-text"
+                        value={prompt} 
+                        onChange={(e) => setPrompt(e.target.value)} 
+                        placeholder="e.g., A majestic dragon soaring over a mystical forest at dawn." 
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                        rows={3} 
+                    />
+                </TabsContent>
+                <TabsContent value="image" className="space-y-4 text-left pt-2">
+                     <div 
+                        onClick={() => fileInputRef.current?.click()} 
+                        className="w-full h-40 bg-background border-2 border-dashed border-input rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-muted/50 transition-colors"
+                    >
+                        <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/png, image/jpeg, image/webp" />
+                        {imagePreviewUrl ? (
+                            <img src={imagePreviewUrl} alt="Selected preview" className="max-h-full max-w-full object-contain rounded-md" />
+                        ) : (
+                            <div className="text-center text-muted-foreground">
+                                <UploadCloud className="h-8 w-8 mx-auto" />
+                                <p className="font-semibold mt-2">Click to upload an image</p>
+                            </div>
+                        )}
+                    </div>
+                     <Label htmlFor="prompt-image">Animation Prompt</Label>
+                    <Textarea 
+                        id="prompt-image"
+                        value={prompt} 
+                        onChange={(e) => setPrompt(e.target.value)} 
+                        placeholder="e.g., Make the dragon fly across the screen, breathing fire."
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                        rows={2} 
+                    />
+                </TabsContent>
+            </Tabs>
+            
+            <div className="space-y-4 text-left w-full">
+                <div>
+                    <Label htmlFor="negative-prompt">Negative Prompt (Optional)</Label>
+                    <Input 
+                        id="negative-prompt"
+                        value={negativePrompt}
+                        onChange={(e) => setNegativePrompt(e.target.value)}
+                        placeholder="e.g., blurry, low quality, text"
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 transition-colors"
+                    />
+                </div>
+                 <div className="flex items-center space-x-2">
+                    <Switch id="person-generation" checked={allowPersonGeneration} onCheckedChange={setAllowPersonGeneration} />
+                    <Label htmlFor="person-generation">Allow Generating People</Label>
+                </div>
+            </div>
+
             <Button onClick={handleGenerate} disabled={isLoading || isEditing} className="w-full mt-4">
                 {isLoading ? <><Settings className="animate-spin mr-2" /> Generating Video...</> : 'Generate Video'}
             </Button>

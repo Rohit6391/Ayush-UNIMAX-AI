@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview An AI agent that generates a video from a text prompt using Veo.
+ * @fileOverview An AI agent that generates a video from a text prompt or image using Veo.
  *
  * - generateVideo - A function that handles the video generation.
  * - GenerateVideoInput - The input type for the generateVideo function.
@@ -11,11 +11,12 @@
 import { ai } from '@/ai/genkit';
 import { googleAI } from '@genkit-ai/googleai';
 import { z } from 'genkit';
-import * as fs from 'fs';
-import { Readable } from 'stream';
 
 const GenerateVideoInputSchema = z.object({
   prompt: z.string().describe('A text prompt to generate a video from.'),
+  photoDataUri: z.string().optional().describe("A photo to use as a reference for the video, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
+  negativePrompt: z.string().optional().describe('A text string that describes anything you want to discourage the model from generating.'),
+  allowPersonGeneration: z.boolean().optional().describe('Whether to allow the model to generate videos of people.'),
 });
 export type GenerateVideoInput = z.infer<typeof GenerateVideoInputSchema>;
 
@@ -37,13 +38,32 @@ const generateVideoFlow = ai.defineFlow(
     outputSchema: GenerateVideoOutputSchema,
   },
   async (input) => {
+
+    const modelPrompt = input.photoDataUri
+      ? [
+          { text: input.prompt },
+          { media: { url: input.photoDataUri } }
+        ]
+      : input.prompt;
+    
+    const config: any = {
+      durationSeconds: 5,
+      aspectRatio: '16:9',
+    };
+    if (input.negativePrompt) {
+        config.negativePrompt = input.negativePrompt;
+    }
+    if (input.allowPersonGeneration) {
+        config.personGeneration = 'allow_adult';
+    } else {
+        config.personGeneration = 'dont_allow';
+    }
+
+
     let { operation } = await ai.generate({
       model: googleAI.model('veo-2.0-generate-001'),
-      prompt: input.prompt,
-      config: {
-        durationSeconds: 5,
-        aspectRatio: '16:9',
-      },
+      prompt: modelPrompt,
+      config: config,
     });
 
     if (!operation) {
