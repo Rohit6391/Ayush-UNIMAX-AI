@@ -16,6 +16,7 @@ const ChatResearchAssistanceInputSchema = z.object({
   prompt: z.string().describe('The prompt for the AI to research.'),
   isDeepResearch: z.boolean().describe('Whether to perform deep research or not.'),
   history: z.array(z.any()).optional().describe('The chat history.'),
+  fileDataUri: z.string().optional().describe("An optional file provided by the user, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
 });
 export type ChatResearchAssistanceInput = z.infer<typeof ChatResearchAssistanceInputSchema>;
 
@@ -34,20 +35,27 @@ const prompt = ai.definePrompt({
   name: 'chatResearchAssistancePrompt',
   input: {schema: ChatResearchAssistanceInputSchema},
   output: {schema: ChatResearchAssistanceOutputSchema},
-  prompt: `You are Ayush Unimax AI.
+  prompt: `You are Ayush Unimax AI, a helpful and conversational assistant. Your goal is to provide accurate and relevant answers.
+
+  Pay close attention to the conversation history to understand the full context. Follow-up questions may refer to previous topics.
+
   {{#if history}}
-  Here is the conversation history:
+  Conversation History:
   {{#each history}}
-  {{#if (eq this.role 'user')}}User: {{this.text}}{{/if}}
-  {{#if (eq this.role 'model')}}AI: {{this.text}}{{/if}}
+  - {{this.role}}: {{this.text}}
   {{/each}}
   {{/if}}
 
+  {{#if fileDataUri}}
+  The user has provided a file. Analyze it and use it to inform your response.
+  File: {{media url=fileDataUri}}
+  {{/if}}
+
   {{#if isDeepResearch}}
-    You are a Deep Researcher AI. Provide a detailed, well-structured, and comprehensive answer to the following user query. Explore multiple angles and provide supporting details.
+    You are in Deep Research mode. Provide a detailed, well-structured, and comprehensive answer to the user's query. Explore multiple angles and provide supporting details.
     User Query: {{{prompt}}}
   {{else}}
-    Answer the following prompt: {{{prompt}}}
+    User Query: {{{prompt}}}
   {{/if}}`,
 });
 

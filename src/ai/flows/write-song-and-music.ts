@@ -17,7 +17,7 @@ export type WriteSongAndMusicInput = z.infer<typeof WriteSongAndMusicInputSchema
 
 const WriteSongAndMusicOutputSchema = z.object({
   lyrics: z.string().describe('The lyrics of the song.'),
-  composition: z.any().describe('A JSON array of musical events representing the melody.'),
+  composition: z.array(z.object({note: z.string(), duration: z.string()})).describe('A JSON array of musical events representing the melody.'),
 });
 export type WriteSongAndMusicOutput = z.infer<typeof WriteSongAndMusicOutputSchema>;
 
@@ -29,10 +29,20 @@ const prompt = ai.definePrompt({
   name: 'writeSongAndMusicPrompt',
   input: {schema: WriteSongAndMusicInputSchema},
   output: {schema: WriteSongAndMusicOutputSchema},
-  prompt: `You are a songwriter AI. You will generate both the lyrics and a simple melody for a song based on the user's concept.\n\nLyrics Prompt: Write the lyrics for a song about \"{{{concept}}}\". Include verses and a chorus.\n\nMusic Prompt: Generate a simple melody for a song with the following mood and theme: \"{{{concept}}}\". The melody should be an array of 16 musical events. Respond with ONLY a valid JSON array in the format: [{\"note\": \"C4\", \"duration\": \"8n\"}, ...]. Valid notes are C, D, E, F, G, A, B with octaves 3-5. Valid durations are \"4n\", \"8n\", \"16n\".\n\nOutput:\n{
-  \"lyrics\": \"...\",
-  \"composition\": [{\"note\": \"C4\", \"duration\": \"8n\"}, ...]
-}
+  prompt: `You are an expert songwriter AI. Your task is to generate both lyrics and a simple melody for a song based on the user's concept.
+
+Concept: "{{{concept}}}"
+
+Instructions:
+1.  **Lyrics**: Write creative lyrics for a song about the provided concept. The lyrics should include verses and a chorus.
+2.  **Melody**: Generate a simple melody that matches the mood and theme of the concept. The melody must be an array of exactly 16 musical events.
+3.  **Output Format**: You must respond with ONLY a valid JSON object containing the 'lyrics' and 'composition'.
+
+Example format for the 'composition' array:
+[{"note": "C4", "duration": "8n"}, {"note": "E4", "duration": "4n"}, ...]
+
+Valid notes are C, D, E, F, G, A, B with octaves from 3 to 5.
+Valid durations are "4n" (quarter note), "8n" (eighth note), "16n" (sixteenth note).
 `,
   config: {
     safetySettings: [

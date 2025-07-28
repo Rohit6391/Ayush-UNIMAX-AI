@@ -28,7 +28,14 @@ const prompt = ai.definePrompt({
   name: 'editFilesFromPromptPrompt',
   input: {schema: EditFilesFromPromptInputSchema},
   output: {schema: EditFilesFromPromptOutputSchema},
-  prompt: `Edit the following file content based on the instruction: "{{{prompt}}}". Only return the fully edited text content, with no explanation.\n\n--- FILE CONTENT ---\n{{{fileContent}}}`,
+  prompt: `Edit the following file content based on the provided instruction.
+
+Instruction: "{{{prompt}}}"
+
+Your response must be ONLY the new, fully edited text content of the file. Do not include any explanation, commentary, or markdown formatting.
+
+--- FILE CONTENT ---
+{{{fileContent}}}`,
 });
 
 const editFilesFromPromptFlow = ai.defineFlow(
@@ -38,7 +45,7 @@ const editFilesFromPromptFlow = ai.defineFlow(
     outputSchema: EditFilesFromPromptOutputSchema,
   },
   async input => {
-    const output = await prompt(input);
+    const {output} = await prompt(input);
     return output!;
   }
 );

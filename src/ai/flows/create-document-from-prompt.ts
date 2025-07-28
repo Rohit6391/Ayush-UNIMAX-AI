@@ -29,10 +29,10 @@ const prompt = ai.definePrompt({
   name: 'createDocumentFromPromptPrompt',
   input: {schema: CreateDocumentFromPromptInputSchema},
   output: {schema: CreateDocumentFromPromptOutputSchema},
-  prompt: `You are an expert at creating documents based on user prompts.
+  prompt: `Generate a document based on the following prompt. The output should be the raw content of the document, without any extra commentary or explanation.
 
-  Create a document based on the following prompt:
-  {{prompt}}`,
+  Prompt:
+  {{{prompt}}}`,
 });
 
 const createDocumentFromPromptFlow = ai.defineFlow(

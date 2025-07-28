@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, Mic, BrainCircuit, Speaker, Sparkles, Plus, X } from 'lucide-react';
+import { Send, User, Mic, BrainCircuit, Speaker, Sparkles, Plus, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
@@ -96,22 +96,28 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
     const handleSend = async () => {
         if ((!input.trim() && !uploadedFile) || isLoading) return;
         
-        let userMessageText = input;
-        if (uploadedFile) {
-            userMessageText = `[File: ${uploadedFile.name}] ${input}`;
-        }
-
+        const userMessageText = input;
+        
         const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
         setMessages(updatedMessages);
 
         const currentInput = input;
         setInput('');
-        removeFile();
         setIsLoading(true);
 
         try {
-            const result = await chatResearchAssistance({ prompt: currentInput, isDeepResearch, history: messages });
+            let fileDataUri: string | undefined;
+            if (uploadedFile) {
+                fileDataUri = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (event) => resolve(event.target?.result as string);
+                    reader.onerror = (error) => reject(error);
+                    reader.readAsDataURL(uploadedFile);
+                });
+            }
+
+            const result = await chatResearchAssistance({ prompt: currentInput, isDeepResearch, history: messages, fileDataUri });
             const aiMessage: Message = { role: 'model', text: result.response };
             const finalMessages = [...updatedMessages, aiMessage];
             setMessages(finalMessages);
@@ -122,6 +128,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
+            removeFile();
         }
     };
 
@@ -172,8 +179,14 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
             </ScrollArea>
             <div className="p-4 bg-card/50 backdrop-blur-sm border-t border-border">
                 {previewUrl && (
-                    <div className="relative mb-2 w-24 h-24 rounded-md overflow-hidden">
-                        <img src={previewUrl} alt="File preview" className="w-full h-full object-cover" />
+                    <div className="relative mb-2 w-24 h-24 rounded-md overflow-hidden border">
+                        {uploadedFile?.type.startsWith('image/') ? (
+                            <img src={previewUrl} alt="File preview" className="w-full h-full object-cover" />
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground text-xs p-2">
+                               {uploadedFile?.name}
+                            </div>
+                        )}
                         <Button
                             variant="destructive"
                             size="icon"
@@ -190,17 +203,20 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
                         placeholder="Message Ayush Unimax AI..." 
-                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-24 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1} 
                     />
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon">
+                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File">
                             <Plus size={20} />
                         </Button>
                         <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
 
-                        <Button onClick={handleListen} variant="ghost" size="icon" className={isListening ? 'text-red-500' : ''}>
+                        <Button onClick={handleListen} variant="ghost" size="icon" className={isListening ? 'text-red-500' : ''} title="Voice Input">
                             <Mic size={20} />
+                        </Button>
+                         <Button variant="ghost" size="icon" title="Voice Call (Coming Soon)" disabled>
+                            <Phone size={20} />
                         </Button>
                     </div>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
