@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, AlertTriangle, Download, Copy, Check, Sparkles } from 'lucide-react';
+import { Settings, AlertTriangle, Download, Copy, Check, Sparkles, Upload } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
 import { MakerOptions } from './MakerOptions';
+import { PublishDialog } from '@/components/dialogs/PublishDialog';
 
 interface MakerProps {
   mode: any;
@@ -32,6 +33,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
     const [explanation, setExplanation] = useState('');
     const [error, setError] = useState('');
     const [copied, setCopied] = useState(false);
+    const [isPublishing, setIsPublishing] = useState(false);
     const codeRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -55,7 +57,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
 
             if (resultType === 'website') {
                 generatedResult = apiResult.document.replace(/^```html\n?/, '').replace(/```$/, '').trim();
-                generatedExplanation = "Your website has been generated. You can preview it below and download the HTML file."
+                generatedExplanation = "Your website has been generated. You can preview it below, download the HTML file, or publish it to Firebase."
             } else {
                  try {
                     const parsedResult = JSON.parse(apiResult.document);
@@ -114,7 +116,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${mode.id}-result.${fileExtension}`;
+        a.download = `index.${fileExtension}`; // Changed to index.html for web deployment
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -123,6 +125,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
 
     return (
         <ModeWrapper mode={mode}>
+            {isPublishing && <PublishDialog setIsOpen={setIsPublishing} siteContent={result} />}
             {showMakerOptions && <MakerOptions />}
             <Textarea 
                 value={prompt} 
@@ -155,6 +158,11 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
                             <CardHeader className='flex-row items-center justify-between'>
                                 <CardTitle>{resultTitle}</CardTitle>
                                 <div className='flex items-center gap-2'>
+                                    {resultType === 'website' && (
+                                        <Button onClick={() => setIsPublishing(true)} size="icon" variant="ghost" className="h-8 w-8">
+                                            <Upload size={16}/>
+                                        </Button>
+                                    )}
                                     <Button onClick={handleCopy} size="icon" variant="ghost" className="h-8 w-8">
                                         {copied ? <Check size={16}/> : <Copy size={16}/>}
                                     </Button>
