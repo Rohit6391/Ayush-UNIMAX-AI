@@ -1,0 +1,48 @@
+"use client";
+
+import { useAuth } from '@/components/providers/AuthProvider';
+import { useModes } from '@/components/providers/ModeProvider';
+import { Button } from '@/components/ui/button';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
+import { History, LogOut, Settings } from 'lucide-react';
+
+interface HeaderProps {
+  setIsSignInModalOpen: (isOpen: boolean) => void;
+  activeModeName: string;
+}
+
+export function Header({ setIsSignInModalOpen, activeModeName }: HeaderProps) {
+  const { user } = useAuth();
+  const { setIsHistoryPanelOpen, setIsSettingsPanelOpen } = useModes();
+
+  const handleSignOut = async () => {
+    await signOut(auth);
+  };
+
+  return (
+    <header className="flex items-center justify-between p-4 bg-card/80 dark:bg-card/80 backdrop-blur-sm border-b border-border/50 sticky top-0 z-20 h-16 shrink-0">
+      <h1 className="text-xl md:text-2xl font-headline font-bold text-foreground">
+        {activeModeName}
+      </h1>
+      <div className="flex items-center gap-2 md:gap-4">
+        <Button onClick={() => setIsHistoryPanelOpen(p => !p)} variant="ghost" size="icon" title="History">
+          <History className="h-5 w-5" />
+        </Button>
+        <Button onClick={() => setIsSettingsPanelOpen(p => !p)} variant="ghost" size="icon" title="Settings">
+          <Settings className="h-5 w-5" />
+        </Button>
+        {user ? (
+          <div className="flex items-center gap-2">
+            <span className="font-medium hidden sm:inline text-sm">{user.email}</span>
+            <Button onClick={handleSignOut} variant="ghost" size="icon" title="Sign Out" className="text-destructive hover:bg-destructive/10 hover:text-destructive">
+              <LogOut className="h-5 w-5" />
+            </Button>
+          </div>
+        ) : (
+          <Button onClick={() => setIsSignInModalOpen(true)}>Sign In</Button>
+        )}
+      </div>
+    </header>
+  );
+}

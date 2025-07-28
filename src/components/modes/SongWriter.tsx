@@ -1,0 +1,125 @@
+"use client";
+
+import { useState, useEffect } from 'react';
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { useModes } from '@/components/providers/ModeProvider';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Settings, Play, Square, Mic, AlertTriangle } from 'lucide-react';
+import { ModeWrapper } from './ModeWrapper';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { writeSongAndMusic } from '@/ai/flows/write-song-and-music';
+
+export function SongWriter({ mode }: { mode: any }) {
+    const { addHistoryItem } = useModes();
+    const [prompt, setPrompt] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [lyrics, setLyrics] = useState('');
+    const [composition, setComposition] = useState<any[] | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    const cleanup = () => {
+        if (window.Tone) {
+            window.Tone.Transport.stop();
+            window.Tone.Transport.cancel();
+        }
+        setIsPlaying(false);
+    };
+
+    useEffect(() => {
+        return () => cleanup();
+    }, []);
+    
+    const playMusic = (notes: any[]) => {
+        if (!window.Tone || !notes || notes.length === 0) {
+            setError("Cannot play music. Invalid composition.");
+            return;
+        }
+        cleanup();
+        
+        const synth = new window.Tone.PolySynth(window.Tone.Synth).toDestination();
+        let time = 0;
+        notes.forEach(event => {
+            window.Tone.Transport.scheduleOnce((t: any) => {
+                synth.triggerAttackRelease(event.note, event.duration, t);
+            }, time);
+            time += window.Tone.Time(event.duration).toSeconds();
+        });
+
+        window.Tone.Transport.scheduleOnce(() => {
+            setIsPlaying(false);
+        }, time);
+
+        window.Tone.start().then(() => {
+            window.Tone.Transport.start();
+            setIsPlaying(true);
+        });
+    };
+
+    const handleGenerate = async () => {
+        if (!prompt.trim()) { setError('Please enter a song concept.'); return; }
+        setIsLoading(true); setError(''); setLyrics(''); setComposition(null); cleanup();
+        
+        try {
+            const result = await writeSongAndMusic({ concept: prompt });
+            setLyrics(result.lyrics);
+            setComposition(result.composition);
+            addHistoryItem('song_writer', prompt, `Generated a song with lyrics and a ${result.composition.length}-note melody.`);
+        } catch (err: any) {
+            setError(`Song creation failed: ${err.message}.`);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <ModeWrapper mode={mode}>
+            <Textarea 
+                value={prompt} 
+                onChange={(e) => setPrompt(e.target.value)} 
+                placeholder="e.g., A song about rain on a quiet city street..." 
+                className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                rows={3} 
+            />
+            <Button onClick={handleGenerate} disabled={isLoading || isPlaying} className="w-full mt-4">
+                {isLoading ? <><Settings className="animate-spin mr-2" /> Writing Song...</> : 'Write Song & Music'}
+            </Button>
+            
+            {error && (
+                <Alert variant="destructive" className="mt-6 text-left">
+                    <AlertTriangle className="h-4 w-4" />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>{error}</AlertDescription>
+                </Alert>
+            )}
+
+            <div className="mt-6 w-full">
+                {isLoading && (
+                    <Card className="w-full h-64 bg-muted/50 flex items-center justify-center animate-pulse">
+                        <Mic className="h-16 w-16 text-muted-foreground" />
+                    </Card>
+                )}
+                {lyrics && !isLoading && (
+                    <Card className="text-left">
+                        <CardHeader>
+                            <CardTitle>Lyrics</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="whitespace-pre-wrap leading-relaxed">{lyrics}</p>
+                            {composition && (
+                                <div className="mt-6 pt-6 border-t border-border text-center">
+                                    <h3 className="font-semibold mb-4 text-lg">Melody Ready!</h3>
+                                    <Button onClick={() => isPlaying ? cleanup() : playMusic(composition)} className="bg-accent text-accent-foreground hover:bg-accent/90">
+                                        {isPlaying ? <Square className="mr-2" /> : <Play className="mr-2" />}
+                                        {isPlaying ? 'Stop' : 'Play Melody'}
+                                    </Button>
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                )}
+            </div>
+        </ModeWrapper>
+    );
+}
