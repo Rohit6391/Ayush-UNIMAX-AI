@@ -169,7 +169,9 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
 
     const ModelAvatar = () => (
         <Avatar className="h-10 w-10 bg-primary text-primary-foreground flex items-center justify-center">
-             <BrainCircuit size={24} />
+             <div className={`transition-transform duration-500 ${isSpeaking ? 'scale-110' : ''}`}>
+                <BrainCircuit size={24} />
+             </div>
         </Avatar>
     )
 
@@ -234,7 +236,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File">
                             <Plus size={20} />
                         </Button>
-                        {isSpeaking && <Speaker size={20} className="text-primary" />}
+                        {isSpeaking && <Speaker size={20} className="text-primary animate-pulse" />}
                     </div>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                         <Button onClick={handleListen} variant="ghost" size="icon" className={isListening ? 'text-red-500' : ''} title="Voice Input">
@@ -256,5 +258,3 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
         </div>
     );
 }
-
-    
