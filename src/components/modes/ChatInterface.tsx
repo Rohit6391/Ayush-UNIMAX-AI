@@ -9,6 +9,7 @@ import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 interface Message {
     role: 'user' | 'model';
@@ -27,6 +28,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
         if (initialMessages && initialMessages.length > 0) {
@@ -47,9 +49,14 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                 const transcript = event.results[0][0].transcript;
                 setInput(transcript);
                 setIsListening(false);
+                // Automatically send message after speech recognition
+                handleSend(transcript);
             };
             recognitionRef.current.onerror = (event: any) => {
                 console.error('Speech recognition error:', event.error);
+                setIsListening(false);
+            };
+            recognitionRef.current.onend = () => {
                 setIsListening(false);
             };
         }
@@ -80,29 +87,29 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
             recognitionRef.current?.stop();
             setIsListening(false);
         } else {
+            setInput('');
             recognitionRef.current?.start();
             setIsListening(true);
         }
     };
 
-    const handleSpeak = (text: string) => {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.speak(utterance);
+    const playAudio = (audioDataUri: string) => {
+        if (audioRef.current) {
+            audioRef.current.src = audioDataUri;
+            audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
         }
     };
 
-    const handleSend = async () => {
-        if ((!input.trim() && !uploadedFile) || isLoading) return;
+    const handleSend = async (text?: string) => {
+        const currentInput = typeof text === 'string' ? text : input;
+        if ((!currentInput.trim() && !uploadedFile) || isLoading) return;
         
-        const userMessageText = input;
+        const userMessageText = currentInput;
         
         const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
         setMessages(updatedMessages);
 
-        const currentInput = input;
         setInput('');
         setIsLoading(true);
 
@@ -117,12 +124,21 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                 });
             }
 
-            const result = await chatResearchAssistance({ prompt: currentInput, isDeepResearch, history: messages, fileDataUri });
+            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri });
             const aiMessage: Message = { role: 'model', text: result.response };
             const finalMessages = [...updatedMessages, aiMessage];
             setMessages(finalMessages);
             setInitialMessages([]); 
             addHistoryItem('chat', userMessageText, result.response, finalMessages);
+
+            // Generate and play audio for the AI's response
+            if(result.response) {
+                const audioResult = await textToSpeech({text: result.response});
+                if (audioResult.audioDataUri) {
+                    playAudio(audioResult.audioDataUri);
+                }
+            }
+
         } catch (error: any) {
             const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}. Please try again.` };
             setMessages(prev => [...prev, errorMessage]);
@@ -147,17 +163,13 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
 
     return (
         <div className="flex flex-col h-full max-w-4xl mx-auto">
+            <audio ref={audioRef} className="hidden" />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg, index) => (
                         <div key={index} className="flex items-start gap-4 justify-end">
                             <div className={`max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}</p>
-                                {msg.role === 'model' && msg.text && (
-                                    <Button onClick={() => handleSpeak(msg.text)} variant="ghost" size="icon" className="mt-2 h-7 w-7 text-muted-foreground">
-                                        <Speaker size={16}/>
-                                    </Button>
-                                )}
                             </div>
                             {msg.role === 'user' ? <UserAvatar /> : <ModelAvatar />}
                         </div>
@@ -219,7 +231,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         </Button>
                     </div>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                        <Button onClick={handleSend} disabled={isLoading} size="icon">
+                        <Button onClick={() => handleSend()} disabled={isLoading} size="icon">
                             <Send size={20} />
                         </Button>
                     </div>
