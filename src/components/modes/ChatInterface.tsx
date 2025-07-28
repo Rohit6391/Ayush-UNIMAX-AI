@@ -150,8 +150,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg, index) => (
-                        <div key={index} className={`flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : ''}`}>
-                            {msg.role === 'model' && <ModelAvatar />}
+                        <div key={index} className="flex items-start gap-4 justify-end">
                             <div className={`max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}</p>
                                 {msg.role === 'model' && msg.text && (
@@ -160,19 +159,19 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                                     </Button>
                                 )}
                             </div>
-                            {msg.role === 'user' && <UserAvatar />}
+                            {msg.role === 'user' ? <UserAvatar /> : <ModelAvatar />}
                         </div>
                     ))}
                     {isLoading && (
-                        <div className="flex items-start gap-4">
-                            <ModelAvatar />
-                            <div className="max-w-xl p-4 rounded-2xl bg-card text-card-foreground rounded-bl-none">
+                        <div className="flex items-start gap-4 justify-end">
+                             <div className="max-w-xl p-4 rounded-2xl bg-card text-card-foreground rounded-bl-none">
                                 <div className="flex items-center justify-center gap-2">
                                     <div className="h-2 w-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]" />
                                     <div className="h-2 w-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]" />
                                     <div className="h-2 w-2 bg-primary rounded-full animate-bounce" />
                                 </div>
                             </div>
+                            <ModelAvatar />
                         </div>
                     )}
                 </div>
