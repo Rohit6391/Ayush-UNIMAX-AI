@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, Mic, BrainCircuit, Speaker, Sparkles, Plus, X, Phone } from 'lucide-react';
+import { Send, User, Mic, BrainCircuit, Speaker, Sparkles, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
@@ -17,7 +17,7 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat } = useModes();
     const { user } = useAuth();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -31,12 +31,12 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
-        if (initialMessages && initialMessages.length > 0) {
-            setMessages(initialMessages);
+        if (activeChat && activeChat.length > 0) {
+            setMessages(activeChat);
         } else {
             setMessages([{ role: 'model', text: `Hello! I am Ayush Unimax AI. How can I assist you today?` }]);
         }
-    }, [initialMessages]);
+    }, [activeChat]);
 
     useEffect(() => {
         if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
@@ -109,6 +109,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
         const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
         setMessages(updatedMessages);
+        setActiveChat(updatedMessages);
 
         setInput('');
         setIsLoading(true);
@@ -128,7 +129,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
             const aiMessage: Message = { role: 'model', text: result.response };
             const finalMessages = [...updatedMessages, aiMessage];
             setMessages(finalMessages);
-            setInitialMessages([]); 
+            setActiveChat(finalMessages);
             addHistoryItem('chat', userMessageText, result.response, finalMessages);
 
             // Generate and play audio for the AI's response
@@ -215,7 +216,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
                         placeholder="Message Ayush Unimax AI..." 
-                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-24 pr-24 resize-none transition-colors min-h-[52px]" 
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-16 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1} 
                     />
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -226,9 +227,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
 
                         <Button onClick={handleListen} variant="ghost" size="icon" className={isListening ? 'text-red-500' : ''} title="Voice Input">
                             <Mic size={20} />
-                        </Button>
-                         <Button variant="ghost" size="icon" title="Voice Call (Coming Soon)" disabled>
-                            <Phone size={20} />
                         </Button>
                     </div>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">

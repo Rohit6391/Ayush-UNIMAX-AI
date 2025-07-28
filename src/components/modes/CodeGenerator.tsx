@@ -10,7 +10,9 @@ import { Code, Settings, AlertTriangle, Clipboard, Check } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
-import { MakerOptions } from './MakerOptions';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function CodeGenerator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
@@ -56,33 +58,47 @@ export function CodeGenerator({ mode }: { mode: any }) {
     
     return (
         <ModeWrapper mode={mode}>
-            <MakerOptions />
-            <div className="flex flex-col md:flex-row gap-2 mb-2">
-                <Select value={language} onValueChange={setLanguage}>
-                    <SelectTrigger className="w-full md:w-[180px]">
-                        <SelectValue placeholder="Language" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="python">Python</SelectItem>
-                        <SelectItem value="javascript">JavaScript</SelectItem>
-                        <SelectItem value="html">HTML</SelectItem>
-                        <SelectItem value="css">CSS</SelectItem>
-                        <SelectItem value="java">Java</SelectItem>
-                        <SelectItem value="cpp">C++</SelectItem>
-                        <SelectItem value="sql">SQL</SelectItem>
-                    </SelectContent>
-                </Select>
-                <Textarea 
-                    value={prompt} 
-                    onChange={(e) => setPrompt(e.target.value)} 
-                    placeholder="e.g., A function to sort a list of numbers" 
-                    className="flex-1 w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
-                    rows={2} 
-                />
-            </div>
-            <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-2">
-                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating...</> : 'Generate Code'}
-            </Button>
+            <Tabs defaultValue="prompt" className="w-full mb-4">
+                <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="prompt">Make with AI</TabsTrigger>
+                    <TabsTrigger value="url">Import from URL</TabsTrigger>
+                </TabsList>
+                <TabsContent value="prompt">
+                    <div className="flex flex-col md:flex-row gap-2 mb-2">
+                        <Select value={language} onValueChange={setLanguage}>
+                            <SelectTrigger className="w-full md:w-[180px]">
+                                <SelectValue placeholder="Language" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="python">Python</SelectItem>
+                                <SelectItem value="javascript">JavaScript</SelectItem>
+                                <SelectItem value="html">HTML</SelectItem>
+                                <SelectItem value="css">CSS</SelectItem>
+                                <SelectItem value="java">Java</SelectItem>
+                                <SelectItem value="cpp">C++</SelectItem>
+                                <SelectItem value="sql">SQL</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <Textarea 
+                            value={prompt} 
+                            onChange={(e) => setPrompt(e.target.value)} 
+                            placeholder="e.g., A function to sort a list of numbers" 
+                            className="flex-1 w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                            rows={2} 
+                        />
+                    </div>
+                    <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-2">
+                        {isLoading ? <><Settings className="animate-spin mr-2" /> Generating...</> : 'Generate Code'}
+                    </Button>
+                </TabsContent>
+                <TabsContent value="url">
+                    <div className="space-y-2 text-left">
+                        <Label htmlFor="url-input">Import from URL</Label>
+                        <Input id="url-input" placeholder="https://example.com/code.js" />
+                        <Button className="w-full">Import</Button>
+                    </div>
+                </TabsContent>
+            </Tabs>
             
             {error && (
                 <Alert variant="destructive" className="mt-6 text-left">

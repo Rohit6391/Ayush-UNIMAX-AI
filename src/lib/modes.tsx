@@ -37,7 +37,7 @@ export const modes: Mode[] = [
     { id: 'chat', name: 'Ayush Unimax AI Chat', icon: BrainCircuit, description: 'Your primary AI assistant for any question.', component: ChatInterface },
     { id: 'photo_generator', name: 'Photo Generator', icon: Image, description: 'Create stunning images from text prompts.', component: PhotoGenerator },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
-    { id: 'video_generator', name: 'Video Storyboarder', icon: Video, description: 'Generate a visual storyboard for a video.', component: VideoStoryboarder },
+    { id: 'video_generator', name: 'Video Generator', icon: Video, description: 'Generate a video from a text prompt with Veo.', component: VideoStoryboarder },
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
     { id: 'code_analyzer', name: 'Code Analyzer', icon: Search, description: 'Analyze code for quality and errors.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Paste code here to analyze...",

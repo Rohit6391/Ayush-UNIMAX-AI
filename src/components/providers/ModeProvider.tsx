@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { type ModeId } from '@/lib/modes';
 
 export interface HistoryItem {
@@ -47,13 +47,23 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const loadHistoryItem = (item: HistoryItem) => {
+    setActiveMode(item.type);
     if (item.type === 'chat' && item.fullConversation) {
-        setActiveChat(item.fullConversation);
-        setActiveMode('chat');
+      setActiveChat(item.fullConversation);
     }
     // Add logic for other types if they need to restore state
     setIsHistoryPanelOpen(false);
   };
+  
+  useEffect(() => {
+    const handleModeChange = () => {
+        if (activeMode !== 'chat') {
+            setActiveChat([]);
+        }
+    };
+    handleModeChange();
+  }, [activeMode]);
+
 
   const value = {
     activeMode,
