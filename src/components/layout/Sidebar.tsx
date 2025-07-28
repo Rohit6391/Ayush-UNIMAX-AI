@@ -1,69 +1,87 @@
 "use client";
 
-import { BrainCircuit, Menu } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 import { modes, ModeId } from '@/lib/modes';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useSidebar, Sidebar, SidebarProvider, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { useAuth } from '../providers/AuthProvider';
+import { Button } from '../ui/button';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { User, LogOut } from 'lucide-react';
 
 interface SidebarProps {
   activeMode: ModeId;
   setActiveMode: (mode: ModeId) => void;
+  children: React.ReactNode;
 }
 
-const NavContent = ({ activeMode, setActiveMode }: SidebarProps) => (
-  <>
-    <div className="flex items-center gap-2 mb-6 p-4">
-      <BrainCircuit className="h-8 w-8 text-primary" />
-      <h1 className="text-2xl font-headline font-bold">Ayush Unimax AI</h1>
-    </div>
-    <ScrollArea className="flex-1">
-      <ul className="space-y-1 px-4">
-        {modes.map(mode => (
-          <li key={mode.id}>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveMode(mode.id);
-              }}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm font-medium ${
-                activeMode === mode.id
-                  ? 'bg-primary text-primary-foreground'
-                  : 'hover:bg-muted dark:hover:bg-muted/50'
-              }`}
-            >
-              <mode.icon className="h-5 w-5" />
-              <span>{mode.name}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </ScrollArea>
-  </>
-);
-
-export function Sidebar({ activeMode, setActiveMode }: SidebarProps) {
+const NavContent = () => {
+  const { activeMode, setActiveMode } = useModes();
+  const { user } = useAuth();
+  
+  const handleSignOut = async () => {
+    await signOut(auth);
+  };
+  
   return (
-    <>
-      {/* Mobile Sidebar */}
-      <div className="md:hidden absolute top-3 left-3 z-30">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-72 p-0 flex flex-col bg-card">
-            <NavContent activeMode={activeMode} setActiveMode={setActiveMode} />
-          </SheetContent>
-        </Sheet>
-      </div>
+    <SidebarProvider>
+        <Sidebar>
+            <SidebarHeader>
+                <div className="flex items-center gap-2">
+                    <BrainCircuit className="h-8 w-8 text-primary" />
+                    <h1 className="text-2xl font-headline font-bold">Unimax AI</h1>
+                </div>
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarMenu>
+                    {modes.map(mode => (
+                        <SidebarMenuItem key={mode.id}>
+                            <SidebarMenuButton
+                                onClick={() => setActiveMode(mode.id)}
+                                isActive={activeMode === mode.id}
+                                tooltip={{children: mode.name}}
+                            >
+                                <mode.icon />
+                                <span>{mode.name}</span>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    ))}
+                </SidebarMenu>
+            </SidebarContent>
+            {user && (
+                <SidebarFooter>
+                  <div className="w-full flex items-center justify-between p-2">
+                    <div className="flex items-center gap-2 overflow-hidden">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={user.photoURL || undefined} />
+                        <AvatarFallback><User size={16}/></AvatarFallback>
+                      </Avatar>
+                      <span className="font-medium text-sm truncate">{user.email}</span>
+                    </div>
+                    <Button onClick={handleSignOut} variant="ghost" size="icon" title="Sign Out" className="text-destructive flex-shrink-0 hover:bg-destructive/10 hover:text-destructive">
+                      <LogOut />
+                    </Button>
+                  </div>
+                </SidebarFooter>
+            )}
+        </Sidebar>
+        <SidebarInset>
+            {children}
+        </SidebarInset>
+    </SidebarProvider>
+  )
+}
 
-      {/* Desktop Sidebar */}
-      <nav className="w-72 bg-card/80 dark:bg-card/80 backdrop-blur-sm border-r border-border/50 flex-col h-full hidden md:flex">
-        <NavContent activeMode={activeMode} setActiveMode={setActiveMode} />
-      </nav>
-    </>
-  );
+
+export function AppSidebar({ activeMode, setActiveMode, children }: SidebarProps) {
+    const { user } = useAuth();
+    const { setOpenMobile } = useSidebar();
+    const handleModeChange = (modeId: ModeId) => {
+        setActiveMode(modeId);
+        setOpenMobile(false);
+    }
+    return (
+        <NavContent/>
+    )
 }

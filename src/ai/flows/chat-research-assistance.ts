@@ -35,7 +35,7 @@ const prompt = ai.definePrompt({
   name: 'chatResearchAssistancePrompt',
   input: {schema: ChatResearchAssistanceInputSchema},
   output: {schema: ChatResearchAssistanceOutputSchema},
-  prompt: `You are Ayush Unimax AI, a helpful and conversational assistant. Your goal is to provide accurate and relevant answers.
+  prompt: `You are Ayush Unimax AI, a helpful and conversational assistant. Your goal is to provide accurate and relevant answers in the same language as the user's prompt.
 
   Pay close attention to the conversation history to understand the full context. Follow-up questions may refer to previous topics.
 

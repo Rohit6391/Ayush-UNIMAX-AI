@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 import { History, LogOut, Settings } from 'lucide-react';
+import { SidebarTrigger } from '../ui/sidebar';
 
 interface HeaderProps {
   setIsSignInModalOpen: (isOpen: boolean) => void;
@@ -22,9 +23,12 @@ export function Header({ setIsSignInModalOpen, activeModeName }: HeaderProps) {
 
   return (
     <header className="flex items-center justify-between p-4 bg-card/80 dark:bg-card/80 backdrop-blur-sm border-b border-border/50 sticky top-0 z-20 h-16 shrink-0">
-      <h1 className="text-xl md:text-2xl font-headline font-bold text-foreground">
-        {activeModeName}
-      </h1>
+      <div className="flex items-center gap-2">
+        <SidebarTrigger className="md:hidden"/>
+        <h1 className="text-xl md:text-2xl font-headline font-bold text-foreground">
+          {activeModeName}
+        </h1>
+      </div>
       <div className="flex items-center gap-2 md:gap-4">
         <Button onClick={() => setIsHistoryPanelOpen(p => !p)} variant="ghost" size="icon" title="History">
           <History className="h-5 w-5" />
