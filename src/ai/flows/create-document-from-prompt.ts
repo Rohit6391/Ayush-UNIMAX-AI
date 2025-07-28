@@ -17,7 +17,7 @@ const CreateDocumentFromPromptInputSchema = z.object({
 export type CreateDocumentFromPromptInput = z.infer<typeof CreateDocumentFromPromptInputSchema>;
 
 const CreateDocumentFromPromptOutputSchema = z.object({
-  document: z.string().describe('The generated document.'),
+  document: z.string().describe('The generated document, which could be a raw string or a JSON string.'),
 });
 export type CreateDocumentFromPromptOutput = z.infer<typeof CreateDocumentFromPromptOutputSchema>;
 
@@ -29,7 +29,7 @@ const prompt = ai.definePrompt({
   name: 'createDocumentFromPromptPrompt',
   input: {schema: CreateDocumentFromPromptInputSchema},
   output: {schema: CreateDocumentFromPromptOutputSchema},
-  prompt: `Generate a document based on the following prompt. The output should be the raw content of the document, without any extra commentary or explanation.
+  prompt: `Generate a document based on the following prompt. The output should be the raw content of the document. If the prompt asks for a JSON object, return ONLY the valid JSON string. Otherwise, return the raw text. Do not add any extra commentary or explanation unless the prompt specifically asks for it.
 
   Prompt:
   {{{prompt}}}`,

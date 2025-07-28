@@ -5,15 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { generateImageFromStoryboard } from '@/ai/flows/generate-image-from-storyboard';
-import { Card, CardContent } from '@/components/ui/card';
-import { Image as ImageIcon, Download, Settings, AlertTriangle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Image as ImageIcon, Download, Settings, AlertTriangle, Sparkles } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export function PhotoGenerator({ mode }: { mode: any }) {
   const { addHistoryItem } = useModes();
   const [prompt, setPrompt] = useState('');
+  const [editPrompt, setEditPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
   const [error, setError] = useState('');
 
@@ -39,6 +41,25 @@ export function PhotoGenerator({ mode }: { mode: any }) {
       setIsLoading(false);
     }
   };
+  
+  const handleEdit = async () => {
+    if (!editPrompt.trim() || !imageUrl) { setError('Please enter an edit instruction.'); return; }
+    setIsEditing(true); setError('');
+    try {
+        const result = await generateImageFromStoryboard({ imagePrompt: editPrompt, photoDataUri: imageUrl });
+        if (result.imageUrl) {
+            setImageUrl(result.imageUrl);
+            setEditPrompt('');
+            addHistoryItem('photo_generator', `Edit: ${editPrompt}`, result.imageUrl);
+        } else {
+            throw new Error("No image data received from AI.")
+        }
+    } catch (err: any) {
+        setError(`Failed to edit image: ${err.message}`);
+    } finally {
+        setIsEditing(false);
+    }
+  };
 
   return (
     <ModeWrapper mode={mode}>
@@ -49,7 +70,7 @@ export function PhotoGenerator({ mode }: { mode: any }) {
             className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors"
             rows={3}
         />
-        <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-4">
+        <Button onClick={handleGenerate} disabled={isLoading || isEditing} className="w-full mt-4">
             {isLoading ? <><Settings className="animate-spin mr-2" /> Generating...</> : 'Generate Image'}
         </Button>
       
@@ -60,21 +81,44 @@ export function PhotoGenerator({ mode }: { mode: any }) {
                 <AlertDescription>{error}</AlertDescription>
             </Alert>
         )}
-        <div className="mt-6 w-full">
+        <div className="mt-6 w-full space-y-4">
             {isLoading && (
                 <Card className="w-full aspect-square bg-muted/50 flex items-center justify-center animate-pulse">
                     <ImageIcon className="h-16 w-16 text-muted-foreground" />
                 </Card>
             )}
             {imageUrl && !isLoading && (
-                <Card className="relative group aspect-square overflow-hidden">
-                    <img src={imageUrl} alt={prompt} className="w-full h-full object-cover" />
-                    <a href={imageUrl} download={`unimax-ai-${Date.now()}.png`} className="absolute bottom-4 right-4">
-                        <Button size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Download />
-                        </Button>
-                    </a>
-                </Card>
+                <>
+                    <Card className="relative group aspect-square overflow-hidden">
+                        <img src={imageUrl} alt={prompt} className="w-full h-full object-cover" />
+                        <a href={imageUrl} download={`unimax-ai-${Date.now()}.png`} className="absolute bottom-4 right-4">
+                            <Button size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                <Download />
+                            </Button>
+                        </a>
+                    </Card>
+
+                    <Card className="text-left">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2 text-xl">
+                                <Sparkles className="text-primary h-5 w-5" />
+                                Refine with AI
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <Textarea
+                                value={editPrompt}
+                                onChange={(e) => setEditPrompt(e.target.value)}
+                                placeholder="e.g., 'Make it more vibrant' or 'Change the background to a galaxy'..."
+                                className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                                rows={2}
+                            />
+                            <Button onClick={handleEdit} disabled={isLoading || isEditing} className="w-full mt-2">
+                                {isEditing ? <><Settings className="animate-spin mr-2" /> Refining...</> : 'Refine Image'}
+                             </Button>
+                        </CardContent>
+                    </Card>
+                </>
             )}
         </div>
     </ModeWrapper>
