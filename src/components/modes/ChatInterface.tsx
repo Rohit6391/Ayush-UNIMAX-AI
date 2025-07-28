@@ -29,6 +29,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [isSpeaking, setIsSpeaking] = useState(false);
 
     useEffect(() => {
         if (activeChat && activeChat.length > 0) {
@@ -97,8 +98,18 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
         if (audioRef.current) {
             audioRef.current.src = audioDataUri;
             audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+            setIsSpeaking(true);
         }
     };
+    
+    useEffect(() => {
+        const currentAudio = audioRef.current;
+        const handleEnd = () => setIsSpeaking(false);
+        currentAudio?.addEventListener('ended', handleEnd);
+        return () => {
+            currentAudio?.removeEventListener('ended', handleEnd);
+        }
+    }, [audioRef])
 
     const handleSend = async (text?: string) => {
         const currentInput = typeof text === 'string' ? text : input;
@@ -223,7 +234,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File">
                             <Plus size={20} />
                         </Button>
-                        <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+                        {isSpeaking && <Speaker size={20} className="text-primary" />}
                     </div>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                         <Button onClick={handleListen} variant="ghost" size="icon" className={isListening ? 'text-red-500' : ''} title="Voice Input">
@@ -245,3 +256,5 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
         </div>
     );
 }
+
+    
