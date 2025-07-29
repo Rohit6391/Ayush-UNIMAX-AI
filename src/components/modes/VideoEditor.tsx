@@ -43,10 +43,10 @@ export function VideoEditor({ mode }: { mode: any }) {
                 setEditedVideoUrl(result.videoUrl);
                 addHistoryItem('video_editor', `${prompt} on ${file?.name}`, result.videoUrl);
             } else {
-                throw new Error("No video data received from AI.")
+                throw new Error("No video data was returned from the AI. This could be due to safety filters or a temporary issue.")
             }
         } catch (err: any) {
-            setError(`Failed to edit video: ${err.message}. This can happen with high demand. Please try again later.`);
+            setError(`Failed to edit video: ${err.message}. This can happen due to high demand or API quota limits. Please try again later.`);
         } finally {
             setIsLoading(false);
         }
@@ -54,6 +54,13 @@ export function VideoEditor({ mode }: { mode: any }) {
     
     return (
         <ModeWrapper mode={mode}>
+            <Alert className="mb-4 text-left">
+                <Film className="h-4 w-4" />
+                <AlertTitle>Note on Video Editing</AlertTitle>
+                <AlertDescription>
+                    AI video editing is a powerful feature that can take up to a minute to process. Due to high demand, you may encounter rate limits.
+                </AlertDescription>
+            </Alert>
             <div 
                 onClick={() => fileInputRef.current?.click()} 
                 className="w-full h-48 bg-background border-2 border-dashed border-input rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-muted/50 transition-colors"

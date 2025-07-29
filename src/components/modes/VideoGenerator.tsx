@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Video, Settings, AlertTriangle, Sparkles, UploadCloud, Download, Mic, VideoIcon } from 'lucide-react';
+import { Video, Settings, AlertTriangle, Sparkles, UploadCloud, Download, Mic, Film } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateVideo } from '@/ai/flows/video-generator';
@@ -79,7 +79,7 @@ export function VideoGenerator({ mode }: { mode: any }) {
                 }
             }
         } catch (err: any) {
-            setError(`Video generation failed: ${err.message}. This can happen with high demand. Please try again later.`);
+            setError(`Video generation failed: ${err.message}. This can happen due to high demand or API quota limits. Please try again later.`);
         } finally {
             setIsLoading(false);
         }
@@ -97,10 +97,10 @@ export function VideoGenerator({ mode }: { mode: any }) {
                 setEditPrompt('');
                 addHistoryItem('video_generator', `Edit: ${editPrompt}`, result.videoUrl);
             } else {
-                throw new Error("No video data received from AI.")
+                throw new Error("No video data was returned from the AI. This could be due to safety filters or a temporary issue.")
             }
         } catch (err: any) {
-            setError(`Failed to edit video: ${err.message}. This can happen with high demand. Please try again later.`);
+            setError(`Failed to edit video: ${err.message}. This can happen due to high demand or API quota limits. Please try again later.`);
         } finally {
             setIsEditing(false);
         }
@@ -108,6 +108,13 @@ export function VideoGenerator({ mode }: { mode: any }) {
 
     return (
         <ModeWrapper mode={mode}>
+             <Alert className="mb-4 text-left">
+                <Film className="h-4 w-4" />
+                <AlertTitle>Note on Video Generation</AlertTitle>
+                <AlertDescription>
+                    AI video generation is an experimental feature that can take up to a minute to process. Due to high demand, you may encounter rate limits.
+                </AlertDescription>
+            </Alert>
             <Tabs defaultValue="text" className="w-full mb-4" onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="text">From Text</TabsTrigger>
