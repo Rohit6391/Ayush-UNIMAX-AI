@@ -39,14 +39,22 @@ const importFromUrlFlow = ai.defineFlow(
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         }
       });
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`The server returned an HTTP error: ${response.status} ${response.statusText}`);
       }
+      
       const content = await response.text();
       return { content };
+
     } catch (error: any) {
       console.error('Failed to fetch from URL:', error);
-      throw new Error(`Could not fetch content from the URL. Reason: ${error.message}`);
+      let errorMessage = 'An unknown error occurred during the import process.';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      // Provide a more user-friendly error message
+      throw new Error(`Could not fetch content from the URL. Reason: ${errorMessage}`);
     }
   }
 );
