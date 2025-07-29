@@ -6,10 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Video, Settings, AlertTriangle, Sparkles, UploadCloud, Image as ImageIcon } from 'lucide-react';
+import { Video, Settings, AlertTriangle, Sparkles, UploadCloud, Download, Mic } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateVideo } from '@/ai/flows/video-generator';
+import { generateVideoWithNarration } from '@/ai/flows/generate-video-with-narration';
 import { editVideo } from '@/ai/flows/video-editor';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from '../ui/label';
@@ -21,9 +22,11 @@ export function VideoGenerator({ mode }: { mode: any }) {
     const [editPrompt, setEditPrompt] = useState('');
     const [negativePrompt, setNegativePrompt] = useState('');
     const [allowPersonGeneration, setAllowPersonGeneration] = useState(false);
+    const [includeNarration, setIncludeNarration] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
+    const [audioUrl, setAudioUrl] = useState<string | null>(null);
     const [error, setError] = useState('');
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
@@ -44,21 +47,36 @@ export function VideoGenerator({ mode }: { mode: any }) {
         if (!prompt.trim()) { setError('Please enter a prompt for your video.'); return; }
         if (activeTab === 'image' && !imagePreviewUrl) { setError('Please upload an image to generate a video from.'); return; }
 
-        setIsLoading(true); setVideoUrl(null); setError('');
+        setIsLoading(true); 
+        setVideoUrl(null);
+        setAudioUrl(null);
+        setError('');
         
-        try {
-            const result = await generateVideo({ 
-                prompt,
-                photoDataUri: activeTab === 'image' ? imagePreviewUrl! : undefined,
-                negativePrompt: negativePrompt || undefined,
-                allowPersonGeneration
-            });
+        const input = { 
+            prompt,
+            photoDataUri: activeTab === 'image' ? imagePreviewUrl! : undefined,
+            negativePrompt: negativePrompt || undefined,
+            allowPersonGeneration
+        };
 
-            if (result.videoUrl) {
-                setVideoUrl(result.videoUrl);
-                addHistoryItem('video_generator', prompt, `Generated a video.`);
+        try {
+            if (includeNarration) {
+                const result = await generateVideoWithNarration(input);
+                if (result.videoUrl && result.audioUrl) {
+                    setVideoUrl(result.videoUrl);
+                    setAudioUrl(result.audioUrl);
+                    addHistoryItem('video_generator', prompt, `Generated a video with narration.`);
+                } else {
+                    throw new Error("Video or narration generation failed to return a URL.");
+                }
             } else {
-                throw new Error("Video generation failed to return a URL.");
+                const result = await generateVideo(input);
+                if (result.videoUrl) {
+                    setVideoUrl(result.videoUrl);
+                    addHistoryItem('video_generator', prompt, `Generated a video.`);
+                } else {
+                    throw new Error("Video generation failed to return a URL.");
+                }
             }
         } catch (err: any) {
             setError(`Video generation failed: ${err.message}. This can happen with high demand. Please try again later.`);
@@ -75,6 +93,7 @@ export function VideoGenerator({ mode }: { mode: any }) {
             const result = await editVideo({ videoDataUri: videoUrl, prompt: editPrompt });
             if (result.videoUrl) {
                 setVideoUrl(result.videoUrl);
+                setAudioUrl(null); // Clear old audio if it exists
                 setEditPrompt('');
                 addHistoryItem('video_generator', `Edit: ${editPrompt}`, result.videoUrl);
             } else {
@@ -143,14 +162,20 @@ export function VideoGenerator({ mode }: { mode: any }) {
                         className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 transition-colors"
                     />
                 </div>
-                 <div className="flex items-center space-x-2">
-                    <Switch id="person-generation" checked={allowPersonGeneration} onCheckedChange={setAllowPersonGeneration} />
-                    <Label htmlFor="person-generation">Allow Generating People</Label>
+                 <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                        <Switch id="person-generation" checked={allowPersonGeneration} onCheckedChange={setAllowPersonGeneration} />
+                        <Label htmlFor="person-generation">Allow Generating People</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <Switch id="narration" checked={includeNarration} onCheckedChange={setIncludeNarration} />
+                        <Label htmlFor="narration">Include AI Narration</Label>
+                    </div>
                 </div>
             </div>
 
             <Button onClick={handleGenerate} disabled={isLoading || isEditing} className="w-full mt-4">
-                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating Video...</> : 'Generate Video'}
+                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating...</> : 'Generate Video'}
             </Button>
             
             {error && (
@@ -181,6 +206,16 @@ export function VideoGenerator({ mode }: { mode: any }) {
                                 </video>
                             </CardContent>
                         </Card>
+                        {audioUrl && (
+                            <div className="flex items-center justify-center gap-4">
+                                 <a href={videoUrl} download={`unimax-ai-video.mp4`}>
+                                    <Button variant="outline"><Download className="mr-2 h-4 w-4"/>Download Video</Button>
+                                 </a>
+                                 <a href={audioUrl} download={`unimax-ai-narration.wav`}>
+                                    <Button variant="outline"><Mic className="mr-2 h-4 w-4"/>Download Narration</Button>
+                                 </a>
+                            </div>
+                        )}
 
                         <Card className="text-left">
                             <CardHeader>
