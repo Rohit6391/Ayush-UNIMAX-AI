@@ -27,8 +27,8 @@ export function CodeGenerator({ mode }: { mode: any }) {
     const [code, setCode] = useState('');
     const [explanation, setExplanation] = useState('');
     const [error, setError] = useState('');
-    const [copied, setCopied] = useState(false);
     const [url, setUrl] = useState('');
+    const [copied, setCopied] = useState(false);
     const codeRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -72,9 +72,22 @@ export function CodeGenerator({ mode }: { mode: any }) {
             setIsEditing(false);
         }
     }
+    
+    const isValidUrl = (urlString: string) => {
+        try {
+            new URL(urlString);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    };
 
     const handleImport = async () => {
         if (!url.trim()) { setError('Please enter a URL.'); return; }
+        if (!isValidUrl(url)) {
+            setError("Invalid URL provided. Please ensure it includes http:// or https://.");
+            return;
+        }
         setIsImporting(true); setCode(''); setError(''); setExplanation('');
         try {
             const result = await importFromUrl({ url });
@@ -140,7 +153,8 @@ export function CodeGenerator({ mode }: { mode: any }) {
                             id="url-input" 
                             placeholder="https://gist.githubusercontent.com/..." 
                             value={url}
-                            onChange={(e) => setUrl(e.target.value)}
+                            onChange={(e) => { setUrl(e.target.value); setError(''); }}
+                            disabled={isImporting}
                         />
                         <Button onClick={handleImport} disabled={isLoading || isEditing || isImporting} className="w-full">
                             {isImporting ? <><Download className="animate-pulse mr-2" /> Importing...</> : 'Import'}

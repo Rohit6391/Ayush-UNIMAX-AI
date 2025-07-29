@@ -129,6 +129,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
     const handlePastedCode = (code: string) => {
         setResult(code);
         setActiveTab('prompt'); // Switch back to the main view
+        setError('');
         setExplanation("Previewing your pasted code. You can now use the 'Refine with AI' feature to modify it.");
         addHistoryItem(mode.id, "Pasted Code", code);
     }
@@ -156,7 +157,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
     return (
         <ModeWrapper mode={mode}>
             {isPublishing && <PublishDialog setIsOpen={setIsPublishing} siteContent={result} />}
-            {showMakerOptions && <MakerOptions onTabChange={setActiveTab} onCodeCreate={handlePastedCode} onUrlImport={handleUrlImport} isImporting={isImporting} />}
+            {showMakerOptions && <MakerOptions onTabChange={(tab) => { setActiveTab(tab); setError(''); }} onCodeCreate={handlePastedCode} onUrlImport={handleUrlImport} isImporting={isImporting} />}
             
             {activeTab === 'prompt' && (
                 <>

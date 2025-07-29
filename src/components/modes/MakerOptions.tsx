@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { Alert, AlertDescription } from "../ui/alert";
+import { AlertTriangle } from "lucide-react";
 
 interface MakerOptionsProps {
     onTabChange: (tab: string) => void;
@@ -17,6 +19,7 @@ interface MakerOptionsProps {
 export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporting }: MakerOptionsProps) {
     const [pastedCode, setPastedCode] = useState('');
     const [importUrl, setImportUrl] = useState('');
+    const [urlError, setUrlError] = useState('');
 
     const handleCreateClick = () => {
         if (pastedCode) {
@@ -24,10 +27,26 @@ export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporti
         }
     };
     
-    const handleImportClick = () => {
-        if (importUrl) {
-            onUrlImport(importUrl);
+    const isValidUrl = (urlString: string) => {
+        try {
+            new URL(urlString);
+            return true;
+        } catch (e) {
+            return false;
         }
+    };
+
+    const handleImportClick = () => {
+        if (!importUrl) {
+            setUrlError("Please enter a URL to import.");
+            return;
+        }
+        if (!isValidUrl(importUrl)) {
+            setUrlError("Please enter a valid URL, including http:// or https://.");
+            return;
+        }
+        setUrlError('');
+        onUrlImport(importUrl);
     };
 
     return (
@@ -47,8 +66,22 @@ export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporti
                         id="url-input" 
                         placeholder="e.g., https://mysite.com/index.html" 
                         value={importUrl}
-                        onChange={(e) => setImportUrl(e.target.value)}
+                        onChange={(e) => {
+                            setImportUrl(e.target.value);
+                            if (urlError) setUrlError('');
+                        }}
+                        disabled={isImporting}
                     />
+                    {urlError && (
+                        <Alert variant="destructive" className="p-2">
+                           <div className="flex items-center gap-2">
+                                <AlertTriangle className="h-4 w-4" />
+                                <AlertDescription className="text-xs">
+                                    {urlError}
+                                </AlertDescription>
+                           </div>
+                        </Alert>
+                    )}
                     <Button className="w-full" onClick={handleImportClick} disabled={isImporting}>
                         {isImporting ? 'Importing...' : 'Import'}
                     </Button>
