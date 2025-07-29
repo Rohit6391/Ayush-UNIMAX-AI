@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Video, Settings, AlertTriangle, Sparkles, UploadCloud, Download, Mic } from 'lucide-react';
+import { Video, Settings, AlertTriangle, Sparkles, UploadCloud, Download, Mic, VideoIcon } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateVideo } from '@/ai/flows/video-generator';
@@ -195,27 +195,38 @@ export function VideoGenerator({ mode }: { mode: any }) {
                 )}
                 {videoUrl && !isLoading && (
                    <>
-                        <Card className="overflow-hidden text-left">
-                            <CardContent className="p-0">
-                               <video
-                                    src={videoUrl}
-                                    controls
-                                    className="w-full aspect-video"
-                                >
-                                    Your browser does not support the video tag.
-                                </video>
+                        <Card className="text-left overflow-hidden">
+                            <CardHeader>
+                                <CardTitle>Generated Video</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-4">
+                                     <video
+                                        src={videoUrl}
+                                        controls
+                                        className="w-full aspect-video rounded-md bg-black"
+                                    >
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    {audioUrl && (
+                                        <div className="space-y-2">
+                                            <Label>AI Narration</Label>
+                                            <audio src={audioUrl} controls className="w-full" />
+                                        </div>
+                                    )}
+                                     <div className="flex items-center justify-end gap-2">
+                                         <a href={videoUrl} download={`unimax-ai-video.mp4`}>
+                                            <Button variant="outline"><Download className="mr-2 h-4 w-4"/>Video</Button>
+                                         </a>
+                                         {audioUrl && (
+                                             <a href={audioUrl} download={`unimax-ai-narration.wav`}>
+                                                <Button variant="outline"><Mic className="mr-2 h-4 w-4"/>Narration</Button>
+                                             </a>
+                                         )}
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
-                        {audioUrl && (
-                            <div className="flex items-center justify-center gap-4">
-                                 <a href={videoUrl} download={`unimax-ai-video.mp4`}>
-                                    <Button variant="outline"><Download className="mr-2 h-4 w-4"/>Download Video</Button>
-                                 </a>
-                                 <a href={audioUrl} download={`unimax-ai-narration.wav`}>
-                                    <Button variant="outline"><Mic className="mr-2 h-4 w-4"/>Download Narration</Button>
-                                 </a>
-                            </div>
-                        )}
 
                         <Card className="text-left">
                             <CardHeader>
