@@ -6,11 +6,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Code, Settings, AlertTriangle, Clipboard, Check, Sparkles } from 'lucide-react';
+import { Code, Settings, AlertTriangle, Clipboard, Check, Sparkles, Download } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
+import { importFromUrl } from '@/ai/flows/import-from-url';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,16 +23,20 @@ export function CodeGenerator({ mode }: { mode: any }) {
     const [language, setLanguage] = useState('python');
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [isImporting, setIsImporting] = useState(false);
     const [code, setCode] = useState('');
     const [explanation, setExplanation] = useState('');
     const [error, setError] = useState('');
     const [copied, setCopied] = useState(false);
+    const [url, setUrl] = useState('');
     const codeRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
         if (code && window.hljs) {
             if (codeRef.current) {
-                codeRef.current.innerHTML = window.hljs.highlight(code, { language }).value;
+                // Ensure language is a valid hljs language, otherwise default to plaintext
+                const validLanguage = window.hljs.getLanguage(language) ? language : 'plaintext';
+                codeRef.current.innerHTML = window.hljs.highlight(code, { language: validLanguage }).value;
             }
         }
     }, [code, language]);
@@ -67,6 +72,21 @@ export function CodeGenerator({ mode }: { mode: any }) {
             setIsEditing(false);
         }
     }
+
+    const handleImport = async () => {
+        if (!url.trim()) { setError('Please enter a URL.'); return; }
+        setIsImporting(true); setCode(''); setError(''); setExplanation('');
+        try {
+            const result = await importFromUrl({ url });
+            setCode(result.content);
+            setExplanation(`Successfully imported code from ${url}.`);
+            addHistoryItem('code_generator', `Import from ${url}`, result.content);
+        } catch (err: any) {
+            setError(`Failed to import from URL: ${err.message}`);
+        } finally {
+            setIsImporting(false);
+        }
+    };
 
     const handleCopy = () => {
         if (navigator.clipboard && code) {
@@ -109,15 +129,22 @@ export function CodeGenerator({ mode }: { mode: any }) {
                             rows={2} 
                         />
                     </div>
-                    <Button onClick={handleGenerate} disabled={isLoading || isEditing} className="w-full mt-2">
+                    <Button onClick={handleGenerate} disabled={isLoading || isEditing || isImporting} className="w-full mt-2">
                         {isLoading ? <><Settings className="animate-spin mr-2" /> Generating...</> : 'Generate Code'}
                     </Button>
                 </TabsContent>
                 <TabsContent value="url">
                     <div className="space-y-2 text-left">
-                        <Label htmlFor="url-input">Import from URL</Label>
-                        <Input id="url-input" placeholder="https://example.com/code.js" />
-                        <Button className="w-full">Import</Button>
+                        <Label htmlFor="url-input">Import code from a raw URL</Label>
+                        <Input 
+                            id="url-input" 
+                            placeholder="https://gist.githubusercontent.com/..." 
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                        />
+                        <Button onClick={handleImport} disabled={isLoading || isEditing || isImporting} className="w-full">
+                            {isImporting ? <><Download className="animate-pulse mr-2" /> Importing...</> : 'Import'}
+                        </Button>
                     </div>
                 </TabsContent>
             </Tabs>
@@ -131,12 +158,12 @@ export function CodeGenerator({ mode }: { mode: any }) {
             )}
 
             <div className="mt-6 w-full space-y-4">
-                {isLoading && (
+                {(isLoading || isImporting) && (
                     <Card className="w-full h-64 bg-muted/50 flex items-center justify-center animate-pulse">
                         <Code className="h-16 w-16 text-muted-foreground" />
                     </Card>
                 )}
-                {code && !isLoading && (
+                {code && !isLoading && !isImporting && (
                     <>
                         <Card className="text-left">
                            <CardHeader>

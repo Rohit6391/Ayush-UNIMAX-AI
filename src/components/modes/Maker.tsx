@@ -10,6 +10,7 @@ import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
+import { importFromUrl } from '@/ai/flows/import-from-url';
 import { MakerOptions } from './MakerOptions';
 import { PublishDialog } from '@/components/dialogs/PublishDialog';
 
@@ -29,6 +30,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
     const [editPrompt, setEditPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [isImporting, setIsImporting] = useState(false);
     const [result, setResult] = useState('');
     const [explanation, setExplanation] = useState('');
     const [error, setError] = useState('');
@@ -126,14 +128,35 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
     
     const handlePastedCode = (code: string) => {
         setResult(code);
+        setActiveTab('prompt'); // Switch back to the main view
         setExplanation("Previewing your pasted code. You can now use the 'Refine with AI' feature to modify it.");
         addHistoryItem(mode.id, "Pasted Code", code);
+    }
+    
+    const handleUrlImport = async (url: string) => {
+        if (!url.trim()) { setError('Please enter a URL.'); return; }
+        setIsImporting(true); setResult(''); setError(''); setExplanation('');
+        try {
+            const importResult = await importFromUrl({ url });
+            let finalResult = importResult.content;
+            if (resultType === 'website') {
+                finalResult = finalResult.replace(/^```html\n?/, '').replace(/```$/, '').trim();
+            }
+            setResult(finalResult);
+            setActiveTab('prompt'); // Switch back to main view
+            setExplanation(`Successfully imported content from ${url}. You can now use the 'Refine with AI' feature.`);
+            addHistoryItem(mode.id, `Import from ${url}`, finalResult);
+        } catch(err: any) {
+             setError(`Failed to import from URL: ${err.message}`);
+        } finally {
+            setIsImporting(false);
+        }
     }
 
     return (
         <ModeWrapper mode={mode}>
             {isPublishing && <PublishDialog setIsOpen={setIsPublishing} siteContent={result} />}
-            {showMakerOptions && <MakerOptions onTabChange={setActiveTab} onCodeCreate={handlePastedCode} />}
+            {showMakerOptions && <MakerOptions onTabChange={setActiveTab} onCodeCreate={handlePastedCode} onUrlImport={handleUrlImport} isImporting={isImporting} />}
             
             {activeTab === 'prompt' && (
                 <>
@@ -144,7 +167,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
                         className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
                         rows={3} 
                     />
-                    <Button onClick={handleGenerate} disabled={isLoading || isEditing} className="w-full mt-4">
+                    <Button onClick={handleGenerate} disabled={isLoading || isEditing || isImporting} className="w-full mt-4">
                         {isLoading ? <><Settings className="animate-spin mr-2" /> Creating...</> : `Create ${mode.name}`}
                     </Button>
                 </>
@@ -159,12 +182,12 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
             )}
 
             <div className="mt-6 w-full space-y-4">
-                {isLoading && (
+                {(isLoading || isImporting) && (
                     <Card className="w-full h-96 bg-muted/50 flex items-center justify-center animate-pulse">
                         <mode.icon className="h-16 w-16 text-muted-foreground" />
                     </Card>
                 )}
-                {result && !isLoading && (
+                {result && !isLoading && !isImporting && (
                     <>
                         <Card className="text-left">
                             <CardHeader className='flex-row items-center justify-between'>

@@ -10,14 +10,23 @@ import { useState } from "react";
 interface MakerOptionsProps {
     onTabChange: (tab: string) => void;
     onCodeCreate: (code: string) => void;
+    onUrlImport: (url: string) => void;
+    isImporting?: boolean;
 }
 
-export function MakerOptions({ onTabChange, onCodeCreate }: MakerOptionsProps) {
+export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporting }: MakerOptionsProps) {
     const [pastedCode, setPastedCode] = useState('');
+    const [importUrl, setImportUrl] = useState('');
 
     const handleCreateClick = () => {
         if (pastedCode) {
             onCodeCreate(pastedCode);
+        }
+    };
+    
+    const handleImportClick = () => {
+        if (importUrl) {
+            onUrlImport(importUrl);
         }
     };
 
@@ -25,7 +34,7 @@ export function MakerOptions({ onTabChange, onCodeCreate }: MakerOptionsProps) {
         <Tabs defaultValue="prompt" className="w-full mb-4" onValueChange={onTabChange}>
             <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="prompt">Make with AI</TabsTrigger>
-                <TabsTrigger value="url" disabled>Import from URL</TabsTrigger>
+                <TabsTrigger value="url">Import from URL</TabsTrigger>
                 <TabsTrigger value="code">Code your own</TabsTrigger>
             </TabsList>
             <TabsContent value="prompt">
@@ -33,9 +42,16 @@ export function MakerOptions({ onTabChange, onCodeCreate }: MakerOptionsProps) {
             </TabsContent>
             <TabsContent value="url">
                 <div className="space-y-2 text-left">
-                    <Label htmlFor="url-input">Import from URL</Label>
-                    <Input id="url-input" placeholder="https://example.com" disabled />
-                    <Button className="w-full" disabled>Import</Button>
+                    <Label htmlFor="url-input">Import from a raw URL</Label>
+                    <Input 
+                        id="url-input" 
+                        placeholder="e.g., https://mysite.com/index.html" 
+                        value={importUrl}
+                        onChange={(e) => setImportUrl(e.target.value)}
+                    />
+                    <Button className="w-full" onClick={handleImportClick} disabled={isImporting}>
+                        {isImporting ? 'Importing...' : 'Import'}
+                    </Button>
                 </div>
             </TabsContent>
             <TabsContent value="code">
