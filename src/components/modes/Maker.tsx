@@ -35,6 +35,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
     const [copied, setCopied] = useState(false);
     const [isPublishing, setIsPublishing] = useState(false);
     const codeRef = useRef<HTMLElement>(null);
+    const [activeTab, setActiveTab] = useState('prompt');
 
     useEffect(() => {
         if (result && resultType === 'code' && window.hljs) {
@@ -122,21 +123,32 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
+    
+    const handlePastedCode = (code: string) => {
+        setResult(code);
+        setExplanation("Previewing your pasted code. You can now use the 'Refine with AI' feature to modify it.");
+        addHistoryItem(mode.id, "Pasted Code", code);
+    }
 
     return (
         <ModeWrapper mode={mode}>
             {isPublishing && <PublishDialog setIsOpen={setIsPublishing} siteContent={result} />}
-            {showMakerOptions && <MakerOptions />}
-            <Textarea 
-                value={prompt} 
-                onChange={(e) => setPrompt(e.target.value)} 
-                placeholder={promptPlaceholder} 
-                className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
-                rows={3} 
-            />
-            <Button onClick={handleGenerate} disabled={isLoading || isEditing} className="w-full mt-4">
-                {isLoading ? <><Settings className="animate-spin mr-2" /> Creating...</> : `Create ${mode.name}`}
-            </Button>
+            {showMakerOptions && <MakerOptions onTabChange={setActiveTab} onCodeCreate={handlePastedCode} />}
+            
+            {activeTab === 'prompt' && (
+                <>
+                    <Textarea 
+                        value={prompt} 
+                        onChange={(e) => setPrompt(e.target.value)} 
+                        placeholder={promptPlaceholder} 
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                        rows={3} 
+                    />
+                    <Button onClick={handleGenerate} disabled={isLoading || isEditing} className="w-full mt-4">
+                        {isLoading ? <><Settings className="animate-spin mr-2" /> Creating...</> : `Create ${mode.name}`}
+                    </Button>
+                </>
+            )}
             
             {error && (
                 <Alert variant="destructive" className="mt-6 text-left">
