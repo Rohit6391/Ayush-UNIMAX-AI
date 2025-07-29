@@ -13,7 +13,7 @@ import { z } from 'genkit';
 import fetch from 'node-fetch';
 
 const ImportFromUrlInputSchema = z.object({
-  url: z.string().url().describe('The URL to fetch content from.'),
+  url: z.string().url({ message: "Invalid URL provided. Please ensure it includes http:// or https://." }).describe('The URL to fetch content from.'),
 });
 export type ImportFromUrlInput = z.infer<typeof ImportFromUrlInputSchema>;
 
