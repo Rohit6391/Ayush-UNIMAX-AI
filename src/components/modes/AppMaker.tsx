@@ -7,12 +7,11 @@ export function AppMaker({ mode }: { mode: any }) {
         <Maker
             mode={mode}
             generatePrompt={(prompt) =>
-                `Create a detailed plan for a mobile application based on the following idea: "${prompt}". The plan should include: 1. A list of key features. 2. A suggested technology stack (e.g., React Native, Swift, Kotlin). 3. A basic file structure. 4. A sample code snippet for the main screen in the suggested language. Format the entire response as a single JSON object with two keys: "plan" (containing the markdown-formatted plan) and "explanation" (a one-sentence summary of the app concept).`
+                `Generate a complete, single-file HTML web application that simulates a mobile app based on the following idea. The output should be a single HTML file that uses Tailwind CSS for styling and includes JavaScript for interactivity to mimic the app's functionality. The app should look like it's on a phone screen. Use placeholder images from https://placehold.co where necessary. The entire response must be ONLY the HTML code, starting with <!DOCTYPE html> and ending with </html>. Do not include any markdown backticks. App Idea: "${prompt}"`
             }
-            resultTitle="App Plan & Code"
-            resultType="code"
-            codeLanguage="markdown"
-            promptPlaceholder="e.g., A simple to-do list app with cloud sync..."
+            resultTitle="App Preview"
+            resultType="website" // Changed to 'website' to enable iframe preview
+            promptPlaceholder="e.g., A photo-sharing app with a simple feed..."
             showMakerOptions={true}
         />
     );
