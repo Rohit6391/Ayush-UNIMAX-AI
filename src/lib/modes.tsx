@@ -1,6 +1,6 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
-    FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film
+    FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -22,7 +22,7 @@ export type ModeId =
   | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
   | 'file_editor' | 'story_generator' | 'summarizer' | 'translator' | 'song_writer' 
   | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
-  | 'games_knowledge';
+  | 'games_knowledge' | 'question_giver';
 
 
 export interface Mode {
@@ -68,13 +68,20 @@ export const modes: Mode[] = [
         resultTitle: "Summary"
     }},
     { id: 'translator', name: 'Translator', icon: Globe, description: 'Translate text between multiple languages.', component: Translator },
-    { id: 'song_writer', name: 'Song Writer & Player', icon: Mic, description: 'Generate lyrics and a matching melody.', component: SongWriter },
+    { id: 'song_writer', name: 'Song Writer', icon: Mic, description: 'Generate lyrics and a matching melody.', component: SongWriter },
     { id: 'document_maker', name: 'Document Maker', icon: FileText, description: 'Draft documents, reports, and more.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A business report on quarterly sales figures...",
         buttonText: "Generate Document",
         Icon: FileText,
         generatePrompt: (p: string) => `Create a formal document based on this request: ${p}`,
         resultTitle: "Generated Document"
+    }},
+    { id: 'question_giver', name: 'Question Giver', icon: HelpCircle, description: 'Get questions for any topic.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'The history of the Roman Empire' or 'Quantum Physics'...",
+        buttonText: "Generate Questions",
+        Icon: HelpCircle,
+        generatePrompt: (p: string) => `Generate a list of 10 insightful questions about the following topic: ${p}`,
+        resultTitle: "Generated Questions"
     }},
     { id: 'ad_maker', name: 'Video Ad Script Maker', icon: Megaphone, description: 'Create compelling video ad scripts.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A new brand of sparkling water with natural fruit flavors...",

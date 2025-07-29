@@ -83,7 +83,7 @@ export function SongWriter({ mode }: { mode: any }) {
                 rows={3} 
             />
             <Button onClick={handleGenerate} disabled={isLoading || isPlaying} className="w-full mt-4">
-                {isLoading ? <><Settings className="animate-spin mr-2" /> Writing Song...</> : 'Write Song & Music'}
+                {isLoading ? <><Settings className="animate-spin mr-2" /> Writing Song...</> : 'Write Song'}
             </Button>
             
             {error && (
