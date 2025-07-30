@@ -11,5 +11,6 @@ import '@/ai/flows/create-document-from-prompt.ts';
 import '@/ai/flows/text-to-speech.ts';
 import '@/ai/flows/generate-video-with-narration.ts';
 import '@/ai/flows/import-from-url.ts';
+import '@/ai/flows/video-editor.ts';
 
     

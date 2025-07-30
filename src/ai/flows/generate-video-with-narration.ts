@@ -30,7 +30,7 @@ const GenerateVideoWithNarrationInputSchema = z.object({
 export type GenerateVideoWithNarrationInput = z.infer<typeof GenerateVideoWithNarrationInputSchema>;
 
 // Define the output for a single scene, now including the image URL
-export const SceneOutputSchema = z.object({
+const SceneOutputSchema = z.object({
     narration: z.string(),
     imageUrl: z.string(),
 });
