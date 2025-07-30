@@ -1,9 +1,28 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { User } from 'firebase/auth';
 import { BrainCircuit } from 'lucide-react';
+
+// Define a mock user structure that matches Firebase's User object
+const mockUser: User = {
+  uid: 'fake-user-123',
+  email: 'user@example.com',
+  displayName: 'Fake User',
+  photoURL: 'https://placehold.co/100x100.png',
+  emailVerified: true,
+  isAnonymous: false,
+  metadata: {},
+  providerData: [],
+  refreshToken: '',
+  tenantId: null,
+  delete: async () => {},
+  getIdToken: async () => '',
+  getIdTokenResult: async () => ({} as any),
+  reload: async () => {},
+  toJSON: () => ({}),
+  providerId: 'password',
+};
 
 interface AuthContextType {
   user: User | null;
@@ -16,17 +35,8 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setIsAuthLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const [user, setUser] = useState<User | null>(mockUser); // Start with the mock user
+  const [isAuthLoading, setIsAuthLoading] = useState(false); // Set loading to false
 
   if (isAuthLoading) {
     return (

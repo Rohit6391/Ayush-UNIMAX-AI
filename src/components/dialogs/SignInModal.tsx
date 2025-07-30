@@ -12,13 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { auth } from '@/lib/firebase';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from 'firebase/auth';
 
 interface SignInModalProps {
   setIsOpen: (isOpen: boolean) => void;
@@ -26,41 +19,10 @@ interface SignInModalProps {
 
 export function SignInModal({ setIsOpen }: SignInModalProps) {
   const [isSignUp, setIsSignUp] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-    try {
-      if (isSignUp) {
-        await createUserWithEmailAndPassword(auth, email, password);
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
-      }
-      setIsOpen(false);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    setIsLoading(true);
-    setError(null);
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      setIsOpen(false);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleFakeAction = () => {
+    // Simply close the modal on any button click
+    setIsOpen(false);
   };
 
   return (
@@ -73,7 +35,7 @@ export function SignInModal({ setIsOpen }: SignInModalProps) {
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
-          <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={isLoading}>
+          <Button variant="outline" className="w-full" onClick={handleFakeAction}>
             Sign In with Google
           </Button>
           <div className="flex items-center space-x-2">
@@ -81,16 +43,14 @@ export function SignInModal({ setIsOpen }: SignInModalProps) {
             <span className="text-xs text-muted-foreground">OR</span>
             <Separator className="flex-1" />
           </div>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={(e) => { e.preventDefault(); handleFakeAction(); }} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                defaultValue="user@example.com"
               />
             </div>
             <div className="space-y-2">
@@ -98,14 +58,11 @@ export function SignInModal({ setIsOpen }: SignInModalProps) {
               <Input
                 id="password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                defaultValue="password"
               />
             </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Loading...' : (isSignUp ? 'Sign Up' : 'Sign In')}
+            <Button type="submit" className="w-full">
+              {isSignUp ? 'Sign Up' : 'Sign In'}
             </Button>
           </form>
           <p className="text-center text-sm">
