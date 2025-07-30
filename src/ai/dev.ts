@@ -13,3 +13,6 @@ import '@/ai/flows/video-generator.ts';
 import '@/ai/flows/video-editor.ts';
 import '@/ai/flows/generate-video-with-narration.ts';
 import '@/ai/flows/import-from-url.ts';
+import '@/ai/flows/generate-storyboard.ts';
+
+    
