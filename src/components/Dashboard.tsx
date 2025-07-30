@@ -34,7 +34,7 @@ export function Dashboard() {
           <SidebarHeader>
             <div className="flex items-center gap-2">
                 <BrainCircuit className="h-8 w-8 text-primary" />
-                <span className="font-bold font-headline text-xl">Unimax AI</span>
+                <span className="font-bold font-headline text-xl">Ayush Unimax AI</span>
             </div>
           </SidebarHeader>
           <SidebarContent>
@@ -57,7 +57,7 @@ export function Dashboard() {
 
         <SidebarInset>
           <div className="flex flex-col flex-1 relative h-screen">
-            <Header setIsSignInModalOpen={setIsSignInModalOpen} activeModeName={currentMode?.name || 'Unimax AI'} />
+            <Header setIsSignInModalOpen={setIsSignInModalOpen} activeModeName={currentMode?.name || 'Ayush Unimax AI'} />
             <main className="flex-1 overflow-y-auto bg-background dark:bg-background/50">
               {ActiveComponent && (
                 <ActiveComponent 
