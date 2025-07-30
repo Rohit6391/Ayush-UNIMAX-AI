@@ -1,81 +1,76 @@
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Video, Settings, AlertTriangle, Sparkles, Film, Image as ImageIcon } from 'lucide-react';
+import { Video, Settings, AlertTriangle, Sparkles, Film } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { generateStoryboard } from '@/ai/flows/generate-storyboard';
-import { generateImageFromStoryboard } from '@/ai/flows/generate-image-from-storyboard';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { generateVideo } from '@/ai/flows/video-generator';
+import { editVideo } from '@/ai/flows/video-editor';
+import { Checkbox } from '../ui/checkbox';
 
 export function VideoGenerator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
+    const [editPrompt, setEditPrompt] = useState('');
+    const [negativePrompt, setNegativePrompt] = useState('');
+    const [allowPersonGeneration, setAllowPersonGeneration] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [scenes, setScenes] = useState<any[]>([]);
+    const [isEditing, setIsEditing] = useState(false);
+    const [videoUrl, setVideoUrl] = useState('');
     const [error, setError] = useState('');
-    const [generationProgress, setGenerationProgress] = useState(0);
 
     const handleGenerate = async () => {
-        if (!prompt.trim()) { setError('Please enter a prompt for your storyboard.'); return; }
+        if (!prompt.trim()) { setError('Please enter a prompt for your video.'); return; }
 
         setIsLoading(true); 
-        setScenes([]);
+        setVideoUrl('');
         setError('');
-        setGenerationProgress(0);
         
         try {
-            // 1. Generate the storyboard scenes (text prompts)
-            const storyboardResult = await generateStoryboard({ prompt });
-            if (!storyboardResult.scenes || storyboardResult.scenes.length === 0) {
-                throw new Error("The AI could not create a storyboard from your prompt. Try being more descriptive.");
+            const result = await generateVideo({ prompt, negativePrompt, allowPersonGeneration });
+            if (result.videoUrl) {
+                setVideoUrl(result.videoUrl);
+                addHistoryItem('video_generator', prompt, result.videoUrl);
+            } else {
+                throw new Error("No video data was returned from the AI. This could be due to safety filters or a temporary issue.");
             }
-
-            // Initialize scenes with prompts
-            const initialScenes = storyboardResult.scenes.map(scene => ({ prompt: scene.imagePrompt, imageUrl: null }));
-            setScenes(initialScenes);
-            
-            // 2. Generate image for each scene
-            const totalScenes = initialScenes.length;
-            for (let i = 0; i < totalScenes; i++) {
-                try {
-                    const imageResult = await generateImageFromStoryboard({ imagePrompt: initialScenes[i].prompt });
-                    setScenes(prevScenes => {
-                        const newScenes = [...prevScenes];
-                        newScenes[i].imageUrl = imageResult.imageUrl;
-                        return newScenes;
-                    });
-                    setGenerationProgress(((i + 1) / totalScenes) * 100);
-                } catch (imageError) {
-                    console.error(`Failed to generate image for scene ${i+1}:`, imageError);
-                    // We can decide to continue or stop. Let's continue but mark it as failed.
-                    setScenes(prevScenes => {
-                        const newScenes = [...prevScenes];
-                        newScenes[i].imageUrl = 'error'; // Mark as failed
-                        return newScenes;
-                    });
-                }
-            }
-            addHistoryItem('video_generator', prompt, `Generated a ${totalScenes}-scene storyboard.`);
-
         } catch (err: any) {
-            setError(`Storyboard generation failed: ${err.message}.`);
+            setError(`Video generation failed: ${err.message}. This can happen due to high demand or API quota limits. Please try again later.`);
         } finally {
             setIsLoading(false);
+        }
+    };
+    
+    const handleEdit = async () => {
+        if (!editPrompt.trim() || !videoUrl) { setError('Please enter an edit instruction.'); return; }
+        setIsEditing(true); setError('');
+        try {
+            const result = await editVideo({ videoDataUri: videoUrl, prompt: editPrompt });
+            if (result.videoUrl) {
+                setVideoUrl(result.videoUrl);
+                setEditPrompt('');
+                addHistoryItem('video_generator', `Edit: ${editPrompt}`, result.videoUrl);
+            } else {
+                throw new Error("No video data was returned from the AI. This could be due to safety filters or a temporary issue.")
+            }
+        } catch (err: any) {
+            setError(`Failed to edit video: ${err.message}. This can happen due to high demand or API quota limits. Please try again later.`);
+        } finally {
+            setIsEditing(false);
         }
     };
 
     return (
         <ModeWrapper mode={mode}>
-             <Alert className="mb-4 text-left">
+             <Alert className="mb-4 text-left" variant="default">
                 <Film className="h-4 w-4" />
-                <AlertTitle>Storyboard Generator</AlertTitle>
+                <AlertTitle>Billing Required & High Demand</AlertTitle>
                 <AlertDescription>
-                    This tool creates a visual story by generating a sequence of images. It does not create a video file.
+                    The Veo video model requires a billing-enabled Google Cloud account. Generation can take up to a minute and may fail due to high demand or quota limits.
                 </AlertDescription>
             </Alert>
             
@@ -87,9 +82,23 @@ export function VideoGenerator({ mode }: { mode: any }) {
                 className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
                 rows={3} 
             />
+             <Textarea 
+                id="negative-prompt-text"
+                value={negativePrompt} 
+                onChange={(e) => setNegativePrompt(e.target.value)} 
+                placeholder="Negative prompt (optional): e.g., blurry, cartoon, text" 
+                className="w-full mt-2 bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                rows={1}
+            />
+            <div className="flex items-center space-x-2 mt-2">
+                <Checkbox id="allow-person" checked={allowPersonGeneration} onCheckedChange={(checked) => setAllowPersonGeneration(!!checked)} />
+                <label htmlFor="allow-person" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Allow generating people
+                </label>
+            </div>
             
-            <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-4">
-                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating Storyboard...</> : 'Generate Storyboard'}
+            <Button onClick={handleGenerate} disabled={isLoading || isEditing} className="w-full mt-4">
+                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating Video...</> : 'Generate Video'}
             </Button>
             
             {error && (
@@ -101,56 +110,41 @@ export function VideoGenerator({ mode }: { mode: any }) {
             )}
 
             <div className="mt-6 w-full space-y-4">
-                {isLoading && (
+                {(isLoading || isEditing) && (
                     <Card className="w-full aspect-video bg-muted/50 flex flex-col items-center justify-center animate-pulse">
-                        <ImageIcon className="h-16 w-16 text-muted-foreground" />
-                        <p className="mt-4 text-muted-foreground">Generating scenes, this may take a moment...</p>
-                        {scenes.length > 0 && (
-                             <div className="w-full max-w-sm px-4 mt-4">
-                                <div className="h-2 bg-muted rounded-full">
-                                    <div className="h-2 bg-primary rounded-full transition-all" style={{ width: `${generationProgress}%`}}></div>
-                                </div>
-                                <p className="text-xs text-center mt-1">{Math.round(generationProgress)}% complete</p>
-                             </div>
-                        )}
+                        <Video className="h-16 w-16 text-muted-foreground" />
+                         <p className="mt-4 text-muted-foreground">Generating video, this may take up to a minute...</p>
                     </Card>
                 )}
-                {scenes.length > 0 && !isLoading && (
+                {videoUrl && !isLoading && !isEditing && (
                    <>
                         <Card className="text-left overflow-hidden">
                             <CardHeader>
-                                <CardTitle>Generated Storyboard</CardTitle>
+                                <CardTitle>Generated Video</CardTitle>
                             </CardHeader>
                             <CardContent>
-                               <Carousel className="w-full max-w-xl mx-auto" autoplay a11y>
-                                    <CarouselContent>
-                                        {scenes.map((scene, index) => (
-                                        <CarouselItem key={index}>
-                                            <div className="p-1">
-                                            <Card className='aspect-video overflow-hidden'>
-                                                <CardContent className="flex items-center justify-center p-0 h-full w-full">
-                                                    {scene.imageUrl === 'error' ? (
-                                                        <div className="w-full h-full bg-destructive/20 flex flex-col items-center justify-center text-destructive">
-                                                            <AlertTriangle className="h-8 w-8" />
-                                                            <p>Image failed</p>
-                                                        </div>
-                                                    ) : scene.imageUrl ? (
-                                                        <img src={scene.imageUrl} alt={scene.prompt} className="w-full h-full object-cover"/>
-                                                    ) : (
-                                                         <div className="w-full h-full bg-muted/50 flex flex-col items-center justify-center animate-pulse">
-                                                            <ImageIcon className="h-16 w-16 text-muted-foreground" />
-                                                        </div>
-                                                    )}
-                                                </CardContent>
-                                            </Card>
-                                            <p className='text-center text-sm text-muted-foreground mt-2 px-4 h-10'>{scene.prompt}</p>
-                                            </div>
-                                        </CarouselItem>
-                                        ))}
-                                    </CarouselContent>
-                                    <CarouselPrevious />
-                                    <CarouselNext />
-                                </Carousel>
+                               <video src={videoUrl} className="w-full aspect-video rounded-md bg-muted" controls muted autoPlay loop />
+                            </CardContent>
+                        </Card>
+                        
+                        <Card className="text-left">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2 text-xl">
+                                    <Sparkles className="text-primary h-5 w-5" />
+                                    Refine with AI
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <Textarea
+                                    value={editPrompt}
+                                    onChange={(e) => setEditPrompt(e.target.value)}
+                                    placeholder="e.g., 'Make it black and white' or 'Add a vintage film effect'..."
+                                    className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                                    rows={2}
+                                />
+                                <Button onClick={handleEdit} disabled={isLoading || isEditing} className="w-full mt-2">
+                                    {isEditing ? <><Settings className="animate-spin mr-2" /> Refining...</> : 'Refine Video'}
+                                 </Button>
                             </CardContent>
                         </Card>
                    </>
@@ -159,5 +153,3 @@ export function VideoGenerator({ mode }: { mode: any }) {
         </ModeWrapper>
     );
 };
-
-    
