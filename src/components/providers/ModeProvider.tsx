@@ -71,6 +71,14 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const addHistoryItem = async (type: ModeId, prompt: string, data: any, fullConversation?: any[]) => {
     const newHistoryItem: HistoryItem = { id: Date.now(), type, prompt, data, date: new Date(), fullConversation };
     
+    if (!user) {
+        // For guest users, check data size. If it's a large string (likely a data URI), truncate it.
+        const dataString = JSON.stringify(data);
+        if (dataString.length > 5000) { // 5KB threshold
+            newHistoryItem.data = `[Large content omitted for guest users to prevent storage errors. Please sign in for full history.]`;
+        }
+    }
+    
     const updatedHistory = [newHistoryItem, ...history];
     setHistory(updatedHistory);
 
@@ -85,8 +93,17 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
             await setDoc(historyRef, { items: [{...newHistoryItem, date: newHistoryItem.date}] });
         }
     } else {
-        // Save to local storage for guests
-        localStorage.setItem('guestHistory', JSON.stringify(updatedHistory));
+        try {
+            // Save to local storage for guests
+            localStorage.setItem('guestHistory', JSON.stringify(updatedHistory));
+        } catch (e: any) {
+            console.error("Failed to save guest history:", e);
+            // If it still fails, it means history is too large. Prune it.
+            if (e.name === 'QuotaExceededError') {
+                const prunedHistory = updatedHistory.slice(0, 10); // Keep only the 10 most recent items
+                localStorage.setItem('guestHistory', JSON.stringify(prunedHistory));
+            }
+        }
     }
   };
   
