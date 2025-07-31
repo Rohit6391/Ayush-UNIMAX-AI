@@ -1,6 +1,8 @@
+
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
-    FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle
+    FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
+    Plane, MoonStar, Presentation, Feather, Briefcase, UserSquare, Scale, Stethoscope, Landmark, CheckSquare
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -22,7 +24,9 @@ export type ModeId =
   | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
   | 'file_editor' | 'story_generator' | 'summarizer' | 'translator' | 'song_writer' 
   | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
-  | 'games_knowledge' | 'question_giver';
+  | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
+  | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator' | 'job_description_writer'
+  | 'character_generator' | 'legal_assistant' | 'medical_assistant' | 'financial_advisor' | 'fact_checker';
 
 
 export interface Mode {
@@ -117,5 +121,83 @@ export const modes: Mode[] = [
         Icon: Gamepad2,
         generatePrompt: (p: string) => `Provide detailed information for the following video game query: ${p}`,
         resultTitle: "Game Info"
+    }},
+    { id: 'idea_generator', name: 'Idea Generator', icon: Lightbulb, description: 'Brainstorm creative ideas on any topic.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Business ideas for a small town' or 'Plot ideas for a sci-fi novel'...",
+        buttonText: "Generate Ideas",
+        generatePrompt: (p: string) => `Generate a list of creative and unique ideas for the following topic: ${p}`,
+        resultTitle: "Creative Ideas"
+    }},
+    { id: 'email_writer', name: 'Email Writer', icon: Mail, description: 'Draft professional and personal emails.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'An email to my boss requesting time off' or 'A follow-up email after a job interview'...",
+        buttonText: "Write Email",
+        generatePrompt: (p: string) => `Write a well-formatted and professional email for the following purpose: ${p}`,
+        resultTitle: "Generated Email"
+    }},
+    { id: 'recipe_creator', name: 'Recipe Creator', icon: CookingPot, description: 'Create recipes from a list of ingredients.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'chicken, rice, broccoli, soy sauce'...",
+        buttonText: "Create Recipe",
+        generatePrompt: (p: string) => `Create a delicious recipe using the following ingredients: ${p}. Provide a name for the dish, a list of ingredients, and step-by-step instructions.`,
+        resultTitle: "Your Custom Recipe"
+    }},
+    { id: 'travel_planner', name: 'Travel Planner', icon: Plane, description: 'Plan your next trip with a custom itinerary.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A 5-day trip to Paris for a couple on a budget'...",
+        buttonText: "Plan Trip",
+        generatePrompt: (p: string) => `Create a detailed travel itinerary for the following trip: ${p}. Include suggestions for accommodations, activities for each day, and dining options.`,
+        resultTitle: "Travel Itinerary"
+    }},
+    { id: 'dream_interpreter', name: 'Dream Interpreter', icon: MoonStar, description: 'Analyze and find the meaning of your dreams.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Describe your dream in as much detail as possible...",
+        buttonText: "Interpret Dream",
+        generatePrompt: (p: string) => `Provide a thoughtful and psychological interpretation of the following dream, considering common symbols and themes: ${p}`,
+        resultTitle: "Dream Interpretation"
+    }},
+    { id: 'speech_writer', name: 'Speech Writer', icon: Presentation, description: 'Draft compelling speeches for any occasion.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A best man speech for my childhood friend' or 'A motivational speech for a sales team'...",
+        buttonText: "Write Speech",
+        generatePrompt: (p: string) => `Write a powerful and engaging speech for the following occasion: ${p}.`,
+        resultTitle: "Generated Speech"
+    }},
+    { id: 'poem_generator', name: 'Poem Generator', icon: Feather, description: 'Create beautiful poems in various styles.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A haiku about the ocean' or 'A sonnet about love and loss'...",
+        buttonText: "Generate Poem",
+        generatePrompt: (p: string) => `Write a poem based on the following request: ${p}`,
+        resultTitle: "Generated Poem"
+    }},
+    { id: 'job_description_writer', name: 'Job Description Writer', icon: Briefcase, description: 'Create professional job descriptions.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A senior software engineer with experience in React'...",
+        buttonText: "Write Job Description",
+        generatePrompt: (p: string) => `Write a clear, concise, and comprehensive job description for the following role: ${p}. Include responsibilities, qualifications, and benefits.`,
+        resultTitle: "Job Description"
+    }},
+    { id: 'character_generator', name: 'Character Generator', icon: UserSquare, description: 'Create detailed characters for stories.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A grizzled detective with a troubled past' or 'A cheerful elf from a hidden forest'...",
+        buttonText: "Create Character",
+        generatePrompt: (p: string) => `Create a detailed character profile based on the following description: ${p}. Include their name, appearance, personality, backstory, and motivations.`,
+        resultTitle: "Character Profile"
+    }},
+    { id: 'legal_assistant', name: 'Legal Assistant', icon: Scale, description: 'Simplify complex legal text.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Paste a legal clause or document here to get a simple explanation...",
+        buttonText: "Explain Legal Text",
+        generatePrompt: (p: string) => `Explain the following legal text in simple, easy-to-understand terms. This is for informational purposes only and is not legal advice. Text: ${p}`,
+        resultTitle: "Simplified Explanation"
+    }},
+    { id: 'medical_assistant', name: 'Medical Assistant', icon: Stethoscope, description: 'Explain complex medical terms.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'What is mitosis?' or 'Explain what hypertension is'...",
+        buttonText: "Explain Medical Term",
+        generatePrompt: (p: string) => `Explain the following medical term or concept in a clear and simple way. This is for informational purposes only and is not medical advice. Concept: ${p}`,
+        resultTitle: "Medical Explanation"
+    }},
+    { id: 'financial_advisor', name: 'Financial Advisor', icon: Landmark, description: 'Explain complex financial topics.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Explain compound interest' or 'What is a 401(k)?'...",
+        buttonText: "Explain Financial Topic",
+        generatePrompt: (p: string) => `Explain the following financial topic in a clear and simple way. This is for informational purposes only and is not financial advice. Topic: ${p}`,
+        resultTitle: "Financial Explanation"
+    }},
+    { id: 'fact_checker', name: 'Fact Checker', icon: CheckSquare, description: 'Check the accuracy of a statement.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Enter a statement to fact-check, e.g., 'The sky is green.'",
+        buttonText: "Fact-Check",
+        generatePrompt: (p: string) => `Please fact-check the following statement, provide a determination (e.g., True, False, Misleading), and a brief explanation with sources if possible. Statement: ${p}`,
+        resultTitle: "Fact-Check Result"
     }},
 ];
