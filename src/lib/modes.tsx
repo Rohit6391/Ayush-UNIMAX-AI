@@ -44,16 +44,9 @@ export const modes: Mode[] = [
     { id: 'chat', name: 'AI Chat', icon: BrainCircuit, description: 'Your AI command center.', component: ChatInterface },
     { id: 'photo_generator', name: 'Photo Generator', icon: Image, description: 'Create stunning images from text prompts.', component: PhotoGenerator },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
-    { id: 'video_generator', name: 'Video Generator', icon: Video, description: 'Generate a video from a text prompt with Veo.', component: VideoGenerator },
-    { id: 'video_editor', name: 'Video Editor', icon: Film, description: 'Upload a video and edit it with an AI prompt.', component: VideoEditor },
+    { id: 'video_generator', name: 'Video Generator', icon: Video, description: 'Generate a video from a text prompt.', component: VideoGenerator },
+    { id: 'video_editor', name: 'Video Editor', icon: Film, description: 'Upload a video and get AI analysis.', component: VideoEditor },
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
-    { id: 'code_analyzer', name: 'Code Analyzer', icon: Search, description: 'Analyze code for quality and errors.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "Paste code here to analyze...",
-        buttonText: "Analyze Code",
-        Icon: Search,
-        generatePrompt: (p: string) => `Analyze the following code snippet for quality, bugs, and potential improvements. Also, give an opinion on whether it appears safe or malicious. Code:\n\n${p}`,
-        resultTitle: "Code Analysis"
-    }},
     { id: 'website_maker', name: 'Website Maker', icon: Globe, description: 'Generate, preview, and import websites.', component: WebsiteMaker },
     { id: 'app_maker', name: 'App Maker', icon: AppWindow, description: 'Scaffold, import, and plan mobile applications.', component: AppMaker },
     { id: 'game_maker', name: 'Game Maker', icon: Gamepad2, description: 'Design, import, and create plans for your game.', component: GameMaker },
@@ -62,14 +55,12 @@ export const modes: Mode[] = [
     { id: 'story_generator', name: 'Story Generator', icon: BookOpen, description: 'Write creative stories and scripts.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A lost robot searching for the last human on a deserted Earth...",
         buttonText: "Generate Story",
-        Icon: BookOpen,
         generatePrompt: (p: string) => `Write a creative story based on the following prompt: ${p}`,
         resultTitle: "Your Story"
     }},
     { id: 'summarizer', name: 'AI Summarizer', icon: FileQuestion, description: 'Summarize long texts, articles, or documents.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Paste a long article, report, or any text here to get a summary...",
         buttonText: "Summarize Text",
-        Icon: FileQuestion,
         generatePrompt: (p: string) => `Summarize the following text:\n\n${p}`,
         resultTitle: "Summary"
     }},
@@ -80,51 +71,32 @@ export const modes: Mode[] = [
     { id: 'document_maker', name: 'Document Maker', icon: FileText, description: 'Draft documents, reports, and more.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A business report on quarterly sales figures...",
         buttonText: "Generate Document",
-        Icon: FileText,
         generatePrompt: (p: string) => `Create a formal document based on this request: ${p}`,
         resultTitle: "Generated Document"
     }},
     { id: 'question_giver', name: 'Question Giver', icon: HelpCircle, description: 'Get questions for any topic.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., 'The history of the Roman Empire' or 'Quantum Physics'...",
         buttonText: "Generate Questions",
-        Icon: HelpCircle,
         generatePrompt: (p: string) => `Generate a list of 10 insightful questions about the following topic: ${p}`,
         resultTitle: "Generated Questions"
     }},
     { id: 'ad_maker', name: 'Video Ad Script Maker', icon: Megaphone, description: 'Create compelling video ad scripts.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A new brand of sparkling water with natural fruit flavors...",
         buttonText: "Generate Ad Script",
-        Icon: Megaphone,
         generatePrompt: (p: string) => `Write a compelling and descriptive video ad script for the following product/service, including scene descriptions, dialogue, and camera shots: ${p}`,
         resultTitle: "Video Ad Script"
     }},
     { id: 'grammar_corrector', name: 'Grammar Corrector', icon: BookCheck, description: 'Correct grammar and spelling mistakes.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Paste your text here to correct grammar and spelling...",
         buttonText: "Correct Grammar",
-        Icon: BookCheck,
         generatePrompt: (p: string) => `Correct the grammar and spelling of the following text:\n\n${p}`,
         resultTitle: "Corrected Text"
     }},
     { id: 'homework_helper', name: 'Homework Helper', icon: School, description: 'Get help with your homework assignments.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Enter your homework question here...",
         buttonText: "Get Help",
-        Icon: School,
         generatePrompt: (p: string) => `Provide a helpful and detailed answer to the following homework question: ${p}`,
         resultTitle: "Answer"
-    }},
-    { id: 'yoga_fitness', name: 'Yoga & Fitness', icon: Wind, description: 'Get guidance on yoga and fitness exercises.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'How to do the warrior 2 pose' or 'a good 15-minute HIIT workout'...",
-        buttonText: "Get Guidance",
-        Icon: Wind,
-        generatePrompt: (p: string) => `Provide clear, step-by-step instructions for the following yoga pose or fitness exercise: ${p}`,
-        resultTitle: "Guidance"
-    }},
-    { id: 'games_knowledge', name: 'Games Knowledge', icon: Gamepad2, description: 'Get information and strategies for games.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'Who is the main villain in Final Fantasy 7?' or 'Best strategy for early game in Stardew Valley'...",
-        buttonText: "Get Info",
-        Icon: Gamepad2,
-        generatePrompt: (p: string) => `Provide detailed information for the following video game query: ${p}`,
-        resultTitle: "Game Info"
     }},
     { id: 'idea_generator', name: 'Idea Generator', icon: Lightbulb, description: 'Brainstorm creative ideas on any topic.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., 'Business ideas for a small town' or 'Plot ideas for a sci-fi novel'...",

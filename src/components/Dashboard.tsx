@@ -12,7 +12,6 @@ import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, Side
 import { BrainCircuit, LogIn } from 'lucide-react';
 import { useAuth } from './providers/AuthProvider';
 import { Button } from './ui/button';
-import { ChatInterface } from './modes/ChatInterface';
 
 export function Dashboard() {
   const { activeMode, setActiveMode, activeChat, setActiveChat } = useModes();
@@ -38,7 +37,7 @@ export function Dashboard() {
           <SidebarHeader>
             <div className="flex items-center gap-2">
                 <BrainCircuit className="h-8 w-8 text-primary" />
-                <span className="font-bold font-headline text-xl">Ayush Unimax AI</span>
+                <span className="font-bold font-headline text-xl">Unimax AI</span>
             </div>
           </SidebarHeader>
           <SidebarContent>
@@ -61,7 +60,7 @@ export function Dashboard() {
 
         <SidebarInset>
           <div className="flex flex-col flex-1 relative h-screen">
-            <Header setIsSignInModalOpen={setIsSignInModalOpen} activeModeName={currentMode?.name || 'Ayush Unimax AI'} />
+            <Header setIsSignInModalOpen={setIsSignInModalOpen} activeModeName={currentMode?.name || 'Unimax AI Studio'} />
             <main className="flex-1 overflow-y-auto bg-background dark:bg-background/50">
               {user && ActiveComponent && (
                 <ActiveComponent 
@@ -75,7 +74,7 @@ export function Dashboard() {
               {!user && (
                  <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-background">
                     <BrainCircuit className="h-24 w-24 text-primary opacity-20 mb-4" />
-                    <h2 className="text-3xl font-bold font-headline mb-2">Welcome to Ayush Unimax AI Studio</h2>
+                    <h2 className="text-3xl font-bold font-headline mb-2">Welcome to Unimax AI Studio</h2>
                     <p className="text-muted-foreground mb-6 max-w-md">
                         Your universal assistant for creativity and productivity. Please sign in to access all features.
                     </p>
