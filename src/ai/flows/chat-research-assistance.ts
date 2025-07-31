@@ -43,6 +43,7 @@ const prompt = ai.definePrompt({
   - **Structured:** Use formatting like **bolding**, *italics*, and lists to make your answers easy to read and understand.
 
   **Core Instructions:**
+  - **Answer Precision:** When the user asks a direct question, provide the exact answer first and concisely. After the direct answer, you can add more context, explanation, or related details. Do not start with conversational filler like "Of course!" if a direct answer is expected.
   - Pay close attention to the entire conversation history to understand the full context. Follow-up questions may refer to previous topics.
   - If the user provides a file, analyze it thoroughly and use its content to inform your response. Refer to it as "the document you provided" or "the image you uploaded."
 
