@@ -18,7 +18,6 @@ import { FileMaker } from '@/components/modes/FileMaker';
 import { FileEditor } from '@/components/modes/FileEditor';
 import { Translator } from '@/components/modes/Translator';
 import { SongWriter } from '@/components/modes/SongWriter';
-import { SoundGenerator } from '@/components/modes/SoundGenerator';
 import { ChartMaker } from '@/components/modes/ChartMaker';
 
 export type ModeId = 
@@ -66,7 +65,6 @@ export const modes: Mode[] = [
     }},
     { id: 'translator', name: 'Translator', icon: Globe, description: 'Translate text between multiple languages.', component: Translator },
     { id: 'song_writer', name: 'Song Writer', icon: Mic, description: 'Generate lyrics and a matching melody.', component: SongWriter },
-    { id: 'sound_generator', name: 'Sound Generator', icon: Music, description: 'Generate melodies and sound effects.', component: SoundGenerator },
     { id: 'chart_maker', name: 'Chart & Graph Maker', icon: BarChart3, description: 'Create charts and graphs from data.', component: ChartMaker },
     { id: 'document_maker', name: 'Document Maker', icon: FileText, description: 'Draft documents, reports, and more.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A business report on quarterly sales figures...",
