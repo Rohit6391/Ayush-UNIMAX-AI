@@ -27,7 +27,7 @@ export type ModeId =
   | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
   | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
   | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
-  | 'character_generator' | 'fact_checker' | 'chart_maker';
+  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver';
 
 
 export interface Mode {
@@ -150,4 +150,11 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Please fact-check the following statement, provide a determination (e.g., True, False, Misleading), and a brief explanation with sources if possible. Statement: ${p}`,
         resultTitle: "Fact-Check Result"
     }},
+    { id: 'fact_giver', name: 'Fact Giver', icon: Lightbulb, description: 'Get interesting facts about any topic.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Space exploration' or 'The Roman Empire'",
+        buttonText: "Get Facts",
+        generatePrompt: (p: string) => `Generate a list of 5 interesting and verifiable facts about the following topic: ${p}`,
+        resultTitle: "Interesting Facts"
+    }},
 ];
+
