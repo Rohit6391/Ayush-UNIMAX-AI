@@ -1,4 +1,3 @@
-
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
@@ -157,4 +156,3 @@ export const modes: Mode[] = [
         resultTitle: "Interesting Facts"
     }},
 ];
-
