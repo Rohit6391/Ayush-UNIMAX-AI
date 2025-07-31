@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -19,6 +19,7 @@ import { FileEditor } from '@/components/modes/FileEditor';
 import { Translator } from '@/components/modes/Translator';
 import { SongWriter } from '@/components/modes/SongWriter';
 import { SoundGenerator } from '@/components/modes/SoundGenerator';
+import { ChartMaker } from '@/components/modes/ChartMaker';
 
 export type ModeId = 
   | 'chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -27,7 +28,7 @@ export type ModeId =
   | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
   | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
   | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
-  | 'character_generator' | 'legal_assistant' | 'medical_assistant' | 'fact_checker';
+  | 'character_generator' | 'fact_checker' | 'chart_maker';
 
 
 export interface Mode {
@@ -75,6 +76,7 @@ export const modes: Mode[] = [
     { id: 'translator', name: 'Translator', icon: Globe, description: 'Translate text between multiple languages.', component: Translator },
     { id: 'song_writer', name: 'Song Writer', icon: Mic, description: 'Generate lyrics and a matching melody.', component: SongWriter },
     { id: 'sound_generator', name: 'Sound Generator', icon: Music, description: 'Generate melodies and sound effects.', component: SoundGenerator },
+    { id: 'chart_maker', name: 'Chart & Graph Maker', icon: BarChart3, description: 'Create charts and graphs from data.', component: ChartMaker },
     { id: 'document_maker', name: 'Document Maker', icon: FileText, description: 'Draft documents, reports, and more.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A business report on quarterly sales figures...",
         buttonText: "Generate Document",
@@ -171,18 +173,6 @@ export const modes: Mode[] = [
         buttonText: "Create Character",
         generatePrompt: (p: string) => `Create a detailed character profile based on the following description: ${p}. Include their name, appearance, personality, backstory, and motivations.`,
         resultTitle: "Character Profile"
-    }},
-    { id: 'legal_assistant', name: 'Legal Assistant', icon: Scale, description: 'Simplify complex legal text.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "Paste a legal clause or document here to get a simple explanation...",
-        buttonText: "Explain Legal Text",
-        generatePrompt: (p: string) => `Explain the following legal text in simple, easy-to-understand terms. This is for informational purposes only and is not legal advice. Text: ${p}`,
-        resultTitle: "Simplified Explanation"
-    }},
-    { id: 'medical_assistant', name: 'Medical Assistant', icon: Stethoscope, description: 'Explain complex medical terms.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'What is mitosis?' or 'Explain what hypertension is'...",
-        buttonText: "Explain Medical Term",
-        generatePrompt: (p: string) => `Explain the following medical term or concept in a clear and simple way. This is for informational purposes only and is not medical advice. Concept: ${p}`,
-        resultTitle: "Medical Explanation"
     }},
     { id: 'fact_checker', name: 'Fact Checker', icon: CheckSquare, description: 'Check the accuracy of a statement.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Enter a statement to fact-check, e.g., 'The sky is green.'",
