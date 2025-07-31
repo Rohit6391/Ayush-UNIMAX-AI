@@ -13,12 +13,14 @@ import {z} from 'genkit';
 
 const TranslateTextAIInputSchema = z.object({
   text: z.string().describe('The text to translate.'),
-  language: z.string().describe('The target language for the translation.'),
+  targetLanguage: z.string().describe('The target language for the translation.'),
+  sourceLanguage: z.string().optional().describe('The source language of the text. If not provided, it should be auto-detected.'),
 });
 export type TranslateTextAIInput = z.infer<typeof TranslateTextAIInputSchema>;
 
 const TranslateTextAIOutputSchema = z.object({
   translation: z.string().describe('The translated text.'),
+  detectedSourceLanguage: z.string().optional().describe('The auto-detected source language, if it was not provided in the input.'),
 });
 export type TranslateTextAIOutput = z.infer<typeof TranslateTextAIOutputSchema>;
 
@@ -30,8 +32,14 @@ const prompt = ai.definePrompt({
   name: 'translateTextAIPrompt',
   input: {schema: TranslateTextAIInputSchema},
   output: {schema: TranslateTextAIOutputSchema},
-  prompt: `Translate the following text to {{language}}. Return only the translated text.
+  prompt: `You are a professional translator. 
+  
+  Translate the following text from {{#if sourceLanguage}}{{sourceLanguage}}{{else}}the auto-detected language{{/if}} to {{targetLanguage}}.
+  
+  - If the source language was not provided, you MUST set the 'detectedSourceLanguage' field in your response to the language you detected.
+  - Your response must ONLY be the translated text in the 'translation' field. Do not include any other commentary.
 
+Text to translate:
 {{{text}}}`,
 });
 

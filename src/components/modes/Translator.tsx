@@ -11,12 +11,27 @@ import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { translateText } from '@/ai/flows/translate-text-ai';
 
-const languages = ["English", "French", "Spanish", "German", "Japanese", "Hindi", "Russian", "Chinese", "Italian", "Portuguese", "Arabic", "Korean", "Turkish"];
+const languages = [
+    "Afrikaans", "Albanian", "Amharic", "Arabic", "Armenian", "Azerbaijani", "Basque", "Belarusian", "Bengali", "Bosnian",
+    "Bulgarian", "Catalan", "Cebuano", "Chinese (Simplified)", "Chinese (Traditional)", "Corsican", "Croatian", "Czech",
+    "Danish", "Dutch", "English", "Esperanto", "Estonian", "Finnish", "French", "Frisian", "Galician", "Georgian",
+    "German", "Greek", "Gujarati", "Haitian Creole", "Hausa", "Hawaiian", "Hebrew", "Hindi", "Hmong", "Hungarian",
+    "Icelandic", "Igbo", "Indonesian", "Irish", "Italian", "Japanese", "Javanese", "Kannada", "Kazakh", "Khmer",
+    "Kinyarwanda", "Korean", "Kurdish", "Kyrgyz", "Lao", "Latin", "Latvian", "Lithuanian", "Luxembourgish", "Macedonian",
+    "Malagasy", "Malay", "Malayalam", "Maltese", "Maori", "Marathi", "Mongolian", "Myanmar (Burmese)", "Nepali",
+    "Norwegian", "Nyanja (Chichewa)", "Odia (Oriya)", "Pashto", "Persian", "Polish", "Portuguese", "Punjabi",
+    "Romanian", "Russian", "Samoan", "Scots Gaelic", "Serbian", "Sesotho", "Shona", "Sindhi", "Sinhala (Sinhalese)",
+    "Slovak", "Slovenian", "Somali", "Spanish", "Sundanese", "Swahili", "Swedish", "Tagalog (Filipino)", "Tajik",
+    "Tamil", "Tatar", "Telugu", "Thai", "Turkish", "Turkmen", "Ukrainian", "Urdu", "Uyghur", "Uzbek", "Vietnamese",
+    "Welsh", "Xhosa", "Yiddish", "Yoruba", "Zulu"
+];
+
 
 export function Translator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
     const [text, setText] = useState('');
-    const [language, setLanguage] = useState('French');
+    const [sourceLanguage, setSourceLanguage] = useState('Auto-detect');
+    const [targetLanguage, setTargetLanguage] = useState('French');
     const [isLoading, setIsLoading] = useState(false);
     const [translation, setTranslation] = useState('');
     const [error, setError] = useState('');
@@ -29,9 +44,13 @@ export function Translator({ mode }: { mode: any }) {
         setError('');
         
         try {
-            const result = await translateText({ text, language });
+            const result = await translateText({ 
+                text, 
+                targetLanguage,
+                sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage
+            });
             setTranslation(result.translation);
-            addHistoryItem('translator', `Translate to ${language}: ${text.substring(0, 40)}...`, result.translation);
+            addHistoryItem('translator', `Translate to ${targetLanguage}: ${text.substring(0, 40)}...`, result.translation);
         } catch (err: any) {
             setError(`Translation failed: ${err.message}`);
         } finally {
@@ -40,7 +59,10 @@ export function Translator({ mode }: { mode: any }) {
     };
     
     const handleSwap = () => {
-        if (translation) {
+        if (translation && sourceLanguage !== 'Auto-detect') {
+            const oldSource = sourceLanguage;
+            setSourceLanguage(targetLanguage);
+            setTargetLanguage(oldSource);
             setText(translation);
             setTranslation('');
         }
@@ -60,7 +82,15 @@ export function Translator({ mode }: { mode: any }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 w-full">
                 {/* Input Panel */}
                 <div className="flex flex-col gap-2">
-                    <h3 className="font-semibold text-lg text-left">Your Text</h3>
+                    <Select value={sourceLanguage} onValueChange={setSourceLanguage}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select language" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="Auto-detect">Auto-detect</SelectItem>
+                            {languages.map(lang => <SelectItem key={`src-${lang}`} value={lang}>{lang}</SelectItem>)}
+                        </SelectContent>
+                    </Select>
                     <div className="relative flex-1">
                         <Textarea 
                             value={text} 
@@ -77,20 +107,17 @@ export function Translator({ mode }: { mode: any }) {
                 {/* Output Panel */}
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
-                         <h3 className="font-semibold text-lg text-left">Translation</h3>
-                         <div className="flex items-center gap-2">
-                            <Button variant="ghost" size="icon" onClick={handleSwap} title="Swap languages" disabled={!translation}>
-                                <ArrowRightLeft className="h-5 w-5" />
-                            </Button>
-                            <Select value={language} onValueChange={setLanguage}>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Select language" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {languages.map(lang => <SelectItem key={lang} value={lang}>{lang}</SelectItem>)}
-                                </SelectContent>
-                            </Select>
-                         </div>
+                         <Select value={targetLanguage} onValueChange={setTargetLanguage}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select language" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {languages.map(lang => <SelectItem key={`tgt-${lang}`} value={lang}>{lang}</SelectItem>)}
+                            </SelectContent>
+                        </Select>
+                        <Button variant="ghost" size="icon" onClick={handleSwap} title="Swap languages" disabled={!translation || sourceLanguage === 'Auto-detect'}>
+                            <ArrowRightLeft className="h-5 w-5" />
+                        </Button>
                     </div>
                     <div className="relative w-full h-48 bg-muted/50 rounded-lg p-3 text-left overflow-auto">
                         {isLoading ? (
