@@ -10,7 +10,7 @@ import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateChartFromPrompt, GenerateChartFromPromptOutput } from '@/ai/flows/generate-chart-from-prompt';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
-import { Bar, Line, Pie, Cell, CartesianGrid, XAxis, YAxis, Tooltip as RechartsTooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Bar, Line, Pie, Cell, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 export function ChartMaker({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
@@ -41,49 +41,50 @@ export function ChartMaker({ mode }: { mode: any }) {
     const renderChart = () => {
         if (!chartData) return null;
 
-        const { type, data, config } = chartData;
+        const { type, data, config, xAxisKey } = chartData;
+        const chartConfig = config || {};
 
         switch (type) {
             case 'bar':
-                const barKeys = Object.keys(config).filter(key => key !== 'desktop');
+                const barKeys = Object.keys(chartConfig);
                 return (
-                    <ChartContainer config={config} className="min-h-[300px] w-full">
+                    <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
                         <BarChart accessibilityLayer data={data}>
                             <CartesianGrid vertical={false} />
-                            <XAxis dataKey="desktop" tickLine={false} tickMargin={10} axisLine={false} />
+                            <XAxis dataKey={xAxisKey} tickLine={false} tickMargin={10} axisLine={false} />
                             <YAxis />
                             <ChartTooltip content={<ChartTooltipContent />} />
                              <ChartLegend content={<ChartLegendContent />} />
                             {barKeys.map(key => (
-                                <Bar key={key} dataKey={key} fill={config[key]?.color} radius={4} />
+                                <Bar key={key} dataKey={key} fill={chartConfig[key]?.color} radius={4} />
                             ))}
                         </BarChart>
                     </ChartContainer>
                 );
             case 'line':
-                 const lineKeys = Object.keys(config).filter(key => key !== 'date');
+                 const lineKeys = Object.keys(chartConfig);
                 return (
-                    <ChartContainer config={config} className="min-h-[300px] w-full">
+                    <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
                         <LineChart accessibilityLayer data={data}>
                              <CartesianGrid vertical={false} />
-                            <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={8} />
+                            <XAxis dataKey={xAxisKey} tickLine={false} axisLine={false} tickMargin={8} />
                              <YAxis />
                             <ChartTooltip content={<ChartTooltipContent />} />
                              <ChartLegend content={<ChartLegendContent />} />
                             {lineKeys.map(key => (
-                                <Line key={key} dataKey={key} type="monotone" stroke={config[key]?.color} strokeWidth={2} dot={false} />
+                                <Line key={key} dataKey={key} type="monotone" stroke={chartConfig[key]?.color} strokeWidth={2} dot={false} />
                             ))}
                         </LineChart>
                     </ChartContainer>
                 );
             case 'pie':
                 return (
-                    <ChartContainer config={config} className="mx-auto aspect-square max-h-[300px]">
+                    <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[300px]">
                         <PieChart>
                              <ChartTooltip content={<ChartTooltipContent nameKey="value" hideLabel />} />
                             <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} innerRadius={60}>
                                 {data.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={config[entry.name]?.color} />
+                                    <Cell key={`cell-${index}`} fill={chartConfig[entry.name]?.color} />
                                 ))}
                             </Pie>
                             <ChartLegend content={<ChartLegendContent />} />
