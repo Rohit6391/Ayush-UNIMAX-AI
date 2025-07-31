@@ -12,7 +12,7 @@ import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, Side
 import { BrainCircuit, LogIn } from 'lucide-react';
 import { useAuth } from './providers/AuthProvider';
 import { Button } from './ui/button';
-import { DashboardHome } from './DashboardHome';
+import { ChatInterface } from './modes/ChatInterface';
 
 export function Dashboard() {
   const { activeMode, setActiveMode, activeChat, setActiveChat } = useModes();
@@ -64,8 +64,6 @@ export function Dashboard() {
             <Header setIsSignInModalOpen={setIsSignInModalOpen} activeModeName={currentMode?.name || 'Ayush Unimax AI'} />
             <main className="flex-1 overflow-y-auto bg-background dark:bg-background/50">
               {user && ActiveComponent && (
-                activeMode === 'chat' ? 
-                <DashboardHome /> :
                 <ActiveComponent 
                   mode={currentMode} 
                   key={activeMode}
