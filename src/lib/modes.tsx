@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, Briefcase, UserSquare, Scale, Stethoscope, Landmark, CheckSquare
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -18,15 +18,16 @@ import { FileMaker } from '@/components/modes/FileMaker';
 import { FileEditor } from '@/components/modes/FileEditor';
 import { Translator } from '@/components/modes/Translator';
 import { SongWriter } from '@/components/modes/SongWriter';
+import { SoundGenerator } from '@/components/modes/SoundGenerator';
 
 export type ModeId = 
   | 'chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
   | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
   | 'file_editor' | 'story_generator' | 'summarizer' | 'translator' | 'song_writer' 
-  | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
+  | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
   | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
-  | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator' | 'job_description_writer'
-  | 'character_generator' | 'legal_assistant' | 'medical_assistant' | 'financial_advisor' | 'fact_checker';
+  | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
+  | 'character_generator' | 'legal_assistant' | 'medical_assistant' | 'fact_checker';
 
 
 export interface Mode {
@@ -73,6 +74,7 @@ export const modes: Mode[] = [
     }},
     { id: 'translator', name: 'Translator', icon: Globe, description: 'Translate text between multiple languages.', component: Translator },
     { id: 'song_writer', name: 'Song Writer', icon: Mic, description: 'Generate lyrics and a matching melody.', component: SongWriter },
+    { id: 'sound_generator', name: 'Sound Generator', icon: Music, description: 'Generate melodies and sound effects.', component: SoundGenerator },
     { id: 'document_maker', name: 'Document Maker', icon: FileText, description: 'Draft documents, reports, and more.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A business report on quarterly sales figures...",
         buttonText: "Generate Document",
@@ -164,12 +166,6 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Write a poem based on the following request: ${p}`,
         resultTitle: "Generated Poem"
     }},
-    { id: 'job_description_writer', name: 'Job Description Writer', icon: Briefcase, description: 'Create professional job descriptions.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'A senior software engineer with experience in React'...",
-        buttonText: "Write Job Description",
-        generatePrompt: (p: string) => `Write a clear, concise, and comprehensive job description for the following role: ${p}. Include responsibilities, qualifications, and benefits.`,
-        resultTitle: "Job Description"
-    }},
     { id: 'character_generator', name: 'Character Generator', icon: UserSquare, description: 'Create detailed characters for stories.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., 'A grizzled detective with a troubled past' or 'A cheerful elf from a hidden forest'...",
         buttonText: "Create Character",
@@ -187,12 +183,6 @@ export const modes: Mode[] = [
         buttonText: "Explain Medical Term",
         generatePrompt: (p: string) => `Explain the following medical term or concept in a clear and simple way. This is for informational purposes only and is not medical advice. Concept: ${p}`,
         resultTitle: "Medical Explanation"
-    }},
-    { id: 'financial_advisor', name: 'Financial Advisor', icon: Landmark, description: 'Explain complex financial topics.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'Explain compound interest' or 'What is a 401(k)?'...",
-        buttonText: "Explain Financial Topic",
-        generatePrompt: (p: string) => `Explain the following financial topic in a clear and simple way. This is for informational purposes only and is not financial advice. Topic: ${p}`,
-        resultTitle: "Financial Explanation"
     }},
     { id: 'fact_checker', name: 'Fact Checker', icon: CheckSquare, description: 'Check the accuracy of a statement.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Enter a statement to fact-check, e.g., 'The sky is green.'",
