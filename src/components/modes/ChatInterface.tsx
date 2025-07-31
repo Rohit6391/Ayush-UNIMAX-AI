@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -177,6 +178,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
 
     return (
         <div className="flex flex-col h-full max-w-4xl mx-auto">
+             <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
             <audio ref={audioRef} className="hidden" />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
