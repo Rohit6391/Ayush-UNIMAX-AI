@@ -49,9 +49,11 @@ export function SignInModal({ setIsOpen }: SignInModalProps) {
             displayName: registerEmail.split('@')[0],
             photoURL: `https://placehold.co/100x100.png`
         });
-        setRegisterMessage({ text: 'Registration successful! You can now sign in.', type: 'success' });
-        toast({ title: "Account created successfully!" });
-        setTimeout(() => setIsOpen(false), 2000);
+        
+        // User is already signed in after registration
+        toast({ title: `Welcome, ${userCredential.user.displayName || 'friend'}!`, description: "Your account has been created successfully." });
+        setIsOpen(false);
+
     } catch (err: any) {
         setRegisterMessage({ text: err.message, type: 'error' });
     } finally {
@@ -66,8 +68,7 @@ export function SignInModal({ setIsOpen }: SignInModalProps) {
 
     try {
         await signInWithEmailAndPassword(auth, signInEmail, signInPassword);
-        setSignInMessage({ text: 'Welcome back! You are signed in.', type: 'success' });
-        toast({ title: "Signed in successfully!" });
+        toast({ title: "Signed in successfully!", description: "Welcome back!" });
         setIsOpen(false);
     } catch (err: any) {
         setSignInMessage({ text: err.message, type: 'error' });
