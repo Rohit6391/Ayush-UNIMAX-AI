@@ -3,8 +3,6 @@
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useModes } from '@/components/providers/ModeProvider';
 import { Button } from '@/components/ui/button';
-import { auth } from '@/lib/firebase';
-import { signOut } from 'firebase/auth';
 import { History, LogOut, Settings } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
 
@@ -14,11 +12,11 @@ interface HeaderProps {
 }
 
 export function Header({ setIsSignInModalOpen, activeModeName }: HeaderProps) {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { setIsHistoryPanelOpen, setIsSettingsPanelOpen } = useModes();
 
   const handleSignOut = async () => {
-    await signOut(auth);
+    await signOut();
   };
 
   return (

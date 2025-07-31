@@ -13,8 +13,14 @@ const firebaseConfig = {
   "messagingSenderId": "55447697750"
 };
 
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
-const db = getFirestore(app);
+// NOTE: Firebase is disabled for local-only functionality.
+// const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+// const auth = getAuth(app);
+// const db = getFirestore(app);
 
-export { app, auth, db };
+// export { app, auth, db };
+
+// Export null or mock objects to avoid breaking imports if they are still used elsewhere.
+export const app = null;
+export const auth = null;
+export const db = null;

@@ -12,14 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { auth } from '@/lib/firebase';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  updateProfile,
-  GoogleAuthProvider,
-  signInWithPopup
-} from 'firebase/auth';
+import { useAuth } from '@/components/providers/AuthProvider';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Separator } from '../ui/separator';
@@ -31,6 +24,7 @@ interface SignInModalProps {
 
 export function SignInModal({ isOpen, setIsOpen }: SignInModalProps) {
   const { toast } = useToast();
+  const { signIn, signUp, signInWithGoogle } = useAuth();
   
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
@@ -54,26 +48,28 @@ export function SignInModal({ isOpen, setIsOpen }: SignInModalProps) {
         }
         // Handle Registration
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            await updateProfile(userCredential.user, {
-                displayName: email.split('@')[0],
-                photoURL: `https://placehold.co/100x100.png`
-            });
-            toast({ title: `Welcome, ${userCredential.user.displayName || 'friend'}!`, description: "Your account has been created successfully." });
+            const user = await signUp(email, password);
+            toast({ title: `Welcome, ${user.displayName || 'friend'}!`, description: "Your account has been created successfully." });
             setIsOpen(false);
         } catch (err: any) {
-            setMessage({ text: err.message, type: 'error' });
+             const errMsg = err.message.includes('auth/email-already-in-use') 
+                ? "This email is already in use." 
+                : "An unknown error occurred.";
+            setMessage({ text: errMsg, type: 'error' });
         } finally {
             setIsLoading(false);
         }
     } else {
         // Handle Sign In
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            await signIn(email, password);
             toast({ title: "Signed in successfully!", description: "Welcome back!" });
             setIsOpen(false);
         } catch (err: any) {
-            setMessage({ text: err.message, type: 'error' });
+            const errMsg = err.message.includes('auth/invalid-credential')
+                ? "Invalid email or password."
+                : "An unknown error occurred.";
+            setMessage({ text: errMsg, type: 'error' });
         } finally {
             setIsLoading(false);
         }
@@ -84,8 +80,7 @@ export function SignInModal({ isOpen, setIsOpen }: SignInModalProps) {
     setIsLoading(true);
     setMessage(null);
     try {
-        const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider);
+        await signInWithGoogle();
         toast({ title: "Signed in with Google successfully!"});
         setIsOpen(false);
     } catch (err: any) {

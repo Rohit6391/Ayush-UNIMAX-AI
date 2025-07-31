@@ -3,8 +3,6 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { type ModeId } from '@/lib/modes';
 import { useAuth } from './AuthProvider';
-import { db } from '@/lib/firebase';
-import { doc, setDoc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 
 export interface HistoryItem {
   id: number;
@@ -40,81 +38,52 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [activeChat, setActiveChat] = useState<any[]>([]);
 
+  // Use user's UID for localStorage key, or a generic key for guests.
+  const historyKey = user ? `history_${user.uid}` : 'history_guest';
+
   useEffect(() => {
-    const loadHistory = async () => {
-      if (user) {
-        const historyRef = doc(db, "history", user.uid);
-        const historySnap = await getDoc(historyRef);
-        if (historySnap.exists()) {
-          const data = historySnap.data();
-          const loadedHistory = data.items.map((item: any) => ({
-            ...item,
-            date: item.date.toDate()
-          })).sort((a: HistoryItem, b: HistoryItem) => b.date.getTime() - a.date.getTime());
-          setHistory(loadedHistory);
-        } else {
-          setHistory([]);
-        }
-      } else {
-        // Load from local storage for guests
-        const localHistory = localStorage.getItem('guestHistory');
-        if (localHistory) {
-          setHistory(JSON.parse(localHistory).map((item: any) => ({ ...item, date: new Date(item.date) })));
-        } else {
+    const loadHistory = () => {
+        try {
+            const localHistory = localStorage.getItem(historyKey);
+            if (localHistory) {
+                const parsedHistory = JSON.parse(localHistory).map((item: any) => ({
+                    ...item,
+                    date: new Date(item.date) 
+                }));
+                setHistory(parsedHistory.sort((a: HistoryItem, b: HistoryItem) => b.date.getTime() - a.date.getTime()));
+            } else {
+                setHistory([]);
+            }
+        } catch (e) {
+            console.error("Failed to load or parse history from localStorage", e);
             setHistory([]);
         }
-      }
     };
     loadHistory();
-  }, [user]);
+  }, [user, historyKey]);
 
   const addHistoryItem = async (type: ModeId, prompt: string, data: any, fullConversation?: any[]) => {
     const newHistoryItem: HistoryItem = { id: Date.now(), type, prompt, data, date: new Date(), fullConversation };
     
-    if (!user) {
-        // For guest users, check data size. If it's a large string (likely a data URI), truncate it.
-        const dataString = JSON.stringify(data);
-        if (dataString.length > 5000) { // 5KB threshold
-            newHistoryItem.data = `[Large content omitted for guest users to prevent storage errors. Please sign in for full history.]`;
-        }
-    }
-    
     const updatedHistory = [newHistoryItem, ...history];
     setHistory(updatedHistory);
 
-    if (user) {
-        const historyRef = doc(db, "history", user.uid);
-        const historySnap = await getDoc(historyRef);
-        if (historySnap.exists()) {
-            await updateDoc(historyRef, {
-                items: arrayUnion({ ...newHistoryItem, date: newHistoryItem.date })
-            });
-        } else {
-            await setDoc(historyRef, { items: [{...newHistoryItem, date: newHistoryItem.date}] });
-        }
-    } else {
-        try {
-            // Save to local storage for guests
-            localStorage.setItem('guestHistory', JSON.stringify(updatedHistory));
-        } catch (e: any) {
-            console.error("Failed to save guest history:", e);
-            // If it still fails, it means history is too large. Prune it.
-            if (e.name === 'QuotaExceededError') {
-                const prunedHistory = updatedHistory.slice(0, 10); // Keep only the 10 most recent items
-                localStorage.setItem('guestHistory', JSON.stringify(prunedHistory));
-            }
+    try {
+        // Save to local storage
+        localStorage.setItem(historyKey, JSON.stringify(updatedHistory));
+    } catch (e: any) {
+        console.error("Failed to save history:", e);
+        // If it fails (e.g., QuotaExceededError), prune the history to make space.
+        if (e.name === 'QuotaExceededError') {
+            const prunedHistory = updatedHistory.slice(0, 50); // Keep only the 50 most recent items
+            localStorage.setItem(historyKey, JSON.stringify(prunedHistory));
         }
     }
   };
   
   const clearHistory = async () => {
     setHistory([]);
-    if (user) {
-        const historyRef = doc(db, "history", user.uid);
-        await setDoc(historyRef, { items: [] });
-    } else {
-        localStorage.removeItem('guestHistory');
-    }
+    localStorage.removeItem(historyKey);
     setIsHistoryPanelOpen(false);
   };
 
