@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,68 +16,85 @@ import { auth } from '@/lib/firebase';
 import { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
-  updateProfile
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup
 } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription } from '../ui/alert';
+import { Separator } from '../ui/separator';
 
 interface SignInModalProps {
+  isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 
-export function SignInModal({ setIsOpen }: SignInModalProps) {
+export function SignInModal({ isOpen, setIsOpen }: SignInModalProps) {
   const { toast } = useToast();
   
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
-  const [signInEmail, setSignInEmail] = useState('');
-  const [signInPassword, setSignInPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [registerMessage, setRegisterMessage] = useState<{text: string, type: 'success' | 'error'} | null>(null);
-  const [signInMessage, setSignInMessage] = useState<{text: string, type: 'success' | 'error'} | null>(null);
+  const [message, setMessage] = useState<{text: string, type: 'success' | 'error'} | null>(null);
 
-  const [isRegisterLoading, setIsRegisterLoading] = useState(false);
-  const [isSignInLoading, setIsSignInLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleAuthAction = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsRegisterLoading(true);
-    setRegisterMessage(null);
+    setIsLoading(true);
+    setMessage(null);
 
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-        await updateProfile(userCredential.user, {
-            displayName: registerEmail.split('@')[0],
-            photoURL: `https://placehold.co/100x100.png`
-        });
-        
-        // User is already signed in after registration
-        toast({ title: `Welcome, ${userCredential.user.displayName || 'friend'}!`, description: "Your account has been created successfully." });
-        setIsOpen(false);
-
-    } catch (err: any) {
-        setRegisterMessage({ text: err.message, type: 'error' });
-    } finally {
-        setIsRegisterLoading(false);
+    if (isRegistering) {
+        if (password !== confirmPassword) {
+            setMessage({ text: "Passwords do not match.", type: 'error' });
+            setIsLoading(false);
+            return;
+        }
+        // Handle Registration
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(userCredential.user, {
+                displayName: email.split('@')[0],
+                photoURL: `https://placehold.co/100x100.png`
+            });
+            toast({ title: `Welcome, ${userCredential.user.displayName || 'friend'}!`, description: "Your account has been created successfully." });
+            setIsOpen(false);
+        } catch (err: any) {
+            setMessage({ text: err.message, type: 'error' });
+        } finally {
+            setIsLoading(false);
+        }
+    } else {
+        // Handle Sign In
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            toast({ title: "Signed in successfully!", description: "Welcome back!" });
+            setIsOpen(false);
+        } catch (err: any) {
+            setMessage({ text: err.message, type: 'error' });
+        } finally {
+            setIsLoading(false);
+        }
     }
   };
 
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSignInLoading(true);
-    setSignInMessage(null);
-
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    setMessage(null);
     try {
-        await signInWithEmailAndPassword(auth, signInEmail, signInPassword);
-        toast({ title: "Signed in successfully!", description: "Welcome back!" });
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(auth, provider);
+        toast({ title: "Signed in with Google successfully!"});
         setIsOpen(false);
     } catch (err: any) {
-        setSignInMessage({ text: err.message, type: 'error' });
+        setMessage({ text: err.message, type: 'error' });
     } finally {
-        setIsSignInLoading(false);
+        setIsLoading(false);
     }
-  };
-  
+  }
+
   const MessageDisplay = ({ message }: { message: {text: string, type: 'success' | 'error'} | null}) => {
     if (!message) return null;
     return (
@@ -85,58 +103,59 @@ export function SignInModal({ setIsOpen }: SignInModalProps) {
         </Alert>
     )
   }
+  
+  const toggleMode = () => {
+    setIsRegistering(!isRegistering);
+    setMessage(null);
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+  }
 
   return (
-    <Dialog open onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-4xl p-0">
-        <div className="flex flex-col md:flex-row gap-0">
-            {/* Registration Section */}
-            <div className="flex-1 p-8 bg-blue-50/50 dark:bg-blue-900/20 rounded-l-lg">
-                <DialogHeader className="mb-6 text-center">
-                    <DialogTitle className="text-3xl font-bold text-blue-800 dark:text-blue-300">Register</DialogTitle>
-                </DialogHeader>
-                 <form id="registerForm" className="space-y-4" onSubmit={handleRegister}>
-                    <div>
-                        <Label htmlFor="registerEmail" className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Email:</Label>
-                        <Input type="email" id="registerEmail" value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} required />
-                    </div>
-                    <div>
-                        <Label htmlFor="registerPassword"
-                               className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Password:</Label>
-                        <Input type="password" id="registerPassword" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} required />
-                    </div>
-                    <Button type="submit"
-                            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out shadow-md hover:shadow-lg"
-                            disabled={isRegisterLoading}>
-                        {isRegisterLoading ? "Registering..." : "Register"}
-                    </Button>
-                </form>
-                <MessageDisplay message={registerMessage} />
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold">{isRegistering ? 'Create an Account' : 'Welcome Back!'}</DialogTitle>
+          <DialogDescription>
+            {isRegistering ? 'Enter your details to create a new account.' : 'Sign in to continue to your dashboard.'}
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4">
+            <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={isLoading}>
+                 <svg className="mr-2 h-5 w-5" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 126 21.5 174.3 57.9l-67.4 64.4C309.1 98.2 280.7 84 248 84c-83.8 0-152 68.2-152 152s68.2 152 152 152c93.2 0 135-67.6 140.8-105.3H248v-85.3h236.1c2.3 12.7 3.9 26.9 3.9 41.4z"></path></svg>
+                 Sign {isRegistering ? 'up' : 'in'} with Google
+            </Button>
+            <div className="relative">
+                <Separator className="my-4" />
+                <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-background px-2 text-sm text-muted-foreground">OR</span>
             </div>
-
-            {/* Sign-In Section */}
-            <div className="flex-1 p-8 bg-green-50/50 dark:bg-green-900/20 rounded-r-lg">
-                 <DialogHeader className="mb-6 text-center">
-                    <DialogTitle className="text-3xl font-bold text-green-800 dark:text-green-300">Sign In</DialogTitle>
-                </DialogHeader>
-                <form id="signInForm" className="space-y-4" onSubmit={handleSignIn}>
+            <form id="emailForm" className="space-y-4" onSubmit={handleAuthAction}>
+                <div>
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} required />
+                </div>
+                <div>
+                    <Label htmlFor="password">Password</Label>
+                    <Input id="password" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} required />
+                </div>
+                {isRegistering && (
                     <div>
-                        <Label htmlFor="signInEmail" className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Email:</Label>
-                        <Input type="email" id="signInEmail" value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} required/>
+                        <Label htmlFor="confirmPassword">Confirm Password</Label>
+                        <Input id="confirmPassword" type="password" placeholder="••••••••" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
                     </div>
-                    <div>
-                        <Label htmlFor="signInPassword"
-                               className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Password:</Label>
-                        <Input type="password" id="signInPassword" value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} required/>
-                    </div>
-                    <Button type="submit"
-                            className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300 ease-in-out shadow-md hover:shadow-lg"
-                            disabled={isSignInLoading}>
-                        {isSignInLoading ? "Signing In..." : "Sign In"}
-                    </Button>
-                </form>
-                <MessageDisplay message={signInMessage} />
-            </div>
+                )}
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Processing..." : (isRegistering ? 'Create Account' : 'Sign In')}
+                </Button>
+            </form>
+            <MessageDisplay message={message} />
+        </div>
+        <div className="mt-4 text-center text-sm">
+            {isRegistering ? "Already have an account?" : "Don't have an account?"}
+            <Button variant="link" className="p-1" onClick={toggleMode}>
+                {isRegistering ? 'Sign In' : 'Sign Up'}
+            </Button>
         </div>
       </DialogContent>
     </Dialog>
