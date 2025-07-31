@@ -36,7 +36,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
         if (activeChat && activeChat.length > 0) {
             setMessages(activeChat);
         } else {
-            setMessages([{ role: 'model', text: `Hello! I am Unimax AI. How can I assist you today?` }]);
+            setMessages([{ role: 'model', text: `Hello! I am Ayush Unimax AI. How can I assist you today?` }]);
         }
     }, [activeChat]);
 
@@ -230,7 +230,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder="Message Unimax AI..." 
+                        placeholder="Message Ayush Unimax AI..." 
                         className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1} 
                     />

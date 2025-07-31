@@ -4,7 +4,7 @@ import { AppProviders } from '@/components/providers/AppProviders';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Unimax AI Studio',
+  title: 'Ayush Unimax AI Studio',
   description: 'Your Universal AI Assistant',
 };
 
