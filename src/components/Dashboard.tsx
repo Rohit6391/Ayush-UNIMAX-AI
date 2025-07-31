@@ -8,10 +8,11 @@ import { SettingsPanel } from "@/components/panels/SettingsPanel";
 import { SignInModal } from "@/components/dialogs/SignInModal";
 import { useModes } from '@/components/providers/ModeProvider';
 import { modes } from '@/lib/modes';
-import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger } from './ui/sidebar';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider } from './ui/sidebar';
 import { BrainCircuit, LogIn } from 'lucide-react';
 import { useAuth } from './providers/AuthProvider';
 import { Button } from './ui/button';
+import { DashboardHome } from './DashboardHome';
 
 export function Dashboard() {
   const { activeMode, setActiveMode, activeChat, setActiveChat } = useModes();
@@ -63,6 +64,8 @@ export function Dashboard() {
             <Header setIsSignInModalOpen={setIsSignInModalOpen} activeModeName={currentMode?.name || 'Ayush Unimax AI'} />
             <main className="flex-1 overflow-y-auto bg-background dark:bg-background/50">
               {user && ActiveComponent && (
+                activeMode === 'chat' ? 
+                <DashboardHome /> :
                 <ActiveComponent 
                   mode={currentMode} 
                   key={activeMode}
