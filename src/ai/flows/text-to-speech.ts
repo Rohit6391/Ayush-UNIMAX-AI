@@ -16,6 +16,7 @@ import wav from 'wav';
 
 const TextToSpeechInputSchema = z.object({
   text: z.string().describe('The text to convert to speech.'),
+  language: z.string().optional().describe('The language of the text. If not provided, the model will attempt to auto-detect.'),
 });
 export type TextToSpeechInput = z.infer<typeof TextToSpeechInputSchema>;
 
@@ -70,6 +71,8 @@ const textToSpeechFlow = ai.defineFlow(
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
+            // If a language is provided, pass it to the API. Otherwise, let the model auto-detect.
+            languageCode: input.language,
             prebuiltVoiceConfig: { voiceName: 'Algenib' },
           },
         },

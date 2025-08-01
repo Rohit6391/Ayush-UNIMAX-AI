@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -10,10 +11,13 @@ import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateVideoWithNarration, Scene } from '@/ai/flows/generate-video-with-narration';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 
 export function VideoGenerator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
+    const [language, setLanguage] = useState('English');
     const [isLoading, setIsLoading] = useState(false);
     const [scenes, setScenes] = useState<Scene[]>([]);
     const [narrationAudio, setNarrationAudio] = useState<string | null>(null);
@@ -36,7 +40,7 @@ export function VideoGenerator({ mode }: { mode: any }) {
         setError('');
         
         try {
-            const result = await generateVideoWithNarration({ prompt });
+            const result = await generateVideoWithNarration({ prompt, language });
             if (result.scenes.length > 0) {
                 setScenes(result.scenes);
                 setNarrationAudio(result.narrationAudioUrl);
@@ -61,14 +65,27 @@ export function VideoGenerator({ mode }: { mode: any }) {
                 </AlertDescription>
             </Alert>
             
-            <Textarea 
-                id="prompt-text"
-                value={prompt} 
-                onChange={(e) => setPrompt(e.target.value)} 
-                placeholder="e.g., A short story about a cat who learns to fly." 
-                className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
-                rows={3} 
-            />
+            <div className="space-y-4">
+                <Textarea 
+                    id="prompt-text"
+                    value={prompt} 
+                    onChange={(e) => setPrompt(e.target.value)} 
+                    placeholder="e.g., A short story about a cat who learns to fly." 
+                    className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                    rows={3} 
+                />
+                <div>
+                    <Label htmlFor='language-input'>Narration Language</Label>
+                    <Input
+                        id="language-input"
+                        value={language}
+                        onChange={(e) => setLanguage(e.target.value)}
+                        placeholder="e.g., Spanish, Japanese, French"
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 transition-colors"
+                    />
+                </div>
+            </div>
+
             
             <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-4">
                 {isLoading ? <><Settings className="animate-spin mr-2" /> Generating Storyboard...</> : 'Generate Video'}

@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -26,6 +27,7 @@ export type Storyboard = z.infer<typeof StoryboardSchema>;
 // Define the input for the main flow
 const GenerateVideoWithNarrationInputSchema = z.object({
   prompt: z.string().describe('The user\'s initial prompt for the story or concept.'),
+  language: z.string().optional().describe('The language for the narration. Defaults to English if not provided.'),
 });
 export type GenerateVideoWithNarrationInput = z.infer<typeof GenerateVideoWithNarrationInputSchema>;
 
@@ -57,7 +59,11 @@ const storyboardPrompt = ai.definePrompt({
     input: { schema: GenerateVideoWithNarrationInputSchema },
     output: { schema: StoryboardSchema },
     prompt: `You are a creative storyteller and scriptwriter. Based on the user's prompt, create a short storyboard with 3 to 5 scenes. 
-    For each scene, write a brief narration and a detailed, visually-rich prompt for an image generation model to create a corresponding picture.
+    
+    **Instructions:**
+    1.  **Narration Language**: Write the 'narration' for each scene in the requested language: **{{#if language}}{{language}}{{else}}English{{/if}}**.
+    2.  **Image Prompt Language**: The 'image_prompt' for each scene MUST be written in **English** to ensure the best results from the image generation model.
+    3.  For each scene, write a brief narration and a detailed, visually-rich prompt for an image generation model to create a corresponding picture.
 
     User Prompt: {{{prompt}}}
     `,
@@ -94,7 +100,7 @@ const generateVideoWithNarrationFlow = ai.defineFlow(
     const fullNarrationScript = storyboard.scenes.map(scene => scene.narration).join(' ');
 
     // Step 4: Generate a single audio file for the entire script
-    const { audioDataUri } = await textToSpeech({ text: fullNarrationScript });
+    const { audioDataUri } = await textToSpeech({ text: fullNarrationScript, language: input.language });
     
     // Step 5: Return the final combined output
     return {
