@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -16,7 +17,7 @@ import { languages, languageToCode } from '@/lib/languages';
 
 
 export function Translator({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [text, setText] = useState('');
     const [sourceLanguage, setSourceLanguage] = useState('Auto-detect');
     const [targetLanguage, setTargetLanguage] = useState('French');
@@ -103,7 +104,8 @@ export function Translator({ mode }: { mode: any }) {
                 text: currentText, 
                 targetLanguage,
                 sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage,
-                fileDataUri: fileDataUri
+                fileDataUri: fileDataUri,
+                model
             });
             setTranslation(result.translation);
             // If text was extracted, update the input text area

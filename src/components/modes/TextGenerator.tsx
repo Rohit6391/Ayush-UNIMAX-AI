@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -19,7 +20,7 @@ interface TextGeneratorProps {
 }
 
 export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePrompt, resultTitle }: TextGeneratorProps) {
-  const { addHistoryItem } = useModes();
+  const { addHistoryItem, model } = useModes();
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [resultText, setResultText] = useState('');
@@ -35,7 +36,7 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
     setError('');
     const fullPrompt = generatePrompt(prompt);
     try {
-      const result = await createDocumentFromPrompt({ prompt: fullPrompt });
+      const result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
       const generatedText = result.document;
       setResultText(generatedText);
       addHistoryItem(mode.id, prompt, generatedText);

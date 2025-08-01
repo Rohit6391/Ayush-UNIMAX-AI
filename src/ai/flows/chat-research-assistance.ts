@@ -45,6 +45,9 @@ const prompt = ai.definePrompt({
   {{/if}}
   
   **Core Instructions:**
+  - **Fact-Checking and Accuracy:** Before providing an answer, internally verify the information to ensure it is correct and up-to-date. If you are not certain about something, explicitly state that you are unable to confirm the information. Do not invent facts.
+  - **Directness and Relevance:** Provide a direct answer to the user's question first, without unnecessary preamble. Ensure the entire response is relevant to the query and avoid including extraneous details.
+  - **Logical Reasoning:** For complex questions, break down your reasoning into a step-by-step process. This helps the user understand how you arrived at the answer and makes the information more transparent.
   - **Context is Key:** This is your most important instruction. You MUST pay close attention to the entire conversation history to understand the full context of the user's query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices.
   - **Universal Expertise:** You can handle questions from any domain, including science, history, technology, arts, and more. Provide answers that are comprehensive, well-researched, and easy to understand.
   - **Structured and Clear:** Use formatting like **bolding**, *italics*, and lists to make your answers well-structured and easy to read.
@@ -79,7 +82,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     outputSchema: ChatResearchAssistanceOutputSchema,
   },
   async (input) => {
-    const {output} = await prompt(input, { model: 'googleai/gemini-1.5-flash-latest' });
+    const {output} = await prompt(input, { model: input.model || 'googleai/gemini-1.5-flash-latest' });
     return output!;
   }
 );

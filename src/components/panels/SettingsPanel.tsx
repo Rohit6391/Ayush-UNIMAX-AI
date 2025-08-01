@@ -11,7 +11,8 @@ import { modes } from "@/lib/modes";
 import { ScrollArea } from "../ui/scroll-area";
 import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { availableModels } from "@/lib/models";
+import { availableModels, ModelId } from "@/lib/models";
+import { Label } from "../ui/label";
 
 const getIconForType = (type: HistoryItem['type']) => {
     const mode = modes.find(m => m.id === type);
@@ -84,6 +85,28 @@ export function SettingsPanel() {
                         </Button>
                     </div>
                 </div>
+
+                <div>
+                    <Label htmlFor="model-select" className="text-sm font-medium mb-2 flex items-center">
+                        <Bot className="mr-2 h-4 w-4" /> AI Model
+                    </Label>
+                    <Select value={model} onValueChange={(value) => setModel(value as ModelId)}>
+                        <SelectTrigger id="model-select">
+                            <SelectValue placeholder="Select a model" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {availableModels.map((m) => (
+                                <SelectItem key={m} value={m}>{m}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                     <Alert className="mt-2 text-left">
+                        <AlertDescription className="text-xs">
+                           Switching models can help manage API quota usage.
+                        </AlertDescription>
+                    </Alert>
+                </div>
+
 
                 <div>
                     <h3 className="text-sm font-medium mb-4 flex items-center">

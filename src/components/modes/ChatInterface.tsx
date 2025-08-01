@@ -150,8 +150,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 prompt: userMessageText, 
                 isDeepResearch, 
                 history: historyToSend, 
-                fileDataUri, 
-                model: 'gemini-1.5-flash-latest',
+                fileDataUri: fileDataUri, 
+                model,
                 isFunChat,
              });
             const aiMessage: Message = { role: 'model', text: result.response };

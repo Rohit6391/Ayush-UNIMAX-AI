@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef } from 'react';
@@ -11,7 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
 
 export function FileEditor({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [file, setFile] = useState<File | null>(null);
     const [fileContent, setFileContent] = useState('');
     const [editedContent, setEditedContent] = useState('');
@@ -38,7 +39,7 @@ export function FileEditor({ mode }: { mode: any }) {
         setIsLoading(true); setEditedContent(''); setError('');
         
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt });
+            const result = await editFilesFromPrompt({ fileContent, prompt, model });
             setEditedContent(result);
             addHistoryItem('file_editor', `${prompt} on ${file?.name}`, result);
         } catch (err: any) {

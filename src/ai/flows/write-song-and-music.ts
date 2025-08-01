@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview AI agent to generate songs with lyrics and music.
@@ -8,10 +9,12 @@
  */
 
 import {ai} from '@/ai/genkit';
+import { ModelId } from '@/lib/models';
 import {z} from 'genkit';
 
 const WriteSongAndMusicInputSchema = z.object({
   concept: z.string().describe('The concept for the song, which may include a specific language.'),
+  model: z.custom<ModelId>().optional(),
 });
 export type WriteSongAndMusicInput = z.infer<typeof WriteSongAndMusicInputSchema>;
 
@@ -73,7 +76,7 @@ const writeSongAndMusicFlow = ai.defineFlow(
     outputSchema: WriteSongAndMusicOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input, { model: 'googleai/gemini-2.5-pro-latest'});
+    const {output} = await prompt(input, { model: input.model || 'googleai/gemini-2.5-pro-latest'});
     return output!;
   }
 );
