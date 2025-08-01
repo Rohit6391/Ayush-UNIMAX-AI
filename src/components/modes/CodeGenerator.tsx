@@ -181,7 +181,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
                     <>
                         <Card className="text-left">
                            <CardHeader>
-                               <CardTitle>Generated Code</CardTitle>
+                               <CardTitle>Canvas</CardTitle>
                            </CardHeader>
                            <CardContent>
                                 {explanation && <p className="text-sm text-muted-foreground mb-4 italic">{explanation}</p>}

@@ -104,13 +104,16 @@ export function SongWriter({ mode }: { mode: any }) {
                 {lyrics && !isLoading && (
                     <Card className="text-left">
                         <CardHeader>
-                            <CardTitle>Lyrics</CardTitle>
+                            <CardTitle>Canvas</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="whitespace-pre-wrap leading-relaxed">{lyrics}</p>
+                             <div className="p-4 border rounded-lg bg-background">
+                                <h3 className="font-bold text-lg mb-2">Lyrics</h3>
+                                <p className="whitespace-pre-wrap leading-relaxed">{lyrics}</p>
+                            </div>
                             {composition && (
                                 <div className="mt-6 pt-6 border-t border-border text-center">
-                                    <h3 className="font-semibold mb-4 text-lg">Melody Ready!</h3>
+                                    <h3 className="font-semibold mb-4 text-lg">Melody</h3>
                                     <Button onClick={() => isPlaying ? cleanup() : playMusic(composition)} className="bg-accent text-accent-foreground hover:bg-accent/90">
                                         {isPlaying ? <Square className="mr-2" /> : <Play className="mr-2" />}
                                         {isPlaying ? 'Stop' : 'Play Melody'}

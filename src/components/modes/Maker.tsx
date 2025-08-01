@@ -192,7 +192,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
                     <>
                         <Card className="text-left">
                             <CardHeader className='flex-row items-center justify-between'>
-                                <CardTitle>{resultTitle}</CardTitle>
+                                <CardTitle>Canvas</CardTitle>
                                 <div className='flex items-center gap-2'>
                                     {resultType === 'website' && (
                                         <Button onClick={() => setIsPublishing(true)} size="icon" variant="ghost" className="h-8 w-8">

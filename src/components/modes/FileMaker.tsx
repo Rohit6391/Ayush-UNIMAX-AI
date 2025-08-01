@@ -102,9 +102,10 @@ export function FileMaker({ mode }: { mode: any }) {
                     <>
                         <Card className="text-left">
                             <CardHeader>
-                                <CardTitle>File Content: {filename}</CardTitle>
+                                <CardTitle>Canvas</CardTitle>
                             </CardHeader>
                             <CardContent>
+                                <p className='text-sm text-muted-foreground mb-2'>File: {filename}</p>
                                 <pre className="whitespace-pre-wrap bg-background p-4 rounded-md max-h-60 overflow-y-auto border">{fileContent}</pre>
                                 <Button onClick={handleDownload} className="w-full mt-4 bg-accent text-accent-foreground hover:bg-accent/90">
                                     <Download className="mr-2 h-4 w-4"/> Download {filename}

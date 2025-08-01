@@ -89,13 +89,20 @@ export function PhotoGenerator({ mode }: { mode: any }) {
             )}
             {imageUrl && !isLoading && (
                 <>
-                    <Card className="relative group aspect-square overflow-hidden">
-                        <img src={imageUrl} alt={prompt} className="w-full h-full object-cover" />
-                        <a href={imageUrl} download={`unimax-ai-${Date.now()}.png`} className="absolute bottom-4 right-4">
-                            <Button size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Download />
-                            </Button>
-                        </a>
+                    <Card className="text-left">
+                        <CardHeader>
+                            <CardTitle>Canvas</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="relative group aspect-square overflow-hidden rounded-md">
+                                <img src={imageUrl} alt={prompt} className="w-full h-full object-cover" />
+                                <a href={imageUrl} download={`unimax-ai-${Date.now()}.png`} className="absolute bottom-4 right-4">
+                                    <Button size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Download />
+                                    </Button>
+                                </a>
+                            </div>
+                        </CardContent>
                     </Card>
 
                     <Card className="text-left">

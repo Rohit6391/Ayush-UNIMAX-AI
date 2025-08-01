@@ -110,7 +110,7 @@ export function VideoGenerator({ mode }: { mode: any }) {
                    <>
                         <Card className="text-left overflow-hidden">
                             <CardHeader>
-                                <CardTitle>Your Video Storyboard</CardTitle>
+                                <CardTitle>Canvas</CardTitle>
                             </CardHeader>
                             <CardContent>
                                <Carousel className="w-full" autoplay a11y>

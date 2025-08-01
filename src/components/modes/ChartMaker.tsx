@@ -126,7 +126,7 @@ export function ChartMaker({ mode }: { mode: any }) {
                 {chartData && !isLoading && (
                     <Card className="text-left">
                         <CardHeader>
-                            <CardTitle>Generated Chart</CardTitle>
+                            <CardTitle>Canvas</CardTitle>
                         </CardHeader>
                         <CardContent>
                             {renderChart()}
