@@ -18,9 +18,10 @@ import { FileEditor } from '@/components/modes/FileEditor';
 import { Translator } from '@/components/modes/Translator';
 import { SongWriter } from '@/components/modes/SongWriter';
 import { ChartMaker } from '@/components/modes/ChartMaker';
+import { VoiceInterface } from '@/components/modes/VoiceInterface';
 
 export type ModeId = 
-  | 'chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
+  | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
   | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
   | 'file_editor' | 'story_generator' | 'summarizer' | 'translator' | 'song_writer' 
   | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
@@ -39,7 +40,8 @@ export interface Mode {
 }
 
 export const modes: Mode[] = [
-    { id: 'chat', name: 'AI Chat', icon: BrainCircuit, description: 'Your AI command center.', component: ChatInterface },
+    { id: 'chat', name: 'AI Chat', icon: BrainCircuit, description: 'Your AI command center for text and files.', component: ChatInterface },
+    { id: 'voice_chat', name: 'Voice Chat', icon: Mic, description: 'Talk directly with the AI in a voice conversation.', component: VoiceInterface },
     { id: 'photo_generator', name: 'Photo Generator', icon: Image, description: 'Create stunning images from text prompts.', component: PhotoGenerator },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
     { id: 'video_generator', name: 'Video Generator', icon: Video, description: 'Generate a video from a text prompt.', component: VideoGenerator },
@@ -63,7 +65,7 @@ export const modes: Mode[] = [
         resultTitle: "Summary"
     }},
     { id: 'translator', name: 'Translator', icon: Globe, description: 'Translate text between multiple languages.', component: Translator },
-    { id: 'song_writer', name: 'Song Writer', icon: Mic, description: 'Generate lyrics and a matching melody.', component: SongWriter },
+    { id: 'song_writer', name: 'Song Writer', icon: Music, description: 'Generate lyrics and a matching melody.', component: SongWriter },
     { id: 'chart_maker', name: 'Chart & Graph Maker', icon: BarChart3, description: 'Create charts and graphs from data.', component: ChartMaker },
     { id: 'document_maker', name: 'Document Maker', icon: FileText, description: 'Draft documents, reports, and more.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A business report on quarterly sales figures...",

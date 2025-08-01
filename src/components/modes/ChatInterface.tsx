@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, Mic, BrainCircuit, Speaker, Sparkles, Plus, X } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
@@ -10,7 +10,6 @@ import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
-import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 interface Message {
     role: 'user' | 'model';
@@ -23,14 +22,10 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isListening, setIsListening] = useState(false);
     const [isDeepResearch, setIsDeepResearch] = useState(false);
-    const recognitionRef = useRef<any>(null);
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [isSpeaking, setIsSpeaking] = useState(false);
 
     useEffect(() => {
         if (activeChat && activeChat.length > 0) {
@@ -40,28 +35,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
         }
     }, [activeChat]);
 
-    useEffect(() => {
-        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognitionRef.current = new SpeechRecognition();
-            recognitionRef.current.continuous = false;
-            recognitionRef.current.interimResults = false;
-            recognitionRef.current.lang = 'en-US';
-            recognitionRef.current.onresult = (event: any) => {
-                const transcript = event.results[0][0].transcript;
-                setIsListening(false);
-                // Automatically send message after speech recognition
-                handleSend(transcript);
-            };
-            recognitionRef.current.onerror = (event: any) => {
-                console.error('Speech recognition error:', event.error);
-                setIsListening(false);
-            };
-            recognitionRef.current.onend = () => {
-                setIsListening(false);
-            };
-        }
-    }, []);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -83,33 +56,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
         }
     };
 
-    const handleListen = () => {
-        if (isListening) {
-            recognitionRef.current?.stop();
-            setIsListening(false);
-        } else {
-            setInput('');
-            recognitionRef.current?.start();
-            setIsListening(true);
-        }
-    };
-
-    const playAudio = (audioDataUri: string) => {
-        if (audioRef.current) {
-            audioRef.current.src = audioDataUri;
-            audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
-            setIsSpeaking(true);
-        }
-    };
-    
-    useEffect(() => {
-        const currentAudio = audioRef.current;
-        const handleEnd = () => setIsSpeaking(false);
-        currentAudio?.addEventListener('ended', handleEnd);
-        return () => {
-            currentAudio?.removeEventListener('ended', handleEnd);
-        }
-    }, [audioRef])
 
     const handleSend = async (text?: string) => {
         const currentInput = typeof text === 'string' ? text : input;
@@ -136,20 +82,12 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                 });
             }
 
-            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri, model });
+            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri, model: 'gemini-1.5-flash-latest' });
             const aiMessage: Message = { role: 'model', text: result.response };
             const finalMessages = [...updatedMessages, aiMessage];
             setMessages(finalMessages);
             setActiveChat(finalMessages);
             addHistoryItem('chat', userMessageText, result.response, finalMessages);
-
-            // Generate and play audio for the AI's response
-            if(result.response) {
-                const audioResult = await textToSpeech({text: result.response});
-                if (audioResult.audioDataUri) {
-                    playAudio(audioResult.audioDataUri);
-                }
-            }
 
         } catch (error: any) {
             const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}.` };
@@ -169,7 +107,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
 
     const ModelAvatar = () => (
         <Avatar className="h-10 w-10 bg-primary text-primary-foreground flex items-center justify-center">
-             <div className={`transition-transform duration-500 ${isSpeaking ? 'scale-110' : ''}`}>
+             <div className='transition-transform duration-500'>
                 <BrainCircuit size={24} />
              </div>
         </Avatar>
@@ -178,7 +116,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
     return (
         <div className="flex flex-col h-full max-w-4xl mx-auto">
              <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
-            <audio ref={audioRef} className="hidden" />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg, index) => (
@@ -229,8 +166,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder={isListening ? "Listening..." : "Message Ayush Unimax AI..."}
-                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
+                        placeholder={"Message Ayush Unimax AI..."}
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-12 resize-none transition-colors min-h-[52px]" 
                         rows={1} 
                     />
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -239,9 +176,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         </Button>
                     </div>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                        <Button onClick={handleListen} variant="ghost" size="icon" className={isListening ? 'text-red-500' : ''} title="Voice Input">
-                            <Mic size={20} />
-                        </Button>
                         <Button onClick={() => handleSend()} disabled={isLoading} size="icon">
                             <Send size={20} />
                         </Button>

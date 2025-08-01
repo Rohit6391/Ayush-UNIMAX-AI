@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -5,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, Play, Square, Mic, AlertTriangle } from 'lucide-react';
+import { Settings, Play, Square, Music, AlertTriangle } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { writeSongAndMusic } from '@/ai/flows/write-song-and-music';
@@ -97,7 +98,7 @@ export function SongWriter({ mode }: { mode: any }) {
             <div className="mt-6 w-full">
                 {isLoading && (
                     <Card className="w-full h-64 bg-muted/50 flex items-center justify-center animate-pulse">
-                        <Mic className="h-16 w-16 text-muted-foreground" />
+                        <Music className="h-16 w-16 text-muted-foreground" />
                     </Card>
                 )}
                 {lyrics && !isLoading && (
