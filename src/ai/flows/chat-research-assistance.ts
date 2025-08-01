@@ -26,17 +26,16 @@ const ChatResearchAssistanceOutputSchema = z.object({
 export type ChatResearchAssistanceOutput = z.infer<typeof ChatResearchAssistanceOutputSchema>;
 
 export async function chatResearchAssistance(
-  input: ChatResearchAssistanceInput,
-  options?: any
+  input: ChatResearchAssistanceInput
 ): Promise<ChatResearchAssistanceOutput> {
-  return chatResearchAssistanceFlow(input, options);
+  return chatResearchAssistanceFlow(input);
 }
 
 const prompt = ai.definePrompt({
   name: 'chatResearchAssistancePrompt',
   input: {schema: ChatResearchAssistanceInputSchema},
   output: {schema: ChatResearchAssistanceOutputSchema},
-  prompt: `You are a helpful, friendly, and highly intelligent assistant. Your goal is to be a universal expert, capable of answering any question on any topic with accuracy, depth, and clarity.
+  prompt: `You are a helpful, friendly, and highly intelligent assistant. Your goal to be a universal expert, capable of answering any question on any topic with accuracy, depth, and clarity.
 
   **Core Instructions:**
   - **Universal Expertise:** You can handle questions from any domain, including science, history, technology, arts, and more. Provide answers that are comprehensive, well-researched, and easy to understand.
@@ -72,8 +71,8 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     inputSchema: ChatResearchAssistanceInputSchema,
     outputSchema: ChatResearchAssistanceOutputSchema,
   },
-  async (input, options) => {
-    const {output} = await prompt(input, options);
+  async (input) => {
+    const {output} = await prompt(input);
     return output!;
   }
 );
