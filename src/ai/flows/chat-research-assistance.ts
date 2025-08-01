@@ -27,7 +27,7 @@ export type ChatResearchAssistanceOutput = z.infer<typeof ChatResearchAssistance
 
 export async function chatResearchAssistance(
   input: ChatResearchAssistanceInput,
-  options: any
+  options?: any
 ): Promise<ChatResearchAssistanceOutput> {
   return chatResearchAssistanceFlow(input, options);
 }

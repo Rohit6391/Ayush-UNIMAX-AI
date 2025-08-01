@@ -142,7 +142,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                 });
             }
 
-            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri }, { auth: apiKey });
+            const flowOptions = apiKey ? { auth: apiKey } : {};
+            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri }, flowOptions);
             const aiMessage: Message = { role: 'model', text: result.response };
             const finalMessages = [...updatedMessages, aiMessage];
             setMessages(finalMessages);
@@ -151,7 +152,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
 
             // Generate and play audio for the AI's response
             if(result.response) {
-                const audioResult = await textToSpeech({text: result.response}, { auth: apiKey });
+                const audioResult = await textToSpeech({text: result.response}, flowOptions);
                 if (audioResult.audioDataUri) {
                     playAudio(audioResult.audioDataUri);
                 }

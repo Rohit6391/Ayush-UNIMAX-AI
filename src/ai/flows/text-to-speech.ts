@@ -26,7 +26,7 @@ export type TextToSpeechOutput = z.infer<typeof TextToSpeechOutputSchema>;
 
 export async function textToSpeech(
   input: TextToSpeechInput,
-  options: any
+  options?: any
 ): Promise<TextToSpeechOutput> {
   return textToSpeechFlow(input, options);
 }
