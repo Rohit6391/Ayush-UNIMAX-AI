@@ -5,12 +5,13 @@ import { useModes, HistoryItem } from "@/components/providers/ModeProvider";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
-import { Moon, Sun, BarChart3, BrainCircuit, KeyRound, ExternalLink } from "lucide-react";
+import { Moon, Sun, BarChart3, BrainCircuit, KeyRound, ExternalLink, Bot } from "lucide-react";
 import { useTheme } from "next-themes";
 import { modes } from "@/lib/modes";
-import { formatDistanceToNow } from "date-fns";
 import { ScrollArea } from "../ui/scroll-area";
 import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { availableModels } from "@/lib/models";
 
 const getIconForType = (type: HistoryItem['type']) => {
     const mode = modes.find(m => m.id === type);
@@ -53,7 +54,7 @@ const HistoryCard = ({ item }: { item: HistoryItem }) => {
 
 
 export function SettingsPanel() {
-  const { isSettingsPanelOpen, setIsSettingsPanelOpen, history, setActiveMode } = useModes();
+  const { isSettingsPanelOpen, setIsSettingsPanelOpen, history, setActiveMode, model, setModel } = useModes();
   const { theme, setTheme } = useTheme();
 
   // Only take the most recent 20 items to display
@@ -82,6 +83,25 @@ export function SettingsPanel() {
                             Dark
                         </Button>
                     </div>
+                </div>
+
+                <div>
+                    <h3 className="text-sm font-medium mb-2 flex items-center">
+                       <Bot className="mr-2 h-4 w-4" />
+                        AI Model
+                    </h3>
+                     <Select value={model} onValueChange={setModel}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select an AI model" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {availableModels.map(m => (
+                                <SelectItem key={m} value={m}>
+                                    <span className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded-sm">{m.replace('-latest', '')}</span>
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
                 
                 <div>

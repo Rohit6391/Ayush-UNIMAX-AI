@@ -4,6 +4,7 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { type ModeId } from '@/lib/modes';
 import { useAuth } from './AuthProvider';
+import { ModelId, availableModels } from '@/lib/models';
 
 export interface HistoryItem {
   id: number;
@@ -27,6 +28,8 @@ interface ModeContextType {
   loadHistoryItem: (item: HistoryItem) => void;
   activeChat: any[];
   setActiveChat: (chat: any[]) => void;
+  model: ModelId;
+  setModel: (model: ModelId) => void;
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
@@ -38,9 +41,11 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [activeChat, setActiveChat] = useState<any[]>([]);
+  const [model, setModel] = useState<ModelId>(availableModels[0]);
 
   // Use user's UID for localStorage key, or a generic key for guests.
   const historyKey = user ? `history_${user.uid}` : 'history_guest';
+  const modelKey = user ? `model_${user.uid}` : 'model_guest';
 
   useEffect(() => {
     const loadHistory = () => {
@@ -60,8 +65,15 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
             setHistory([]);
         }
     };
+    const loadModel = () => {
+        const localModel = localStorage.getItem(modelKey);
+        if (localModel && availableModels.includes(localModel as ModelId)) {
+            setModel(localModel as ModelId);
+        }
+    }
     loadHistory();
-  }, [user, historyKey]);
+    loadModel();
+  }, [user, historyKey, modelKey]);
   
 
   const addHistoryItem = async (type: ModeId, prompt: string, data: any, fullConversation?: any[]) => {
@@ -109,6 +121,10 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     handleModeChange();
   }, [activeMode]);
 
+  const handleSetModel = (newModel: ModelId) => {
+      setModel(newModel);
+      localStorage.setItem(modelKey, newModel);
+  }
 
   const value = {
     activeMode,
@@ -123,6 +139,8 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     loadHistoryItem,
     activeChat,
     setActiveChat,
+    model,
+    setModel: handleSetModel
   };
 
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;

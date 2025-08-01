@@ -18,7 +18,7 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void }) {
-    const { addHistoryItem, activeChat, setActiveChat } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
     const { user } = useAuth();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -137,7 +137,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                 });
             }
 
-            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri });
+            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri, model });
             const aiMessage: Message = { role: 'model', text: result.response };
             const finalMessages = [...updatedMessages, aiMessage];
             setMessages(finalMessages);
