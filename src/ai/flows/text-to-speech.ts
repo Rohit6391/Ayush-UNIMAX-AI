@@ -71,9 +71,9 @@ const textToSpeechFlow = ai.defineFlow(
         config: {
           responseModalities: ['AUDIO'],
           speechConfig: {
+            // If a language is provided, pass it to the API. Otherwise, let the model auto-detect.
+            languageCode: input.language,
             voiceConfig: {
-              // If a language is provided, pass it to the API. Otherwise, let the model auto-detect.
-              languageCode: input.language,
               prebuiltVoiceConfig: { voiceName: 'Algenib' },
             },
           },
