@@ -45,7 +45,7 @@ const editFilesFromPromptFlow = ai.defineFlow(
     outputSchema: EditFilesFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, { model: 'googleai/gemini-2.5-pro-latest'});
     return output!;
   }
 );

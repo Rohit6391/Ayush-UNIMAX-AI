@@ -73,7 +73,7 @@ const generateVideoWithNarrationFlow = ai.defineFlow(
   },
   async (input) => {
     // Step 1: Generate the storyboard structure
-    const { output: storyboard } = await storyboardPrompt(input);
+    const { output: storyboard } = await storyboardPrompt(input, { model: 'googleai/gemini-2.5-pro-latest'});
     if (!storyboard) {
         throw new Error('Failed to generate storyboard structure.');
     }

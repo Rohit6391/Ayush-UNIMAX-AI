@@ -87,25 +87,6 @@ export function SettingsPanel() {
 
                 <div>
                     <h3 className="text-sm font-medium mb-2 flex items-center">
-                       <Bot className="mr-2 h-4 w-4" />
-                        AI Model
-                    </h3>
-                     <Select value={model} onValueChange={setModel}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select an AI model" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {availableModels.map(m => (
-                                <SelectItem key={m} value={m}>
-                                    <span className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded-sm">{m.replace('-latest', '')}</span>
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-                
-                <div>
-                    <h3 className="text-sm font-medium mb-2 flex items-center">
                         <KeyRound className="mr-2 h-4 w-4" />
                         API Key & Quota
                     </h3>

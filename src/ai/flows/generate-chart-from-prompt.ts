@@ -58,7 +58,7 @@ const generateChartFromPromptFlow = ai.defineFlow(
     outputSchema: GenerateChartFromPromptOutputSchema,
   },
   async (input) => {
-    const { output } = await prompt(input);
+    const { output } = await prompt(input, { model: 'googleai/gemini-2.5-pro-latest'});
     if (!output) {
       throw new Error('Failed to generate chart data from prompt.');
     }
