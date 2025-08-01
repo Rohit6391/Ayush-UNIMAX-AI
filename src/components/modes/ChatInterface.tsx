@@ -49,7 +49,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
             recognitionRef.current.lang = 'en-US';
             recognitionRef.current.onresult = (event: any) => {
                 const transcript = event.results[0][0].transcript;
-                setInput(transcript);
                 setIsListening(false);
                 // Automatically send message after speech recognition
                 handleSend(transcript);
@@ -230,7 +229,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder="Message Ayush Unimax AI..." 
+                        placeholder={isListening ? "Listening..." : "Message Ayush Unimax AI..."}
                         className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1} 
                     />
