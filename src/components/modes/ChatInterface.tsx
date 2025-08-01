@@ -45,9 +45,11 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             const initialGreeting = isFunChat 
                 ? "Hello! I'm the Fun Chat AI. Ready for some creative brainstorming or a playful chat? Let's get weird!"
                 : "Hello! I am Ayush Unimax AI. How can I assist you today?";
-            setMessages([{ role: 'model', text: initialGreeting }]);
+            const initialMessage = { role: 'model', text: initialGreeting };
+            setMessages([initialMessage]);
+            setActiveChat([initialMessage]);
         }
-    }, [activeChat, isFunChat]);
+    }, [isFunChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {

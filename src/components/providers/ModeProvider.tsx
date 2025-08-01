@@ -103,7 +103,7 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
 
   const loadHistoryItem = (item: HistoryItem) => {
     setActiveMode(item.type);
-    if (item.type === 'chat' && item.fullConversation) {
+    if ((item.type === 'chat' || item.type === 'fun_chat') && item.fullConversation) {
       setActiveChat(item.fullConversation);
     } else {
       setActiveChat([]);
@@ -114,7 +114,7 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   
   useEffect(() => {
     const handleModeChange = () => {
-        if (activeMode !== 'chat') {
+        if (activeMode !== 'chat' && activeMode !== 'fun_chat') {
             setActiveChat([]);
         }
     };
