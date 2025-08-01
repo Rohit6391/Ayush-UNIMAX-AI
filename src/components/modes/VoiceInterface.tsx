@@ -17,7 +17,7 @@ interface Message {
 }
 
 export function VoiceInterface({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [messages, setMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isListening, setIsListening] = useState(false);
@@ -49,9 +49,7 @@ export function VoiceInterface({ mode }: { mode: any }) {
 
             recognitionRef.current.onend = () => {
                 setIsListening(false);
-                if (status.startsWith('You said')) {
-                     // don't change status, waiting for AI
-                } else {
+                 if (!status.startsWith('You said') && !status.startsWith('Thinking...')) {
                      setStatus('Tap to speak');
                 }
             };
@@ -63,24 +61,26 @@ export function VoiceInterface({ mode }: { mode: any }) {
     // Manage audio playback events
     useEffect(() => {
         const audio = audioRef.current;
+        if (!audio) return;
+        
         const handlePlay = () => setIsSpeaking(true);
         const handleEnd = () => {
             setIsSpeaking(false);
             setStatus('Tap to speak');
-            // After AI finishes speaking, listen again
+            // After AI finishes speaking, listen again for the next command
             handleListen();
         };
         
-        audio?.addEventListener('play', handlePlay);
-        audio?.addEventListener('ended', handleEnd);
-        audio?.addEventListener('pause', handleEnd);
+        audio.addEventListener('play', handlePlay);
+        audio.addEventListener('ended', handleEnd);
+        audio.addEventListener('pause', handleEnd);
 
         return () => {
-            audio?.removeEventListener('play', handlePlay);
-            audio?.removeEventListener('ended', handleEnd);
-            audio?.removeEventListener('pause', handleEnd);
+            audio.removeEventListener('play', handlePlay);
+            audio.removeEventListener('ended', handleEnd);
+            audio.removeEventListener('pause', handleEnd);
         };
-    }, []);
+    }, [audioRef.current]);
 
     const playAudio = (audioDataUri: string) => {
         if (audioRef.current) {
@@ -89,6 +89,8 @@ export function VoiceInterface({ mode }: { mode: any }) {
                 console.error("Audio playback failed:", e);
                 setStatus('Could not play audio.');
                 setIsSpeaking(false);
+                 // Reset to listen again even if audio fails
+                handleListen();
             });
         }
     };
@@ -127,24 +129,27 @@ export function VoiceInterface({ mode }: { mode: any }) {
                 setStatus('Speaking...');
                 const languageCode = languageToCode[voiceLanguage] || 'en-US';
                 const audioResult = await textToSpeech({ text: result.response, language: languageCode });
+                setIsLoading(false); // Finished with AI calls
                 if (audioResult.audioDataUri) {
                     playAudio(audioResult.audioDataUri);
                 } else {
                     setStatus('Could not generate audio.');
+                    handleListen();
                 }
+            } else {
+                setIsLoading(false);
+                setStatus('I don\'t have a response for that.');
+                handleListen();
             }
         } catch (error: any) {
             setStatus(error.message || `An error occurred.`);
             console.error(error);
+            setIsLoading(false);
              // After an error, go back to listening state
             setTimeout(() => {
-                setIsLoading(false);
-                setIsSpeaking(false);
                 setStatus('Tap to speak');
                 handleListen();
             }, 1000);
-        } finally {
-            setIsLoading(false);
         }
     };
     
