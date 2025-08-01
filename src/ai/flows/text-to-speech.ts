@@ -65,32 +65,39 @@ const textToSpeechFlow = ai.defineFlow(
     outputSchema: TextToSpeechOutputSchema,
   },
   async (input) => {
-    const { media } = await ai.generate({
-      model: googleAI.model('gemini-2.5-flash-preview-tts'),
-      config: {
-        responseModalities: ['AUDIO'],
-        speechConfig: {
-          voiceConfig: {
-            // If a language is provided, pass it to the API. Otherwise, let the model auto-detect.
-            languageCode: input.language,
-            prebuiltVoiceConfig: { voiceName: 'Algenib' },
+    try {
+      const { media } = await ai.generate({
+        model: googleAI.model('gemini-2.5-flash-preview-tts'),
+        config: {
+          responseModalities: ['AUDIO'],
+          speechConfig: {
+            voiceConfig: {
+              // If a language is provided, pass it to the API. Otherwise, let the model auto-detect.
+              languageCode: input.language,
+              prebuiltVoiceConfig: { voiceName: 'Algenib' },
+            },
           },
         },
-      },
-      prompt: input.text,
-    });
-    if (!media?.url) {
-      throw new Error('No audio data was returned from the model.');
+        prompt: input.text,
+      });
+      if (!media?.url) {
+        throw new Error('No audio data was returned from the model.');
+      }
+
+      const audioBuffer = Buffer.from(
+        media.url.substring(media.url.indexOf(',') + 1),
+        'base64'
+      );
+      const wavBase64 = await toWav(audioBuffer);
+
+      return {
+        audioDataUri: 'data:audio/wav;base64,' + wavBase64,
+      };
+    } catch (err: any) {
+        if (err.message && err.message.includes('429 Too Many Requests')) {
+            throw new Error('You have exceeded the daily quota for audio generation. Please try again tomorrow.');
+        }
+        throw err;
     }
-
-    const audioBuffer = Buffer.from(
-      media.url.substring(media.url.indexOf(',') + 1),
-      'base64'
-    );
-    const wavBase64 = await toWav(audioBuffer);
-
-    return {
-      audioDataUri: 'data:audio/wav;base64,' + wavBase64,
-    };
   }
 );
