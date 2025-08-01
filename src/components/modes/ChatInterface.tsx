@@ -140,11 +140,22 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
             addHistoryItem('chat', userMessageText, result.response, [...updatedMessages, aiMessage]);
 
             if (isHandsFree && result.response) {
-                const audioResult = await textToSpeech({ text: result.response });
-                if (audioResult.audioDataUri && audioRef.current) {
-                    setIsSpeaking(true);
-                    audioRef.current.src = audioResult.audioDataUri;
-                    audioRef.current.play().catch(e => console.error("Audio playback error:", e));
+                try {
+                    const audioResult = await textToSpeech({ text: result.response });
+                    if (audioResult.audioDataUri && audioRef.current) {
+                        setIsSpeaking(true);
+                        audioRef.current.src = audioResult.audioDataUri;
+                        audioRef.current.play().catch(e => console.error("Audio playback error:", e));
+                    }
+                } catch (audioError: any) {
+                    console.error("TTS Error:", audioError);
+                    const errorMessage: Message = { role: 'model', text: `I couldn't generate audio for my response. Reason: ${audioError.message}` };
+                     setMessages(prev => [...prev, errorMessage]);
+                    setActiveChat(prev => [...prev, errorMessage]);
+                     if (isHandsFree) {
+                        setIsSpeaking(false);
+                        handleListen();
+                    }
                 }
             }
 

@@ -127,7 +127,7 @@ export function VoiceInterface({ mode }: { mode: any }) {
                 }
             }
         } catch (error: any) {
-            setStatus(`An error occurred.`);
+            setStatus(error.message || `An error occurred.`);
             console.error(error);
         } finally {
             setIsLoading(false);
