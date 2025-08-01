@@ -29,7 +29,6 @@ interface ModeContextType {
   activeChat: any[];
   setActiveChat: (chat: any[]) => void;
   model: ModelId;
-  setModel: (model: ModelId) => void;
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
@@ -41,11 +40,9 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [activeChat, setActiveChat] = useState<any[]>([]);
-  const [model, setModel] = useState<ModelId>(availableModels[0]);
+  const model = availableModels[0];
 
-  // Use user's UID for localStorage key, or a generic key for guests.
   const historyKey = user ? `history_${user.uid}` : 'history_guest';
-  const modelKey = user ? `model_${user.uid}` : 'model_guest';
 
   useEffect(() => {
     const loadHistory = () => {
@@ -65,15 +62,8 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
             setHistory([]);
         }
     };
-    const loadModel = () => {
-        const localModel = localStorage.getItem(modelKey);
-        if (localModel && availableModels.includes(localModel as ModelId)) {
-            setModel(localModel as ModelId);
-        }
-    }
     loadHistory();
-    loadModel();
-  }, [user, historyKey, modelKey]);
+  }, [user, historyKey]);
   
 
   const addHistoryItem = async (type: ModeId, prompt: string, data: any, fullConversation?: any[]) => {
@@ -83,13 +73,11 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     setHistory(updatedHistory);
 
     try {
-        // Save to local storage
         localStorage.setItem(historyKey, JSON.stringify(updatedHistory));
     } catch (e: any) {
         console.error("Failed to save history:", e);
-        // If it fails (e.g., QuotaExceededError), prune the history to make space.
         if (e.name === 'QuotaExceededError') {
-            const prunedHistory = updatedHistory.slice(0, 50); // Keep only the 50 most recent items
+            const prunedHistory = updatedHistory.slice(0, 50);
             localStorage.setItem(historyKey, JSON.stringify(prunedHistory));
         }
     }
@@ -108,23 +96,14 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setActiveChat([]);
     }
-    // Add logic for other types if they need to restore state from `item.data`
     setIsHistoryPanelOpen(false);
   };
   
   useEffect(() => {
-    const handleModeChange = () => {
-        if (activeMode !== 'chat' && activeMode !== 'fun_chat') {
-            setActiveChat([]);
-        }
-    };
-    handleModeChange();
+    if (activeMode !== 'chat' && activeMode !== 'fun_chat') {
+        setActiveChat([]);
+    }
   }, [activeMode]);
-
-  const handleSetModel = (newModel: ModelId) => {
-      setModel(newModel);
-      localStorage.setItem(modelKey, newModel);
-  }
 
   const value = {
     activeMode,
@@ -140,7 +119,6 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     activeChat,
     setActiveChat,
     model,
-    setModel: handleSetModel
   };
 
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;

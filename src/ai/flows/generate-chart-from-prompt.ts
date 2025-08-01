@@ -9,12 +9,10 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { ModelId } from '@/lib/models';
 import { z } from 'genkit';
 
 const GenerateChartFromPromptInputSchema = z.object({
   prompt: z.string().describe('A natural language description of the chart to generate, including the data and the desired chart type (e.g., bar, line, pie).'),
-  model: z.custom<ModelId>().optional(),
 });
 export type GenerateChartFromPromptInput = z.infer<typeof GenerateChartFromPromptInputSchema>;
 
@@ -61,7 +59,7 @@ const generateChartFromPromptFlow = ai.defineFlow(
     outputSchema: GenerateChartFromPromptOutputSchema,
   },
   async (input) => {
-    const { output } = await prompt(input, { model: input.model || 'googleai/gemini-2.5-pro-latest'});
+    const { output } = await prompt(input);
     if (!output) {
       throw new Error('Failed to generate chart data from prompt.');
     }

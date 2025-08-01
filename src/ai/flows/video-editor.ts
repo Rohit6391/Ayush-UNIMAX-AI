@@ -10,7 +10,6 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { ModelId } from '@/lib/models';
 import { z } from 'genkit';
 
 const AnalyzeVideoInputSchema = z.object({
@@ -20,7 +19,6 @@ const AnalyzeVideoInputSchema = z.object({
       "The first frame of a video, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
   prompt: z.string().describe('Instructions on how to analyze or what to suggest for the video.'),
-  model: z.custom<ModelId>().optional(),
 });
 export type AnalyzeVideoInput = z.infer<typeof AnalyzeVideoInputSchema>;
 
@@ -54,7 +52,7 @@ const analyzeVideoFlow = ai.defineFlow(
     outputSchema: AnalyzeVideoOutputSchema,
   },
   async input => {
-    const { output } = await prompt(input, { model: input.model || 'googleai/gemini-1.5-flash-latest' });
+    const { output } = await prompt(input);
     return output!;
   }
 );

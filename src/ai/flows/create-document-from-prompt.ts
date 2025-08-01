@@ -10,12 +10,10 @@
  */
 
 import {ai} from '@/ai/genkit';
-import { ModelId } from '@/lib/models';
 import {z} from 'genkit';
 
 const CreateDocumentFromPromptInputSchema = z.object({
   prompt: z.string().describe('The prompt for generating the document.'),
-  model: z.custom<ModelId>().optional(),
 });
 export type CreateDocumentFromPromptInput = z.infer<typeof CreateDocumentFromPromptInputSchema>;
 
@@ -45,7 +43,7 @@ const createDocumentFromPromptFlow = ai.defineFlow(
     outputSchema: CreateDocumentFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input, { model: input.model || 'googleai/gemini-2.5-pro-latest'});
+    const {output} = await prompt(input);
     return output!;
   }
 );

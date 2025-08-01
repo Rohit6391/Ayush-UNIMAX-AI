@@ -8,7 +8,6 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { ModelId } from '@/lib/models';
 import { z } from 'genkit';
 import { generateImageFromStoryboard } from './generate-image-from-storyboard';
 import { textToSpeech } from './text-to-speech';
@@ -29,7 +28,6 @@ export type Storyboard = z.infer<typeof StoryboardSchema>;
 const GenerateVideoWithNarrationInputSchema = z.object({
   prompt: z.string().describe('The user\'s initial prompt for the story or concept.'),
   language: z.string().optional().describe('The language for the narration. Defaults to English if not provided.'),
-  model: z.custom<ModelId>().optional(),
 });
 export type GenerateVideoWithNarrationInput = z.infer<typeof GenerateVideoWithNarrationInputSchema>;
 
@@ -81,7 +79,7 @@ const generateVideoWithNarrationFlow = ai.defineFlow(
   },
   async (input) => {
     // Step 1: Generate the storyboard structure
-    const { output: storyboard } = await storyboardPrompt(input, { model: input.model || 'googleai/gemini-2.5-pro-latest'});
+    const { output: storyboard } = await storyboardPrompt(input);
     if (!storyboard) {
         throw new Error('Failed to generate storyboard structure.');
     }

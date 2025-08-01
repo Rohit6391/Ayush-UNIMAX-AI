@@ -10,13 +10,11 @@
  */
 
 import {ai} from '@/ai/genkit';
-import { ModelId } from '@/lib/models';
 import {z} from 'genkit';
 
 const EditFilesFromPromptInputSchema = z.object({
   fileContent: z.string().describe('The content of the file to be edited.'),
   prompt: z.string().describe('Instructions on how to edit the file content.'),
-  model: z.custom<ModelId>().optional(),
 });
 export type EditFilesFromPromptInput = z.infer<typeof EditFilesFromPromptInputSchema>;
 
@@ -48,7 +46,7 @@ const editFilesFromPromptFlow = ai.defineFlow(
     outputSchema: EditFilesFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input, { model: input.model || 'googleai/gemini-2.5-pro-latest'});
+    const {output} = await prompt(input);
     return output!;
   }
 );
