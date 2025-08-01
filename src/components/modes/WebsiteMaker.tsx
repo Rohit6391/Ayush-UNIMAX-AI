@@ -12,7 +12,7 @@ export function WebsiteMaker({ mode }: { mode: any }) {
                 **Requirements**:
                 1.  **Structure**: The output must be a single, complete HTML file. Start with \`<!DOCTYPE html>\` and end with \`</html>\`.
                 2.  **Styling**: Use Tailwind CSS classes for all styling. Load Tailwind via the CDN (\`<script src="https://cdn.tailwindcss.com"></script>\`).
-                3.  **Content**: Include relevant, well-written text content. The text should be professional and appropriate for the website's purpose.
+                3.  **Content**: Include relevant, well-written text content. The text should be professional and appropriate for the website's purpose, and in the same language as the user's prompt.
                 4.  **Images**: Use high-quality, relevant placeholder images from \`https://placehold.co/<width>x<height>.png\`.
                 5.  **Sections**: The website should be well-structured with logical sections (e.g., navbar, hero, features, about, contact, footer).
                 6.  **Interactivity**: Add subtle JavaScript for interactivity where appropriate (e.g., smooth scrolling for anchor links, a mobile menu toggle).

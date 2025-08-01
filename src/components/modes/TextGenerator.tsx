@@ -75,10 +75,10 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
         {resultText && !isLoading && (
           <Card className="text-left">
             <CardHeader>
-              <CardTitle>{resultTitle}</CardTitle>
+              <CardTitle>Canvas</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="whitespace-pre-wrap leading-relaxed">{resultText}</p>
+              <pre className="whitespace-pre-wrap leading-relaxed font-sans">{resultText}</pre>
             </CardContent>
           </Card>
         )}

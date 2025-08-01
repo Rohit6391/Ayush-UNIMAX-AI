@@ -56,7 +56,7 @@ export function ChartMaker({ mode }: { mode: any }) {
                             <ChartTooltip content={<ChartTooltipContent />} />
                              <ChartLegend content={<ChartLegendContent />} />
                             {barKeys.map(key => (
-                                <Bar key={key} dataKey={key} fill={chartConfig[key]?.color} radius={4} />
+                                <Bar key={key} dataKey={key} fill={`var(--color-${key})`} radius={4} />
                             ))}
                         </BarChart>
                     </ChartContainer>
@@ -72,7 +72,7 @@ export function ChartMaker({ mode }: { mode: any }) {
                             <ChartTooltip content={<ChartTooltipContent />} />
                              <ChartLegend content={<ChartLegendContent />} />
                             {lineKeys.map(key => (
-                                <Line key={key} dataKey={key} type="monotone" stroke={chartConfig[key]?.color} strokeWidth={2} dot={false} />
+                                <Line key={key} dataKey={key} type="monotone" stroke={`var(--color-${key})`} strokeWidth={2} dot={false} />
                             ))}
                         </LineChart>
                     </ChartContainer>
@@ -84,7 +84,7 @@ export function ChartMaker({ mode }: { mode: any }) {
                              <ChartTooltip content={<ChartTooltipContent nameKey="value" hideLabel />} />
                             <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} innerRadius={60}>
                                 {data.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={chartConfig[entry.name]?.color} />
+                                    <Cell key={`cell-${index}`} fill={`var(--color-${entry.name})`} />
                                 ))}
                             </Pie>
                             <ChartLegend content={<ChartLegendContent />} />

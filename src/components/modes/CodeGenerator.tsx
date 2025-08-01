@@ -44,7 +44,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
     const handleGenerate = async () => {
         if (!prompt.trim()) { setError('Please enter a prompt.'); return; }
         setIsLoading(true); setCode(''); setError(''); setExplanation('');
-        const fullPrompt = `Generate a code snippet in ${language} for the following request: "${prompt}". Also, provide a brief, one-sentence explanation of what the code does. The response should be a JSON object with two keys: "code" and "explanation". The "code" value should be only the raw code, without any markdown backticks.`;
+        const fullPrompt = `Generate a code snippet in ${language} for the following request. Also, provide a brief, one-sentence explanation of what the code does. The explanation MUST be in the same language as the user's request. The response should be a JSON object with two keys: "code" and "explanation". The "code" value should be only the raw code, without any markdown backticks. Request: "${prompt}"`;
         try {
             const result = await createDocumentFromPrompt({ prompt: fullPrompt });
             const parsedResult = JSON.parse(result.document);

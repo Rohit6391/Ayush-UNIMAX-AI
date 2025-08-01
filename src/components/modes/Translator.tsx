@@ -11,6 +11,7 @@ import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { translateText } from '@/ai/flows/translate-text-ai';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from '../ui/label';
 
 const languages = [
     "Afrikaans", "Albanian", "Amharic", "Arabic", "Armenian", "Azerbaijani", "Basque", "Belarusian", "Bengali", "Bosnian",
@@ -27,6 +28,11 @@ const languages = [
     "Welsh", "Xhosa", "Yiddish", "Yoruba", "Zulu"
 ];
 
+const languageToCode: { [key: string]: string } = {
+    "English": "en-US", "Spanish": "es-ES", "French": "fr-FR", "German": "de-DE", "Italian": "it-IT", 
+    "Japanese": "ja-JP", "Korean": "ko-KR", "Russian": "ru-RU", "Chinese (Simplified)": "zh-CN", "Hindi": "hi-IN",
+};
+
 
 export function Translator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
@@ -40,6 +46,7 @@ export function Translator({ mode }: { mode: any }) {
     
     // For voice input
     const [isListening, setIsListening] = useState(false);
+    const [voiceLanguage, setVoiceLanguage] = useState('English');
     const recognitionRef = useRef<any>(null);
 
     // For file input
@@ -54,7 +61,6 @@ export function Translator({ mode }: { mode: any }) {
             recognitionRef.current = new SpeechRecognition();
             recognitionRef.current.continuous = false;
             recognitionRef.current.interimResults = false;
-            recognitionRef.current.lang = 'en-US';
             
             recognitionRef.current.onresult = (event: any) => {
                 const transcript = event.results[0][0].transcript;
@@ -83,6 +89,7 @@ export function Translator({ mode }: { mode: any }) {
                 return;
             }
             setText('');
+            recognitionRef.current.lang = languageToCode[voiceLanguage] || 'en-US';
             recognitionRef.current?.start();
             setIsListening(true);
         }
@@ -190,6 +197,17 @@ export function Translator({ mode }: { mode: any }) {
                                 />
                             </TabsContent>
                              <TabsContent value="voice" className="flex-1 flex flex-col items-center justify-center gap-4 p-4">
+                                <div className='mb-4 w-full max-w-xs'>
+                                    <Label htmlFor="voice-lang">Spoken Language</Label>
+                                    <Select value={voiceLanguage} onValueChange={setVoiceLanguage}>
+                                        <SelectTrigger id="voice-lang">
+                                            <SelectValue placeholder="Select language" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {Object.keys(languageToCode).map(lang => <SelectItem key={`voice-${lang}`} value={lang}>{lang}</SelectItem>)}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
                                 <Button onClick={handleListen} size="icon" className={`h-20 w-20 rounded-full ${isListening ? 'bg-red-500 hover:bg-red-600' : ''}`}>
                                     <Mic size={40} />
                                 </Button>

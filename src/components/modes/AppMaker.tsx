@@ -17,7 +17,7 @@ export function AppMaker({ mode }: { mode: any }) {
                 3.  **Phone Screen Simulation**: The app's content must be contained within a centered, phone-shaped container with a black or dark gray border to simulate a smartphone.
                 4.  **Interactivity**: Include JavaScript within a \`<script>\` tag to make the app interactive and functional. This should not be just a static page. Implement features like button clicks, form submissions (simulated), tab switching, or other dynamic elements relevant to the app idea.
                 5.  **Placeholders**: Use high-quality placeholder images from \`https://placehold.co/<width>x<height>.png\` where needed.
-                6.  **Content**: Populate the app with realistic-looking text, buttons, and UI elements that match the app's purpose.
+                6.  **Content**: Populate the app with realistic-looking text, buttons, and UI elements that match the app's purpose. The text content should be in the same language as the user's prompt.
                 7.  **No Commentary**: The entire response must be ONLY the HTML code. Do not include any explanations, comments, or markdown backticks.
                 
                 **User's App Idea**: "${prompt}"`

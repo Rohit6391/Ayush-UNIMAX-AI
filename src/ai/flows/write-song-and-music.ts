@@ -11,7 +11,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const WriteSongAndMusicInputSchema = z.object({
-  concept: z.string().describe('The concept for the song.'),
+  concept: z.string().describe('The concept for the song, which may include a specific language.'),
 });
 export type WriteSongAndMusicInput = z.infer<typeof WriteSongAndMusicInputSchema>;
 
@@ -34,7 +34,7 @@ const prompt = ai.definePrompt({
 Concept: "{{{concept}}}"
 
 Instructions:
-1.  **Lyrics**: Write creative lyrics for a song about the provided concept. The lyrics should include verses and a chorus.
+1.  **Lyrics**: Write creative lyrics for a song about the provided concept. If the user specifies a language in their concept, you MUST write the lyrics in that language. Otherwise, default to English.
 2.  **Melody**: Generate a simple melody that matches the mood and theme of the concept. The melody must be an array of exactly 16 musical events.
 3.  **Output Format**: You must respond with ONLY a valid JSON object containing the 'lyrics' and 'composition'.
 

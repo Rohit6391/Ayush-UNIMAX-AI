@@ -10,6 +10,8 @@ import { Settings, Play, Square, Music, AlertTriangle } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { writeSongAndMusic } from '@/ai/flows/write-song-and-music';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 export function SongWriter({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
@@ -79,7 +81,7 @@ export function SongWriter({ mode }: { mode: any }) {
             <Textarea 
                 value={prompt} 
                 onChange={(e) => setPrompt(e.target.value)} 
-                placeholder="e.g., A song about rain on a quiet city street..." 
+                placeholder="e.g., A song about rain on a quiet city street in Japanese..." 
                 className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
                 rows={3} 
             />
