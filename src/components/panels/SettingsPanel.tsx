@@ -5,11 +5,12 @@ import { useModes, HistoryItem } from "@/components/providers/ModeProvider";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
-import { Moon, Sun, BarChart3, BrainCircuit } from "lucide-react";
+import { Moon, Sun, BarChart3, BrainCircuit, KeyRound, ExternalLink } from "lucide-react";
 import { useTheme } from "next-themes";
 import { modes } from "@/lib/modes";
 import { formatDistanceToNow } from "date-fns";
 import { ScrollArea } from "../ui/scroll-area";
+import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
 
 const getIconForType = (type: HistoryItem['type']) => {
     const mode = modes.find(m => m.id === type);
@@ -55,7 +56,7 @@ export function SettingsPanel() {
   const { isSettingsPanelOpen, setIsSettingsPanelOpen, history, setActiveMode } = useModes();
   const { theme, setTheme } = useTheme();
 
-  // Only take the most recent 10 items to display
+  // Only take the most recent 20 items to display
   const recentHistory = history.slice(0, 20);
 
   return (
@@ -82,6 +83,25 @@ export function SettingsPanel() {
                         </Button>
                     </div>
                 </div>
+                
+                <div>
+                    <h3 className="text-sm font-medium mb-2 flex items-center">
+                        <KeyRound className="mr-2 h-4 w-4" />
+                        API Key & Quota
+                    </h3>
+                    <Alert>
+                        <AlertTitle>Manage Your API Usage</AlertTitle>
+                        <AlertDescription>
+                            Your AI usage is determined by your Google AI API key quota. To manage your keys, view usage, and set up billing for higher limits, visit the Google AI Studio.
+                        </AlertDescription>
+                         <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="mt-4 block">
+                            <Button className="w-full">
+                                Go to Google AI Studio <ExternalLink className="ml-2 h-4 w-4"/>
+                            </Button>
+                        </a>
+                    </Alert>
+                </div>
+
                 <div>
                     <h3 className="text-sm font-medium mb-4 flex items-center">
                         <BarChart3 className="mr-2 h-4 w-4" />

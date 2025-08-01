@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, Mic, BrainCircuit, Speaker, Sparkles, Plus, X } from 'lucide-react';
+import { Send, User, Mic, BrainCircuit, Speaker, Sparkles, Plus, X, KeyRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
@@ -11,6 +11,10 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { useToast } from '@/hooks/use-toast';
 
 interface Message {
     role: 'user' | 'model';
@@ -18,7 +22,8 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void }) {
-    const { addHistoryItem, activeChat, setActiveChat } = useModes();
+    const { toast } = useToast();
+    const { addHistoryItem, activeChat, setActiveChat, apiKey, setApiKey } = useModes();
     const { user } = useAuth();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -137,7 +142,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                 });
             }
 
-            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri });
+            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri }, { auth: apiKey });
             const aiMessage: Message = { role: 'model', text: result.response };
             const finalMessages = [...updatedMessages, aiMessage];
             setMessages(finalMessages);
@@ -146,20 +151,52 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
 
             // Generate and play audio for the AI's response
             if(result.response) {
-                const audioResult = await textToSpeech({text: result.response});
+                const audioResult = await textToSpeech({text: result.response}, { auth: apiKey });
                 if (audioResult.audioDataUri) {
                     playAudio(audioResult.audioDataUri);
                 }
             }
 
         } catch (error: any) {
-            const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}. Please try again.` };
+            const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}. Please check your API Key.` };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
             removeFile();
         }
     };
+    
+    const ApiKeyPopover = () => {
+        const [key, setKey] = useState(apiKey || '');
+        const handleSave = () => {
+            setApiKey(key);
+            toast({ title: "API Key Saved!", description: "The new key will be used for future requests." });
+        }
+        return (
+            <Popover>
+                <PopoverTrigger asChild>
+                    <Button variant="ghost" size="icon" title="Set API Key">
+                        <KeyRound size={20} className={apiKey ? "text-primary" : ""} />
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                    <div className="grid gap-4">
+                        <div className="space-y-2">
+                            <h4 className="font-medium leading-none">API Key</h4>
+                            <p className="text-sm text-muted-foreground">
+                                Enter your Google AI Studio API key. This will be used for all AI requests.
+                            </p>
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="api-key-input">API Key</Label>
+                            <Input id="api-key-input" value={key} onChange={(e) => setKey(e.target.value)} placeholder="AIzaSy..." />
+                        </div>
+                        <Button onClick={handleSave}>Save Key</Button>
+                    </div>
+                </PopoverContent>
+            </Popover>
+        )
+    }
 
     const UserAvatar = () => (
         <Avatar className="h-10 w-10">
@@ -238,7 +275,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File">
                             <Plus size={20} />
                         </Button>
-                        {isSpeaking && <Speaker size={20} className="text-primary animate-pulse" />}
+                         <ApiKeyPopover />
                     </div>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                         <Button onClick={handleListen} variant="ghost" size="icon" className={isListening ? 'text-red-500' : ''} title="Voice Input">

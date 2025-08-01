@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -25,9 +26,10 @@ const ChatResearchAssistanceOutputSchema = z.object({
 export type ChatResearchAssistanceOutput = z.infer<typeof ChatResearchAssistanceOutputSchema>;
 
 export async function chatResearchAssistance(
-  input: ChatResearchAssistanceInput
+  input: ChatResearchAssistanceInput,
+  options: any
 ): Promise<ChatResearchAssistanceOutput> {
-  return chatResearchAssistanceFlow(input);
+  return chatResearchAssistanceFlow(input, options);
 }
 
 const prompt = ai.definePrompt({
@@ -73,8 +75,8 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     inputSchema: ChatResearchAssistanceInputSchema,
     outputSchema: ChatResearchAssistanceOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
+  async (input, options) => {
+    const {output} = await prompt(input, options);
     return output!;
   }
 );

@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -24,9 +25,10 @@ const TextToSpeechOutputSchema = z.object({
 export type TextToSpeechOutput = z.infer<typeof TextToSpeechOutputSchema>;
 
 export async function textToSpeech(
-  input: TextToSpeechInput
+  input: TextToSpeechInput,
+  options: any
 ): Promise<TextToSpeechOutput> {
-  return textToSpeechFlow(input);
+  return textToSpeechFlow(input, options);
 }
 
 async function toWav(
@@ -62,7 +64,7 @@ const textToSpeechFlow = ai.defineFlow(
     inputSchema: TextToSpeechInputSchema,
     outputSchema: TextToSpeechOutputSchema,
   },
-  async (input) => {
+  async (input, options) => {
     const { media } = await ai.generate({
       model: googleAI.model('gemini-2.5-flash-preview-tts'),
       config: {
@@ -74,7 +76,7 @@ const textToSpeechFlow = ai.defineFlow(
         },
       },
       prompt: input.text,
-    });
+    }, options);
     if (!media?.url) {
       throw new Error('No audio data was returned from the model.');
     }

@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
@@ -26,6 +27,8 @@ interface ModeContextType {
   loadHistoryItem: (item: HistoryItem) => void;
   activeChat: any[];
   setActiveChat: (chat: any[]) => void;
+  apiKey: string | null;
+  setApiKey: (key: string) => void;
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
@@ -37,9 +40,11 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [activeChat, setActiveChat] = useState<any[]>([]);
+  const [apiKey, setApiKey] = useState<string | null>(null);
 
   // Use user's UID for localStorage key, or a generic key for guests.
   const historyKey = user ? `history_${user.uid}` : 'history_guest';
+  const apiKeyKey = user ? `apiKey_${user.uid}` : 'apiKey_guest';
 
   useEffect(() => {
     const loadHistory = () => {
@@ -59,8 +64,21 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
             setHistory([]);
         }
     };
+    const loadApiKey = () => {
+      const localApiKey = localStorage.getItem(apiKeyKey);
+      if (localApiKey) {
+        setApiKey(localApiKey);
+      }
+    }
     loadHistory();
-  }, [user, historyKey]);
+    loadApiKey();
+  }, [user, historyKey, apiKeyKey]);
+  
+  const saveApiKey = (key: string) => {
+    setApiKey(key);
+    localStorage.setItem(apiKeyKey, key);
+  };
+
 
   const addHistoryItem = async (type: ModeId, prompt: string, data: any, fullConversation?: any[]) => {
     const newHistoryItem: HistoryItem = { id: Date.now(), type, prompt, data, date: new Date(), fullConversation };
@@ -120,7 +138,9 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     clearHistory,
     loadHistoryItem,
     activeChat,
-    setActiveChat
+    setActiveChat,
+    apiKey,
+    setApiKey: saveApiKey,
   };
 
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;
