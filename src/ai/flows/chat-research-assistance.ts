@@ -82,7 +82,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     outputSchema: ChatResearchAssistanceOutputSchema,
   },
   async (input) => {
-    const {output} = await prompt(input, { model: input.model || 'googleai/gemini-1.5-flash-latest' });
+    const {output} = await prompt(input, { model: input.model });
     return output!;
   }
 );
