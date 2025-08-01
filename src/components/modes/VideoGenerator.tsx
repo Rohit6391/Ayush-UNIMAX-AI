@@ -15,7 +15,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 
 export function VideoGenerator({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [prompt, setPrompt] = useState('');
     const [language, setLanguage] = useState('English');
     const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +40,7 @@ export function VideoGenerator({ mode }: { mode: any }) {
         setError('');
         
         try {
-            const result = await generateVideoWithNarration({ prompt, language });
+            const result = await generateVideoWithNarration({ prompt, language, model });
             if (result.scenes.length > 0) {
                 setScenes(result.scenes);
                 setNarrationAudio(result.narrationAudioUrl);
