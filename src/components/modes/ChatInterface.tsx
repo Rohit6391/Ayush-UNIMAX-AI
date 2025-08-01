@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
@@ -19,7 +19,7 @@ interface Message {
     text: string;
 }
 
-export function ChatInterface({ mode, initialMessages, setInitialMessages }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void }) {
+export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
     const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
     const { user } = useAuth();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -42,9 +42,12 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
         if (activeChat && activeChat.length > 0) {
             setMessages(activeChat);
         } else {
-            setMessages([{ role: 'model', text: `Hello! I am Ayush Unimax AI. How can I assist you today?` }]);
+            const initialGreeting = isFunChat 
+                ? "Hello! I'm the Fun Chat AI. Ready for some creative brainstorming or a playful chat? Let's get weird!"
+                : "Hello! I am Ayush Unimax AI. How can I assist you today?";
+            setMessages([{ role: 'model', text: initialGreeting }]);
         }
-    }, [activeChat]);
+    }, [activeChat, isFunChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -64,7 +67,10 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                 }
             };
 
-            recognitionRef.current.onerror = (event: any) => console.error('Speech recognition error:', event.error);
+            recognitionRef.current.onerror = (event: any) => {
+                 console.error('Speech recognition error:', event.error)
+                 setIsListening(false);
+            };
             recognitionRef.current.onend = () => setIsListening(false);
         }
 
@@ -133,11 +139,25 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                 });
             }
 
-            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch, history: messages, fileDataUri, model: 'gemini-1.5-flash-latest' });
+            const historyToSend = isFunChat ? messages.map(m => {
+                if (m.role === 'model') {
+                    return { role: m.role, text: `(You are a fun, witty, and creative assistant) ${m.text}` }
+                }
+                return m;
+            }) : messages;
+
+            const result = await chatResearchAssistance({ 
+                prompt: userMessageText, 
+                isDeepResearch, 
+                history: historyToSend, 
+                fileDataUri, 
+                model: 'gemini-1.5-flash-latest',
+                isFunChat,
+             });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
             setActiveChat(prev => [...prev, aiMessage]);
-            addHistoryItem('chat', userMessageText, result.response, [...updatedMessages, aiMessage]);
+            addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, result.response, [...updatedMessages, aiMessage]);
 
             if (isHandsFree && result.response) {
                 try {
@@ -189,7 +209,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
     const ModelAvatar = () => (
         <Avatar className="h-10 w-10 bg-primary text-primary-foreground flex items-center justify-center">
              <div className='transition-transform duration-500'>
-                <BrainCircuit size={24} />
+                {isFunChat ? <Bot size={24} /> : <BrainCircuit size={24} />}
              </div>
         </Avatar>
     )
@@ -247,7 +267,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder={"Message Ayush Unimax AI..."}
+                        placeholder={isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI..."}
                         className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1}
                         disabled={isHandsFree}
@@ -274,11 +294,13 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages }: { m
                     </div>
                 </div>
                 <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
-                    <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
-                        <input type="checkbox" id="deep-research" checked={isDeepResearch} onChange={() => setIsDeepResearch(!isDeepResearch)} className="w-4 h-4 rounded text-primary focus:ring-primary" />
-                        <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
-                        Deep Research
-                    </label>
+                    {!isFunChat && (
+                         <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
+                            <input type="checkbox" id="deep-research" checked={isDeepResearch} onChange={() => setIsDeepResearch(!isDeepResearch)} className="w-4 h-4 rounded text-primary focus:ring-primary" />
+                            <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
+                            Deep Research
+                        </label>
+                    )}
                     <div className="flex items-center gap-2">
                         <Label htmlFor="hands-free-mode" className="cursor-pointer">Hands-Free</Label>
                         <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />

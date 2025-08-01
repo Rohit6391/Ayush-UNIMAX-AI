@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/button';
 import { useModes } from '@/components/providers/ModeProvider';
 import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { Label } from '../ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { languages, languageToCode } from '@/lib/languages';
 
 interface Message {
     role: 'user' | 'model';
@@ -20,6 +23,7 @@ export function VoiceInterface({ mode }: { mode: any }) {
     const [isListening, setIsListening] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [status, setStatus] = useState('Tap to speak');
+    const [voiceLanguage, setVoiceLanguage] = useState('English');
     const recognitionRef = useRef<any>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -30,8 +34,7 @@ export function VoiceInterface({ mode }: { mode: any }) {
             recognitionRef.current = new SpeechRecognition();
             recognitionRef.current.continuous = false;
             recognitionRef.current.interimResults = false;
-            recognitionRef.current.lang = 'en-US';
-
+            
             recognitionRef.current.onresult = (event: any) => {
                 const transcript = event.results[0][0].transcript;
                 setStatus(`You said: "${transcript}"`);
@@ -64,6 +67,8 @@ export function VoiceInterface({ mode }: { mode: any }) {
         const handleEnd = () => {
             setIsSpeaking(false);
             setStatus('Tap to speak');
+            // After AI finishes speaking, listen again
+            handleListen();
         };
         
         audio?.addEventListener('play', handlePlay);
@@ -94,6 +99,7 @@ export function VoiceInterface({ mode }: { mode: any }) {
         if (isListening) {
             recognitionRef.current.stop();
         } else if (!isLoading && !isSpeaking) {
+            recognitionRef.current.lang = languageToCode[voiceLanguage] || 'en-US';
             recognitionRef.current.start();
             setIsListening(true);
             setStatus('Listening...');
@@ -119,7 +125,8 @@ export function VoiceInterface({ mode }: { mode: any }) {
 
             if (result.response) {
                 setStatus('Speaking...');
-                const audioResult = await textToSpeech({ text: result.response });
+                const languageCode = languageToCode[voiceLanguage] || 'en-US';
+                const audioResult = await textToSpeech({ text: result.response, language: languageCode });
                 if (audioResult.audioDataUri) {
                     playAudio(audioResult.audioDataUri);
                 } else {
@@ -129,6 +136,13 @@ export function VoiceInterface({ mode }: { mode: any }) {
         } catch (error: any) {
             setStatus(error.message || `An error occurred.`);
             console.error(error);
+             // After an error, go back to listening state
+            setTimeout(() => {
+                setIsLoading(false);
+                setIsSpeaking(false);
+                setStatus('Tap to speak');
+                handleListen();
+            }, 1000);
         } finally {
             setIsLoading(false);
         }
@@ -140,6 +154,7 @@ export function VoiceInterface({ mode }: { mode: any }) {
     return (
         <div className="flex flex-col h-full items-center justify-center text-center p-8 bg-background">
             <audio ref={audioRef} className="hidden" />
+            
             <div className="w-64 h-64 rounded-full flex items-center justify-center bg-muted/50 transition-all duration-300 ease-in-out"
                 style={{ transform: `scale(${isListening || isSpeaking ? 1.1 : 1})` }}
             >
@@ -162,6 +177,18 @@ export function VoiceInterface({ mode }: { mode: any }) {
             <p className="mt-2 text-sm text-muted-foreground">
                 This is a hands-free conversational experience.
             </p>
+
+            <div className='mt-8 w-full max-w-xs'>
+                <Label htmlFor="voice-lang">Language</Label>
+                <Select value={voiceLanguage} onValueChange={setVoiceLanguage} disabled={!isIdle}>
+                    <SelectTrigger id="voice-lang">
+                        <SelectValue placeholder="Select language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {Object.keys(languageToCode).map(lang => <SelectItem key={`voice-${lang}`} value={lang}>{lang}</SelectItem>)}
+                    </SelectContent>
+                </Select>
+            </div>
         </div>
     );
 }

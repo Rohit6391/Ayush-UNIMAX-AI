@@ -16,6 +16,7 @@ import { ModelId } from '@/lib/models';
 const ChatResearchAssistanceInputSchema = z.object({
   prompt: z.string().describe('The prompt for the AI to research.'),
   isDeepResearch: z.boolean().describe('Whether to perform deep research or not.'),
+  isFunChat: z.boolean().optional().describe('Whether to use a fun, witty, and creative personality.'),
   history: z.array(z.any()).optional().describe('The chat history.'),
   fileDataUri: z.string().optional().describe("An optional file provided by the user, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
   model: z.custom<ModelId>().optional().describe('The AI model to use for the request.'),
@@ -37,8 +38,12 @@ const prompt = ai.definePrompt({
   name: 'chatResearchAssistancePrompt',
   input: {schema: ChatResearchAssistanceInputSchema},
   output: {schema: ChatResearchAssistanceOutputSchema},
-  prompt: `You are a helpful, friendly, and highly intelligent assistant. Your goal to be a universal expert, capable of answering any question on any topic with accuracy, depth, and clarity.
-
+  prompt: `{{#if isFunChat}}
+  You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.
+  {{else}}
+  You are a helpful, friendly, and highly intelligent assistant. Your goal to be a universal expert, capable of answering any question on any topic with accuracy, depth, and clarity.
+  {{/if}}
+  
   **Core Instructions:**
   - **Context is Key:** This is your most important instruction. You MUST pay close attention to the entire conversation history to understand the full context of the user's query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices.
   - **Universal Expertise:** You can handle questions from any domain, including science, history, technology, arts, and more. Provide answers that are comprehensive, well-researched, and easy to understand.
