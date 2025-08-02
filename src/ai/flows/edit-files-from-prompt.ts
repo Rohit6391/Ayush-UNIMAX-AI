@@ -11,6 +11,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { ModelId } from '@/lib/models';
 
 const EditFilesFromPromptInputSchema = z.object({
   fileContent: z.string().describe('The content of the file to be edited.'),
