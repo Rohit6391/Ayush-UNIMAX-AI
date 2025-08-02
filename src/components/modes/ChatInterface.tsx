@@ -20,7 +20,7 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat } = useModes();
     const { user } = useAuth();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -141,19 +141,18 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 });
             }
 
-            const historyToSend = isFunChat ? messages.map(m => {
-                if (m.role === 'model') {
+            const historyToSend = messages.map(m => {
+                if (m.role === 'model' && isFunChat) {
                     return { role: m.role, text: `(You are a fun, witty, and creative assistant) ${m.text}` }
                 }
                 return m;
-            }) : messages;
+            });
 
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
                 isDeepResearch, 
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
-                model,
                 isFunChat,
              });
             const aiMessage: Message = { role: 'model', text: result.response };
@@ -312,3 +311,5 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         </div>
     );
 }
+
+    
