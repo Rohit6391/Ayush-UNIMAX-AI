@@ -26,7 +26,7 @@ interface MakerProps {
 }
 
 export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLanguage, promptPlaceholder, showMakerOptions = false }: MakerProps) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [editPrompt, setEditPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +55,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         const fullPrompt = generatePrompt(prompt);
 
         try {
-            const apiResult = await createDocumentFromPrompt({ prompt: fullPrompt, model });
+            const apiResult = await createDocumentFromPrompt({ prompt: fullPrompt });
             let generatedResult: string;
             let generatedExplanation: string | undefined;
 
@@ -89,8 +89,8 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         setIsEditing(true); setError('');
         
         try {
-            const editResult = await editFilesFromPrompt({fileContent: result, prompt: editPrompt, model});
-            let finalResult = editResult;
+            const editResult = await editFilesFromPrompt({fileContent: result, prompt: editPrompt});
+            let finalResult = editResult.fileContent;
             if (resultType === 'website') {
                 finalResult = finalResult.replace(/^```html\n?/, '').replace(/```$/, '').trim();
             }

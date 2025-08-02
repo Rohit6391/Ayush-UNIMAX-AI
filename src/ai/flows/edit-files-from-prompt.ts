@@ -11,7 +11,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { ModelId } from '@/lib/models';
 
 const EditFilesFromPromptInputSchema = z.object({
   fileContent: z.string().describe('The content of the file to be edited.'),
@@ -19,7 +18,9 @@ const EditFilesFromPromptInputSchema = z.object({
 });
 export type EditFilesFromPromptInput = z.infer<typeof EditFilesFromPromptInputSchema>;
 
-const EditFilesFromPromptOutputSchema = z.string().describe('The edited content of the file.');
+const EditFilesFromPromptOutputSchema = z.object({
+    fileContent: z.string().describe('The full, edited content of the file.'),
+});
 export type EditFilesFromPromptOutput = z.infer<typeof EditFilesFromPromptOutputSchema>;
 
 export async function editFilesFromPrompt(input: EditFilesFromPromptInput): Promise<EditFilesFromPromptOutput> {
@@ -30,11 +31,11 @@ const prompt = ai.definePrompt({
   name: 'editFilesFromPromptPrompt',
   input: {schema: EditFilesFromPromptInputSchema},
   output: {schema: EditFilesFromPromptOutputSchema},
-  prompt: `Edit the following file content based on the provided instruction.
+  prompt: `You are a file editor AI. Your task is to edit the given file content based on the user's instruction.
 
-Instruction: "{{{prompt}}}"
+**Instruction**: "{{{prompt}}}"
 
-Your response must be ONLY the new, fully edited text content of the file. Do not include any explanation, commentary, or markdown formatting.
+You MUST respond with a valid JSON object containing the new, fully edited text content of the file in the "fileContent" field. Do not include any other explanation, commentary, or markdown formatting.
 
 --- FILE CONTENT ---
 {{{fileContent}}}`,
@@ -48,6 +49,9 @@ const editFilesFromPromptFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    if (!output) {
+        throw new Error("The AI failed to generate a response.");
+    }
+    return output;
   }
 );
