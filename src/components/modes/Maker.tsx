@@ -56,20 +56,18 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
 
         try {
             const apiResult = await createDocumentFromPrompt({ prompt: fullPrompt });
-            let generatedResult: string;
+            let generatedResult = apiResult.document.replace(/^```(html|json)?\n?/, '').replace(/```$/, '').trim();
+            
             let generatedExplanation: string | undefined;
 
             if (resultType === 'website') {
-                generatedResult = apiResult.document.replace(/^```html\n?/, '').replace(/```$/, '').trim();
                 generatedExplanation = "Your website has been generated. You can preview it below, download the HTML file, or publish it to Firebase."
             } else {
                  try {
-                    const parsedResult = JSON.parse(apiResult.document);
-                    generatedResult = parsedResult.plan;
+                    const parsedResult = JSON.parse(generatedResult);
+                    generatedResult = parsedResult.code || generatedResult;
                     generatedExplanation = parsedResult.explanation;
                 } catch(e) {
-                    // Fallback for non-JSON result
-                    generatedResult = apiResult.document;
                     generatedExplanation = "Your plan has been generated. You can review the details below.";
                 }
             }
@@ -90,10 +88,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         
         try {
             const editResult = await editFilesFromPrompt({fileContent: result, prompt: editPrompt});
-            let finalResult = editResult.fileContent;
-            if (resultType === 'website') {
-                finalResult = finalResult.replace(/^```html\n?/, '').replace(/```$/, '').trim();
-            }
+            let finalResult = editResult.fileContent.replace(/^```(html|json)?\n?/, '').replace(/```$/, '').trim();
             setResult(finalResult);
             setEditPrompt('');
             addHistoryItem(mode.id, `Edit: ${editPrompt}`, finalResult);
@@ -158,7 +153,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
     return (
         <ModeWrapper mode={mode}>
             {isPublishing && <PublishDialog setIsOpen={setIsPublishing} siteContent={result} />}
-            {showMakerOptions && <MakerOptions onTabChange={(tab) => { setActiveTab(tab); setError(''); }} onCodeCreate={handlePastedCode} onUrlImport={handleUrlImport} isImporting={isImporting} />}
+            {showMakerOptions && <MakerOptions activeTab={activeTab} onTabChange={(tab) => { setActiveTab(tab); setError(''); }} onCodeCreate={handlePastedCode} onUrlImport={handleUrlImport} isImporting={isImporting} />}
             
             {activeTab === 'prompt' && (
                 <>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -10,13 +11,14 @@ import { Alert, AlertDescription } from "../ui/alert";
 import { AlertTriangle } from "lucide-react";
 
 interface MakerOptionsProps {
+    activeTab: string;
     onTabChange: (tab: string) => void;
     onCodeCreate: (code: string) => void;
     onUrlImport: (url: string) => void;
     isImporting?: boolean;
 }
 
-export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporting }: MakerOptionsProps) {
+export function MakerOptions({ activeTab, onTabChange, onCodeCreate, onUrlImport, isImporting }: MakerOptionsProps) {
     const [pastedCode, setPastedCode] = useState('');
     const [importUrl, setImportUrl] = useState('');
     const [urlError, setUrlError] = useState('');
@@ -50,7 +52,7 @@ export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporti
     };
 
     return (
-        <Tabs defaultValue="prompt" className="w-full mb-4" onValueChange={onTabChange}>
+        <Tabs value={activeTab} className="w-full mb-4" onValueChange={onTabChange}>
             <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="prompt">Make with AI</TabsTrigger>
                 <TabsTrigger value="url">Import from URL</TabsTrigger>
@@ -92,7 +94,12 @@ export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporti
                      <Label htmlFor="code-input">Paste your code here</Label>
                     <Textarea 
                         id="code-input" 
-                        placeholder="<p>Hello world</p>" 
+                        placeholder="<!DOCTYPE html>
+<html>
+<body>
+  <h1>Hello World</h1>
+</body>
+</html>"
                         rows={8}
                         value={pastedCode}
                         onChange={(e) => setPastedCode(e.target.value)}

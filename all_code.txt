@@ -1180,7 +1180,7 @@ export function Dashboard() {
   const ActiveComponent = currentMode?.component;
 
   const handleModeChange = (modeId: any) => {
-    if (modeId !== 'chat') {
+    if (modeId !== 'chat' && modeId !== 'fun_chat') {
       setActiveChat([]);
     }
     setActiveMode(modeId);
@@ -1957,7 +1957,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat]);
+    }, [isFunChat, activeChat, setActiveChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -2242,7 +2242,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export function CodeGenerator({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [editPrompt, setEditPrompt] = useState('');
     const [language, setLanguage] = useState('python');
@@ -2462,7 +2462,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
 
 export function FileEditor({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [file, setFile] = useState<File | null>(null);
     const [fileContent, setFileContent] = useState('');
     const [editedContent, setEditedContent] = useState('');
@@ -2592,7 +2592,7 @@ import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
 
 export function FileMaker({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [editPrompt, setEditPrompt] = useState('');
     const [filename, setFilename] = useState('file.txt');
@@ -2814,20 +2814,18 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
 
         try {
             const apiResult = await createDocumentFromPrompt({ prompt: fullPrompt });
-            let generatedResult: string;
+            let generatedResult = apiResult.document.replace(/^```(html|json)?\n?/, '').replace(/```$/, '').trim();
+            
             let generatedExplanation: string | undefined;
 
             if (resultType === 'website') {
-                generatedResult = apiResult.document.replace(/^```html\n?/, '').replace(/```$/, '').trim();
                 generatedExplanation = "Your website has been generated. You can preview it below, download the HTML file, or publish it to Firebase."
             } else {
                  try {
-                    const parsedResult = JSON.parse(apiResult.document);
-                    generatedResult = parsedResult.plan;
+                    const parsedResult = JSON.parse(generatedResult);
+                    generatedResult = parsedResult.code || generatedResult;
                     generatedExplanation = parsedResult.explanation;
                 } catch(e) {
-                    // Fallback for non-JSON result
-                    generatedResult = apiResult.document;
                     generatedExplanation = "Your plan has been generated. You can review the details below.";
                 }
             }
@@ -2848,10 +2846,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         
         try {
             const editResult = await editFilesFromPrompt({fileContent: result, prompt: editPrompt});
-            let finalResult = editResult.fileContent;
-            if (resultType === 'website') {
-                finalResult = finalResult.replace(/^```html\n?/, '').replace(/```$/, '').trim();
-            }
+            let finalResult = editResult.fileContent.replace(/^```(html|json)?\n?/, '').replace(/```$/, '').trim();
             setResult(finalResult);
             setEditPrompt('');
             addHistoryItem(mode.id, `Edit: ${editPrompt}`, finalResult);
@@ -2916,7 +2911,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
     return (
         <ModeWrapper mode={mode}>
             {isPublishing && <PublishDialog setIsOpen={setIsPublishing} siteContent={result} />}
-            {showMakerOptions && <MakerOptions onTabChange={(tab) => { setActiveTab(tab); setError(''); }} onCodeCreate={handlePastedCode} onUrlImport={handleUrlImport} isImporting={isImporting} />}
+            {showMakerOptions && <MakerOptions activeTab={activeTab} onTabChange={(tab) => { setActiveTab(tab); setError(''); }} onCodeCreate={handlePastedCode} onUrlImport={handleUrlImport} isImporting={isImporting} />}
             
             {activeTab === 'prompt' && (
                 <>
@@ -3007,6 +3002,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
 ==================================================
 File: src/components/modes/MakerOptions.tsx
 ==================================================
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -3019,13 +3015,14 @@ import { Alert, AlertDescription } from "../ui/alert";
 import { AlertTriangle } from "lucide-react";
 
 interface MakerOptionsProps {
+    activeTab: string;
     onTabChange: (tab: string) => void;
     onCodeCreate: (code: string) => void;
     onUrlImport: (url: string) => void;
     isImporting?: boolean;
 }
 
-export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporting }: MakerOptionsProps) {
+export function MakerOptions({ activeTab, onTabChange, onCodeCreate, onUrlImport, isImporting }: MakerOptionsProps) {
     const [pastedCode, setPastedCode] = useState('');
     const [importUrl, setImportUrl] = useState('');
     const [urlError, setUrlError] = useState('');
@@ -3059,7 +3056,7 @@ export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporti
     };
 
     return (
-        <Tabs defaultValue="prompt" className="w-full mb-4" onValueChange={onTabChange}>
+        <Tabs value={activeTab} className="w-full mb-4" onValueChange={onTabChange}>
             <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="prompt">Make with AI</TabsTrigger>
                 <TabsTrigger value="url">Import from URL</TabsTrigger>
@@ -3101,7 +3098,12 @@ export function MakerOptions({ onTabChange, onCodeCreate, onUrlImport, isImporti
                      <Label htmlFor="code-input">Paste your code here</Label>
                     <Textarea 
                         id="code-input" 
-                        placeholder="<p>Hello world</p>" 
+                        placeholder="<!DOCTYPE html>
+<html>
+<body>
+  <h1>Hello World</h1>
+</body>
+</html>"
                         rows={8}
                         value={pastedCode}
                         onChange={(e) => setPastedCode(e.target.value)}
@@ -3190,12 +3192,11 @@ export function PhotoEditor({ mode }: { mode: any }) {
     };
 
     const handleEdit = async () => {
-        if (!prompt.trim()) { setError('Please provide editing instructions.'); return; }
+        if (!previewUrl || !prompt.trim()) { setError('Please provide editing instructions.'); return; }
         setIsLoading(true); setEditedImageUrl(''); setError('');
         
         try {
-            const fullPrompt = `Edit the provided image based on the following instruction: "${prompt}".`;
-            const result = await generateImageFromStoryboard({ imagePrompt: fullPrompt });
+            const result = await generateImageFromStoryboard({ imagePrompt: prompt, photoDataUri: previewUrl });
             if (result.imageUrl) {
                 setEditedImageUrl(result.imageUrl);
                 addHistoryItem('photo_editor', `${prompt} on ${file?.name}`, result.imageUrl);
@@ -3426,7 +3427,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
 export function SongWriter({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -3566,7 +3567,7 @@ interface TextGeneratorProps {
 }
 
 export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePrompt, resultTitle }: TextGeneratorProps) {
-  const { addHistoryItem, model } = useModes();
+  const { addHistoryItem } = useModes();
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [resultText, setResultText] = useState('');
@@ -3655,7 +3656,7 @@ import { languages, languageToCode } from '@/lib/languages';
 
 
 export function Translator({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [text, setText] = useState('');
     const [sourceLanguage, setSourceLanguage] = useState('Auto-detect');
     const [targetLanguage, setTargetLanguage] = useState('French');
@@ -3918,9 +3919,9 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { analyzeVideo } from '@/ai/flows/video-editor';
 
 export function VideoEditor({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [file, setFile] = useState<File | null>(null);
-    const [previewUrl, setPreviewUrl]useState<string | null>(null);
+    const [previewUrl, setPreviewUrl] =useState<string | null>(null);
     const [analysisResult, setAnalysisResult] = useState('');
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -4283,7 +4284,7 @@ interface Message {
 }
 
 export function VoiceInterface({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [messages, setMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isListening, setIsListening] = useState(false);
@@ -4844,7 +4845,7 @@ File: src/components/providers/ModeProvider.tsx
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { type ModeId } from '@/lib/modes';
 import { useAuth } from './AuthProvider';
-import { ModelId, availableModels } from '@/lib/models';
+import { ModelId } from '@/lib/models';
 
 export interface HistoryItem {
   id: number;
@@ -6017,73 +6018,7 @@ const ChartTooltipContent = React.forwardRef<
           className
         )}
       >
-        {!nestLabel ? tooltipLabel : null}
-        <div className="grid gap-1.5">
-          {payload.map((item, index) => {
-            const key = `${nameKey || item.name || item.dataKey || "value"}`
-            const itemConfig = getPayloadConfigFromPayload(config, item, key)
-            const indicatorColor = color || item.payload.fill || item.color
-
-            return (
-              <div
-                key={item.dataKey}
-                className={cn(
-                  "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground",
-                  indicator === "dot" && "items-center"
-                )}
-              >
-                {formatter && item?.value !== undefined && item.name ? (
-                  formatter(item.value, item.name, item, index, item.payload)
-                ) : (
-                  <>
-                    {itemConfig?.icon ? (
-                      <itemConfig.icon />
-                    ) : (
-                      !hideIndicator && (
-                        <div
-                          className={cn(
-                            "shrink-0 rounded-[2px] border-[--color-border] bg-[--color-bg]",
-                            {
-                              "h-2.5 w-2.5": indicator === "dot",
-                              "w-1": indicator === "line",
-                              "w-0 border-[1.5px] border-dashed bg-transparent":
-                                indicator === "dashed",
-                              "my-0.5": nestLabel && indicator === "dashed",
-                            }
-                          )}
-                          style={
-                            {
-                              "--color-bg": indicatorColor,
-                              "--color-border": indicatorColor,
-                            } as React.CSSProperties
-                          }
-                        />
-                      )
-                    )}
-                    <div
-                      className={cn(
-                        "flex flex-1 justify-between leading-none",
-                        nestLabel ? "items-end" : "items-center"
-                      )}
-                    >
-                      <div className="grid gap-1.5">
-                        {nestLabel ? tooltipLabel : null}
-                        <span className="text-muted-foreground">
-                          {itemConfig?.label || item.name}
-                        </span>
-                      </div>
-                      {item.value && (
-                        <span className="font-mono font-medium tabular-nums text-foreground">
-                          {item.value.toLocaleString()}
-                        </span>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-            )
-          })}
-        </div>
+        {...省略部分代码...}
       </div>
     )
   }
@@ -9410,4 +9345,5 @@ File: tsconfig.json
   "exclude": ["node_modules"]
 }
 ==================================================
+
 
