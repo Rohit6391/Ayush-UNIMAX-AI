@@ -1794,7 +1794,7 @@ export function ChartMaker({ mode }: { mode: any }) {
         setChartData(null);
         setError('');
         try {
-            const result = await generateChartFromPrompt({ prompt, model });
+            const result = await generateChartFromPrompt({ prompt });
             setChartData(result);
             addHistoryItem('chart_maker', prompt, result);
         } catch (err: any) {
@@ -2271,7 +2271,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
         setIsLoading(true); setCode(''); setError(''); setExplanation('');
         const fullPrompt = `Generate a code snippet in ${language} for the following request. Also, provide a brief, one-sentence explanation of what the code does. The explanation MUST be in the same language as the user's request. The response should be a JSON object with two keys: "code" and "explanation". The "code" value should be only the raw code, without any markdown backticks. Request: "${prompt}"`;
         try {
-            const result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
+            const result = await createDocumentFromPrompt({ prompt: fullPrompt });
             const parsedResult = JSON.parse(result.document);
             setCode(parsedResult.code);
             setExplanation(parsedResult.explanation);
@@ -2287,7 +2287,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
         if (!editPrompt.trim() || !code) { setError('Please enter an edit instruction.'); return; }
         setIsEditing(true); setError('');
         try {
-            const result = await editFilesFromPrompt({ fileContent: code, prompt: editPrompt, model });
+            const result = await editFilesFromPrompt({ fileContent: code, prompt: editPrompt });
             setCode(result.fileContent);
             setEditPrompt('');
              addHistoryItem('code_generator', `Edit: ${editPrompt}`, result.fileContent);
@@ -2489,7 +2489,7 @@ export function FileEditor({ mode }: { mode: any }) {
         setIsLoading(true); setEditedContent(''); setError('');
         
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt, model });
+            const result = await editFilesFromPrompt({ fileContent, prompt });
             setEditedContent(result.fileContent);
             addHistoryItem('file_editor', `${prompt} on ${file?.name}`, result.fileContent);
         } catch (err: any) {
@@ -2606,7 +2606,7 @@ export function FileMaker({ mode }: { mode: any }) {
         setIsLoading(true); setFileContent(''); setError('');
         const fullPrompt = `Generate the content for a file named "${filename}" based on the following prompt. Only return the raw text content for the file, with no explanation. Prompt: ${prompt}`;
         try {
-            const result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
+            const result = await createDocumentFromPrompt({ prompt: fullPrompt });
             setFileContent(result.document);
             addHistoryItem('file_maker', prompt, result.document);
         } catch (err: any) {
@@ -2620,7 +2620,7 @@ export function FileMaker({ mode }: { mode: any }) {
         if (!editPrompt.trim() || !fileContent) { setError('Please enter an edit instruction.'); return; }
         setIsEditing(true); setError('');
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt: editPrompt, model });
+            const result = await editFilesFromPrompt({ fileContent, prompt: editPrompt });
             setFileContent(result.fileContent);
             setEditPrompt('');
             addHistoryItem('file_maker', `Edit: ${editPrompt}`, result.fileContent);
@@ -3477,7 +3477,7 @@ export function SongWriter({ mode }: { mode: any }) {
         setIsLoading(true); setError(''); setLyrics(''); setComposition(null); cleanup();
         
         try {
-            const result = await writeSongAndMusic({ concept: prompt, model });
+            const result = await writeSongAndMusic({ concept: prompt });
             setLyrics(result.lyrics);
             setComposition(result.composition);
             addHistoryItem('song_writer', prompt, `Generated a song with lyrics and a ${result.composition.length}-note melody.`);
@@ -3582,7 +3582,7 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
     setError('');
     const fullPrompt = generatePrompt(prompt);
     try {
-      const result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
+      const result = await createDocumentFromPrompt({ prompt: fullPrompt });
       const generatedText = result.document;
       setResultText(generatedText);
       addHistoryItem(mode.id, prompt, generatedText);
@@ -3743,7 +3743,6 @@ export function Translator({ mode }: { mode: any }) {
                 targetLanguage,
                 sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage,
                 fileDataUri: fileDataUri,
-                model
             });
             setTranslation(result.translation);
             // If text was extracted, update the input text area
@@ -3980,7 +3979,7 @@ export function VideoEditor({ mode }: { mode: any }) {
         
         try {
             const frameDataUri = await getFrameAsDataURI();
-            const result = await analyzeVideo({ videoDataUri: frameDataUri, prompt, model });
+            const result = await analyzeVideo({ videoDataUri: frameDataUri, prompt });
             if (result.analysis) {
                 setAnalysisResult(result.analysis);
                 addHistoryItem('video_editor', `${prompt} on ${file?.name}`, result.analysis);
@@ -4069,7 +4068,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Video, Settings, AlertTriangle, UploadCloud } from 'lucide-react';
+import { Video, Settings, AlertTriangle, UploadCloud, Film } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateVideoWithNarration, Scene } from '@/ai/flows/generate-video-with-narration';
@@ -4387,7 +4386,7 @@ export function VoiceInterface({ mode }: { mode: any }) {
         setMessages(updatedMessages);
 
         try {
-            const result = await chatResearchAssistance({ prompt: text, isDeepResearch: false, history: messages, model });
+            const result = await chatResearchAssistance({ prompt: text, isDeepResearch: false, history: messages });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
             addHistoryItem('voice_chat', text, result.response, [...updatedMessages, aiMessage]);
@@ -4869,7 +4868,6 @@ interface ModeContextType {
   loadHistoryItem: (item: HistoryItem) => void;
   activeChat: any[];
   setActiveChat: (chat: any[]) => void;
-  model: ModelId;
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
@@ -4881,7 +4879,6 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [activeChat, setActiveChat] = useState<any[]>([]);
-  const model = availableModels[0];
 
   const historyKey = user ? `history_${user.uid}` : 'history_guest';
 
@@ -4959,7 +4956,6 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     loadHistoryItem,
     activeChat,
     setActiveChat,
-    model,
   };
 
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;
@@ -9414,3 +9410,4 @@ File: tsconfig.json
   "exclude": ["node_modules"]
 }
 ==================================================
+

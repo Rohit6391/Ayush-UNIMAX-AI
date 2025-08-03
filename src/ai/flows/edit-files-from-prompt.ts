@@ -31,11 +31,9 @@ const prompt = ai.definePrompt({
   name: 'editFilesFromPromptPrompt',
   input: {schema: EditFilesFromPromptInputSchema},
   output: {schema: EditFilesFromPromptOutputSchema},
-  prompt: `You are a file editor AI. Your task is to edit the given file content based on the user's instruction.
+  prompt: `You are an expert file editor AI. Your task is to edit the given file content based on the user's instruction and return ONLY the new, fully edited content of the file. Do not include any other explanation, commentary, or markdown formatting. Your response must be the raw text of the modified file.
 
 **Instruction**: "{{{prompt}}}"
-
-You MUST respond with a valid JSON object containing the new, fully edited text content of the file in the "fileContent" field. Do not include any other explanation, commentary, or markdown formatting.
 
 --- FILE CONTENT ---
 {{{fileContent}}}`,

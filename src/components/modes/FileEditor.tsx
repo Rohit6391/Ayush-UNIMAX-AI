@@ -39,9 +39,9 @@ export function FileEditor({ mode }: { mode: any }) {
         setIsLoading(true); setEditedContent(''); setError('');
         
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt, model });
-            setEditedContent(result);
-            addHistoryItem('file_editor', `${prompt} on ${file?.name}`, result);
+            const result = await editFilesFromPrompt({ fileContent, prompt });
+            setEditedContent(result.fileContent);
+            addHistoryItem('file_editor', `${prompt} on ${file?.name}`, result.fileContent);
         } catch (err: any) {
             setError(`Failed to edit file: ${err.message}`);
         } finally {
