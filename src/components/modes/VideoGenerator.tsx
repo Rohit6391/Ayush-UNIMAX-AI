@@ -6,16 +6,17 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Video, Settings, AlertTriangle, Sparkles, Film, Image as ImageIcon } from 'lucide-react';
+import { Video, Settings, AlertTriangle, UploadCloud, Film } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateVideoWithNarration, Scene } from '@/ai/flows/generate-video-with-narration';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 export function VideoGenerator({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [language, setLanguage] = useState('English');
     const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,12 @@ export function VideoGenerator({ mode }: { mode: any }) {
     const [narrationAudio, setNarrationAudio] = useState<string | null>(null);
     const [error, setError] = useState('');
     const audioRef = useRef<HTMLAudioElement>(null);
+    const [activeTab, setActiveTab] = useState('prompt');
+
+    // For file input
+    const [file, setFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     
     useEffect(() => {
         if (narrationAudio && audioRef.current) {
@@ -31,8 +38,22 @@ export function VideoGenerator({ mode }: { mode: any }) {
         }
     }, [narrationAudio]);
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = e.target.files?.[0];
+        if (selectedFile) {
+            setFile(selectedFile);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewUrl(reader.result as string);
+            };
+            reader.readAsDataURL(selectedFile);
+        }
+    };
+
+
     const handleGenerate = async () => {
         if (!prompt.trim()) { setError('Please enter a prompt for your video storyboard.'); return; }
+        if (activeTab === 'image' && !file) { setError('Please upload an image to animate.'); return; }
 
         setIsLoading(true); 
         setScenes([]);
@@ -40,7 +61,22 @@ export function VideoGenerator({ mode }: { mode: any }) {
         setError('');
         
         try {
-            const result = await generateVideoWithNarration({ prompt, language, model });
+            let fileDataUri: string | undefined;
+            if (activeTab === 'image' && file) {
+                 fileDataUri = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (event) => resolve(event.target?.result as string);
+                    reader.onerror = (error) => reject(error);
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            const result = await generateVideoWithNarration({ 
+                prompt, 
+                language, 
+                photoDataUri: fileDataUri 
+            });
+
             if (result.scenes.length > 0) {
                 setScenes(result.scenes);
                 setNarrationAudio(result.narrationAudioUrl);
@@ -57,20 +93,42 @@ export function VideoGenerator({ mode }: { mode: any }) {
     
     return (
         <ModeWrapper mode={mode}>
-             <Alert className="mb-4 text-left" variant="default">
-                <Film className="h-4 w-4" />
-                <AlertTitle>Storyboard Video Creator</AlertTitle>
-                <AlertDescription>
-                   This tool creates a narrated video by generating a series of images and an audio track. Press play to watch your story unfold.
-                </AlertDescription>
-            </Alert>
+            <Tabs defaultValue="prompt" className="w-full mb-4" onValueChange={setActiveTab}>
+                <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="prompt">Make with AI</TabsTrigger>
+                    <TabsTrigger value="image">Animate Image</TabsTrigger>
+                </TabsList>
+                <TabsContent value="prompt">
+                    {/* Content is handled below */}
+                </TabsContent>
+                <TabsContent value="image">
+                    <div 
+                        onClick={() => fileInputRef.current?.click()} 
+                        className="w-full mt-2 h-48 bg-background border-2 border-dashed border-input rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-muted/50 transition-colors"
+                    >
+                        <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/png, image/jpeg, image/webp" />
+                        {previewUrl ? (
+                            <img src={previewUrl} alt="Selected preview" className="max-h-full max-w-full object-contain rounded-md" />
+                        ) : (
+                            <div className="text-center text-muted-foreground">
+                                <UploadCloud className="h-8 w-8 mx-auto" />
+                                <p className="font-semibold mt-2">Click to upload an image</p>
+                            </div>
+                        )}
+                    </div>
+                </TabsContent>
+            </Tabs>
             
             <div className="space-y-4">
                 <Textarea 
                     id="prompt-text"
                     value={prompt} 
                     onChange={(e) => setPrompt(e.target.value)} 
-                    placeholder="e.g., A short story about a cat who learns to fly." 
+                    placeholder={
+                        activeTab === 'image' 
+                        ? "e.g., Make the person wave and say hello."
+                        : "e.g., A short story about a cat who learns to fly."
+                    }
                     className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
                     rows={3} 
                 />

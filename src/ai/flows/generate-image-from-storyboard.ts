@@ -12,7 +12,7 @@ import {z} from 'genkit';
 
 const GenerateImageFromStoryboardInputSchema = z.object({
   imagePrompt: z.string().describe('A prompt to generate an image for a storyboard scene.'),
-  photoDataUri: z.string().optional().describe("An optional photo to edit, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
+  photoDataUri: z.string().optional().describe("An optional photo to edit or use as a base, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
 });
 export type GenerateImageFromStoryboardInput = z.infer<typeof GenerateImageFromStoryboardInputSchema>;
 
@@ -31,23 +31,26 @@ const generateImageFromStoryboardFlow = ai.defineFlow(
     inputSchema: GenerateImageFromStoryboardInputSchema,
     outputSchema: GenerateImageFromStoryboardOutputSchema,
   },
-  async input => {
+  async (input) => {
 
-    const prompt = input.photoDataUri 
-      ? [
-          { media: { url: input.photoDataUri } },
-          { text: input.imagePrompt }
-        ]
-      : input.imagePrompt;
+    const promptItems = [];
+    if (input.photoDataUri) {
+        promptItems.push({ media: { url: input.photoDataUri } });
+    }
+    promptItems.push({ text: input.imagePrompt });
 
     const {media} = await ai.generate({
       model: 'googleai/gemini-2.0-flash-preview-image-generation',
-      prompt: prompt,
+      prompt: promptItems,
       config: {
         responseModalities: ['TEXT', 'IMAGE'],
       },
     });
+    
+    if (!media?.url) {
+      throw new Error("The AI failed to generate an image from the provided prompt.");
+    }
 
-    return {imageUrl: media!.url!};
+    return {imageUrl: media.url};
   }
 );

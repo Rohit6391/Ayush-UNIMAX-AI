@@ -28,6 +28,7 @@ export type Storyboard = z.infer<typeof StoryboardSchema>;
 const GenerateVideoWithNarrationInputSchema = z.object({
   prompt: z.string().describe('The user\'s initial prompt for the story or concept.'),
   language: z.string().optional().describe('The language for the narration. Defaults to English if not provided.'),
+  photoDataUri: z.string().optional().describe("An optional photo to animate, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
 });
 export type GenerateVideoWithNarrationInput = z.infer<typeof GenerateVideoWithNarrationInputSchema>;
 
@@ -64,6 +65,12 @@ const storyboardPrompt = ai.definePrompt({
     1.  **Narration Language**: Write the 'narration' for each scene in the requested language: **{{#if language}}{{language}}{{else}}English{{/if}}**.
     2.  **Image Prompt Language**: The 'image_prompt' for each scene MUST be written in **English** to ensure the best results from the image generation model.
     3.  For each scene, write a brief narration and a detailed, visually-rich prompt for an image generation model to create a corresponding picture.
+    4.  **If an image is provided**, the first scene's image_prompt should instruct the AI to use the provided image as a base and animate it according to the user's main prompt. Subsequent scenes should continue the story from there.
+
+    {{#if photoDataUri}}
+    The user has provided an image to start the story.
+    Image: {{media url=photoDataUri}}
+    {{/if}}
 
     User Prompt: {{{prompt}}}
     `,
@@ -85,9 +92,14 @@ const generateVideoWithNarrationFlow = ai.defineFlow(
     }
 
     // Step 2: Generate an image for each scene in parallel
-    const imageGenerationPromises = storyboard.scenes.map(scene => 
-        generateImageFromStoryboard({ imagePrompt: scene.image_prompt })
-    );
+    const imageGenerationPromises = storyboard.scenes.map((scene, index) => {
+        // Only pass the photoDataUri to the first scene's image generation
+        const photoForScene = index === 0 ? input.photoDataUri : undefined;
+        return generateImageFromStoryboard({ 
+            imagePrompt: scene.image_prompt,
+            photoDataUri: photoForScene,
+        });
+    });
     const generatedImages = await Promise.all(imageGenerationPromises);
 
     // Combine scene data with newly generated image URLs
