@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, Globe, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
+import { Settings, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { translateText } from '@/ai/flows/translate-text-ai';
@@ -47,7 +47,7 @@ export function Translator({ mode }: { mode: any }) {
             recognitionRef.current.onresult = (event: any) => {
                 const transcript = event.results[0][0].transcript;
                 setText(transcript);
-                handleTranslate(transcript);
+                handleTranslate(transcript, undefined, true); // Force translate for voice
             };
             recognitionRef.current.onerror = (event: any) => {
                 console.error('Speech recognition error:', event.error);
@@ -96,8 +96,9 @@ export function Translator({ mode }: { mode: any }) {
     };
 
 
-    const handleTranslate = async (inputText?: string, fileDataUri?: string) => {
+    const handleTranslate = async (inputText?: string, fileDataUri?: string, force = false) => {
         const currentText = inputText ?? text;
+        if (!force && isLoading) return; // Prevent manual trigger while loading, but allow voice
         if (!currentText.trim() && !fileDataUri) { return; }
 
         setIsLoading(true); 
@@ -269,3 +270,5 @@ export function Translator({ mode }: { mode: any }) {
         </ModeWrapper>
     );
 };
+
+    
