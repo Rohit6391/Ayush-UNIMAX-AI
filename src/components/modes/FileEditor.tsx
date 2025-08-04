@@ -39,7 +39,7 @@ export function FileEditor({ mode }: { mode: any }) {
         setIsLoading(true); setEditedContent(''); setError('');
         
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt });
+            const result = await editFilesFromPrompt({ fileContent, prompt, model });
             setEditedContent(result.fileContent);
             addHistoryItem('file_editor', `${prompt} on ${file?.name}`, result.fileContent);
         } catch (err: any) {

@@ -28,7 +28,7 @@ export function FileMaker({ mode }: { mode: any }) {
         setIsLoading(true); setFileContent(''); setError('');
         const fullPrompt = `Generate the content for a file named "${filename}" based on the following prompt. Only return the raw text content for the file, with no explanation. Prompt: ${prompt}`;
         try {
-            const result = await createDocumentFromPrompt({ prompt: fullPrompt });
+            const result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
             setFileContent(result.document);
             addHistoryItem('file_maker', prompt, result.document);
         } catch (err: any) {
@@ -42,7 +42,7 @@ export function FileMaker({ mode }: { mode: any }) {
         if (!editPrompt.trim() || !fileContent) { setError('Please enter an edit instruction.'); return; }
         setIsEditing(true); setError('');
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt: editPrompt });
+            const result = await editFilesFromPrompt({ fileContent, prompt: editPrompt, model });
             setFileContent(result.fileContent);
             setEditPrompt('');
             addHistoryItem('file_maker', `Edit: ${editPrompt}`, result.fileContent);
