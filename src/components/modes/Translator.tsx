@@ -65,7 +65,6 @@ export function Translator({ mode }: { mode: any }) {
     const handleListen = () => {
         if (isListening) {
             recognitionRef.current?.stop();
-            setIsListening(false);
         } else {
             if (!recognitionRef.current) {
                 setError("Speech recognition is not supported by your browser.");
@@ -129,10 +128,15 @@ export function Translator({ mode }: { mode: any }) {
     const handleSwap = () => {
         if (translation && sourceLanguage !== 'Auto-detect') {
             const oldSource = sourceLanguage;
-            setSourceLanguage(targetLanguage);
-            setTargetLanguage(oldSource);
-            setText(translation);
-            setTranslation('');
+            const newSource = targetLanguage;
+            if (languages.includes(newSource)) {
+                setSourceLanguage(newSource);
+                setTargetLanguage(oldSource);
+                setText(translation);
+                setTranslation('');
+            } else {
+                setError(`Cannot swap to "${newSource}" as it's not a selectable source language.`);
+            }
         }
     };
 
