@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,7 +37,7 @@ export function HomeworkPlanner({ mode }: { mode: any }) {
 
     const handleAddTask = () => {
         if (newTask.trim()) {
-            setTasks([...tasks, { id: Date.now(), text: newTask, completed: false }]);
+            setTasks(prevTasks => [...prevTasks, { id: Date.now(), text: newTask, completed: false }]);
             setNewTask('');
         }
     };
