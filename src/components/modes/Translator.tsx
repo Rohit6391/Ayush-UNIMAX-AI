@@ -161,7 +161,7 @@ export function Translator({ mode }: { mode: any }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 w-full">
                 {/* Input Panel */}
                 <div className="flex flex-col gap-2">
-                    <Select value={sourceLanguage} onValueChange={setSourceLanguage}>
+                     <Select value={sourceLanguage} onValueChange={setSourceLanguage}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select language" />
                         </SelectTrigger>
@@ -172,7 +172,7 @@ export function Translator({ mode }: { mode: any }) {
                     </Select>
                     <div className="relative flex-1 bg-background rounded-lg border">
                          <Tabs defaultValue="text" className="h-full flex flex-col" onValueChange={resetInputs}>
-                            <TabsList className="m-2">
+                            <TabsList className="m-2 grid grid-cols-3">
                                 <TabsTrigger value="text">Text</TabsTrigger>
                                 <TabsTrigger value="voice">Voice</TabsTrigger>
                                 <TabsTrigger value="file">Documents</TabsTrigger>
@@ -188,7 +188,7 @@ export function Translator({ mode }: { mode: any }) {
                              <TabsContent value="voice" className="flex-1 flex flex-col items-center justify-center gap-4 p-4">
                                 <div className='mb-4 w-full max-w-xs'>
                                     <Label htmlFor="voice-lang">Spoken Language</Label>
-                                    <Select value={voiceLanguage} onValueChange={setVoiceLanguage}>
+                                     <Select value={voiceLanguage} onValueChange={setVoiceLanguage}>
                                         <SelectTrigger id="voice-lang">
                                             <SelectValue placeholder="Select language" />
                                         </SelectTrigger>
@@ -270,5 +270,3 @@ export function Translator({ mode }: { mode: any }) {
         </ModeWrapper>
     );
 };
-
-    
