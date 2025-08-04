@@ -19,6 +19,7 @@ import { Translator } from '@/components/modes/Translator';
 import { SongWriter } from '@/components/modes/SongWriter';
 import { ChartMaker } from '@/components/modes/ChartMaker';
 import { VoiceInterface } from '@/components/modes/VoiceInterface';
+import { HomeworkPlanner } from '@/components/modes/HomeworkPlanner';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -48,6 +49,12 @@ export const modes: Mode[] = [
     { id: 'video_generator', name: 'Video Generator', icon: Video, description: 'Generate a video with narration in any language.', component: VideoGenerator },
     { id: 'video_editor', name: 'Video Editor', icon: Film, description: 'Upload a video and get AI analysis.', component: VideoEditor },
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
+    { id: 'code_analyzer', name: 'Code Analyzer', icon: Search, description: 'Analyze code for errors, performance, and best practices.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Paste your code here to get an analysis...",
+        buttonText: "Analyze Code",
+        generatePrompt: (p: string) => `Analyze the following code snippet and provide a report on its correctness, performance, style, and best practices. Identify any potential bugs or areas for improvement. Code:\n\n${p}`,
+        resultTitle: "Code Analysis"
+    }},
     { id: 'website_maker', name: 'Website Maker', icon: Globe, description: 'Generate, preview, and import websites.', component: WebsiteMaker },
     { id: 'app_maker', name: 'App Maker', icon: AppWindow, description: 'Scaffold, import, and plan mobile applications.', component: AppMaker },
     { id: 'game_maker', name: 'Game Maker', icon: Gamepad2, description: 'Design, import, and create plans for your game.', component: GameMaker },
@@ -92,12 +99,7 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Correct the grammar and spelling of the following text, and provide the corrected version in the same language:\n\n${p}`,
         resultTitle: "Corrected Text"
     }},
-    { id: 'homework_helper', name: 'Homework Helper', icon: School, description: 'Get help with your homework assignments.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "Enter your homework question here...",
-        buttonText: "Get Help",
-        generatePrompt: (p: string) => `Provide a helpful and detailed answer to the following homework question. The answer should be in the same language as the question. Question: ${p}`,
-        resultTitle: "Answer"
-    }},
+    { id: 'homework_helper', name: 'Homework Planner', icon: School, description: 'Plan assignments and get AI help.', component: HomeworkPlanner },
     { id: 'idea_generator', name: 'Idea Generator', icon: Lightbulb, description: 'Brainstorm creative ideas on any topic.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., 'Business ideas for a small town' or 'Plot ideas for a sci-fi novel'...",
         buttonText: "Generate Ideas",
