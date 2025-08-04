@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
+import { Settings, Globe, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { translateText } from '@/ai/flows/translate-text-ai';
@@ -38,8 +38,8 @@ export function Translator({ mode }: { mode: any }) {
 
 
     useEffect(() => {
-        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
             recognitionRef.current = new SpeechRecognition();
             recognitionRef.current.continuous = false;
             recognitionRef.current.interimResults = false;
@@ -47,7 +47,7 @@ export function Translator({ mode }: { mode: any }) {
             recognitionRef.current.onresult = (event: any) => {
                 const transcript = event.results[0][0].transcript;
                 setText(transcript);
-                handleTranslate(transcript, undefined, true); // Force translate for voice
+                handleTranslate(transcript, undefined, true);
             };
             recognitionRef.current.onerror = (event: any) => {
                 if (event.error !== 'aborted') {
@@ -83,7 +83,7 @@ export function Translator({ mode }: { mode: any }) {
         const selectedFile = e.target.files?.[0];
         if (selectedFile) {
             setFile(selectedFile);
-            setText(''); // Clear text when file is uploaded
+            setText('');
             const reader = new FileReader();
             reader.onloadend = () => {
                 const result = reader.result as string;
@@ -97,7 +97,7 @@ export function Translator({ mode }: { mode: any }) {
 
     const handleTranslate = async (inputText?: string, fileDataUri?: string, force = false) => {
         const currentText = inputText ?? text;
-        if (!force && isLoading) return; // Prevent manual trigger while loading, but allow voice
+        if (!force && isLoading) return; 
         if (!currentText.trim() && !fileDataUri) { return; }
 
         setIsLoading(true); 
@@ -113,15 +113,13 @@ export function Translator({ mode }: { mode: any }) {
                 model
             });
             setTranslation(result.translation);
-            // If text was extracted, update the input text area
+
             if (result.extractedText) {
                 setText(result.extractedText);
             }
-            if(result.detectedSourceLanguage && sourceLanguage === 'Auto-detect') {
-                // Try to set the detected language as the source, if it's in our list.
-                const detectedLang = Object.keys(languageToCode).find(key => languageToCode[key].startsWith(result.detectedSourceLanguage!));
-                if (detectedLang && languages.includes(detectedLang)) {
-                    setSourceLanguage(detectedLang);
+            if (result.detectedSourceLanguage && sourceLanguage === 'Auto-detect') {
+                 if (languages.includes(result.detectedSourceLanguage)) {
+                    setSourceLanguage(result.detectedSourceLanguage);
                 }
             }
             addHistoryItem('translator', `Translate to ${targetLanguage}: ${currentText.substring(0, 40)}...`, result.translation);
@@ -133,7 +131,7 @@ export function Translator({ mode }: { mode: any }) {
     };
     
     const handleSwap = () => {
-        if (translation && sourceLanguage !== 'Auto-detect') {
+        if (translation && sourceLanguage !== 'Auto-detect' && languages.includes(targetLanguage)) {
             const oldSource = sourceLanguage;
             setSourceLanguage(targetLanguage);
             setTargetLanguage(oldSource);
