@@ -18,6 +18,7 @@ const CreateDocumentFromPromptInputSchema = z.object({
   prompt: z.string().describe('The prompt for generating the document.'),
   fileDataUri: z.string().optional().describe("An optional file (image or document) to extract text from, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
   model: z.enum(availableModels).optional().describe('The model to use for generation.'),
+  isJsonOutput: z.boolean().optional().describe('Whether the output should be a JSON string.'),
 });
 export type CreateDocumentFromPromptInput = z.infer<typeof CreateDocumentFromPromptInputSchema>;
 
@@ -39,6 +40,10 @@ const prompt = ai.definePrompt({
   {{#if fileDataUri}}
   **Contextual File:**
   {{media url=fileDataUri}}
+  {{/if}}
+  
+  {{#if isJsonOutput}}
+  You must provide your response as a valid JSON object.
   {{/if}}
 
   **Prompt:**
