@@ -14,6 +14,7 @@ import {z} from 'genkit';
 
 const CreateDocumentFromPromptInputSchema = z.object({
   prompt: z.string().describe('The prompt for generating the document.'),
+  fileDataUri: z.string().optional().describe("An optional file (image or document) to extract text from, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
 });
 export type CreateDocumentFromPromptInput = z.infer<typeof CreateDocumentFromPromptInputSchema>;
 
@@ -30,9 +31,14 @@ const prompt = ai.definePrompt({
   name: 'createDocumentFromPromptPrompt',
   input: {schema: CreateDocumentFromPromptInputSchema},
   output: {schema: CreateDocumentFromPromptOutputSchema},
-  prompt: `Generate a document based on the following prompt. The output should be the raw content of the document. If the prompt asks for a JSON object, return ONLY the valid JSON string. Otherwise, return the raw text. Do not add any extra commentary or explanation unless the prompt specifically asks for it.
+  prompt: `Generate a document based on the following prompt. If a file is provided, use it as context for your response. The output should be the raw content of the document. If the prompt asks for a JSON object, return ONLY the valid JSON string. Otherwise, return the raw text. Do not add any extra commentary or explanation unless the prompt specifically asks for it.
 
-  Prompt:
+  {{#if fileDataUri}}
+  **Contextual File:**
+  {{media url=fileDataUri}}
+  {{/if}}
+
+  **Prompt:**
   {{{prompt}}}`,
 });
 

@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { School, Plus, Trash2, BrainCircuit, Loader2, AlertTriangle } from 'lucide-react';
+import { School, Plus, Trash2, BrainCircuit, Loader2, AlertTriangle, Paperclip, X } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { useModes } from '@/components/providers/ModeProvider';
 import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
@@ -24,21 +24,45 @@ interface Task {
   id: number;
   text: string;
   completed: boolean;
+  file?: File;
+  filePreview?: string;
 }
 
 export function HomeworkPlanner({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
     const [tasks, setTasks] = useState<Task[]>([]);
     const [newTask, setNewTask] = useState('');
+    const [attachment, setAttachment] = useState<{ file: File, preview: string } | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [aiHelp, setAiHelp] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAttachment({ file, preview: reader.result as string });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    
     const handleAddTask = () => {
-        if (newTask.trim()) {
-            setTasks(prevTasks => [...prevTasks, { id: Date.now(), text: newTask, completed: false }]);
+        if (newTask.trim() || attachment) {
+            setTasks(prevTasks => [...prevTasks, { 
+                id: Date.now(), 
+                text: newTask, 
+                completed: false,
+                file: attachment?.file,
+                filePreview: attachment?.preview
+            }]);
             setNewTask('');
+            setAttachment(null);
+            if(fileInputRef.current) fileInputRef.current.value = "";
         }
     };
 
@@ -58,9 +82,13 @@ export function HomeworkPlanner({ mode }: { mode: any }) {
         setError('');
         setIsLoading(true);
 
-        const prompt = `Provide a helpful and detailed answer to the following homework question, in the same language as the question. Question: "${task.text}"`;
+        const prompt = `Provide a helpful and detailed answer for the following homework assignment. Analyze any attached file if present. Assignment: "${task.text}"`;
+        
         try {
-            const result = await createDocumentFromPrompt({ prompt });
+            const result = await createDocumentFromPrompt({ 
+                prompt,
+                fileDataUri: task.filePreview
+            });
             setAiHelp(result.document);
             addHistoryItem('homework_helper', task.text, result.document);
         } catch (err: any) {
@@ -72,6 +100,7 @@ export function HomeworkPlanner({ mode }: { mode: any }) {
 
     return (
         <ModeWrapper mode={mode}>
+             <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
             <div className="flex gap-2">
                 <Input
                     value={newTask}
@@ -80,8 +109,20 @@ export function HomeworkPlanner({ mode }: { mode: any }) {
                     placeholder="e.g., Solve for x in 2x + 5 = 15"
                     className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 transition-colors"
                 />
+                <Button variant="outline" size="icon" onClick={() => fileInputRef.current?.click()}>
+                    <Paperclip />
+                </Button>
                 <Button onClick={handleAddTask}><Plus /></Button>
             </div>
+             {attachment && (
+                <div className="mt-2 text-left relative w-full p-2 border rounded-md flex items-center gap-2">
+                    <img src={attachment.preview} alt="preview" className="h-10 w-10 object-cover rounded-md" />
+                    <span className="text-sm text-muted-foreground truncate">{attachment.file.name}</span>
+                    <Button variant="ghost" size="icon" className="h-6 w-6 absolute top-1 right-1" onClick={() => setAttachment(null)}>
+                        <X size={14}/>
+                    </Button>
+                </div>
+            )}
             
             <Card className="mt-6 text-left">
                 <CardHeader>
@@ -98,9 +139,17 @@ export function HomeworkPlanner({ mode }: { mode: any }) {
                                             checked={task.completed}
                                             onCheckedChange={() => handleToggleTask(task.id)}
                                         />
+                                        <div className='flex flex-col'>
                                         <Label htmlFor={`task-${task.id}`} className={`text-sm ${task.completed ? 'line-through text-muted-foreground' : ''}`}>
                                             {task.text}
                                         </Label>
+                                        {task.file && (
+                                            <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                                                <Paperclip size={12}/> {task.file.name}
+                                            </div>
+                                        )}
+                                        </div>
+
                                     </div>
                                     <div className='flex items-center gap-2'>
                                         <Button size="sm" variant="outline" onClick={() => handleGetHelp(task)}>
