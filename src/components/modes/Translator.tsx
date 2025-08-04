@@ -1,82 +1,33 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useModes } from '@/components/providers/ModeProvider';
-import { Settings, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
+import { Settings, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, FileUp } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { translateText } from '@/ai/flows/translate-text-ai';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from '../ui/label';
-import { languages, languageToCode } from '@/lib/languages';
+import { languages } from '@/lib/languages';
 
 
 export function Translator({ mode }: { mode: any }) {
     const { addHistoryItem, model } = useModes();
     const [text, setText] = useState('');
     const [sourceLanguage, setSourceLanguage] = useState('Auto-detect');
+    const [detectedLanguage, setDetectedLanguage] = useState<string | null>(null);
     const [targetLanguage, setTargetLanguage] = useState('French');
     const [isLoading, setIsLoading] = useState(false);
     const [translation, setTranslation] = useState('');
     const [error, setError] = useState('');
     const [copied, setCopied] = useState(false);
     
-    // For voice input
-    const [isListening, setIsListening] = useState(false);
-    const [voiceLanguage, setVoiceLanguage] = useState('English');
-    const recognitionRef = useRef<any>(null);
-
     // For file input
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-
-
-    useEffect(() => {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (SpeechRecognition) {
-            recognitionRef.current = new SpeechRecognition();
-            recognitionRef.current.continuous = false;
-            recognitionRef.current.interimResults = false;
-            
-            recognitionRef.current.onresult = (event: any) => {
-                const transcript = event.results[0][0].transcript;
-                setText(transcript);
-                // Directly call translate after getting the transcript
-                handleTranslate(transcript); 
-            };
-            recognitionRef.current.onerror = (event: any) => {
-                 if (event.error !== 'aborted') {
-                    console.error('Speech recognition error:', event.error);
-                    setError(`Speech recognition failed: ${event.error}. Please check your microphone permissions.`);
-                }
-                setIsListening(false);
-            };
-            recognitionRef.current.onend = () => {
-                setIsListening(false);
-            };
-        }
-    }, []);
-
-    const handleListen = () => {
-        if (isListening) {
-            recognitionRef.current?.stop();
-            return;
-        }
-
-        if (isLoading || !recognitionRef.current) {
-            if (!recognitionRef.current) setError("Speech recognition is not supported by your browser.");
-            return;
-        }
-
-        resetInputs();
-        recognitionRef.current.lang = languageToCode[voiceLanguage] || 'en-US';
-        recognitionRef.current.start();
-        setIsListening(true);
-    };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
@@ -115,9 +66,23 @@ export function Translator({ mode }: { mode: any }) {
 
             setTranslation(result.translation);
             
+            // If text was extracted from a file, update the input text area
             if (result.extractedText) {
                 setText(result.extractedText);
             }
+            // If the source language was auto-detected, update the state
+            if (result.detectedSourceLanguage) {
+                // Find the language name that matches the detected code for display
+                const detectedLangName = languages.find(lang => lang.toLowerCase().includes(result.detectedSourceLanguage!.toLowerCase()));
+                if (detectedLangName && languages.includes(detectedLangName)) {
+                     setDetectedLanguage(detectedLangName);
+                } else {
+                     setDetectedLanguage(result.detectedSourceLanguage);
+                }
+            } else {
+                setDetectedLanguage(null);
+            }
+
             addHistoryItem('translator', `Translate to ${targetLanguage}: ${textToTranslate.substring(0, 40)}...`, result.translation);
         } catch (err: any) {
             setError(`Translation failed: ${err.message}`);
@@ -127,12 +92,13 @@ export function Translator({ mode }: { mode: any }) {
     };
     
     const handleSwap = () => {
-        if (translation && sourceLanguage !== 'Auto-detect' && languages.includes(targetLanguage)) {
-            const oldSource = sourceLanguage;
+        const langToSwap = detectedLanguage || sourceLanguage;
+        if (translation && langToSwap !== 'Auto-detect' && languages.includes(targetLanguage) && languages.includes(langToSwap)) {
             setSourceLanguage(targetLanguage);
-            setTargetLanguage(oldSource);
+            setTargetLanguage(langToSwap);
             setText(translation);
             setTranslation('');
+            setDetectedLanguage(null);
         }
     };
 
@@ -155,26 +121,27 @@ export function Translator({ mode }: { mode: any }) {
             fileInputRef.current.value = '';
         }
     }
+    
+    const effectiveSourceLanguage = detectedLanguage || sourceLanguage;
 
     return (
         <ModeWrapper mode={mode}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 w-full">
                 {/* Input Panel */}
                 <div className="flex flex-col gap-2">
-                     <Select value={sourceLanguage} onValueChange={setSourceLanguage}>
+                     <Select value={sourceLanguage} onValueChange={(val) => { setSourceLanguage(val); setDetectedLanguage(null); }}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select language" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="Auto-detect">Auto-detect</SelectItem>
+                            <SelectItem value="Auto-detect">Auto-detect {detectedLanguage ? `(${detectedLanguage})` : ''}</SelectItem>
                             {languages.map(lang => <SelectItem key={`src-${lang}`} value={lang}>{lang}</SelectItem>)}
                         </SelectContent>
                     </Select>
                     <div className="relative flex-1 bg-background rounded-lg border">
                          <Tabs defaultValue="text" className="h-full flex flex-col" onValueChange={resetInputs}>
-                            <TabsList className="m-2 grid grid-cols-3">
+                            <TabsList className="m-2 grid grid-cols-2">
                                 <TabsTrigger value="text">Text</TabsTrigger>
-                                <TabsTrigger value="voice">Voice</TabsTrigger>
                                 <TabsTrigger value="file">Documents</TabsTrigger>
                             </TabsList>
                             <TabsContent value="text" className="flex-1 m-2 mt-0">
@@ -184,23 +151,6 @@ export function Translator({ mode }: { mode: any }) {
                                     placeholder="Enter text to translate..." 
                                     className="w-full h-full border-none focus:ring-0 resize-none p-3"
                                 />
-                            </TabsContent>
-                             <TabsContent value="voice" className="flex-1 flex flex-col items-center justify-center gap-4 p-4">
-                                <div className='mb-4 w-full max-w-xs'>
-                                    <Label htmlFor="voice-lang">Spoken Language</Label>
-                                     <Select value={voiceLanguage} onValueChange={setVoiceLanguage} disabled={isListening || isLoading}>
-                                        <SelectTrigger id="voice-lang">
-                                            <SelectValue placeholder="Select language" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {Object.keys(languageToCode).map(lang => <SelectItem key={`voice-${lang}`} value={lang}>{lang}</SelectItem>)}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <Button onClick={handleListen} size="icon" className={`h-20 w-20 rounded-full ${isListening ? 'bg-red-500 hover:bg-red-600' : ''}`} disabled={isLoading}>
-                                    {isListening ? <Waves size={40} /> : <Mic size={40} />}
-                                </Button>
-                                <p className="text-muted-foreground">{isListening ? 'Listening...' : (isLoading ? 'Translating...' : 'Tap microphone to start')}</p>
                             </TabsContent>
                              <TabsContent value="file" className="flex-1 flex flex-col items-center justify-center p-4">
                                 <div 
@@ -235,7 +185,7 @@ export function Translator({ mode }: { mode: any }) {
                                 {languages.map(lang => <SelectItem key={`tgt-${lang}`} value={lang}>{lang}</SelectItem>)}
                             </SelectContent>
                         </Select>
-                        <Button variant="ghost" size="icon" onClick={handleSwap} title="Swap languages" disabled={!translation || sourceLanguage === 'Auto-detect'}>
+                        <Button variant="ghost" size="icon" onClick={handleSwap} title="Swap languages" disabled={!translation || effectiveSourceLanguage === 'Auto-detect'}>
                             <ArrowRightLeft className="h-5 w-5" />
                         </Button>
                     </div>
