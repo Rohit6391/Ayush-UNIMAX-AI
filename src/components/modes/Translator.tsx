@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -6,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useModes } from '@/components/providers/ModeProvider';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, Globe, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
+import { Settings, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { translateText } from '@/ai/flows/translate-text-ai';
@@ -47,10 +45,11 @@ export function Translator({ mode }: { mode: any }) {
             recognitionRef.current.onresult = (event: any) => {
                 const transcript = event.results[0][0].transcript;
                 setText(transcript);
-                handleTranslate(transcript, undefined, true);
+                // Directly call translate after getting the transcript
+                handleTranslate(transcript); 
             };
             recognitionRef.current.onerror = (event: any) => {
-                if (event.error !== 'aborted') {
+                 if (event.error !== 'aborted') {
                     console.error('Speech recognition error:', event.error);
                     setError(`Speech recognition failed: ${event.error}. Please check your microphone permissions.`);
                 }
@@ -65,25 +64,25 @@ export function Translator({ mode }: { mode: any }) {
     const handleListen = () => {
         if (isListening) {
             recognitionRef.current?.stop();
-        } else {
-            if (!recognitionRef.current) {
-                setError("Speech recognition is not supported by your browser.");
-                return;
-            }
-            setText('');
-            setTranslation('');
-            setError('');
-            recognitionRef.current.lang = languageToCode[voiceLanguage] || 'en-US';
-            recognitionRef.current?.start();
-            setIsListening(true);
+            return;
         }
+
+        if (isLoading || !recognitionRef.current) {
+            if (!recognitionRef.current) setError("Speech recognition is not supported by your browser.");
+            return;
+        }
+
+        resetInputs();
+        recognitionRef.current.lang = languageToCode[voiceLanguage] || 'en-US';
+        recognitionRef.current.start();
+        setIsListening(true);
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
         if (selectedFile) {
             setFile(selectedFile);
-            setText('');
+            setText(''); // Clear text when file is selected
             const reader = new FileReader();
             reader.onloadend = () => {
                 const result = reader.result as string;
@@ -95,10 +94,11 @@ export function Translator({ mode }: { mode: any }) {
     };
 
 
-    const handleTranslate = async (inputText?: string, fileDataUri?: string, force = false) => {
-        const currentText = inputText ?? text;
-        if (!force && isLoading) return; 
-        if (!currentText.trim() && !fileDataUri) { return; }
+    const handleTranslate = async (currentText?: string, fileDataUri?: string) => {
+        const textToTranslate = currentText ?? text;
+        const fileToTranslate = fileDataUri ?? (file ? previewUrl : undefined);
+
+        if (!textToTranslate.trim() && !fileToTranslate) { return; }
 
         setIsLoading(true); 
         setTranslation(''); 
@@ -106,26 +106,19 @@ export function Translator({ mode }: { mode: any }) {
         
         try {
             const result = await translateText({ 
-                text: currentText, 
+                text: textToTranslate, 
                 targetLanguage,
                 sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage,
-                fileDataUri: fileDataUri,
+                fileDataUri: fileToTranslate as string,
                 model
             });
-            setTranslation(result.translation);
 
+            setTranslation(result.translation);
+            
             if (result.extractedText) {
                 setText(result.extractedText);
             }
-            if (result.detectedSourceLanguage && sourceLanguage === 'Auto-detect') {
-                 const detectedLang = Object.keys(languageToCode).find(
-                    key => languageToCode[key].split('-')[0] === result.detectedSourceLanguage?.split('-')[0]
-                 );
-                 if (detectedLang && languages.includes(detectedLang)) {
-                    setSourceLanguage(detectedLang);
-                }
-            }
-            addHistoryItem('translator', `Translate to ${targetLanguage}: ${currentText.substring(0, 40)}...`, result.translation);
+            addHistoryItem('translator', `Translate to ${targetLanguage}: ${textToTranslate.substring(0, 40)}...`, result.translation);
         } catch (err: any) {
             setError(`Translation failed: ${err.message}`);
         } finally {
@@ -195,7 +188,7 @@ export function Translator({ mode }: { mode: any }) {
                              <TabsContent value="voice" className="flex-1 flex flex-col items-center justify-center gap-4 p-4">
                                 <div className='mb-4 w-full max-w-xs'>
                                     <Label htmlFor="voice-lang">Spoken Language</Label>
-                                     <Select value={voiceLanguage} onValueChange={setVoiceLanguage}>
+                                     <Select value={voiceLanguage} onValueChange={setVoiceLanguage} disabled={isListening || isLoading}>
                                         <SelectTrigger id="voice-lang">
                                             <SelectValue placeholder="Select language" />
                                         </SelectTrigger>
@@ -204,10 +197,10 @@ export function Translator({ mode }: { mode: any }) {
                                         </SelectContent>
                                     </Select>
                                 </div>
-                                <Button onClick={handleListen} size="icon" className={`h-20 w-20 rounded-full ${isListening ? 'bg-red-500 hover:bg-red-600' : ''}`}>
+                                <Button onClick={handleListen} size="icon" className={`h-20 w-20 rounded-full ${isListening ? 'bg-red-500 hover:bg-red-600' : ''}`} disabled={isLoading}>
                                     {isListening ? <Waves size={40} /> : <Mic size={40} />}
                                 </Button>
-                                <p className="text-muted-foreground">{isListening ? 'Listening...' : 'Tap microphone to start'}</p>
+                                <p className="text-muted-foreground">{isListening ? 'Listening...' : (isLoading ? 'Translating...' : 'Tap microphone to start')}</p>
                             </TabsContent>
                              <TabsContent value="file" className="flex-1 flex flex-col items-center justify-center p-4">
                                 <div 
