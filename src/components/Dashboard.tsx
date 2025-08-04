@@ -22,7 +22,7 @@ export function Dashboard() {
   const ActiveComponent = currentMode?.component;
 
   const handleModeChange = (modeId: any) => {
-    if (modeId !== 'chat') {
+    if (modeId !== 'chat' && modeId !== 'fun_chat') {
       setActiveChat([]);
     }
     setActiveMode(modeId);
