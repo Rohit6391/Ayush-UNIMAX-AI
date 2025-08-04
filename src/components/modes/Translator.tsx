@@ -118,8 +118,11 @@ export function Translator({ mode }: { mode: any }) {
                 setText(result.extractedText);
             }
             if (result.detectedSourceLanguage && sourceLanguage === 'Auto-detect') {
-                 if (languages.includes(result.detectedSourceLanguage)) {
-                    setSourceLanguage(result.detectedSourceLanguage);
+                 const detectedLang = Object.keys(languageToCode).find(
+                    key => languageToCode[key].split('-')[0] === result.detectedSourceLanguage?.split('-')[0]
+                 );
+                 if (detectedLang && languages.includes(detectedLang)) {
+                    setSourceLanguage(detectedLang);
                 }
             }
             addHistoryItem('translator', `Translate to ${targetLanguage}: ${currentText.substring(0, 40)}...`, result.translation);
