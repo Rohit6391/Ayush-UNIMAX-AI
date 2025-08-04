@@ -17,7 +17,7 @@ interface Message {
 }
 
 export function VoiceInterface({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [messages, setMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isListening, setIsListening] = useState(false);
@@ -42,8 +42,12 @@ export function VoiceInterface({ mode }: { mode: any }) {
             };
 
             recognitionRef.current.onerror = (event: any) => {
-                console.error('Speech recognition error:', event.error);
-                setStatus('Error listening. Try again.');
+                if (event.error !== 'aborted') {
+                    console.error('Speech recognition error:', event.error);
+                    setStatus('Error listening. Try again.');
+                } else {
+                    setStatus('Tap to speak');
+                }
                 setIsListening(false);
             };
 
@@ -120,7 +124,7 @@ export function VoiceInterface({ mode }: { mode: any }) {
         setMessages(updatedMessages);
 
         try {
-            const result = await chatResearchAssistance({ prompt: text, isDeepResearch: false, history: messages, model });
+            const result = await chatResearchAssistance({ prompt: text, isDeepResearch: false, history: messages });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
             addHistoryItem('voice_chat', text, result.response, [...updatedMessages, aiMessage]);
