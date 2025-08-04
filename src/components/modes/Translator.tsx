@@ -50,8 +50,8 @@ export function Translator({ mode }: { mode: any }) {
                 handleTranslate(transcript, undefined, true); // Force translate for voice
             };
             recognitionRef.current.onerror = (event: any) => {
-                console.error('Speech recognition error:', event.error);
                 if (event.error !== 'aborted') {
+                    console.error('Speech recognition error:', event.error);
                     setError(`Speech recognition failed: ${event.error}. Please check your microphone permissions.`);
                 }
                 setIsListening(false);
@@ -117,6 +117,13 @@ export function Translator({ mode }: { mode: any }) {
             if (result.extractedText) {
                 setText(result.extractedText);
             }
+            if(result.detectedSourceLanguage && sourceLanguage === 'Auto-detect') {
+                // Try to set the detected language as the source, if it's in our list.
+                const detectedLang = Object.keys(languageToCode).find(key => languageToCode[key].startsWith(result.detectedSourceLanguage!));
+                if (detectedLang && languages.includes(detectedLang)) {
+                    setSourceLanguage(detectedLang);
+                }
+            }
             addHistoryItem('translator', `Translate to ${targetLanguage}: ${currentText.substring(0, 40)}...`, result.translation);
         } catch (err: any) {
             setError(`Translation failed: ${err.message}`);
@@ -128,15 +135,10 @@ export function Translator({ mode }: { mode: any }) {
     const handleSwap = () => {
         if (translation && sourceLanguage !== 'Auto-detect') {
             const oldSource = sourceLanguage;
-            const newSource = targetLanguage;
-            if (languages.includes(newSource)) {
-                setSourceLanguage(newSource);
-                setTargetLanguage(oldSource);
-                setText(translation);
-                setTranslation('');
-            } else {
-                setError(`Cannot swap to "${newSource}" as it's not a selectable source language.`);
-            }
+            setSourceLanguage(targetLanguage);
+            setTargetLanguage(oldSource);
+            setText(translation);
+            setTranslation('');
         }
     };
 
@@ -230,7 +232,7 @@ export function Translator({ mode }: { mode: any }) {
 
                 {/* Output Panel */}
                 <div className="flex flex-col gap-2">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
                          <Select value={targetLanguage} onValueChange={setTargetLanguage}>
                             <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select language" />
