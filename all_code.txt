@@ -1,8 +1,7 @@
 
 File: .env
 ==================================================
-
-
+GEMINI_API_KEY=AIzaSyAfoObMQyAIyEj44MD6FJi1G6-4kcPjLgg
 ==================================================
 File: README.md
 ==================================================
@@ -184,6 +183,8 @@ File: src/ai/flows/chat-research-assistance.ts
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { ModelId, availableModels } from '@/lib/models';
+import { googleAI } from '@genkit-ai/googleai';
 
 const ChatResearchAssistanceInputSchema = z.object({
   prompt: z.string().describe('The prompt for the AI to research.'),
@@ -191,6 +192,7 @@ const ChatResearchAssistanceInputSchema = z.object({
   isFunChat: z.boolean().optional().describe('Whether to use a fun, witty, and creative personality.'),
   history: z.array(z.any()).optional().describe('The chat history.'),
   fileDataUri: z.string().optional().describe("An optional file provided by the user, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
+  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type ChatResearchAssistanceInput = z.infer<typeof ChatResearchAssistanceInputSchema>;
 
@@ -216,10 +218,10 @@ const prompt = ai.definePrompt({
   {{/if}}
   
   **Core Instructions:**
+  - **Context is Key:** This is your most important instruction. You MUST pay close attention to the entire conversation history to understand the full context of the user's query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices.
   - **Fact-Checking and Accuracy:** Before providing an answer, internally verify the information to ensure it is correct and up-to-date. If you are not certain about something, explicitly state that you are unable to confirm the information. Do not invent facts.
   - **Directness and Relevance:** Provide a direct answer to the user's question first, without unnecessary preamble. Ensure the entire response is relevant to the query and avoid including extraneous details.
   - **Logical Reasoning:** For complex questions, break down your reasoning into a step-by-step process. This helps the user understand how you arrived at the answer and makes the information more transparent.
-  - **Context is Key:** This is your most important instruction. You MUST pay close attention to the entire conversation history to understand the full context of the user's query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices.
   - **Universal Expertise:** You can handle questions from any domain, including science, history, technology, arts, and more. Provide answers that are comprehensive, well-researched, and easy to understand.
   - **Structured and Clear:** Use formatting like **bolding**, *italics*, and lists to make your answers well-structured and easy to read.
   - **Answer Precision:** When the user asks a direct question, provide the exact answer first and concisely. After the direct answer, you can add more context, explanation, or related details.
@@ -228,7 +230,7 @@ const prompt = ai.definePrompt({
   {{#if history}}
   **Conversation History:**
   {{#each history}}
-  - {{this.role}}: {{this.text}}
+  - {{this.role}}: {{#if this.text}}{{this.text}}{{else}}...{{/if}}
   {{/each}}
   {{/if}}
 
@@ -253,7 +255,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     outputSchema: ChatResearchAssistanceOutputSchema,
   },
   async (input) => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
     return output!;
   }
 );
@@ -273,9 +275,14 @@ File: src/ai/flows/create-document-from-prompt.ts
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { ModelId, availableModels } from '@/lib/models';
+import { googleAI } from '@genkit-ai/googleai';
 
 const CreateDocumentFromPromptInputSchema = z.object({
   prompt: z.string().describe('The prompt for generating the document.'),
+  fileDataUri: z.string().optional().describe("An optional file (image or document) to extract text from, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
+  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
+  isJsonOutput: z.boolean().optional().describe('Whether the output should be a JSON string.'),
 });
 export type CreateDocumentFromPromptInput = z.infer<typeof CreateDocumentFromPromptInputSchema>;
 
@@ -292,9 +299,18 @@ const prompt = ai.definePrompt({
   name: 'createDocumentFromPromptPrompt',
   input: {schema: CreateDocumentFromPromptInputSchema},
   output: {schema: CreateDocumentFromPromptOutputSchema},
-  prompt: `Generate a document based on the following prompt. The output should be the raw content of the document. If the prompt asks for a JSON object, return ONLY the valid JSON string. Otherwise, return the raw text. Do not add any extra commentary or explanation unless the prompt specifically asks for it.
+  prompt: `Generate a document based on the following prompt. If a file is provided, use it as context for your response. The output should be the raw content of the document. If the prompt asks for a JSON object, return ONLY the valid JSON string. Otherwise, return the raw text. Do not add any extra commentary or explanation unless the prompt specifically asks for it.
 
-  Prompt:
+  {{#if fileDataUri}}
+  **Contextual File:**
+  {{media url=fileDataUri}}
+  {{/if}}
+  
+  {{#if isJsonOutput}}
+  You must provide your response as a valid JSON object.
+  {{/if}}
+
+  **Prompt:**
   {{{prompt}}}`,
 });
 
@@ -305,7 +321,7 @@ const createDocumentFromPromptFlow = ai.defineFlow(
     outputSchema: CreateDocumentFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
     return output!;
   }
 );
@@ -325,10 +341,13 @@ File: src/ai/flows/edit-files-from-prompt.ts
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { ModelId, availableModels } from '@/lib/models';
+import { googleAI } from '@genkit-ai/googleai';
 
 const EditFilesFromPromptInputSchema = z.object({
   fileContent: z.string().describe('The content of the file to be edited.'),
   prompt: z.string().describe('Instructions on how to edit the file content.'),
+  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type EditFilesFromPromptInput = z.infer<typeof EditFilesFromPromptInputSchema>;
 
@@ -360,7 +379,7 @@ const editFilesFromPromptFlow = ai.defineFlow(
     outputSchema: EditFilesFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
     if (!output) {
         throw new Error("The AI failed to generate a response.");
     }
@@ -382,9 +401,12 @@ File: src/ai/flows/generate-chart-from-prompt.ts
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { ModelId, availableModels } from '@/lib/models';
+import { googleAI } from '@genkit-ai/googleai';
 
 const GenerateChartFromPromptInputSchema = z.object({
   prompt: z.string().describe('A natural language description of the chart to generate, including the data and the desired chart type (e.g., bar, line, pie).'),
+  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type GenerateChartFromPromptInput = z.infer<typeof GenerateChartFromPromptInputSchema>;
 
@@ -431,7 +453,7 @@ const generateChartFromPromptFlow = ai.defineFlow(
     outputSchema: GenerateChartFromPromptOutputSchema,
   },
   async (input) => {
-    const { output } = await prompt(input);
+    const { output } = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
     if (!output) {
       throw new Error('Failed to generate chart data from prompt.');
     }
@@ -808,12 +830,15 @@ File: src/ai/flows/translate-text-ai.ts
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { ModelId, availableModels } from '@/lib/models';
+import { googleAI } from '@genkit-ai/googleai';
 
 const TranslateTextAIInputSchema = z.object({
   text: z.string().optional().describe('The text to translate. Can be empty if a file is provided.'),
   targetLanguage: z.string().describe('The target language for the translation.'),
   sourceLanguage: z.string().optional().describe('The source language of the text. If not provided, it should be auto-detected.'),
   fileDataUri: z.string().optional().describe("An optional file (image or document) to extract text from, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
+  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type TranslateTextAIInput = z.infer<typeof TranslateTextAIInputSchema>;
 
@@ -865,7 +890,7 @@ const translateTextAIFlow = ai.defineFlow(
     if (!input.text && !input.fileDataUri) {
       throw new Error("Either text or a file must be provided for translation.");
     }
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
     return output!;
   }
 );
@@ -885,6 +910,8 @@ File: src/ai/flows/video-editor.ts
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { ModelId, availableModels } from '@/lib/models';
+import { googleAI } from '@genkit-ai/googleai';
 
 const AnalyzeVideoInputSchema = z.object({
   videoDataUri: z
@@ -893,6 +920,7 @@ const AnalyzeVideoInputSchema = z.object({
       "The first frame of a video, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
   prompt: z.string().describe('Instructions on how to analyze or what to suggest for the video.'),
+  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type AnalyzeVideoInput = z.infer<typeof AnalyzeVideoInputSchema>;
 
@@ -926,7 +954,7 @@ const analyzeVideoFlow = ai.defineFlow(
     outputSchema: AnalyzeVideoOutputSchema,
   },
   async input => {
-    const { output } = await prompt(input);
+    const { output } = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
     return output!;
   }
 );
@@ -945,9 +973,12 @@ File: src/ai/flows/write-song-and-music.ts
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { ModelId, availableModels } from '@/lib/models';
+import { googleAI } from '@genkit-ai/googleai';
 
 const WriteSongAndMusicInputSchema = z.object({
   concept: z.string().describe('The concept for the song, which may include a specific language.'),
+  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type WriteSongAndMusicInput = z.infer<typeof WriteSongAndMusicInputSchema>;
 
@@ -1009,7 +1040,7 @@ const writeSongAndMusicFlow = ai.defineFlow(
     outputSchema: WriteSongAndMusicOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
     return output!;
   }
 );
@@ -1794,7 +1825,7 @@ export function ChartMaker({ mode }: { mode: any }) {
         setChartData(null);
         setError('');
         try {
-            const result = await generateChartFromPrompt({ prompt });
+            const result = await generateChartFromPrompt({ prompt, model });
             setChartData(result);
             addHistoryItem('chart_maker', prompt, result);
         } catch (err: any) {
@@ -1928,7 +1959,7 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
     const { user } = useAuth();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -1957,7 +1988,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat, activeChat, setActiveChat]);
+    }, [isFunChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -2062,6 +2093,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
+                model
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
@@ -2220,6 +2252,27 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     );
 }
 ==================================================
+File: src/components/modes/CodeAnalyzer.tsx
+==================================================
+
+"use client";
+
+import { TextGenerator } from "./TextGenerator";
+
+export function CodeAnalyzer({ mode }: { mode: any }) {
+    return (
+        <TextGenerator
+            mode={mode}
+            promptPlaceholder="Paste your code here to get an analysis..."
+            buttonText="Analyze Code"
+            generatePrompt={(prompt) => 
+                `Analyze the following code snippet and provide a report on its correctness, performance, style, and best practices. Identify any potential bugs or areas for improvement. Code:\n\n${prompt}`
+            }
+            resultTitle="Code Analysis"
+        />
+    );
+}
+==================================================
 File: src/components/modes/CodeGenerator.tsx
 ==================================================
 
@@ -2242,7 +2295,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export function CodeGenerator({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [prompt, setPrompt] = useState('');
     const [editPrompt, setEditPrompt] = useState('');
     const [language, setLanguage] = useState('python');
@@ -2271,7 +2324,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
         setIsLoading(true); setCode(''); setError(''); setExplanation('');
         const fullPrompt = `Generate a code snippet in ${language} for the following request. Also, provide a brief, one-sentence explanation of what the code does. The explanation MUST be in the same language as the user's request. The response should be a JSON object with two keys: "code" and "explanation". The "code" value should be only the raw code, without any markdown backticks. Request: "${prompt}"`;
         try {
-            const result = await createDocumentFromPrompt({ prompt: fullPrompt });
+            const result = await createDocumentFromPrompt({ prompt: fullPrompt, model, isJsonOutput: true });
             const parsedResult = JSON.parse(result.document);
             setCode(parsedResult.code);
             setExplanation(parsedResult.explanation);
@@ -2287,7 +2340,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
         if (!editPrompt.trim() || !code) { setError('Please enter an edit instruction.'); return; }
         setIsEditing(true); setError('');
         try {
-            const result = await editFilesFromPrompt({ fileContent: code, prompt: editPrompt });
+            const result = await editFilesFromPrompt({ fileContent: code, prompt: editPrompt, model });
             setCode(result.fileContent);
             setEditPrompt('');
              addHistoryItem('code_generator', `Edit: ${editPrompt}`, result.fileContent);
@@ -2462,7 +2515,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
 
 export function FileEditor({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [file, setFile] = useState<File | null>(null);
     const [fileContent, setFileContent] = useState('');
     const [editedContent, setEditedContent] = useState('');
@@ -2489,7 +2542,7 @@ export function FileEditor({ mode }: { mode: any }) {
         setIsLoading(true); setEditedContent(''); setError('');
         
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt });
+            const result = await editFilesFromPrompt({ fileContent, prompt, model });
             setEditedContent(result.fileContent);
             addHistoryItem('file_editor', `${prompt} on ${file?.name}`, result.fileContent);
         } catch (err: any) {
@@ -2592,7 +2645,7 @@ import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
 
 export function FileMaker({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [prompt, setPrompt] = useState('');
     const [editPrompt, setEditPrompt] = useState('');
     const [filename, setFilename] = useState('file.txt');
@@ -2606,7 +2659,7 @@ export function FileMaker({ mode }: { mode: any }) {
         setIsLoading(true); setFileContent(''); setError('');
         const fullPrompt = `Generate the content for a file named "${filename}" based on the following prompt. Only return the raw text content for the file, with no explanation. Prompt: ${prompt}`;
         try {
-            const result = await createDocumentFromPrompt({ prompt: fullPrompt });
+            const result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
             setFileContent(result.document);
             addHistoryItem('file_maker', prompt, result.document);
         } catch (err: any) {
@@ -2620,7 +2673,7 @@ export function FileMaker({ mode }: { mode: any }) {
         if (!editPrompt.trim() || !fileContent) { setError('Please enter an edit instruction.'); return; }
         setIsEditing(true); setError('');
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt: editPrompt });
+            const result = await editFilesFromPrompt({ fileContent, prompt: editPrompt, model });
             setFileContent(result.fileContent);
             setEditPrompt('');
             addHistoryItem('file_maker', `Edit: ${editPrompt}`, result.fileContent);
@@ -2754,6 +2807,214 @@ export function GameMaker({ mode }: { mode: any }) {
     );
 }
 ==================================================
+File: src/components/modes/HomeworkPlanner.tsx
+==================================================
+"use client";
+
+import { useState, useRef } from 'react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { School, Plus, Trash2, BrainCircuit, Loader2, AlertTriangle, Paperclip, X } from 'lucide-react';
+import { ModeWrapper } from './ModeWrapper';
+import { useModes } from '@/components/providers/ModeProvider';
+import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { Checkbox } from '../ui/checkbox';
+import { Label } from '../ui/label';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
+
+interface Task {
+  id: number;
+  text: string;
+  completed: boolean;
+  file?: File;
+  filePreview?: string;
+}
+
+export function HomeworkPlanner({ mode }: { mode: any }) {
+    const { addHistoryItem } = useModes();
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [newTask, setNewTask] = useState('');
+    const [attachment, setAttachment] = useState<{ file: File, preview: string } | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    const [aiHelp, setAiHelp] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAttachment({ file, preview: reader.result as string });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    
+    const handleAddTask = () => {
+        if (newTask.trim() || attachment) {
+            setTasks(prevTasks => [...prevTasks, { 
+                id: Date.now(), 
+                text: newTask, 
+                completed: false,
+                file: attachment?.file,
+                filePreview: attachment?.preview
+            }]);
+            setNewTask('');
+            setAttachment(null);
+            if(fileInputRef.current) fileInputRef.current.value = "";
+        }
+    };
+
+    const handleToggleTask = (id: number) => {
+        setTasks(tasks.map(task => 
+            task.id === id ? { ...task, completed: !task.completed } : task
+        ));
+    };
+
+    const handleDeleteTask = (id: number) => {
+        setTasks(tasks.filter(task => task.id !== id));
+    };
+
+    const handleGetHelp = async (task: Task) => {
+        setSelectedTask(task);
+        setAiHelp('');
+        setError('');
+        setIsLoading(true);
+
+        const prompt = `Provide a helpful and detailed answer for the following homework assignment. Analyze any attached file if present. Assignment: "${task.text}"`;
+        
+        try {
+            const result = await createDocumentFromPrompt({ 
+                prompt,
+                fileDataUri: task.filePreview
+            });
+            setAiHelp(result.document);
+            addHistoryItem('homework_helper', task.text, result.document);
+        } catch (err: any) {
+            setError(`Failed to get help: ${err.message}`);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <ModeWrapper mode={mode}>
+             <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+            <div className="flex gap-2">
+                <Input
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') handleAddTask(); }}
+                    placeholder="e.g., Solve for x in 2x + 5 = 15"
+                    className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 transition-colors"
+                />
+                <Button variant="outline" size="icon" onClick={() => fileInputRef.current?.click()}>
+                    <Paperclip />
+                </Button>
+                <Button onClick={handleAddTask}><Plus /></Button>
+            </div>
+             {attachment && (
+                <div className="mt-2 text-left relative w-full p-2 border rounded-md flex items-center gap-2">
+                    <img src={attachment.preview} alt="preview" className="h-10 w-10 object-cover rounded-md" />
+                    <span className="text-sm text-muted-foreground truncate">{attachment.file.name}</span>
+                    <Button variant="ghost" size="icon" className="h-6 w-6 absolute top-1 right-1" onClick={() => setAttachment(null)}>
+                        <X size={14}/>
+                    </Button>
+                </div>
+            )}
+            
+            <Card className="mt-6 text-left">
+                <CardHeader>
+                    <CardTitle>My Assignments</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    {tasks.length > 0 ? (
+                        <div className="space-y-4">
+                            {tasks.map(task => (
+                                <div key={task.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                                    <div className="flex items-center gap-3">
+                                        <Checkbox
+                                            id={`task-${task.id}`}
+                                            checked={task.completed}
+                                            onCheckedChange={() => handleToggleTask(task.id)}
+                                        />
+                                        <div className='flex flex-col'>
+                                        <Label htmlFor={`task-${task.id}`} className={`text-sm ${task.completed ? 'line-through text-muted-foreground' : ''}`}>
+                                            {task.text}
+                                        </Label>
+                                        {task.file && (
+                                            <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                                                <Paperclip size={12}/> {task.file.name}
+                                            </div>
+                                        )}
+                                        </div>
+
+                                    </div>
+                                    <div className='flex items-center gap-2'>
+                                        <Button size="sm" variant="outline" onClick={() => handleGetHelp(task)}>
+                                            <BrainCircuit className="mr-2 h-4 w-4" /> Get Help
+                                        </Button>
+                                         <Button size="icon" variant="ghost" className="text-destructive h-8 w-8" onClick={() => handleDeleteTask(task.id)}>
+                                            <Trash2 size={16} />
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center text-muted-foreground py-6">
+                            <School className="h-10 w-10 mx-auto opacity-50 mb-2" />
+                            No assignments yet. Add one above to get started.
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+
+            {selectedTask && (
+                <Dialog open={!!selectedTask} onOpenChange={(open) => { if (!open) setSelectedTask(null) }}>
+                    <DialogContent className="max-w-2xl">
+                        <DialogHeader>
+                            <DialogTitle>AI Homework Help</DialogTitle>
+                            <DialogDescription className="pt-2">{selectedTask.text}</DialogDescription>
+                        </DialogHeader>
+                        <div className="my-4 max-h-[60vh] overflow-y-auto pr-4">
+                            {isLoading ? (
+                                <div className="flex items-center justify-center h-40">
+                                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                                </div>
+                            ) : error ? (
+                                <Alert variant="destructive">
+                                    <AlertTriangle className="h-4 w-4" />
+                                    <AlertTitle>Error</AlertTitle>
+                                    <AlertDescription>{error}</AlertDescription>
+                                </Alert>
+                            ) : (
+                                <pre className="whitespace-pre-wrap font-sans leading-relaxed">{aiHelp}</pre>
+                            )}
+                        </div>
+                         <DialogFooter>
+                            <Button variant="outline" onClick={() => setSelectedTask(null)}>Close</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            )}
+
+        </ModeWrapper>
+    );
+}
+==================================================
 File: src/components/modes/Maker.tsx
 ==================================================
 
@@ -2784,7 +3045,7 @@ interface MakerProps {
 }
 
 export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLanguage, promptPlaceholder, showMakerOptions = false }: MakerProps) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [prompt, setPrompt] = useState('');
     const [editPrompt, setEditPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -2813,7 +3074,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         const fullPrompt = generatePrompt(prompt);
 
         try {
-            const apiResult = await createDocumentFromPrompt({ prompt: fullPrompt });
+            const apiResult = await createDocumentFromPrompt({ prompt: fullPrompt, model });
             let generatedResult = apiResult.document.replace(/^```(html|json)?\n?/, '').replace(/```$/, '').trim();
             
             let generatedExplanation: string | undefined;
@@ -2845,7 +3106,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         setIsEditing(true); setError('');
         
         try {
-            const editResult = await editFilesFromPrompt({fileContent: result, prompt: editPrompt});
+            const editResult = await editFilesFromPrompt({fileContent: result, prompt: editPrompt, model});
             let finalResult = editResult.fileContent.replace(/^```(html|json)?\n?/, '').replace(/```$/, '').trim();
             setResult(finalResult);
             setEditPrompt('');
@@ -3427,7 +3688,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
 export function SongWriter({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -3478,7 +3739,7 @@ export function SongWriter({ mode }: { mode: any }) {
         setIsLoading(true); setError(''); setLyrics(''); setComposition(null); cleanup();
         
         try {
-            const result = await writeSongAndMusic({ concept: prompt });
+            const result = await writeSongAndMusic({ concept: prompt, model });
             setLyrics(result.lyrics);
             setComposition(result.composition);
             addHistoryItem('song_writer', prompt, `Generated a song with lyrics and a ${result.composition.length}-note melody.`);
@@ -3567,7 +3828,7 @@ interface TextGeneratorProps {
 }
 
 export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePrompt, resultTitle }: TextGeneratorProps) {
-  const { addHistoryItem } = useModes();
+  const { addHistoryItem, model } = useModes();
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [resultText, setResultText] = useState('');
@@ -3583,7 +3844,7 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
     setError('');
     const fullPrompt = generatePrompt(prompt);
     try {
-      const result = await createDocumentFromPrompt({ prompt: fullPrompt });
+      const result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
       const generatedText = result.document;
       setResultText(generatedText);
       addHistoryItem(mode.id, prompt, generatedText);
@@ -3656,7 +3917,7 @@ import { languages, languageToCode } from '@/lib/languages';
 
 
 export function Translator({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [text, setText] = useState('');
     const [sourceLanguage, setSourceLanguage] = useState('Auto-detect');
     const [targetLanguage, setTargetLanguage] = useState('French');
@@ -3744,6 +4005,7 @@ export function Translator({ mode }: { mode: any }) {
                 targetLanguage,
                 sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage,
                 fileDataUri: fileDataUri,
+                model
             });
             setTranslation(result.translation);
             // If text was extracted, update the input text area
@@ -3919,7 +4181,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { analyzeVideo } from '@/ai/flows/video-editor';
 
 export function VideoEditor({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] =useState<string | null>(null);
     const [analysisResult, setAnalysisResult] = useState('');
@@ -3980,7 +4242,7 @@ export function VideoEditor({ mode }: { mode: any }) {
         
         try {
             const frameDataUri = await getFrameAsDataURI();
-            const result = await analyzeVideo({ videoDataUri: frameDataUri, prompt });
+            const result = await analyzeVideo({ videoDataUri: frameDataUri, prompt, model });
             if (result.analysis) {
                 setAnalysisResult(result.analysis);
                 addHistoryItem('video_editor', `${prompt} on ${file?.name}`, result.analysis);
@@ -4309,8 +4571,12 @@ export function VoiceInterface({ mode }: { mode: any }) {
             };
 
             recognitionRef.current.onerror = (event: any) => {
-                console.error('Speech recognition error:', event.error);
-                setStatus('Error listening. Try again.');
+                if (event.error !== 'aborted') {
+                    console.error('Speech recognition error:', event.error);
+                    setStatus('Error listening. Try again.');
+                } else {
+                    setStatus('Tap to speak');
+                }
                 setIsListening(false);
             };
 
@@ -4845,7 +5111,7 @@ File: src/components/providers/ModeProvider.tsx
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { type ModeId } from '@/lib/modes';
 import { useAuth } from './AuthProvider';
-import { ModelId } from '@/lib/models';
+import { ModelId, availableModels } from '@/lib/models';
 
 export interface HistoryItem {
   id: number;
@@ -4869,6 +5135,7 @@ interface ModeContextType {
   loadHistoryItem: (item: HistoryItem) => void;
   activeChat: any[];
   setActiveChat: (chat: any[]) => void;
+  model: ModelId;
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
@@ -4880,6 +5147,7 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [activeChat, setActiveChat] = useState<any[]>([]);
+  const model = availableModels[0];
 
   const historyKey = user ? `history_${user.uid}` : 'history_guest';
 
@@ -4957,6 +5225,7 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     loadHistoryItem,
     activeChat,
     setActiveChat,
+    model,
   };
 
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;
@@ -6018,7 +6287,73 @@ const ChartTooltipContent = React.forwardRef<
           className
         )}
       >
-        {...省略部分代码...}
+        {!nestLabel ? tooltipLabel : null}
+        <div className="grid gap-1.5">
+          {payload.map((item, index) => {
+            const key = `${nameKey || item.name || item.dataKey || "value"}`
+            const itemConfig = getPayloadConfigFromPayload(config, item, key)
+            const indicatorColor = color || item.payload.fill || item.color
+
+            return (
+              <div
+                key={item.dataKey}
+                className={cn(
+                  "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground",
+                  indicator === "dot" && "items-center"
+                )}
+              >
+                {formatter && item?.value !== undefined && item.name ? (
+                  formatter(item.value, item.name, item, index, item.payload)
+                ) : (
+                  <>
+                    {itemConfig?.icon ? (
+                      <itemConfig.icon />
+                    ) : (
+                      !hideIndicator && (
+                        <div
+                          className={cn(
+                            "shrink-0 rounded-[2px] border-[--color-border] bg-[--color-bg]",
+                            {
+                              "h-2.5 w-2.5": indicator === "dot",
+                              "w-1": indicator === "line",
+                              "w-0 border-[1.5px] border-dashed bg-transparent":
+                                indicator === "dashed",
+                              "my-0.5": nestLabel && indicator === "dashed",
+                            }
+                          )}
+                          style={
+                            {
+                              "--color-bg": indicatorColor,
+                              "--color-border": indicatorColor,
+                            } as React.CSSProperties
+                          }
+                        />
+                      )
+                    )}
+                    <div
+                      className={cn(
+                        "flex flex-1 justify-between leading-none",
+                        nestLabel ? "items-end" : "items-center"
+                      )}
+                    >
+                      <div className="grid gap-1.5">
+                        {nestLabel ? tooltipLabel : null}
+                        <span className="text-muted-foreground">
+                          {itemConfig?.label || item.name}
+                        </span>
+                      </div>
+                      {item.value && (
+                        <span className="font-mono font-medium tabular-nums text-foreground">
+                          {item.value.toLocaleString()}
+                        </span>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            )
+          })}
+        </div>
       </div>
     )
   }
@@ -9063,6 +9398,8 @@ import { Translator } from '@/components/modes/Translator';
 import { SongWriter } from '@/components/modes/SongWriter';
 import { ChartMaker } from '@/components/modes/ChartMaker';
 import { VoiceInterface } from '@/components/modes/VoiceInterface';
+import { HomeworkPlanner } from '@/components/modes/HomeworkPlanner';
+import { CodeAnalyzer } from '@/components/modes/CodeAnalyzer';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -9092,6 +9429,7 @@ export const modes: Mode[] = [
     { id: 'video_generator', name: 'Video Generator', icon: Video, description: 'Generate a video with narration in any language.', component: VideoGenerator },
     { id: 'video_editor', name: 'Video Editor', icon: Film, description: 'Upload a video and get AI analysis.', component: VideoEditor },
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
+    { id: 'code_analyzer', name: 'Code Analyzer', icon: Search, description: 'Analyze code for errors, performance, and best practices.', component: CodeAnalyzer },
     { id: 'website_maker', name: 'Website Maker', icon: Globe, description: 'Generate, preview, and import websites.', component: WebsiteMaker },
     { id: 'app_maker', name: 'App Maker', icon: AppWindow, description: 'Scaffold, import, and plan mobile applications.', component: AppMaker },
     { id: 'game_maker', name: 'Game Maker', icon: Gamepad2, description: 'Design, import, and create plans for your game.', component: GameMaker },
@@ -9136,12 +9474,7 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Correct the grammar and spelling of the following text, and provide the corrected version in the same language:\n\n${p}`,
         resultTitle: "Corrected Text"
     }},
-    { id: 'homework_helper', name: 'Homework Helper', icon: School, description: 'Get help with your homework assignments.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "Enter your homework question here...",
-        buttonText: "Get Help",
-        generatePrompt: (p: string) => `Provide a helpful and detailed answer to the following homework question. The answer should be in the same language as the question. Question: ${p}`,
-        resultTitle: "Answer"
-    }},
+    { id: 'homework_helper', name: 'Homework Planner', icon: School, description: 'Plan assignments and get AI help.', component: HomeworkPlanner },
     { id: 'idea_generator', name: 'Idea Generator', icon: Lightbulb, description: 'Brainstorm creative ideas on any topic.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., 'Business ideas for a small town' or 'Plot ideas for a sci-fi novel'...",
         buttonText: "Generate Ideas",
@@ -9345,5 +9678,3 @@ File: tsconfig.json
   "exclude": ["node_modules"]
 }
 ==================================================
-
-
