@@ -1,3 +1,4 @@
+
 'use server';
 import { config } from 'dotenv';
 config();
@@ -14,3 +15,4 @@ import '@/ai/flows/import-from-url.ts';
 import '@/ai/flows/video-editor.ts';
 import '@/ai/flows/generate-chart-from-prompt.ts';
 import '@/ai/flows/generate-video-from-prompt.ts';
+import '@/ai/flows/sound-generator.ts';
