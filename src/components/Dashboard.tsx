@@ -1,13 +1,13 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Header } from "@/components/layout/Header";
 import { HistoryPanel } from "@/components/panels/HistoryPanel";
 import { SettingsPanel } from "@/components/panels/SettingsPanel";
 import { SignInModal } from "@/components/dialogs/SignInModal";
 import { useModes } from '@/components/providers/ModeProvider';
-import { modes, ModeId } from '@/lib/modes';
+import { modes } from '@/lib/modes';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider } from './ui/sidebar';
 import { BrainCircuit, LogIn } from 'lucide-react';
 import { useAuth } from './providers/AuthProvider';
@@ -17,20 +17,14 @@ export function Dashboard() {
   const { activeMode, setActiveMode, activeChat, setActiveChat } = useModes();
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const { user } = useAuth();
-  const [previousMode, setPreviousMode] = useState<ModeId>(activeMode);
 
   const currentMode = modes.find(m => m.id === activeMode);
   const ActiveComponent = currentMode?.component;
-  
-  useEffect(() => {
-    // If the previous mode was a chat mode and the current one is not, clear the chat.
-    if ((previousMode === 'chat' || previousMode === 'fun_chat') && (activeMode !== 'chat' && activeMode !== 'fun_chat')) {
-      setActiveChat([]);
-    }
-    setPreviousMode(activeMode);
-  }, [activeMode, previousMode, setActiveChat]);
 
-  const handleModeChange = (modeId: ModeId) => {
+  const handleModeChange = (modeId: any) => {
+    if (activeMode !== modeId) {
+        setActiveChat([]);
+    }
     setActiveMode(modeId);
   }
   
