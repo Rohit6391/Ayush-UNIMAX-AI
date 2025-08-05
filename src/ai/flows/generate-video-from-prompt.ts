@@ -12,6 +12,7 @@ import { MediaPart } from 'genkit/model';
 
 const GenerateVideoFromPromptInputSchema = z.object({
   prompt: z.string().describe("A text description of the video to generate."),
+  photoDataUri: z.string().optional().describe("An optional photo to animate, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
 });
 export type GenerateVideoFromPromptInput = z.infer<typeof GenerateVideoFromPromptInputSchema>;
 
@@ -70,9 +71,14 @@ const generateVideoFromPromptFlow = ai.defineFlow(
   },
   async (input) => {
     
+    const promptItems: (string | { media: { url: string } } | { text: string })[] = [{ text: input.prompt }];
+    if (input.photoDataUri) {
+        promptItems.unshift({ media: { url: input.photoDataUri } });
+    }
+
     let { operation } = await ai.generate({
         model: googleAI.model('veo-3.0-generate-preview'),
-        prompt: input.prompt,
+        prompt: input.photoDataUri ? promptItems : input.prompt,
     });
     
     if (!operation) {
