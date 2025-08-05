@@ -27,7 +27,7 @@ export type ModeId =
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
   | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
   | 'file_editor' | 'story_generator' | 'summarizer' | 'translator' | 'song_writer' 
-  | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
+  | 'sound_generator' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
   | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
   | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
   | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat';
@@ -73,12 +73,6 @@ export const modes: Mode[] = [
     { id: 'song_writer', name: 'Song Writer', icon: Music, description: 'Generate lyrics and a matching melody.', component: SongWriter },
     { id: 'sound_generator', name: 'Sound Generator', icon: AudioLines, description: 'Create sound effects and audio clips.', component: SoundGenerator },
     { id: 'chart_maker', name: 'Chart & Graph Maker', icon: BarChart3, description: 'Create charts and graphs from data.', component: ChartMaker },
-    { id: 'document_maker', name: 'Document Maker', icon: FileText, description: 'Draft documents, reports, and more.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., A business report on quarterly sales figures in French...",
-        buttonText: "Generate Document",
-        generatePrompt: (p: string) => `Create a formal document based on this request. The document should be in the same language as the request. Request: ${p}`,
-        resultTitle: "Generated Document"
-    }},
     { id: 'question_giver', name: 'Question Giver', icon: HelpCircle, description: 'Get questions for any topic.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., 'The history of the Roman Empire' or 'La physique quantique'...",
         buttonText: "Generate Questions",
