@@ -77,7 +77,7 @@ const generateVideoFromPromptFlow = ai.defineFlow(
     }
 
     let { operation } = await ai.generate({
-        model: googleAI.model('veo-3.0-generate-preview'),
+        model: googleAI.model('veo-2.0-generate-001'),
         prompt: input.photoDataUri ? promptItems : input.prompt,
     });
     
