@@ -1,7 +1,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -21,6 +21,7 @@ import { ChartMaker } from '@/components/modes/ChartMaker';
 import { VoiceInterface } from '@/components/modes/VoiceInterface';
 import { HomeworkPlanner } from '@/components/modes/HomeworkPlanner';
 import { CodeAnalyzer } from '@/components/modes/CodeAnalyzer';
+import { VideoMaker } from '@/components/modes/VideoMaker';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -29,7 +30,8 @@ export type ModeId =
   | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
   | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
   | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
-  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat';
+  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat'
+  | 'video_maker';
 
 
 export interface Mode {
@@ -47,8 +49,9 @@ export const modes: Mode[] = [
     { id: 'voice_chat', name: 'Voice Chat', icon: Mic, description: 'Talk directly with the AI in a voice conversation.', component: VoiceInterface },
     { id: 'photo_generator', name: 'Photo Generator', icon: Image, description: 'Create stunning images from text prompts.', component: PhotoGenerator },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
-    { id: 'video_generator', name: 'Video Generator', icon: Video, description: 'Generate a video with narration in any language.', component: VideoGenerator },
-    { id: 'video_editor', name: 'Video Editor', icon: Film, description: 'Upload a video and get AI analysis.', component: VideoEditor },
+    { id: 'video_maker', name: 'Video Maker', icon: Clapperboard, description: 'Create high-quality videos from a text prompt.', component: VideoMaker },
+    { id: 'video_generator', name: 'Video Storyboard', icon: Video, description: 'Generate a video with narration in any language.', component: VideoGenerator },
+    { id: 'video_editor', name: 'Video Analyzer', icon: Film, description: 'Upload a video and get AI analysis.', component: VideoEditor },
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
     { id: 'code_analyzer', name: 'Code Analyzer', icon: Search, description: 'Analyze code for errors, performance, and best practices.', component: CodeAnalyzer },
     { id: 'website_maker', name: 'Website Maker', icon: Globe, description: 'Generate, preview, and import websites.', component: WebsiteMaker },

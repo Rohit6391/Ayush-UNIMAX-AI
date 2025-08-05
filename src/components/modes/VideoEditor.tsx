@@ -12,7 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { analyzeVideo } from '@/ai/flows/video-editor';
 
 export function VideoEditor({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] =useState<string | null>(null);
     const [analysisResult, setAnalysisResult] = useState('');
@@ -73,7 +73,7 @@ export function VideoEditor({ mode }: { mode: any }) {
         
         try {
             const frameDataUri = await getFrameAsDataURI();
-            const result = await analyzeVideo({ videoDataUri: frameDataUri, prompt, model });
+            const result = await analyzeVideo({ videoDataUri: frameDataUri, prompt });
             if (result.analysis) {
                 setAnalysisResult(result.analysis);
                 addHistoryItem('video_editor', `${prompt} on ${file?.name}`, result.analysis);
