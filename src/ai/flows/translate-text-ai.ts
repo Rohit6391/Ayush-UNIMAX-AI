@@ -11,7 +11,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { ModelId, availableModels } from '@/lib/models';
 import { googleAI } from '@genkit-ai/googleai';
 
 const TranslateTextAIInputSchema = z.object({
@@ -19,7 +18,6 @@ const TranslateTextAIInputSchema = z.object({
   targetLanguage: z.string().describe('The target language for the translation.'),
   sourceLanguage: z.string().optional().describe('The source language of the text. If not provided, it should be auto-detected.'),
   fileDataUri: z.string().optional().describe("An optional file (image or document) to extract text from, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type TranslateTextAIInput = z.infer<typeof TranslateTextAIInputSchema>;
 
@@ -71,7 +69,7 @@ const translateTextAIFlow = ai.defineFlow(
     if (!input.text && !input.fileDataUri) {
       throw new Error("Either text or a file must be provided for translation.");
     }
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const {output} = await prompt(input);
     return output!;
   }
 );

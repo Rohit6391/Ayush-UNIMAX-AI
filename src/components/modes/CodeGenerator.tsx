@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export function CodeGenerator({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [editPrompt, setEditPrompt] = useState('');
     const [language, setLanguage] = useState('python');
@@ -47,7 +47,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
         setIsLoading(true); setCode(''); setError(''); setExplanation('');
         const fullPrompt = `Generate a code snippet in ${language} for the following request. Also, provide a brief, one-sentence explanation of what the code does. The explanation MUST be in the same language as the user's request. The response should be a JSON object with two keys: "code" and "explanation". The "code" value should be only the raw code, without any markdown backticks. Request: "${prompt}"`;
         try {
-            const result = await createDocumentFromPrompt({ prompt: fullPrompt, model, isJsonOutput: true });
+            const result = await createDocumentFromPrompt({ prompt: fullPrompt, isJsonOutput: true });
             const parsedResult = JSON.parse(result.document);
             setCode(parsedResult.code);
             setExplanation(parsedResult.explanation);
@@ -63,7 +63,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
         if (!editPrompt.trim() || !code) { setError('Please enter an edit instruction.'); return; }
         setIsEditing(true); setError('');
         try {
-            const result = await editFilesFromPrompt({ fileContent: code, prompt: editPrompt, model });
+            const result = await editFilesFromPrompt({ fileContent: code, prompt: editPrompt });
             setCode(result.fileContent);
             setEditPrompt('');
              addHistoryItem('code_generator', `Edit: ${editPrompt}`, result.fileContent);

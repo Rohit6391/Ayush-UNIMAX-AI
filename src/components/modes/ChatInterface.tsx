@@ -154,7 +154,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
-                model
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
@@ -182,7 +181,11 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             }
 
         } catch (error: any) {
-            const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}.` };
+            let errorMessageText = `An error occurred: ${error.message}.`;
+            if (error.message && error.message.includes('429 Too Many Requests')) {
+                errorMessageText = "You have exceeded the daily request limit for the AI. Please try again tomorrow or upgrade your plan.";
+            }
+            const errorMessage: Message = { role: 'model', text: errorMessageText };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);

@@ -14,7 +14,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLe
 import { Bar, Line, Pie, Cell, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 export function ChartMaker({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [chartData, setChartData] = useState<GenerateChartFromPromptOutput | null>(null);
@@ -29,7 +29,7 @@ export function ChartMaker({ mode }: { mode: any }) {
         setChartData(null);
         setError('');
         try {
-            const result = await generateChartFromPrompt({ prompt, model });
+            const result = await generateChartFromPrompt({ prompt });
             setChartData(result);
             addHistoryItem('chart_maker', prompt, result);
         } catch (err: any) {

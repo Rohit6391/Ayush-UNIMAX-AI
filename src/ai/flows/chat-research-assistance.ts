@@ -11,7 +11,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { ModelId, availableModels } from '@/lib/models';
 import { googleAI } from '@genkit-ai/googleai';
 
 const ChatResearchAssistanceInputSchema = z.object({
@@ -20,7 +19,6 @@ const ChatResearchAssistanceInputSchema = z.object({
   isFunChat: z.boolean().optional().describe('Whether to use a fun, witty, and creative personality.'),
   history: z.array(z.any()).optional().describe('The chat history.'),
   fileDataUri: z.string().optional().describe("An optional file provided by the user, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type ChatResearchAssistanceInput = z.infer<typeof ChatResearchAssistanceInputSchema>;
 
@@ -84,7 +82,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     outputSchema: ChatResearchAssistanceOutputSchema,
   },
   async (input) => {
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const {output} = await prompt(input);
     return output!;
   }
 );

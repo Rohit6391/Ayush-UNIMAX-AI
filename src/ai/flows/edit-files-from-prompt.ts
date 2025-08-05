@@ -11,13 +11,11 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { ModelId, availableModels } from '@/lib/models';
 import { googleAI } from '@genkit-ai/googleai';
 
 const EditFilesFromPromptInputSchema = z.object({
   fileContent: z.string().describe('The content of the file to be edited.'),
   prompt: z.string().describe('Instructions on how to edit the file content.'),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type EditFilesFromPromptInput = z.infer<typeof EditFilesFromPromptInputSchema>;
 
@@ -49,7 +47,7 @@ const editFilesFromPromptFlow = ai.defineFlow(
     outputSchema: EditFilesFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const {output} = await prompt(input);
     if (!output) {
         throw new Error("The AI failed to generate a response.");
     }

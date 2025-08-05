@@ -17,7 +17,7 @@ import { languages, languageToCode } from '@/lib/languages';
 
 
 export function Translator({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [text, setText] = useState('');
     const [sourceLanguage, setSourceLanguage] = useState('Auto-detect');
     const [detectedLanguage, setDetectedLanguage] = useState<string | null>(null);
@@ -117,7 +117,6 @@ export function Translator({ mode }: { mode: any }) {
                 targetLanguage: finalTargetLanguage,
                 sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage,
                 fileDataUri,
-                model
             });
             setTranslation(result.translation);
 

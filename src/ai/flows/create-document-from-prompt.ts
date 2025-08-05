@@ -11,13 +11,11 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { ModelId, availableModels } from '@/lib/models';
 import { googleAI } from '@genkit-ai/googleai';
 
 const CreateDocumentFromPromptInputSchema = z.object({
   prompt: z.string().describe('The prompt for generating the document.'),
   fileDataUri: z.string().optional().describe("An optional file (image or document) to extract text from, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
   isJsonOutput: z.boolean().optional().describe('Whether the output should be a JSON string.'),
 });
 export type CreateDocumentFromPromptInput = z.infer<typeof CreateDocumentFromPromptInputSchema>;
@@ -57,7 +55,7 @@ const createDocumentFromPromptFlow = ai.defineFlow(
     outputSchema: CreateDocumentFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const {output} = await prompt(input);
     return output!;
   }
 );

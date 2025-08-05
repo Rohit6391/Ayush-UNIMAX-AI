@@ -12,7 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
 
 export function FileEditor({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [file, setFile] = useState<File | null>(null);
     const [fileContent, setFileContent] = useState('');
     const [editedContent, setEditedContent] = useState('');
@@ -39,7 +39,7 @@ export function FileEditor({ mode }: { mode: any }) {
         setIsLoading(true); setEditedContent(''); setError('');
         
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt, model });
+            const result = await editFilesFromPrompt({ fileContent, prompt });
             setEditedContent(result.fileContent);
             addHistoryItem('file_editor', `${prompt} on ${file?.name}`, result.fileContent);
         } catch (err: any) {
