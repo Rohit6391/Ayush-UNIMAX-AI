@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useModes } from '@/components/providers/ModeProvider';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Settings, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -48,7 +49,7 @@ export function Translator({ mode }: { mode: any }) {
                 const transcript = event.results[0][0].transcript;
                 setText(transcript);
                 setIsListening(false);
-                handleTranslate(transcript);
+                handleTranslate(transcript, undefined, targetLanguage);
             };
             recognitionRef.current.onerror = (event: any) => {
                 console.error('Speech recognition error:', event.error);
@@ -59,7 +60,7 @@ export function Translator({ mode }: { mode: any }) {
                 setIsListening(false);
             };
         }
-    }, []);
+    }, [targetLanguage]); // Re-initialize if targetLanguage changes to capture it in the closure
 
     const handleListen = () => {
         if (isListening) {
@@ -96,8 +97,10 @@ export function Translator({ mode }: { mode: any }) {
     };
 
 
-    const handleTranslate = async (inputText?: string, fileDataUri?: string) => {
+    const handleTranslate = async (inputText?: string, fileDataUri?: string, currentTargetLanguage?: string) => {
         const currentText = inputText ?? text;
+        const finalTargetLanguage = currentTargetLanguage || targetLanguage;
+
         if (!currentText.trim() && !fileDataUri) {
             // No need to set error if it's an empty transient state
             return; 
@@ -110,7 +113,7 @@ export function Translator({ mode }: { mode: any }) {
         try {
             const result = await translateText({ 
                 text: currentText, 
-                targetLanguage,
+                targetLanguage: finalTargetLanguage,
                 sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage,
                 fileDataUri,
                 model
