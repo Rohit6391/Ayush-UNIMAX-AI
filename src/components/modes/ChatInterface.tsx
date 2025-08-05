@@ -20,7 +20,7 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
     const { user } = useAuth();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -49,7 +49,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat]);
+    }, [isFunChat, activeChat, setActiveChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -154,6 +154,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
+                model
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);

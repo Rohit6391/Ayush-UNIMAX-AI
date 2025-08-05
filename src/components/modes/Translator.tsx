@@ -49,6 +49,7 @@ export function Translator({ mode }: { mode: any }) {
                 const transcript = event.results[0][0].transcript;
                 setText(transcript);
                 setIsListening(false);
+                // Pass the current target language directly to handleTranslate
                 handleTranslate(transcript, undefined, targetLanguage);
             };
             recognitionRef.current.onerror = (event: any) => {

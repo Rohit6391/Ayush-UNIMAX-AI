@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef } from 'react';
@@ -34,12 +35,11 @@ export function PhotoEditor({ mode }: { mode: any }) {
     };
 
     const handleEdit = async () => {
-        if (!prompt.trim()) { setError('Please provide editing instructions.'); return; }
+        if (!previewUrl || !prompt.trim()) { setError('Please provide editing instructions and an image.'); return; }
         setIsLoading(true); setEditedImageUrl(''); setError('');
         
         try {
-            const fullPrompt = `Edit the provided image based on the following instruction: "${prompt}".`;
-            const result = await generateImageFromStoryboard({ imagePrompt: fullPrompt });
+            const result = await generateImageFromStoryboard({ imagePrompt: prompt, photoDataUri: previewUrl });
             if (result.imageUrl) {
                 setEditedImageUrl(result.imageUrl);
                 addHistoryItem('photo_editor', `${prompt} on ${file?.name}`, result.imageUrl);
