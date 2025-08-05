@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useModes } from '@/components/providers/ModeProvider';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, Globe, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
+import { Settings, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { translateText } from '@/ai/flows/translate-text-ai';
@@ -87,8 +86,10 @@ export function Translator({ mode }: { mode: any }) {
             setFile(selectedFile);
             const reader = new FileReader();
             reader.onloadend = () => {
-                setPreviewUrl(reader.result as string);
-                handleTranslate(undefined, reader.result as string);
+                const result = reader.result as string;
+                setPreviewUrl(result);
+                // Automatically translate after file is read
+                handleTranslate(undefined, result);
             };
             reader.readAsDataURL(selectedFile);
         }
@@ -97,7 +98,10 @@ export function Translator({ mode }: { mode: any }) {
 
     const handleTranslate = async (inputText?: string, fileDataUri?: string) => {
         const currentText = inputText ?? text;
-        if (!currentText.trim() && !fileDataUri) { return; }
+        if (!currentText.trim() && !fileDataUri) {
+            // No need to set error if it's an empty transient state
+            return; 
+        }
 
         setIsLoading(true); 
         setTranslation(''); 
@@ -108,11 +112,11 @@ export function Translator({ mode }: { mode: any }) {
                 text: currentText, 
                 targetLanguage,
                 sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage,
-                fileDataUri: fileDataUri,
+                fileDataUri,
                 model
             });
             setTranslation(result.translation);
-            // If text was extracted, update the input text area
+
             if (result.extractedText) {
                 setText(result.extractedText);
             }
@@ -121,7 +125,10 @@ export function Translator({ mode }: { mode: any }) {
             } else {
                 setDetectedLanguage(null);
             }
-            addHistoryItem('translator', `Translate to ${targetLanguage}: ${currentText.substring(0, 40)}...`, result.translation);
+
+            const historyPrompt = fileDataUri ? `Translate file: ${file?.name || 'document'}` : `Translate: ${currentText.substring(0, 40)}...`;
+            addHistoryItem('translator', historyPrompt, result.translation);
+
         } catch (err: any) {
             setError(`Translation failed: ${err.message}`);
         } finally {
@@ -155,6 +162,7 @@ export function Translator({ mode }: { mode: any }) {
         setPreviewUrl(null);
         setTranslation('');
         setError('');
+        setDetectedLanguage(null);
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
@@ -185,7 +193,7 @@ export function Translator({ mode }: { mode: any }) {
                             <TabsList className="m-2 grid grid-cols-3">
                                 <TabsTrigger value="text">Text</TabsTrigger>
                                 <TabsTrigger value="voice">Voice</TabsTrigger>
-                                <TabsTrigger value="file">Documents</TabsTrigger>
+                                <TabsTrigger value="file">File</TabsTrigger>
                             </TabsList>
                             <TabsContent value="text" className="flex-1 m-2 mt-0">
                                 <Textarea 
@@ -208,7 +216,7 @@ export function Translator({ mode }: { mode: any }) {
                                     </Select>
                                 </div>
                                 <Button onClick={handleListen} size="icon" className={`h-20 w-20 rounded-full ${isListening ? 'bg-red-500 hover:bg-red-600' : ''}`}>
-                                    <Mic size={40} />
+                                    {isListening ? <Waves size={40} /> : <Mic size={40} />}
                                 </Button>
                                 <p className="text-muted-foreground">{isListening ? 'Listening...' : 'Tap microphone to start'}</p>
                             </TabsContent>
@@ -217,7 +225,7 @@ export function Translator({ mode }: { mode: any }) {
                                     onClick={() => fileInputRef.current?.click()} 
                                     className="w-full h-full border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-muted/50"
                                 >
-                                    <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept=".txt,.pdf,.png,.jpeg,.webp" />
+                                    <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept=".txt,.pdf,.png,.jpeg,.jpg,.webp" />
                                     {previewUrl && file?.type.startsWith('image/') ? (
                                         <img src={previewUrl} alt="Upload preview" className="max-h-full max-w-full p-2 object-contain" />
                                     ) : (
