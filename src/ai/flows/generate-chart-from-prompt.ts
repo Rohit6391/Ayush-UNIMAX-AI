@@ -10,7 +10,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { googleAI } from '@genkit-ai/googleai';
 
 const GenerateChartFromPromptInputSchema = z.object({
   prompt: z.string().describe('A natural language description of the chart to generate, including the data and the desired chart type (e.g., bar, line, pie).'),

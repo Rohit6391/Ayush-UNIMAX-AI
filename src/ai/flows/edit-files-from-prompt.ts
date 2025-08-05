@@ -11,7 +11,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { googleAI } from '@genkit-ai/googleai';
 
 const EditFilesFromPromptInputSchema = z.object({
   fileContent: z.string().describe('The content of the file to be edited.'),

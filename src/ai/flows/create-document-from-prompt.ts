@@ -11,7 +11,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { googleAI } from '@genkit-ai/googleai';
 
 const CreateDocumentFromPromptInputSchema = z.object({
   prompt: z.string().describe('The prompt for generating the document.'),

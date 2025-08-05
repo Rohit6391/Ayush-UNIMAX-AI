@@ -10,7 +10,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { googleAI } from '@genkit-ai/googleai';
 
 const WriteSongAndMusicInputSchema = z.object({
   concept: z.string().describe('The concept for the song, which may include a specific language.'),

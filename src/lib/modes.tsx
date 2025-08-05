@@ -21,7 +21,6 @@ import { ChartMaker } from '@/components/modes/ChartMaker';
 import { VoiceInterface } from '@/components/modes/VoiceInterface';
 import { HomeworkPlanner } from '@/components/modes/HomeworkPlanner';
 import { CodeAnalyzer } from '@/components/modes/CodeAnalyzer';
-import { VideoMaker } from '@/components/modes/VideoMaker';
 import { SoundGenerator } from '@/components/modes/SoundGenerator';
 
 export type ModeId = 
@@ -31,8 +30,7 @@ export type ModeId =
   | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
   | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
   | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
-  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat'
-  | 'video_maker';
+  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat';
 
 
 export interface Mode {
@@ -50,7 +48,6 @@ export const modes: Mode[] = [
     { id: 'voice_chat', name: 'Voice Chat', icon: Mic, description: 'Talk directly with the AI in a voice conversation.', component: VoiceInterface },
     { id: 'photo_generator', name: 'Photo Generator', icon: Image, description: 'Create stunning images from text prompts.', component: PhotoGenerator },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
-    { id: 'video_maker', name: 'Video Maker', icon: Clapperboard, description: 'Create high-quality videos from a text prompt.', component: VideoMaker },
     { id: 'video_generator', name: 'Video Storyboard', icon: Video, description: 'Generate a video with narration in any language.', component: VideoGenerator },
     { id: 'video_editor', name: 'Video Analyzer', icon: Film, description: 'Upload a video and get AI analysis.', component: VideoEditor },
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },

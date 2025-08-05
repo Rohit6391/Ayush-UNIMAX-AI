@@ -11,7 +11,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { googleAI } from '@genkit-ai/googleai';
 
 const TranslateTextAIInputSchema = z.object({
   text: z.string().optional().describe('The text to translate. Can be empty if a file is provided.'),
