@@ -9,14 +9,16 @@ import { SignInModal } from "@/components/dialogs/SignInModal";
 import { useModes } from '@/components/providers/ModeProvider';
 import { modes } from '@/lib/modes';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider } from './ui/sidebar';
-import { BrainCircuit, LogIn } from 'lucide-react';
+import { BrainCircuit, LogIn, Search } from 'lucide-react';
 import { useAuth } from './providers/AuthProvider';
 import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 export function Dashboard() {
   const { activeMode, setActiveMode, activeChat, setActiveChat } = useModes();
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const { user } = useAuth();
+  const [searchTerm, setSearchTerm] = useState('');
 
   const currentMode = modes.find(m => m.id === activeMode);
   const ActiveComponent = currentMode?.component;
@@ -28,6 +30,10 @@ export function Dashboard() {
     setActiveMode(modeId);
   }
   
+  const filteredModes = modes.filter(mode =>
+    mode.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full bg-secondary dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
@@ -41,8 +47,20 @@ export function Dashboard() {
             </div>
           </SidebarHeader>
           <SidebarContent>
+            <div className="p-2">
+                <div className="relative">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        type="search"
+                        placeholder="Search modes..."
+                        className="w-full rounded-lg bg-background pl-8"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+            </div>
             <SidebarMenu>
-              {modes.map(mode => (
+              {filteredModes.map(mode => (
                 <SidebarMenuItem key={mode.id}>
                   <SidebarMenuButton
                     onClick={() => handleModeChange(mode.id)}
