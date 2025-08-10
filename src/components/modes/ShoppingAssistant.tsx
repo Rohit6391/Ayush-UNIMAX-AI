@@ -12,7 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { shoppingAssistant, ShoppingAssistantOutput } from '@/ai/flows/shopping-assistant';
 
 export function ShoppingAssistant({ mode }: { mode: any }) {
-    const { addHistoryItem, model } = useModes();
+    const { addHistoryItem } = useModes();
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState<ShoppingAssistantOutput | null>(null);
