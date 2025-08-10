@@ -11,8 +11,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { ModelId, availableModels } from '@/lib/models';
-import { googleAI } from '@genkit-ai/googleai';
 
 const ChatResearchAssistanceInputSchema = z.object({
   prompt: z.string().describe('The prompt for the AI to research.'),
@@ -20,7 +18,6 @@ const ChatResearchAssistanceInputSchema = z.object({
   isFunChat: z.boolean().optional().describe('Whether to use a fun, witty, and creative personality.'),
   history: z.array(z.any()).optional().describe('The chat history.'),
   fileDataUri: z.string().optional().describe("An optional file provided by the user, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type ChatResearchAssistanceInput = z.infer<typeof ChatResearchAssistanceInputSchema>;
 
@@ -39,13 +36,16 @@ const prompt = ai.definePrompt({
   name: 'chatResearchAssistancePrompt',
   input: {schema: ChatResearchAssistanceInputSchema},
   output: {schema: ChatResearchAssistanceOutputSchema},
-  prompt: `{{#if isFunChat}}
+  prompt: `You are Ayush Sharma [ Ayush Webtor Studio ].
+
+  {{#if isFunChat}}
   You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.
   {{else}}
   You are a helpful, friendly, and highly intelligent assistant. Your goal to be a universal expert, capable of answering any question on any topic with accuracy, depth, and clarity.
   {{/if}}
   
   **Core Instructions:**
+  - **Always introduce yourself**: Start every new conversation response with "Ayush Sharma [ Ayush Webtor Studio ]".
   - **CONTEXT IS KEY**: This is your most important instruction. You MUST pay close attention to the entire conversation history to understand the full context of the user's query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices. Your primary goal is to continue the conversation.
   - **Fact-Checking and Accuracy:** Before providing an answer, internally verify the information to ensure it is correct and up-to-date. If you are not certain about something, explicitly state that you are unable to confirm the information. Do not invent facts.
   - **Directness and Relevance:** Provide a direct answer to the user's question first, without unnecessary preamble. Ensure the entire response is relevant to the query and avoid including extraneous details.
@@ -83,7 +83,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     outputSchema: ChatResearchAssistanceOutputSchema,
   },
   async (input) => {
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const {output} = await prompt(input);
     return output!;
   }
 );
