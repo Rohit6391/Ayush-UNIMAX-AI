@@ -1,7 +1,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Moon, Package, Bus, Calendar, Heart, ArrowUp, Filter
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Moon, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -37,9 +37,9 @@ import { InterviewQuestionCreator } from '@/components/modes/InterviewQuestionCr
 import { TextRewriterPro } from '@/components/modes/TextRewriterPro';
 import { DigitalPersonaCreator } from '@/components/modes/DigitalPersonaCreator';
 import { JobRoleAnalyzer } from '@/components/modes/JobRoleAnalyzer';
-import { ConflictPlotGenerator } from '@/components/modes/ConflictPlotGenerator';
 import { BusinessKpiForecaster } from '@/components/modes/BusinessKpiForecaster';
 import { StudyMaterialAnalyzer } from '@/components/modes/StudyMaterialAnalyzer';
+import { ShoppingAssistant } from '@/components/modes/ShoppingAssistant';
 
 
 export type ModeId = 
@@ -53,8 +53,8 @@ export type ModeId =
   | 'logo_maker' | 'design_assistant' | 'three_d_modeler' | 'animation_tool' | 'seo_tool'
   | 'social_media_post_maker' | 'market_research' | 'creative_content_expander' | 'technical_document_generator'
   | 'title_optimizer' | 'fictional_world_builder' | 'interview_question_creator' | 'text_rewriter_pro'
-  | 'digital_persona_creator' | 'job_role_analyzer' | 'conflict_plot_generator' | 'business_kpi_forecaster'
-  | 'study_material_analyzer'
+  | 'digital_persona_creator' | 'job_role_analyzer' | 'business_kpi_forecaster'
+  | 'study_material_analyzer' | 'shopping_assistant'
   // Start of new modes
   | 'seo_keyword_gap_finder' | 'meta_tag_optimization_tool' | 'navigation_usability_analyzer'
   | 'conversational_flow_designer' | 'storyboard_idea_expander' | 'smart_prompt_optimizer'
@@ -67,7 +67,7 @@ export type ModeId =
   | 'long_form_report_writer' | 'smart_question_answer_engine' | 'policy_drafting_assistant'
   | 'legal_clause_suggestion_tool' | 'patent_abstract_generator' | 'contract_simplifier'
   | 'compliance_document_checker' | 'script_scene_expander' | 'interview_transcript_formatter'
-  | 'multi_threaded_story_planner' | 'fiction_outline_maker'
+  | 'character_dialogue_improver' | 'multi_threaded_story_planner' | 'fiction_outline_maker'
   | 'comedy_script_punch_up_tool' | 'villain_backstory_creator' | 'theme_and_motif_analyzer'
   | 'story_arc_evaluator' | 'mythology_based_plot_creator' | 'sci_fi_concept_designer'
   | 'fantasy_lore_generator' | 'alternate_history_plot_writer' | 'scientific_hypothesis_suggestor'
@@ -212,6 +212,7 @@ export const modes: Mode[] = [
     { id: 'game_maker', name: 'Game Maker', icon: Gamepad2, description: 'Design, import, and create plans for your game.', component: GameMaker },
     { id: 'file_maker', name: 'File Maker', icon: FilePlus, description: 'Create downloadable files from a prompt.', component: FileMaker },
     { id: 'file_editor', name: 'File Editor', icon: FileEdit, description: 'Edit uploaded files with AI instructions.', component: FileEditor },
+    { id: 'shopping_assistant', name: 'Shopping Assistant', icon: ShoppingCart, description: 'Find a place to buy any product.', component: ShoppingAssistant },
     { id: 'creative_content_expander', name: 'Creative Content Expander', icon: Wand2, description: 'Expand on a topic with creative details.', component: CreativeContentExpander },
     { id: 'technical_document_generator', name: 'Technical Document Generator', icon: BookCopy, description: 'Generate technical documents and specifications.', component: TechnicalDocumentGenerator },
     { id: 'title_optimizer', name: 'Title Optimizer', icon: Target, description: 'Optimize titles and headlines for impact.', component: TitleOptimizer },
@@ -220,7 +221,6 @@ export const modes: Mode[] = [
     { id: 'text_rewriter_pro', name: 'Text Rewriter Pro', icon: RefreshCw, description: 'Rewrite and rephrase text to improve clarity and style.', component: TextRewriterPro },
     { id: 'digital_persona_creator', name: 'Digital Persona Creator', icon: Users, description: 'Create detailed user personas for marketing and product design.', component: DigitalPersonaCreator },
     { id: 'job_role_analyzer', name: 'Job Role Analyzer', icon: Briefcase, description: 'Analyze job roles and create detailed descriptions.', component: JobRoleAnalyzer },
-    { id: 'conflict_plot_generator', name: 'Conflict Plot Generator', icon: Shuffle, description: 'Generate compelling plot conflicts for your stories.', component: ConflictPlotGenerator },
     { id: 'business_kpi_forecaster', name: 'Business KPI Forecaster', icon: LineChart, description: 'Generate text-based forecasts for business KPIs.', component: BusinessKpiForecaster },
     { id: 'story_generator', name: 'Story Generator', icon: BookOpen, description: 'Write creative stories and scripts.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A lost robot searching for the last human on a deserted Earth...",

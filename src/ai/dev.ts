@@ -17,3 +17,4 @@ import '@/ai/flows/generate-chart-from-prompt.ts';
 import '@/ai/flows/sound-generator.ts';
 import '@/ai/flows/generate-video-from-prompt.ts';
 import '@/ai/flows/study-material-analyzer.ts';
+import '@/ai/flows/shopping-assistant.ts';
