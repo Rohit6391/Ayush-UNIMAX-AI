@@ -1,7 +1,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Annoyed, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -22,6 +22,13 @@ import { VoiceInterface } from '@/components/modes/VoiceInterface';
 import { HomeworkPlanner } from '@/components/modes/HomeworkPlanner';
 import { CodeAnalyzer } from '@/components/modes/CodeAnalyzer';
 import { SoundGenerator } from '@/components/modes/SoundGenerator';
+import { LogoMaker } from '@/components/modes/LogoMaker';
+import { DesignAssistant } from '@/components/modes/DesignAssistant';
+import { ThreeDModeler } from '@/components/modes/ThreeDModeler';
+import { AnimationTool } from '@/components/modes/AnimationTool';
+import { SeoTool } from '@/components/modes/SeoTool';
+import { SocialMediaPostMaker } from '@/components/modes/SocialMediaPostMaker';
+import { MarketResearch } from '@/components/modes/MarketResearch';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -30,7 +37,9 @@ export type ModeId =
   | 'sound_generator' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
   | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
   | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
-  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat';
+  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat'
+  | 'logo_maker' | 'design_assistant' | 'three_d_modeler' | 'animation_tool' | 'seo_tool'
+  | 'social_media_post_maker' | 'market_research';
 
 
 export interface Mode {
@@ -47,9 +56,14 @@ export const modes: Mode[] = [
     { id: 'fun_chat', name: 'Fun Chat', icon: Bot, description: 'Chat with a more creative and playful AI.', component: ChatInterface, componentProps: { isFunChat: true } },
     { id: 'voice_chat', name: 'Voice Chat', icon: Mic, description: 'Talk directly with the AI in a voice conversation.', component: VoiceInterface },
     { id: 'photo_generator', name: 'Photo Generator', icon: Image, description: 'Create stunning images from text prompts.', component: PhotoGenerator },
+    { id: 'logo_maker', name: 'Logo Maker', icon: Paintbrush, description: 'Generate creative logos for your business or brand.', component: LogoMaker },
+    { id: 'design_assistant', name: 'Design Assistant', icon: Star, description: 'Get design suggestions and guidance.', component: DesignAssistant },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
     { id: 'video_generator', name: 'Video Storyboard', icon: Video, description: 'Generate a video with narration in any language.', component: VideoGenerator },
+    { id: 'animation_tool', name: 'Animation Planner', icon: GanttChart, description: 'Plan animations and motion graphics.', component: AnimationTool },
+    { id: 'three_d_modeler', name: '3D Model Planner', icon: PieChart, description: 'Create plans for 3D models.', component: ThreeDModeler },
     { id: 'video_editor', name: 'Video Analyzer', icon: Film, description: 'Upload a video and get AI analysis.', component: VideoEditor },
+    { id: 'sound_generator', name: 'Sound Generator', icon: AudioLines, description: 'Create sound effects and audio clips.', component: SoundGenerator },
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
     { id: 'code_analyzer', name: 'Code Analyzer', icon: Search, description: 'Analyze code for errors, performance, and best practices.', component: CodeAnalyzer },
     { id: 'website_maker', name: 'Website Maker', icon: Globe, description: 'Generate, preview, and import websites.', component: WebsiteMaker },
@@ -71,8 +85,10 @@ export const modes: Mode[] = [
     }},
     { id: 'translator', name: 'Translator', icon: Globe, description: 'Translate text between multiple languages.', component: Translator },
     { id: 'song_writer', name: 'Song Writer', icon: Music, description: 'Generate lyrics and a matching melody.', component: SongWriter },
-    { id: 'sound_generator', name: 'Sound Generator', icon: AudioLines, description: 'Create sound effects and audio clips.', component: SoundGenerator },
     { id: 'chart_maker', name: 'Chart & Graph Maker', icon: BarChart3, description: 'Create charts and graphs from data.', component: ChartMaker },
+    { id: 'social_media_post_maker', name: 'Social Media Post Maker', icon: MessageSquare, description: 'Generate engaging posts for social media.', component: SocialMediaPostMaker },
+    { id: 'market_research', name: 'Market Research', icon: Briefcase, description: 'Gather and analyze market data.', component: MarketResearch },
+    { id: 'seo_tool', name: 'SEO Tool', icon: TrendingUp, description: 'Optimize your content for search engines.', component: SeoTool },
     { id: 'question_giver', name: 'Question Giver', icon: HelpCircle, description: 'Get questions for any topic.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., 'The history of the Roman Empire' or 'La physique quantique'...",
         buttonText: "Generate Questions",
