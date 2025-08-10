@@ -107,7 +107,7 @@ Page Content:
 `,
 });
 
-export const findLyricsFromUrl = ai.defineFlow(
+const findLyricsFromUrlFlow = ai.defineFlow(
     {
         name: 'findLyricsFromUrlFlow',
         inputSchema: FindLyricsInputSchema,
@@ -127,3 +127,7 @@ export const findLyricsFromUrl = ai.defineFlow(
         return output;
     }
 );
+
+export async function findLyricsFromUrl(input: FindLyricsInput): Promise<FindLyricsOutput> {
+  return findLyricsFromUrlFlow(input);
+}
