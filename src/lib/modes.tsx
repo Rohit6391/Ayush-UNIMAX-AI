@@ -1,7 +1,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Annoyed, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand, BookCopy, Target, Building2, Wand2
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Annoyed, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand, BookCopy, Target, Building2, Wand2, RefreshCw, Users, LineChart, Shuffle
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -34,6 +34,11 @@ import { TechnicalDocumentGenerator } from '@/components/modes/TechnicalDocument
 import { TitleOptimizer } from '@/components/modes/TitleOptimizer';
 import { FictionalWorldBuilder } from '@/components/modes/FictionalWorldBuilder';
 import { InterviewQuestionCreator } from '@/components/modes/InterviewQuestionCreator';
+import { TextRewriterPro } from '@/components/modes/TextRewriterPro';
+import { DigitalPersonaCreator } from '@/components/modes/DigitalPersonaCreator';
+import { JobRoleAnalyzer } from '@/components/modes/JobRoleAnalyzer';
+import { ConflictPlotGenerator } from '@/components/modes/ConflictPlotGenerator';
+import { BusinessKpiForecaster } from '@/components/modes/BusinessKpiForecaster';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -45,7 +50,8 @@ export type ModeId =
   | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat'
   | 'logo_maker' | 'design_assistant' | 'three_d_modeler' | 'animation_tool' | 'seo_tool'
   | 'social_media_post_maker' | 'market_research' | 'creative_content_expander' | 'technical_document_generator'
-  | 'title_optimizer' | 'fictional_world_builder' | 'interview_question_creator';
+  | 'title_optimizer' | 'fictional_world_builder' | 'interview_question_creator' | 'text_rewriter_pro'
+  | 'digital_persona_creator' | 'job_role_analyzer' | 'conflict_plot_generator' | 'business_kpi_forecaster';
 
 
 export interface Mode {
@@ -82,6 +88,11 @@ export const modes: Mode[] = [
     { id: 'title_optimizer', name: 'Title Optimizer', icon: Target, description: 'Optimize titles and headlines for impact.', component: TitleOptimizer },
     { id: 'fictional_world_builder', name: 'Fictional World Builder', icon: Building2, description: 'Create detailed fictional worlds for stories.', component: FictionalWorldBuilder },
     { id: 'interview_question_creator', name: 'Interview Question Creator', icon: HelpCircle, description: 'Generate interview questions for any role.', component: InterviewQuestionCreator },
+    { id: 'text_rewriter_pro', name: 'Text Rewriter Pro', icon: RefreshCw, description: 'Rewrite and rephrase text to improve clarity and style.', component: TextRewriterPro },
+    { id: 'digital_persona_creator', name: 'Digital Persona Creator', icon: Users, description: 'Create detailed user personas for marketing and product design.', component: DigitalPersonaCreator },
+    { id: 'job_role_analyzer', name: 'Job Role Analyzer', icon: Briefcase, description: 'Analyze job roles and create detailed descriptions.', component: JobRoleAnalyzer },
+    { id: 'conflict_plot_generator', name: 'Conflict Plot Generator', icon: Shuffle, description: 'Generate compelling plot conflicts for your stories.', component: ConflictPlotGenerator },
+    { id: 'business_kpi_forecaster', name: 'Business KPI Forecaster', icon: LineChart, description: 'Generate text-based forecasts for business KPIs.', component: BusinessKpiForecaster },
     { id: 'story_generator', name: 'Story Generator', icon: BookOpen, description: 'Write creative stories and scripts.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A lost robot searching for the last human on a deserted Earth...",
         buttonText: "Generate Story",
