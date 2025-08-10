@@ -1,7 +1,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Moon, Package, Bus, Calendar
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -67,7 +67,7 @@ export type ModeId =
   | 'long_form_report_writer' | 'smart_question_answer_engine' | 'policy_drafting_assistant'
   | 'legal_clause_suggestion_tool' | 'patent_abstract_generator' | 'contract_simplifier'
   | 'compliance_document_checker' | 'script_scene_expander' | 'interview_transcript_formatter'
-  | 'character_dialogue_improver' | 'multi_threaded_story_planner' | 'fiction_outline_maker'
+  | 'multi_threaded_story_planner' | 'fiction_outline_maker'
   | 'comedy_script_punch_up_tool' | 'villain_backstory_creator' | 'theme_and_motif_analyzer'
   | 'story_arc_evaluator' | 'mythology_based_plot_creator' | 'sci_fi_concept_designer'
   | 'fantasy_lore_generator' | 'alternate_history_plot_writer' | 'scientific_hypothesis_suggestor'
@@ -78,7 +78,8 @@ export type ModeId =
   | 'ai_behavior_modeler' | 'ethics_risk_analyzer' | 'bias_detector_engine'
   | 'privacy_impact_forecaster' | 'algorithmic_explainability_tool' | 'dataset_integrity_checker'
   | 'feature_importance_analyzer' | 'forecast_accuracy_evaluator' | 'root_cause_analysis_bot'
-  | 'data_quality_score_generator' | 'multi_variable_trend_predictor' | 'competitor_comparison_engine'
+  | 'data_quality_score_generator' | 'multi_variable_trend_predictor' 
+  | 'competitor_comparison_engine'
   | 'market_gap_identifier' | 'customer_segmentation_mapper' | 'price_elasticity_estimator'
   | 'churn_risk_predictor' | 'profit_margin_optimizer' | 'supply_chain_ai_planner'
   | 'inventory_auto_forecaster' | 'logistics_route_optimizer' | 'vendor_risk_scorer'
@@ -343,7 +344,6 @@ export const modes: Mode[] = [
     { id: 'formality_level_converter', name: 'Formality Level Converter', icon: Briefcase, ...textGeneratorProps('Converted Text', 'Convert text between formal and informal styles.', 'You are a professional communicator. Convert the following informal text into a formal business communication.') },
     { id: 'brand_voice_enforcer', name: 'Brand Voice Enforcer', icon: Megaphone, ...textGeneratorProps('Brand Voice Check', 'Check text for brand voice consistency.', 'You are a brand manager. Review the following text and suggest edits to ensure it aligns with the specified brand voice guidelines.') },
     { id: 'multilingual_synonym_finder', name: 'Multilingual Synonym Finder', icon: Languages, ...textGeneratorProps('Synonyms', 'Find synonyms in multiple languages.', 'You are a translator. Provide 5 synonyms for the given word in the specified languages.') },
-    { id: 'title_and_headline_optimizer', name: 'Title and Headline Optimizer', icon: Target, ...textGeneratorProps('Optimized Titles', 'Optimize titles and headlines.', 'You are a marketing expert. Generate 5 alternative, catchy headlines for the following article title.') },
     { id: 'long_form_report_writer', name: 'Long-form Report Writer', icon: FileText, ...textGeneratorProps('Long Report', 'Write a long-form report.', 'You are a professional writer. Write a 500-word report on the following topic, including an introduction, body, and conclusion.') },
     { id: 'smart_question_answer_engine', name: 'Smart Question-Answer Engine', icon: HelpCircle, ...textGeneratorProps('Answer', 'Answer a question based on a text.', 'You are an expert analyst. Answer the following question based on the provided document.') },
     { id: 'policy_drafting_assistant', name: 'Policy Drafting Assistant', icon: BookCheck, ...textGeneratorProps('Policy Draft', 'Draft a policy document.', 'You are a policy advisor. Draft a company policy for the following issue, including scope, procedures, and responsibilities.') },
