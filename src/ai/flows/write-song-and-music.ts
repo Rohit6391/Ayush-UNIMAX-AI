@@ -10,13 +10,10 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { ModelId, availableModels } from '@/lib/models';
-import { googleAI } from '@genkit-ai/googleai';
 import { importFromUrl } from './import-from-url';
 
 const WriteSongAndMusicInputSchema = z.object({
   concept: z.string().describe('The concept for the song, which may include a specific language.'),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type WriteSongAndMusicInput = z.infer<typeof WriteSongAndMusicInputSchema>;
 
@@ -78,7 +75,7 @@ const writeSongAndMusicFlow = ai.defineFlow(
     outputSchema: WriteSongAndMusicOutputSchema,
   },
   async input => {
-    const {output} = await writeSongPrompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const {output} = await writeSongPrompt(input);
     return output!;
   }
 );

@@ -37,6 +37,30 @@ export function Translator({ mode }: { mode: any }) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    useEffect(() => {
+        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognitionRef.current = new SpeechRecognition();
+            recognitionRef.current.continuous = false;
+            recognitionRef.current.interimResults = false;
+            
+            recognitionRef.current.onresult = (event: any) => {
+                const transcript = event.results[0][0].transcript;
+                setText(transcript);
+                setIsListening(false);
+                handleTranslate(transcript);
+            };
+            recognitionRef.current.onerror = (event: any) => {
+                console.error('Speech recognition error:', event.error);
+                setError(`Speech recognition failed: ${event.error}. Please check your microphone permissions.`);
+                setIsListening(false);
+            };
+            recognitionRef.current.onend = () => {
+                setIsListening(false);
+            };
+        }
+    }, []);
+
     const handleListen = () => {
         if (isListening) {
             recognitionRef.current?.stop();

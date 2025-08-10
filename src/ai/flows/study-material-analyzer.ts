@@ -12,8 +12,6 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { importFromUrl } from './import-from-url';
-import { ModelId, availableModels } from '@/lib/models';
-import { googleAI } from '@genkit-ai/googleai';
 
 // Define the structure for a single Multiple Choice Question
 const MCQSchema = z.object({
@@ -27,7 +25,6 @@ export type MCQ = z.infer<typeof MCQSchema>;
 
 const AnalyzeStudyMaterialInputSchema = z.object({
   materialUrl: z.string().url({ message: "Invalid URL provided." }).describe('The URL of the study material to analyze.'),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type AnalyzeStudyMaterialInput = z.infer<typeof AnalyzeStudyMaterialInputSchema>;
 
@@ -80,7 +77,7 @@ const analyzeStudyMaterialFlow = ai.defineFlow(
     }
     
     // Step 2: Use the fetched content to generate the quiz
-    const { output } = await quizGeneratorPrompt({ materialContent: content }, {model: input.model ? googleAI.model(input.model) : undefined});
+    const { output } = await quizGeneratorPrompt({ materialContent: content });
 
     if (!output || output.questions.length === 0) {
         throw new Error("The AI failed to generate a quiz from the provided material.");
