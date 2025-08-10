@@ -1,7 +1,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Annoyed, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Annoyed, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand, BookCopy, Target, Building2, Wand2
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -29,6 +29,11 @@ import { AnimationTool } from '@/components/modes/AnimationTool';
 import { SeoTool } from '@/components/modes/SeoTool';
 import { SocialMediaPostMaker } from '@/components/modes/SocialMediaPostMaker';
 import { MarketResearch } from '@/components/modes/MarketResearch';
+import { CreativeContentExpander } from '@/components/modes/CreativeContentExpander';
+import { TechnicalDocumentGenerator } from '@/components/modes/TechnicalDocumentGenerator';
+import { TitleOptimizer } from '@/components/modes/TitleOptimizer';
+import { FictionalWorldBuilder } from '@/components/modes/FictionalWorldBuilder';
+import { InterviewQuestionCreator } from '@/components/modes/InterviewQuestionCreator';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -39,7 +44,8 @@ export type ModeId =
   | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
   | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat'
   | 'logo_maker' | 'design_assistant' | 'three_d_modeler' | 'animation_tool' | 'seo_tool'
-  | 'social_media_post_maker' | 'market_research';
+  | 'social_media_post_maker' | 'market_research' | 'creative_content_expander' | 'technical_document_generator'
+  | 'title_optimizer' | 'fictional_world_builder' | 'interview_question_creator';
 
 
 export interface Mode {
@@ -71,6 +77,11 @@ export const modes: Mode[] = [
     { id: 'game_maker', name: 'Game Maker', icon: Gamepad2, description: 'Design, import, and create plans for your game.', component: GameMaker },
     { id: 'file_maker', name: 'File Maker', icon: FilePlus, description: 'Create downloadable files from a prompt.', component: FileMaker },
     { id: 'file_editor', name: 'File Editor', icon: FileEdit, description: 'Edit uploaded files with AI instructions.', component: FileEditor },
+    { id: 'creative_content_expander', name: 'Creative Content Expander', icon: Wand2, description: 'Expand on a topic with creative details.', component: CreativeContentExpander },
+    { id: 'technical_document_generator', name: 'Technical Document Generator', icon: BookCopy, description: 'Generate technical documents and specifications.', component: TechnicalDocumentGenerator },
+    { id: 'title_optimizer', name: 'Title Optimizer', icon: Target, description: 'Optimize titles and headlines for impact.', component: TitleOptimizer },
+    { id: 'fictional_world_builder', name: 'Fictional World Builder', icon: Building2, description: 'Create detailed fictional worlds for stories.', component: FictionalWorldBuilder },
+    { id: 'interview_question_creator', name: 'Interview Question Creator', icon: HelpCircle, description: 'Generate interview questions for any role.', component: InterviewQuestionCreator },
     { id: 'story_generator', name: 'Story Generator', icon: BookOpen, description: 'Write creative stories and scripts.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A lost robot searching for the last human on a deserted Earth...",
         buttonText: "Generate Story",
