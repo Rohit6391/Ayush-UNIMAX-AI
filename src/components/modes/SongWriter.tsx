@@ -6,17 +6,20 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, Play, Square, Music, AlertTriangle } from 'lucide-react';
+import { Settings, Play, Square, Music, AlertTriangle, Link, Loader2 } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { writeSongAndMusic } from '@/ai/flows/write-song-and-music';
+import { writeSongAndMusic, findLyricsFromUrl } from '@/ai/flows/write-song-and-music';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 export function SongWriter({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [prompt, setPrompt] = useState('');
+    const [url, setUrl] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isFetchingLyrics, setIsFetchingLyrics] = useState(false);
     const [error, setError] = useState('');
     const [lyrics, setLyrics] = useState('');
     const [composition, setComposition] = useState<any[] | null>(null);
@@ -65,7 +68,7 @@ export function SongWriter({ mode }: { mode: any }) {
         setIsLoading(true); setError(''); setLyrics(''); setComposition(null); cleanup();
         
         try {
-            const result = await writeSongAndMusic({ concept: prompt });
+            const result = await writeSongAndMusic({ concept: prompt, model });
             setLyrics(result.lyrics);
             setComposition(result.composition);
             addHistoryItem('song_writer', prompt, `Generated a song with lyrics and a ${result.composition.length}-note melody.`);
@@ -75,19 +78,55 @@ export function SongWriter({ mode }: { mode: any }) {
             setIsLoading(false);
         }
     };
+    
+    const handleFindLyrics = async () => {
+        if (!url.trim()) { setError('Please enter a song URL.'); return; }
+        setIsFetchingLyrics(true); setError(''); setLyrics(''); setComposition(null); cleanup();
+        try {
+            const result = await findLyricsFromUrl({ songUrl: url });
+            setLyrics(result.lyrics);
+             addHistoryItem('song_writer', `Find lyrics for ${url}`, result.lyrics);
+        } catch(err: any) {
+            setError(`Failed to find lyrics: ${err.message}`);
+        } finally {
+            setIsFetchingLyrics(false);
+        }
+    };
 
     return (
         <ModeWrapper mode={mode}>
-            <Textarea 
-                value={prompt} 
-                onChange={(e) => setPrompt(e.target.value)} 
-                placeholder="e.g., A song about rain on a quiet city street in Japanese..." 
-                className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
-                rows={3} 
-            />
-            <Button onClick={handleGenerate} disabled={isLoading || isPlaying} className="w-full mt-4">
-                {isLoading ? <><Settings className="animate-spin mr-2" /> Writing Song...</> : 'Write Song'}
-            </Button>
+            <Tabs defaultValue="create" className="w-full mb-4">
+                <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="create">Create Song</TabsTrigger>
+                    <TabsTrigger value="find">Find Lyrics from URL</TabsTrigger>
+                </TabsList>
+                <TabsContent value="create">
+                     <Textarea 
+                        value={prompt} 
+                        onChange={(e) => setPrompt(e.target.value)} 
+                        placeholder="e.g., A song about rain on a quiet city street in Japanese..." 
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                        rows={3} 
+                    />
+                    <Button onClick={handleGenerate} disabled={isLoading || isPlaying} className="w-full mt-4">
+                        {isLoading ? <><Settings className="animate-spin mr-2" /> Writing Song...</> : 'Write Song'}
+                    </Button>
+                </TabsContent>
+                <TabsContent value="find">
+                    <div className="space-y-2">
+                        <Label htmlFor="song-url">Song URL</Label>
+                        <Input 
+                            id="song-url"
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                            placeholder="e.g., https://www.youtube.com/watch?v=..."
+                        />
+                        <Button onClick={handleFindLyrics} disabled={isFetchingLyrics} className="w-full">
+                            {isFetchingLyrics ? <><Loader2 className="animate-spin mr-2" /> Finding Lyrics...</> : <><Link className="mr-2"/>Find Lyrics</>}
+                        </Button>
+                    </div>
+                </TabsContent>
+            </Tabs>
             
             {error && (
                 <Alert variant="destructive" className="mt-6 text-left">
@@ -98,12 +137,12 @@ export function SongWriter({ mode }: { mode: any }) {
             )}
 
             <div className="mt-6 w-full">
-                {isLoading && (
+                {isLoading || isFetchingLyrics && (
                     <Card className="w-full h-64 bg-muted/50 flex items-center justify-center animate-pulse">
                         <Music className="h-16 w-16 text-muted-foreground" />
                     </Card>
                 )}
-                {lyrics && !isLoading && (
+                {lyrics && !isLoading && !isFetchingLyrics && (
                     <Card className="text-left">
                         <CardHeader>
                             <CardTitle>Canvas</CardTitle>
