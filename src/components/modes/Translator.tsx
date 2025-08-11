@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useModes } from '@/components/providers/ModeProvider';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Settings, AlertTriangle, ArrowRightLeft, Loader2, Copy, Check, Mic, FileUp, Waves } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -140,10 +139,12 @@ export function Translator({ mode }: { mode: any }) {
     const handleSwap = () => {
         const langToSwap = detectedLanguage || sourceLanguage;
         if (translation && langToSwap !== 'Auto-detect') {
-            setSourceLanguage(targetLanguage);
+            const currentText = text;
+            const currentTranslation = translation;
+            setText(currentTranslation);
+            setTranslation(currentText);
             setTargetLanguage(langToSwap);
-            setText(translation);
-            setTranslation('');
+            setSourceLanguage(targetLanguage);
             setDetectedLanguage(null);
         }
     };

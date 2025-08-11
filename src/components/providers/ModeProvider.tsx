@@ -99,15 +99,16 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     setIsHistoryPanelOpen(false);
   };
   
-  useEffect(() => {
-    if (activeMode !== 'chat' && activeMode !== 'fun_chat') {
+  const handleSetActiveMode = (modeId: ModeId) => {
+    if (activeMode !== modeId) {
         setActiveChat([]);
     }
-  }, [activeMode]);
+    setActiveMode(modeId);
+  }
 
   const value = {
     activeMode,
-    setActiveMode,
+    setActiveMode: handleSetActiveMode,
     isHistoryPanelOpen,
     setIsHistoryPanelOpen,
     isSettingsPanelOpen,

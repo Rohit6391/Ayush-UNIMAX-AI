@@ -10,7 +10,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { importFromUrl } from './import-from-url';
 
 const WriteSongAndMusicInputSchema = z.object({
   concept: z.string().describe('The concept for the song, which may include a specific language.'),
@@ -27,7 +26,7 @@ export async function writeSongAndMusic(input: WriteSongAndMusicInput): Promise<
   return writeSongAndMusicFlow(input);
 }
 
-const writeSongPrompt = ai.definePrompt({
+const prompt = ai.definePrompt({
   name: 'writeSongAndMusicPrompt',
   input: {schema: WriteSongAndMusicInputSchema},
   output: {schema: WriteSongAndMusicOutputSchema},
@@ -75,56 +74,10 @@ const writeSongAndMusicFlow = ai.defineFlow(
     outputSchema: WriteSongAndMusicOutputSchema,
   },
   async input => {
-    const {output} = await writeSongPrompt(input);
-    return output!;
+    const {output} = await prompt(input);
+    if (!output) {
+      throw new Error("The AI failed to generate a song.");
+    }
+    return output;
   }
 );
-
-
-// New flow and types for finding lyrics from a URL
-
-const FindLyricsInputSchema = z.object({
-    songUrl: z.string().url().describe('The URL of the song to find lyrics for.'),
-});
-export type FindLyricsInput = z.infer<typeof FindLyricsInputSchema>;
-
-const FindLyricsOutputSchema = z.object({
-    lyrics: z.string().describe('The found lyrics of the song.'),
-});
-export type FindLyricsOutput = z.infer<typeof FindLyricsOutputSchema>;
-
-const findLyricsPrompt = ai.definePrompt({
-    name: 'findLyricsPrompt',
-    input: { schema: z.object({ pageContent: z.string() }) },
-    output: { schema: FindLyricsOutputSchema },
-    prompt: `You are an expert at finding song lyrics from web page content. Analyze the following text content extracted from a web page and return only the lyrics of the song. Ignore all other text, comments, and metadata.
-
-Page Content:
-{{{pageContent}}}
-`,
-});
-
-const findLyricsFromUrlFlow = ai.defineFlow(
-    {
-        name: 'findLyricsFromUrlFlow',
-        inputSchema: FindLyricsInputSchema,
-        outputSchema: FindLyricsOutputSchema,
-    },
-    async (input) => {
-        // 1. Import the content from the URL
-        const { content } = await importFromUrl({ url: input.songUrl });
-        
-        // 2. Use an AI prompt to extract the lyrics from the page content
-        const { output } = await findLyricsPrompt({ pageContent: content });
-        
-        if (!output || !output.lyrics) {
-            throw new Error('Could not find lyrics on the provided page.');
-        }
-
-        return output;
-    }
-);
-
-export async function findLyricsFromUrl(input: FindLyricsInput): Promise<FindLyricsOutput> {
-  return findLyricsFromUrlFlow(input);
-}

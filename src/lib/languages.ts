@@ -73,7 +73,7 @@ export const languageToCode: { [key: string]: string } = {
     "Persian": "fa-IR",
     "Punjabi": "pa-IN",
     "Romanian": "ro-RO",
-    "Serbian": "sr-RS",
+    "Serbian": "sr-rs",
     "Slovak": "sk-SK",
     "Slovenian": "sl-SI",
     "Somali": "so-SO",
