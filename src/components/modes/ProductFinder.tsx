@@ -12,7 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { productFinder, ProductFinderOutput } from '@/ai/flows/product-finder';
 
 export function ProductFinder({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [results, setResults] = useState<ProductFinderOutput['suggestions'] | null>(null);
