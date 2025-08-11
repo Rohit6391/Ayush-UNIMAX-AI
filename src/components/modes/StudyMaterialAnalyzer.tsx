@@ -34,7 +34,7 @@ export function StudyMaterialAnalyzer({ mode }: { mode: any }) {
         setResults(null);
         
         try {
-            const result = await analyzeStudyMaterial({ materialUrl: url, model });
+            const result = await analyzeStudyMaterial({ materialUrl: url });
             if (result.questions.length > 0) {
                 setMcqs(result.questions);
                 addHistoryItem('study_material_analyzer', `Analyze: ${url}`, result.questions);
