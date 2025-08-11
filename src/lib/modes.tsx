@@ -1,3 +1,4 @@
+
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
@@ -39,7 +40,7 @@ import { DigitalPersonaCreator } from '@/components/modes/DigitalPersonaCreator'
 import { JobRoleAnalyzer } from '@/components/modes/JobRoleAnalyzer';
 import { BusinessKpiForecaster } from '@/components/modes/BusinessKpiForecaster';
 import { StudyMaterialAnalyzer } from '@/components/modes/StudyMaterialAnalyzer';
-import { ShoppingAssistant } from '@/components/modes/ShoppingAssistant';
+import { ProductFinder } from '@/components/modes/ProductFinder';
 
 
 export type ModeId = 
@@ -54,7 +55,7 @@ export type ModeId =
   | 'social_media_post_maker' | 'market_research' | 'creative_content_expander' | 'technical_document_generator'
   | 'title_optimizer' | 'fictional_world_builder' | 'interview_question_creator' | 'text_rewriter_pro'
   | 'digital_persona_creator' | 'job_role_analyzer' | 'business_kpi_forecaster'
-  | 'study_material_analyzer' | 'shopping_assistant'
+  | 'study_material_analyzer' | 'product_finder'
   // Start of new modes
   | 'seo_keyword_gap_finder' | 'meta_tag_optimization_tool' | 'navigation_usability_analyzer'
   | 'conversational_flow_designer' | 'storyboard_idea_expander' | 'smart_prompt_optimizer'
@@ -212,7 +213,7 @@ export const modes: Mode[] = [
     { id: 'game_maker', name: 'Game Maker', icon: Gamepad2, description: 'Design, import, and create plans for your game.', component: GameMaker },
     { id: 'file_maker', name: 'File Maker', icon: FilePlus, description: 'Create downloadable files from a prompt.', component: FileMaker },
     { id: 'file_editor', name: 'File Editor', icon: FileEdit, description: 'Edit uploaded files with AI instructions.', component: FileEditor },
-    { id: 'shopping_assistant', name: 'Shopping Assistant', icon: ShoppingCart, description: 'Find a place to buy any product.', component: ShoppingAssistant },
+    { id: 'product_finder', name: 'Product Finder', icon: ShoppingCart, description: 'Find a place to buy any product.', component: ProductFinder },
     { id: 'creative_content_expander', name: 'Creative Content Expander', icon: Wand2, description: 'Expand on a topic with creative details.', component: CreativeContentExpander },
     { id: 'technical_document_generator', name: 'Technical Document Generator', icon: BookCopy, description: 'Generate technical documents and specifications.', component: TechnicalDocumentGenerator },
     { id: 'title_optimizer', name: 'Title Optimizer', icon: Target, description: 'Optimize titles and headlines for impact.', component: TitleOptimizer },
@@ -582,7 +583,7 @@ export const modes: Mode[] = [
     { id: 'flashcard_auto_creator', name: 'Flashcard Auto-Creator', icon: FilePlus, ...textGeneratorProps('Flashcards', 'Create flashcards.', 'You are a student. Create a set of flashcards (term and definition) from the following list of key vocabulary.') },
     { id: 'concept_reinforcement_planner', name: 'Concept Reinforcement Planner', icon: BrainCog, ...textGeneratorProps('Concept Reinforcement', 'Plan concept reinforcement.', 'You are a tutor. Create a plan with 3 activities to reinforce the following educational concept.') },
     { id: 'study_group_matching_ai', name: 'Study Group Matching AI', icon: Users, ...textGeneratorProps('Study Group', 'Match students for a study group.', 'You are a student success coordinator. Match the following students into effective study groups based on their subjects and learning styles.') },
-    { id: 'skill_gap_forecaster', name: 'Skill Gap Forecaster', icon: TrendingUp, ...textGeneratorProps('Skill Gaps', 'Forecast future skill gaps.', 'You are a workforce development expert. Forecast the skill gaps in the following industry for the next 5 years.') },
+    { id: 'skill_gap_forecaster', name: 'Skill Gaps', icon: TrendingUp, ...textGeneratorProps('Skill Gaps', 'Forecast future skill gaps.', 'You are a workforce development expert. Forecast the skill gaps in the following industry for the next 5 years.') },
     { id: 'language_learning_path_optimizer', name: 'Language Learning Path Optimizer', icon: Route, ...textGeneratorProps('Learning Path', 'Optimize a language learning path.', 'You are a language teacher. Create an optimized learning path for a student to achieve conversational fluency in the following language.') },
     { id: 'pronunciation_feedback_ai', name: 'Pronunciation Feedback AI', icon: MicVocal, ...textGeneratorProps('Pronunciation Feedback', 'Get pronunciation feedback.', 'You are a linguistics coach. Provide feedback on the pronunciation in the following audio recording (described) of a non-native speaker.') },
     { id: 'vocabulary_expansion_tool', name: 'Vocabulary Expansion Tool', icon: BookOpen, ...textGeneratorProps('Vocabulary', 'Expand your vocabulary.', 'You are a wordsmith. Provide 5 advanced vocabulary words to use instead of the following common word.') },
@@ -657,3 +658,5 @@ export const modes: Mode[] = [
     { id: 'mobile_ui_flow_optimizer', name: 'Mobile UI Flow Optimizer', icon: AppWindow, ...textGeneratorProps('Mobile UI Flow', 'Optimize a mobile UI flow.', 'You are a UX designer. Suggest optimizations for the following mobile app user flow to improve usability.') },
     { id: 'conversion_form_design_checker', name: 'Conversion Form Design Checker', icon: CheckSquare, ...textGeneratorProps('Form Design', 'Check a conversion form design.', 'You are a conversion rate optimization specialist. Analyze the design of the following web form and suggest changes to increase conversions.') },
 ];
+
+    
