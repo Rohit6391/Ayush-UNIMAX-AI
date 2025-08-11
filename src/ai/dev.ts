@@ -18,5 +18,6 @@ import '@/ai/flows/sound-generator.ts';
 import '@/ai/flows/generate-video-from-prompt.ts';
 import '@/ai/flows/study-material-analyzer.ts';
 import '@/ai/flows/product-finder.ts';
-
+import '@/ai/flows/brand-finder.ts';
+import '@/ai/flows/find-lyrics-from-url.ts';
     

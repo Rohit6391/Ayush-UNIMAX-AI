@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Moon, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Moon, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -41,7 +41,7 @@ import { JobRoleAnalyzer } from '@/components/modes/JobRoleAnalyzer';
 import { BusinessKpiForecaster } from '@/components/modes/BusinessKpiForecaster';
 import { StudyMaterialAnalyzer } from '@/components/modes/StudyMaterialAnalyzer';
 import { ProductFinder } from '@/components/modes/ProductFinder';
-import { ConflictPlotGenerator } from '@/components/modes/ConflictPlotGenerator';
+import { BrandFinder } from '@/components/modes/BrandFinder';
 
 
 export type ModeId = 
@@ -56,7 +56,7 @@ export type ModeId =
   | 'social_media_post_maker' | 'market_research' | 'creative_content_expander' | 'technical_document_generator'
   | 'title_optimizer' | 'fictional_world_builder' | 'interview_question_creator' | 'text_rewriter_pro'
   | 'digital_persona_creator' | 'job_role_analyzer' | 'business_kpi_forecaster'
-  | 'study_material_analyzer' | 'product_finder' | 'conflict_plot_generator'
+  | 'study_material_analyzer' | 'product_finder' | 'brand_finder'
   // Start of new modes
   | 'seo_keyword_gap_finder' | 'meta_tag_optimization_tool' | 'navigation_usability_analyzer'
   | 'conversational_flow_designer' | 'storyboard_idea_expander' | 'smart_prompt_optimizer'
@@ -215,6 +215,7 @@ export const modes: Mode[] = [
     { id: 'file_maker', name: 'File Maker', icon: FilePlus, description: 'Create downloadable files from a prompt.', component: FileMaker },
     { id: 'file_editor', name: 'File Editor', icon: FileEdit, description: 'Edit uploaded files with AI instructions.', component: FileEditor },
     { id: 'product_finder', name: 'Product Finder', icon: ShoppingCart, description: 'Find a place to buy any product.', component: ProductFinder },
+    { id: 'brand_finder', name: 'Brand Finder', icon: Crown, description: 'Find the best brand for a product.', component: BrandFinder },
     { id: 'creative_content_expander', name: 'Creative Content Expander', icon: Wand2, description: 'Expand on a topic with creative details.', component: CreativeContentExpander },
     { id: 'technical_document_generator', name: 'Technical Document Generator', icon: BookCopy, description: 'Generate technical documents and specifications.', component: TechnicalDocumentGenerator },
     { id: 'title_optimizer', name: 'Title Optimizer', icon: Target, description: 'Optimize titles and headlines for impact.', component: TitleOptimizer },
@@ -224,7 +225,6 @@ export const modes: Mode[] = [
     { id: 'digital_persona_creator', name: 'Digital Persona Creator', icon: Users, description: 'Create detailed user personas for marketing and product design.', component: DigitalPersonaCreator },
     { id: 'job_role_analyzer', name: 'Job Role Analyzer', icon: Briefcase, description: 'Analyze job roles and create detailed descriptions.', component: JobRoleAnalyzer },
     { id: 'business_kpi_forecaster', name: 'Business KPI Forecaster', icon: LineChart, description: 'Generate text-based forecasts for business KPIs.', component: BusinessKpiForecaster },
-    { id: 'conflict_plot_generator', name: 'Conflict Plot Generator', icon: Swords, description: 'Expand a conflict into a compelling plot outline.', component: ConflictPlotGenerator },
     { id: 'story_generator', name: 'Story Generator', icon: BookOpen, description: 'Write creative stories and scripts.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A lost robot searching for the last human on a deserted Earth...",
         buttonText: "Generate Story",
@@ -238,7 +238,7 @@ export const modes: Mode[] = [
         resultTitle: "Summary"
     }},
     { id: 'translator', name: 'Translator', icon: Globe, description: 'Translate text between multiple languages.', component: Translator },
-    { id: 'song_writer', name: 'Song Writer', icon: Music, description: 'Generate lyrics and a matching melody.', component: SongWriter },
+    { id: 'song_writer', name: 'Song Writer', icon: Music, description: 'Generate lyrics, melody, and find lyrics from a URL.', component: SongWriter },
     { id: 'chart_maker', name: 'Chart & Graph Maker', icon: BarChart3, description: 'Create charts and graphs from data.', component: ChartMaker },
     { id: 'social_media_post_maker', name: 'Social Media Post Maker', icon: MessageSquare, description: 'Generate engaging posts for social media.', component: SocialMediaPostMaker },
     { id: 'market_research', name: 'Market Research', icon: Briefcase, description: 'Gather and analyze market data.', component: MarketResearch },
