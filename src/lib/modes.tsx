@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Moon, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Moon, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -38,7 +38,6 @@ import { InterviewQuestionCreator } from '@/components/modes/InterviewQuestionCr
 import { TextRewriterPro } from '@/components/modes/TextRewriterPro';
 import { DigitalPersonaCreator } from '@/components/modes/DigitalPersonaCreator';
 import { JobRoleAnalyzer } from '@/components/modes/JobRoleAnalyzer';
-import { BusinessKpiForecaster } from '@/components/modes/BusinessKpiForecaster';
 import { StudyMaterialAnalyzer } from '@/components/modes/StudyMaterialAnalyzer';
 import { ProductFinder } from '@/components/modes/ProductFinder';
 import { BrandFinder } from '@/components/modes/BrandFinder';
@@ -108,6 +107,7 @@ import { ForecastAccuracyEvaluator } from '@/components/modes/ForecastAccuracyEv
 import { RootCauseAnalysisBot } from '@/components/modes/RootCauseAnalysisBot';
 import { DataQualityScoreGenerator } from '@/components/modes/DataQualityScoreGenerator';
 import { MultiVariableTrendPredictor } from '@/components/modes/MultiVariableTrendPredictor';
+import { BusinessKpiForecaster } from '@/components/modes/BusinessKpiForecaster';
 import { CompetitorComparisonEngine } from '@/components/modes/CompetitorComparisonEngine';
 import { MarketGapIdentifier } from '@/components/modes/MarketGapIdentifier';
 import { CustomerSegmentationMapper } from '@/components/modes/CustomerSegmentationMapper';
@@ -339,6 +339,7 @@ export const modes: Mode[] = [
     { id: 'root_cause_analysis_bot', name: 'Root Cause Analysis Bot', icon: Footprints, component: RootCauseAnalysisBot, description: "Perform a root cause analysis using the '5 Whys' technique." },
     { id: 'data_quality_score_generator', name: 'Data Quality Score Generator', icon: Star, component: DataQualityScoreGenerator, description: 'Provide a data quality score for a dataset.' },
     { id: 'multi_variable_trend_predictor', name: 'Multi-variable Trend Predictor', icon: LineChart, component: MultiVariableTrendPredictor, description: 'Predict future trends based on multiple variables.' },
+    { id: 'business_kpi_forecaster', name: 'Business KPI Forecaster', icon: TrendingUp, component: BusinessKpiForecaster, description: 'Provide a text-based forecast and analysis for business KPIs.' },
     { id: 'competitor_comparison_engine', name: 'Competitor Comparison Engine', icon: Swords, component: CompetitorComparisonEngine, description: 'Provide a detailed SWOT analysis of competitors.' },
     { id: 'market_gap_identifier', name: 'Market Gap Identifier', icon: Search, component: MarketGapIdentifier, description: 'Analyze a market to identify gaps and underserved niches.' },
     { id: 'customer_segmentation_mapper', name: 'Customer Segmentation Mapper', icon: Users, component: CustomerSegmentationMapper, description: 'Create distinct customer segments for a product.' },
