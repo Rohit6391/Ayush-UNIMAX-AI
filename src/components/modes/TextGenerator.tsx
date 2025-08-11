@@ -41,7 +41,11 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
       setResultText(generatedText);
       addHistoryItem(mode.id, prompt, generatedText);
     } catch (err: any) {
-      setError(`Failed to generate: ${err.message}`);
+      let errorMessageText = `Failed to generate: ${err.message}`;
+      if (err.message && (err.message.includes('503') || err.message.toLowerCase().includes('overloaded'))) {
+          errorMessageText = "The AI model is currently busy. Please try again in a few moments.";
+      }
+      setError(errorMessageText);
     } finally {
       setIsLoading(false);
     }

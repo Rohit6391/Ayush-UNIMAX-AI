@@ -182,7 +182,9 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
 
         } catch (error: any) {
             let errorMessageText = `An error occurred: ${error.message}.`;
-            if (error.message && error.message.includes('429 Too Many Requests')) {
+            if (error.message && (error.message.includes('503') || error.message.toLowerCase().includes('overloaded'))) {
+                errorMessageText = "The AI model is currently busy. Please try again in a few moments.";
+            } else if (error.message && error.message.includes('429 Too Many Requests')) {
                 errorMessageText = "You have exceeded the daily request limit for the AI. Please try again tomorrow or upgrade your plan.";
             }
             const errorMessage: Message = { role: 'model', text: errorMessageText };
