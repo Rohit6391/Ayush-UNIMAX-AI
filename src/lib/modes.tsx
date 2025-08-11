@@ -7,7 +7,6 @@ import {
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
 import { PhotoEditor } from '@/components/modes/PhotoEditor';
-import { VideoGenerator } from '@/components/modes/VideoGenerator';
 import { VideoEditor } from '@/components/modes/VideoEditor';
 import { CodeGenerator } from '@/components/modes/CodeGenerator';
 import { TextGenerator } from '@/components/modes/TextGenerator';
@@ -117,7 +116,7 @@ import { ProfitMarginOptimizer } from '@/components/modes/ProfitMarginOptimizer'
 
 
 export type ModeId = 
-  | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_maker' | 'video_editor' | 'code_generator' 
+  | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_editor' | 'code_generator' 
   | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
   | 'file_editor' | 'story_generator' | 'summarizer' | 'translator' | 'song_writer' 
   | 'sound_generator' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
@@ -250,7 +249,6 @@ export const modes: Mode[] = [
     { id: 'logo_maker', name: 'Logo Maker', icon: Paintbrush, description: 'Generate creative logos for your business or brand.', component: LogoMaker },
     { id: 'design_assistant', name: 'Design Assistant', icon: Star, description: 'Get design suggestions and guidance.', component: DesignAssistant },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
-    { id: 'video_maker', name: 'Video Maker', icon: Video, description: 'Generate a video with narration in any language.', component: VideoGenerator },
     { id: 'animation_tool', name: 'Animation Planner', icon: GanttChart, description: 'Plan animations and motion graphics.', component: AnimationTool },
     { id: 'three_d_modeler', name: '3D Model Planner', icon: PieChart, description: 'Create plans for 3D models.', component: ThreeDModeler },
     { id: 'video_editor', name: 'Video Analyzer', icon: Film, description: 'Upload a video and get AI analysis.', component: VideoEditor },
