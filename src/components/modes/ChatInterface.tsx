@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
@@ -18,6 +18,20 @@ interface Message {
     role: 'user' | 'model';
     text: string;
 }
+
+const examplePrompts = [
+    "Explain the theory of relativity as if I'm five.",
+    "Write a short story about a friendship between a cat and a robot.",
+    "What are the best places to visit in Japan during spring?",
+    "Generate a recipe for a healthy and delicious vegetarian pasta.",
+    "If animals could talk, which species would be the rudest?",
+    "Brainstorm some creative ideas for a new mobile app.",
+    "Translate 'Hello, how are you?' into Spanish, French, and Japanese.",
+    "What was the significance of the Silk Road in history?",
+    "Create a workout plan for someone who wants to build muscle at home.",
+    "What are some common misconceptions about AI?",
+];
+
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
     const { addHistoryItem, activeChat, setActiveChat } = useModes();
@@ -115,6 +129,11 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         if(fileInputRef.current) {
             fileInputRef.current.value = "";
         }
+    };
+    
+    const suggestPrompt = () => {
+        const randomIndex = Math.floor(Math.random() * examplePrompts.length);
+        setInput(examplePrompts[randomIndex]);
     };
 
 
@@ -301,13 +320,19 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                     </div>
                 </div>
                 <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
-                    {!isFunChat && (
-                         <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
-                            <input type="checkbox" id="deep-research" checked={isDeepResearch} onChange={() => setIsDeepResearch(!isDeepResearch)} className="w-4 h-4 rounded text-primary focus:ring-primary" />
-                            <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
-                            Deep Research
-                        </label>
-                    )}
+                    <div className="flex items-center gap-4">
+                        {!isFunChat && (
+                             <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
+                                <input type="checkbox" id="deep-research" checked={isDeepResearch} onChange={() => setIsDeepResearch(!isDeepResearch)} className="w-4 h-4 rounded text-primary focus:ring-primary" />
+                                <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
+                                Deep Research
+                            </label>
+                        )}
+                         <Button variant="ghost" onClick={suggestPrompt} className="flex items-center gap-2 cursor-pointer hover:text-foreground p-0 h-auto">
+                            <Wand2 size={16} />
+                            Suggest a Prompt
+                        </Button>
+                    </div>
                     <div className="flex items-center gap-2">
                         <Label htmlFor="hands-free-mode" className="cursor-pointer">Hands-Free</Label>
                         <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />
@@ -317,3 +342,5 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         </div>
     );
 }
+
+    

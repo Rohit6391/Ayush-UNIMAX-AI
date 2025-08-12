@@ -96,10 +96,9 @@ export function Translator({ mode }: { mode: any }) {
     };
 
 
-    const handleTranslate = async (inputText?: string, fileDataUri?: string, currentTargetLanguage?: string) => {
+    const handleTranslate = async (inputText?: string, fileDataUri?: string) => {
         const currentText = inputText ?? text;
-        const finalTargetLanguage = currentTargetLanguage || targetLanguage;
-
+        
         if (!currentText.trim() && !fileDataUri) {
             // No need to set error if it's an empty transient state
             return; 
@@ -112,7 +111,7 @@ export function Translator({ mode }: { mode: any }) {
         try {
             const result = await translateText({ 
                 text: currentText, 
-                targetLanguage: finalTargetLanguage,
+                targetLanguage,
                 sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage,
                 fileDataUri,
             });
@@ -291,3 +290,5 @@ export function Translator({ mode }: { mode: any }) {
         </ModeWrapper>
     );
 };
+
+    

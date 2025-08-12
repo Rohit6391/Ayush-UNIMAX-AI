@@ -25,8 +25,7 @@ export const languageToCode: { [key: string]: string } = {
     "Korean": "ko-KR", 
     "Russian": "ru-RU", 
     "Chinese (Simplified)": "zh-CN",
-    "Chinese (Mandarin)": "zh-CN",
-    "Chinese (Cantonese)": "zh-HK",
+    "Chinese (Traditional)": "zh-TW",
     "Hindi": "hi-IN",
     "Portuguese": "pt-BR", 
     "Arabic": "ar-SA", 
@@ -73,7 +72,7 @@ export const languageToCode: { [key: string]: string } = {
     "Persian": "fa-IR",
     "Punjabi": "pa-IN",
     "Romanian": "ro-RO",
-    "Serbian": "sr-rs",
+    "Serbian": "sr-RS",
     "Slovak": "sk-SK",
     "Slovenian": "sl-SI",
     "Somali": "so-SO",
@@ -91,3 +90,5 @@ export const languageToCode: { [key: string]: string } = {
     "Yoruba": "yo-NG",
     "Zulu": "zu-ZA"
 };
+
+    
