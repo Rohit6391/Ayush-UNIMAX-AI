@@ -21,4 +21,3 @@ import '@/ai/flows/shopping-assistant.ts';
 import '@/ai/flows/study-material-analyzer.ts';
 import '@/ai/flows/find-lyrics-from-url.ts';
 import '@/ai/flows/sound-generator.ts';
-import '@/ai/flows/generate-video-from-prompt.ts';
