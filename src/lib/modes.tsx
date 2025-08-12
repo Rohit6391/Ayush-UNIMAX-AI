@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, Moon
+    Plane, MoonStar, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, Moon, Video as VideoIcon
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -114,6 +114,7 @@ import { CustomerSegmentationMapper } from '@/components/modes/CustomerSegmentat
 import { PriceElasticityEstimator } from '@/components/modes/PriceElasticityEstimator';
 import { ChurnRiskPredictor } from '@/components/modes/ChurnRiskPredictor';
 import { ProfitMarginOptimizer } from '@/components/modes/ProfitMarginOptimizer';
+import { VideoMaker } from '@/components/modes/VideoMaker';
 
 
 export type ModeId = 
@@ -125,7 +126,7 @@ export type ModeId =
   | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
   | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat'
   | 'logo_maker' | 'design_assistant' | 'three_d_modeler' | 'animation_tool' | 'seo_tool'
-  | 'social_media_post_maker' | 'market_research'
+  | 'social_media_post_maker' | 'market_research' | 'video_maker'
   // Start of new modes from the big list
   | 'text_rewriter_pro' | 'creative_content_expander' | 'conversational_flow_designer' | 'technical_document_generator'
   | 'storyboard_idea_expander' | 'digital_persona_creator' | 'smart_prompt_optimizer' | 'context_aware_summary_maker'
@@ -255,7 +256,8 @@ export const modes: Mode[] = [
     { id: 'logo_maker', name: 'Logo Maker', icon: Paintbrush, description: 'Generate creative logos for your business or brand.', component: LogoMaker },
     { id: 'design_assistant', name: 'Design Assistant', icon: Star, description: 'Get design suggestions and guidance.', component: DesignAssistant },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
-    { id: 'video_generator', name: 'Video Storyboard', icon: Video, description: 'Generate a video with narration in any language.', component: VideoGenerator },
+    { id: 'video_generator', name: 'Video Storyboard', icon: Video, description: 'Generate a narrated video storyboard from a prompt.', component: VideoGenerator },
+    { id: 'video_maker', name: 'Video Maker', icon: VideoIcon, description: 'Generate a video directly from a prompt or image.', component: VideoMaker },
     { id: 'animation_tool', name: 'Animation Planner', icon: GanttChart, description: 'Plan animations and motion graphics.', component: AnimationTool },
     { id: 'three_d_modeler', name: '3D Model Planner', icon: PieChart, description: 'Create plans for 3D models.', component: ThreeDModeler },
     { id: 'video_editor', name: 'Video Analyzer', icon: Film, description: 'Upload a video and get AI analysis.', component: VideoEditor },
@@ -418,7 +420,7 @@ export const modes: Mode[] = [
     { id: 'research_summary_maker', name: 'Research Summary Maker', icon: FileSearch, component: ResearchSummaryMaker, description: 'Summarize a research paper for a lay audience.' },
     { id: 'journal_abstract_creator', name: 'Journal Abstract Creator', icon: BookCopy, component: JournalAbstractCreator, description: 'Write a formal, structured abstract for a research paper.' },
     { id: 'methodology_drafting_tool', name: 'Methodology Drafting Tool', icon: FileText, component: MethodologyDraftingTool, description: "Write a detailed 'Methodology' section for a research paper." },
-    { id: 'lab_report_formatter', name: 'Lab Report Formatter', icon: TestTube, description: 'Format raw lab notes into a structured lab report.' },
+    { id: 'lab_report_formatter', name: 'Lab Report Formatter', icon: TestTube, component:LabReportFormatter, description: 'Format raw lab notes into a structured lab report.' },
     { id: 'academic_citation_builder', name: 'Academic Citation Builder', icon: Library, component: AcademicCitationBuilder, description: 'Generate a perfectly formatted academic citation.' },
     { id: 'equation_solver_pro', name: 'Equation Solver Pro', icon: Minus, component: EquationSolverPro, description: 'Solve a mathematical equation with a step-by-step process.' },
     { id: 'graph_theory_visualizer', name: 'Graph Theory Visualizer', icon: GitBranch, component: GraphTheoryVisualizer, description: 'Create a text-based representation of a graph.' },

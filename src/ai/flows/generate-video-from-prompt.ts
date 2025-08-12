@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview An AI agent that generates a video from a text prompt.
+ * @fileOverview An AI agent that generates a video from a text prompt using the Veo model.
  */
 
 import { ai } from '@/ai/genkit';

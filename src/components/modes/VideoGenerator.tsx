@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Video, Settings, AlertTriangle, UploadCloud, Film } from 'lucide-react';
+import { Video, Settings, AlertTriangle, UploadCloud } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateVideoWithNarration, Scene } from '@/ai/flows/generate-video-with-narration';
@@ -145,7 +145,7 @@ export function VideoGenerator({ mode }: { mode: any }) {
 
             
             <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-4">
-                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating Storyboard...</> : 'Generate Video'}
+                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating Storyboard...</> : 'Generate Storyboard'}
             </Button>
             
             {error && (
@@ -170,7 +170,7 @@ export function VideoGenerator({ mode }: { mode: any }) {
                                 <CardTitle>Canvas</CardTitle>
                             </CardHeader>
                             <CardContent>
-                               <Carousel className="w-full" autoplay a11y>
+                               <Carousel className="w-full" opts={{loop: true}} plugins={[ Autoplay({ delay: 3000, stopOnInteraction: true }) ]}>
                                    <CarouselContent>
                                         {scenes.map((scene, index) => (
                                             <CarouselItem key={index}>
