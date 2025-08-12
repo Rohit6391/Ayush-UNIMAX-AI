@@ -90,5 +90,3 @@ export const languageToCode: { [key: string]: string } = {
     "Yoruba": "yo-NG",
     "Zulu": "zu-ZA"
 };
-
-    
