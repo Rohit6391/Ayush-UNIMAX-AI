@@ -15,3 +15,4 @@ import '@/ai/flows/import-from-url.ts';
 import '@/ai/flows/video-editor.ts';
 import '@/ai/flows/generate-chart-from-prompt.ts';
 import '@/ai/flows/prompt-enhancer.ts';
+import '@/ai/flows/brand-finder.ts';

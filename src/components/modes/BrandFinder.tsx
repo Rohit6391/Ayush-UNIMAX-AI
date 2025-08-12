@@ -80,7 +80,8 @@ export function BrandFinder({ mode }: { mode: any }) {
                            {results.map((result, index) => (
                              <div key={index} className="p-4 border rounded-lg bg-muted/50">
                                  <h3 className="font-bold text-lg flex items-center gap-2"><Crown className="text-primary" /> {result.brandName}</h3>
-                                 <p className="text-muted-foreground mt-1">{result.reason}</p>
+                                 <p className="text-muted-foreground mt-1 italic">"{result.reason}"</p>
+                                 <p className="text-sm font-medium mt-2">Top Product: <span className='font-normal'>{result.bestProduct}</span></p>
                              </div>
                            ))}
                         </CardContent>

@@ -218,7 +218,11 @@ export type ModeId =
   | 'ab_test_result_analyzer' | 'user_retention_pattern_finder' | 'behavior_based_segmentation_tool' | 'personalization_rule_optimizer'
   | 'cross_platform_engagement_tracker' | 'notification_timing_optimizer' | 'in_app_purchase_predictor' | 'push_notification_copy_checker'
   | 'feature_adoption_forecaster' | 'churn_prevention_strategy_maker' | 'trial_conversion_rate_predictor' | 'loyalty_tier_upgrade_predictor'
-  | 'lifetime_value_forecasting_ai';
+  | 'lifetime_value_forecasting_ai'
+  | 'brand_finder'
+  | 'product_finder'
+  | 'shopping_assistant'
+  | 'study_material_analyzer';
 
 
 export interface Mode {
@@ -354,6 +358,9 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Correct the grammar and spelling of the following text, and provide the corrected version in the same language:\n\n${p}`,
         resultTitle: "Corrected Text"
     }},
+    { id: 'brand_finder', name: 'Brand Finder', icon: Crown, description: 'Find top brands for any product.', component: BrandFinder },
+    { id: 'product_finder', name: 'Product Finder', icon: ShoppingCart, description: 'Find where to buy products online.', component: ProductFinder },
+    { id: 'study_material_analyzer', name: 'Study Material Analyzer', icon: GraduationCap, description: 'Analyze study material and get a quiz.', component: StudyMaterialAnalyzer },
 
     // 365 Modes
     { id: 'text_rewriter_pro', name: 'Text Rewriter Pro', icon: RefreshCw, component: TextRewriterPro, description: 'Rewrite text for clarity, style, and impact.' },
