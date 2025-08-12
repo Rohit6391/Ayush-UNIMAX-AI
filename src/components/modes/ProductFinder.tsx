@@ -92,5 +92,3 @@ export function ProductFinder({ mode }: { mode: any }) {
         </ModeWrapper>
     );
 };
-
-    

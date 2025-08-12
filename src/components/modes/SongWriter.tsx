@@ -16,7 +16,7 @@ import { Label } from '../ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 export function SongWriter({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -72,7 +72,7 @@ export function SongWriter({ mode }: { mode: any }) {
         setIsLoading(true); setError(''); setLyrics(''); setComposition(null); cleanup();
         
         try {
-            const result = await writeSongAndMusic({ concept: prompt });
+            const result = await writeSongAndMusic({ concept: prompt, model });
             setLyrics(result.lyrics);
             setComposition(result.composition);
             addHistoryItem('song_writer', prompt, `Generated a song with lyrics and a ${result.composition.length}-note melody.`);

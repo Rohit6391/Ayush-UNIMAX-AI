@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -9,24 +9,34 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Video, Settings, AlertTriangle, UploadCloud } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { generateVideoFromPrompt } from '@/ai/flows/generate-video-from-prompt';
-import { useToast } from '@/hooks/use-toast';
+import { generateVideoWithNarration, Scene } from '@/ai/flows/generate-video-with-narration';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
-export function VideoMaker({ mode }: { mode: any }) {
+export function VideoGenerator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
-    const { toast } = useToast();
     const [prompt, setPrompt] = useState('');
+    const [language, setLanguage] = useState('English');
     const [isLoading, setIsLoading] = useState(false);
-    const [videoUrl, setVideoUrl] = useState<string | null>(null);
+    const [scenes, setScenes] = useState<Scene[]>([]);
+    const [narrationAudio, setNarrationAudio] = useState<string | null>(null);
     const [error, setError] = useState('');
-    
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const [activeTab, setActiveTab] = useState('prompt');
+
     // For file input
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [activeTab, setActiveTab] = useState('prompt');
-
+    
+    useEffect(() => {
+        if (narrationAudio && audioRef.current) {
+            audioRef.current.src = narrationAudio;
+            audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+        }
+    }, [narrationAudio]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
@@ -40,18 +50,15 @@ export function VideoMaker({ mode }: { mode: any }) {
         }
     };
 
+
     const handleGenerate = async () => {
-        if (!prompt.trim()) { setError('Please enter a prompt for your video.'); return; }
+        if (!prompt.trim()) { setError('Please enter a prompt for your video storyboard.'); return; }
         if (activeTab === 'image' && !file) { setError('Please upload an image to animate.'); return; }
 
         setIsLoading(true); 
-        setVideoUrl(null);
+        setScenes([]);
+        setNarrationAudio(null);
         setError('');
-
-        toast({
-            title: "Video Generation Started",
-            description: "This may take a minute or two. Please be patient.",
-        });
         
         try {
             let fileDataUri: string | undefined;
@@ -64,19 +71,21 @@ export function VideoMaker({ mode }: { mode: any }) {
                 });
             }
 
-            const result = await generateVideoFromPrompt({ 
+            const result = await generateVideoWithNarration({ 
                 prompt, 
+                language, 
                 photoDataUri: fileDataUri 
             });
 
-            if (result.videoUrl) {
-                setVideoUrl(result.videoUrl);
-                addHistoryItem('video_maker', prompt, result.videoUrl);
+            if (result.scenes.length > 0) {
+                setScenes(result.scenes);
+                setNarrationAudio(result.narrationAudioUrl);
+                addHistoryItem('video_generator', prompt, { scenes: result.scenes, audio: result.narrationAudioUrl });
             } else {
-                throw new Error("The AI failed to generate a video. Please try a different prompt.");
+                throw new Error("The AI failed to generate a storyboard. Please try a different prompt.");
             }
         } catch (err: any) {
-            setError(`Video generation failed: ${err.message}. Please try again.`);
+            setError(`Storyboard generation failed: ${err.message}. Please try again.`);
         } finally {
             setIsLoading(false);
         }
@@ -84,7 +93,7 @@ export function VideoMaker({ mode }: { mode: any }) {
     
     return (
         <ModeWrapper mode={mode}>
-             <Tabs defaultValue="prompt" className="w-full mb-4" onValueChange={setActiveTab}>
+            <Tabs defaultValue="prompt" className="w-full mb-4" onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="prompt">Make with AI</TabsTrigger>
                     <TabsTrigger value="image">Animate Image</TabsTrigger>
@@ -109,21 +118,35 @@ export function VideoMaker({ mode }: { mode: any }) {
                     </div>
                 </TabsContent>
             </Tabs>
+            
+            <div className="space-y-4">
+                <Textarea 
+                    id="prompt-text"
+                    value={prompt} 
+                    onChange={(e) => setPrompt(e.target.value)} 
+                    placeholder={
+                        activeTab === 'image' 
+                        ? "e.g., Make the person wave and say hello."
+                        : "e.g., A short story about a cat who learns to fly."
+                    }
+                    className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                    rows={3} 
+                />
+                <div>
+                    <Label htmlFor='language-input'>Narration Language</Label>
+                    <Input
+                        id="language-input"
+                        value={language}
+                        onChange={(e) => setLanguage(e.target.value)}
+                        placeholder="e.g., Spanish, Japanese, French"
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 transition-colors"
+                    />
+                </div>
+            </div>
 
-            <Textarea 
-                value={prompt} 
-                onChange={(e) => setPrompt(e.target.value)} 
-                placeholder={
-                    activeTab === 'image' 
-                    ? "e.g., Make the clouds move and the water ripple."
-                    : "e.g., A cinematic shot of a majestic dragon soaring over a mystical forest at dawn."
-                }
-                className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
-                rows={3} 
-            />
             
             <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-4">
-                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating Video...</> : 'Generate Video'}
+                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating Storyboard...</> : 'Generate Storyboard'}
             </Button>
             
             {error && (
@@ -138,19 +161,36 @@ export function VideoMaker({ mode }: { mode: any }) {
                 {isLoading && (
                     <Card className="w-full aspect-video bg-muted/50 flex flex-col items-center justify-center animate-pulse">
                         <Video className="h-16 w-16 text-muted-foreground" />
-                         <p className="mt-4 text-muted-foreground">Generating video, please wait...</p>
+                         <p className="mt-4 text-muted-foreground">Generating scenes & narration...</p>
                     </Card>
                 )}
-                {videoUrl && !isLoading && (
+                {scenes.length > 0 && !isLoading && (
                    <>
                         <Card className="text-left overflow-hidden">
                             <CardHeader>
-                                <CardTitle>Generated Video</CardTitle>
+                                <CardTitle>Canvas</CardTitle>
                             </CardHeader>
                             <CardContent>
-                               <div className="aspect-video w-full overflow-hidden rounded-md flex flex-col justify-center items-center bg-black">
-                                    <video src={videoUrl} controls autoPlay loop className="max-w-full max-h-full object-contain" />
-                               </div>
+                               <Carousel className="w-full" opts={{loop: true}} plugins={[ Autoplay({ delay: 3000, stopOnInteraction: true }) ]}>
+                                   <CarouselContent>
+                                        {scenes.map((scene, index) => (
+                                            <CarouselItem key={index}>
+                                                <div className="aspect-video w-full overflow-hidden rounded-md flex flex-col justify-center items-center bg-black">
+                                                    <img src={scene.imageUrl} alt={`Scene ${index + 1}`} className="max-w-full max-h-full object-contain" />
+                                                </div>
+                                            </CarouselItem>
+                                        ))}
+                                   </CarouselContent>
+                                   <CarouselPrevious />
+                                   <CarouselNext />
+                               </Carousel>
+                               {narrationAudio && (
+                                   <div className="mt-4">
+                                       <audio ref={audioRef} controls src={narrationAudio} className="w-full">
+                                            Your browser does not support the audio element.
+                                       </audio>
+                                   </div>
+                               )}
                             </CardContent>
                         </Card>
                    </>
