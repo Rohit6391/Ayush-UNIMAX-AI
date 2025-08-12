@@ -100,7 +100,8 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   };
   
   const handleSetActiveMode = (modeId: ModeId) => {
-    if (activeMode !== modeId) {
+    // Reset chat history when switching between chat modes or to other modes
+    if (activeMode !== modeId && (activeMode === 'chat' || activeMode === 'fun_chat' || modeId === 'chat' || modeId === 'fun_chat')) {
         setActiveChat([]);
     }
     setActiveMode(modeId);

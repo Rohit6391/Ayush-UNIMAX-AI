@@ -12,8 +12,10 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
 import { importFromUrl } from '@/ai/flows/import-from-url';
+import { enhancePrompt } from '@/ai/flows/prompt-enhancer';
 import { MakerOptions } from './MakerOptions';
 import { PublishDialog } from '@/components/dialogs/PublishDialog';
+import { useToast } from '@/hooks/use-toast';
 
 interface MakerProps {
   mode: any;
@@ -26,7 +28,8 @@ interface MakerProps {
 }
 
 export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLanguage, promptPlaceholder, showMakerOptions = false }: MakerProps) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
+    const { toast } = useToast();
     const [prompt, setPrompt] = useState('');
     const [editPrompt, setEditPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -52,10 +55,15 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         if (!prompt.trim()) { setError(`Please describe the ${mode.name.toLowerCase()} you want to build.`); return; }
         setIsLoading(true); setResult(''); setError(''); setExplanation('');
         
-        const fullPrompt = generatePrompt(prompt);
-
         try {
-            const apiResult = await createDocumentFromPrompt({ prompt: fullPrompt });
+            // Step 1: Enhance the user's prompt
+            toast({ title: "Thinking...", description: "Enhancing your idea into a detailed prompt..." });
+            const { enhancedPrompt } = await enhancePrompt({ prompt });
+
+            // Step 2: Generate the final result using the enhanced prompt
+            toast({ title: "Building...", description: "The AI is now creating your project." });
+            const fullPrompt = generatePrompt(enhancedPrompt);
+            const apiResult = await createDocumentFromPrompt({ prompt: fullPrompt, model });
             let generatedResult = apiResult.document.replace(/^```(html|json)?\n?/, '').replace(/```$/, '').trim();
             
             let generatedExplanation: string | undefined;
@@ -87,7 +95,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         setIsEditing(true); setError('');
         
         try {
-            const editResult = await editFilesFromPrompt({fileContent: result, prompt: editPrompt});
+            const editResult = await editFilesFromPrompt({fileContent: result, prompt: editPrompt, model});
             let finalResult = editResult.fileContent.replace(/^```(html|json)?\n?/, '').replace(/```$/, '').trim();
             setResult(finalResult);
             setEditPrompt('');

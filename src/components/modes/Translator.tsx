@@ -59,7 +59,7 @@ export function Translator({ mode }: { mode: any }) {
                 setIsListening(false);
             };
         }
-    }, [voiceLanguage]);
+    }, []);
 
     const handleListen = () => {
         if (isListening) {
