@@ -2,12 +2,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Wand2 } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
 import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { enhancePrompt } from '@/ai/flows/prompt-enhancer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
@@ -18,20 +19,6 @@ interface Message {
     role: 'user' | 'model';
     text: string;
 }
-
-const examplePrompts = [
-    "Explain the theory of relativity as if I'm five.",
-    "Write a short story about a friendship between a cat and a robot.",
-    "What are the best places to visit in Japan during spring?",
-    "Generate a recipe for a healthy and delicious vegetarian pasta.",
-    "If animals could talk, which species would be the rudest?",
-    "Brainstorm some creative ideas for a new mobile app.",
-    "Translate 'Hello, how are you?' into Spanish, French, and Japanese.",
-    "What was the significance of the Silk Road in history?",
-    "Create a workout plan for someone who wants to build muscle at home.",
-    "What are some common misconceptions about AI?",
-];
-
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
     const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
@@ -63,7 +50,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat, activeChat, setActiveChat]);
+    }, [isFunChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -130,12 +117,20 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             fileInputRef.current.value = "";
         }
     };
-    
-    const suggestPrompt = () => {
-        const randomIndex = Math.floor(Math.random() * examplePrompts.length);
-        setInput(examplePrompts[randomIndex]);
-    };
 
+    const handleEnhancePrompt = async () => {
+        if (!input.trim() || isLoading) return;
+        setIsLoading(true);
+        try {
+            const result = await enhancePrompt({ prompt: input });
+            setInput(result.enhancedPrompt);
+        } catch (error: any) {
+            // Maybe show a toast? For now, log it.
+            console.error("Failed to enhance prompt:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handleSend = async (text?: string) => {
         const currentInput = typeof text === 'string' ? text : input;
@@ -201,13 +196,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             }
 
         } catch (error: any) {
-            let errorMessageText = `An error occurred: ${error.message}.`;
-            if (error.message && (error.message.includes('503') || error.message.toLowerCase().includes('overloaded'))) {
-                errorMessageText = "The AI model is currently busy. Please try again in a few moments.";
-            } else if (error.message && error.message.includes('429 Too Many Requests')) {
-                errorMessageText = "You have exceeded the daily request limit for the AI. Please try again tomorrow or upgrade your plan.";
-            }
-            const errorMessage: Message = { role: 'model', text: errorMessageText };
+            const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}.` };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
@@ -322,16 +311,16 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 </div>
                 <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
                     <div className="flex items-center gap-4">
-                        {!isFunChat && (
-                             <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
-                                <input type="checkbox" id="deep-research" checked={isDeepResearch} onChange={() => setIsDeepResearch(!isDeepResearch)} className="w-4 h-4 rounded text-primary focus:ring-primary" />
-                                <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
-                                Deep Research
-                            </label>
+                         {!isFunChat && (
+                         <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
+                            <input type="checkbox" id="deep-research" checked={isDeepResearch} onChange={() => setIsDeepResearch(!isDeepResearch)} className="w-4 h-4 rounded text-primary focus:ring-primary" />
+                            <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
+                            Deep Research
+                        </label>
                         )}
-                         <Button variant="ghost" onClick={suggestPrompt} className="flex items-center gap-2 cursor-pointer hover:text-foreground p-0 h-auto">
-                            <Wand2 size={16} />
-                            Suggest a Prompt
+                         <Button variant="ghost" onClick={handleEnhancePrompt} className="flex items-center gap-2 cursor-pointer hover:text-foreground p-0 h-auto" disabled={!input || isLoading}>
+                            <Sparkles size={16} />
+                            Enhance Prompt
                         </Button>
                     </div>
                     <div className="flex items-center gap-2">

@@ -21,7 +21,7 @@ export function Translator({ mode }: { mode: any }) {
     const [text, setText] = useState('');
     const [sourceLanguage, setSourceLanguage] = useState('Auto-detect');
     const [detectedLanguage, setDetectedLanguage] = useState<string | null>(null);
-    const [targetLanguage, setTargetLanguage] = useState('French');
+    const [targetLanguage, setTargetLanguage] = useState('Hindi');
     const [isLoading, setIsLoading] = useState(false);
     const [translation, setTranslation] = useState('');
     const [error, setError] = useState('');
@@ -48,7 +48,7 @@ export function Translator({ mode }: { mode: any }) {
                 const transcript = event.results[0][0].transcript;
                 setText(transcript);
                 setIsListening(false);
-                handleTranslate(transcript);
+                handleTranslate(transcript, undefined, voiceLanguage);
             };
             recognitionRef.current.onerror = (event: any) => {
                 console.error('Speech recognition error:', event.error);
@@ -59,7 +59,7 @@ export function Translator({ mode }: { mode: any }) {
                 setIsListening(false);
             };
         }
-    }, []);
+    }, [voiceLanguage]);
 
     const handleListen = () => {
         if (isListening) {
@@ -70,10 +70,7 @@ export function Translator({ mode }: { mode: any }) {
                 setError("Speech recognition is not supported by your browser.");
                 return;
             }
-            setText('');
-            setTranslation('');
-            setError('');
-            setDetectedLanguage(null);
+            resetInputs();
             recognitionRef.current.lang = languageToCode[voiceLanguage] || 'en-US';
             recognitionRef.current?.start();
             setIsListening(true);
@@ -96,11 +93,10 @@ export function Translator({ mode }: { mode: any }) {
     };
 
 
-    const handleTranslate = async (inputText?: string, fileDataUri?: string) => {
+    const handleTranslate = async (inputText?: string, fileDataUri?: string, sourceLangOverride?: string) => {
         const currentText = inputText ?? text;
         
         if (!currentText.trim() && !fileDataUri) {
-            // No need to set error if it's an empty transient state
             return; 
         }
 
@@ -112,7 +108,7 @@ export function Translator({ mode }: { mode: any }) {
             const result = await translateText({ 
                 text: currentText, 
                 targetLanguage,
-                sourceLanguage: sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage,
+                sourceLanguage: sourceLangOverride || (sourceLanguage === 'Auto-detect' ? undefined : sourceLanguage),
                 fileDataUri: fileDataUri,
                 model
             });
