@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -59,7 +58,7 @@ export function Translator({ mode }: { mode: any }) {
                 setIsListening(false);
             };
         }
-    }, []);
+    }, [voiceLanguage]);
 
     const handleListen = () => {
         if (isListening) {
