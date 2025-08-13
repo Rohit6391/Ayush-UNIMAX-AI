@@ -703,7 +703,6 @@ export type ModeId =
   | 'video_meme_generator'
   | 'ai_legal_document_drafter'
   | 'blog_post_formatter'
-  | 'animated_gif_editor'
   | 'ai_presentation_coach'
   | 'ai_resume_analyzer'
   | 'smart_invoice_generator'
@@ -752,7 +751,6 @@ export type ModeId =
   | 'ai_marketing_strategy_builder'
   | 'social_media_comment_responder'
   | 'ai_puzzle_solver'
-  | 'photo_collage_maker'
   | 'ai_writing_prompt_generator'
   | 'ai_video_game_storyline_writer'
   | 'ai_meme_idea_generator'
@@ -763,7 +761,6 @@ export type ModeId =
   | 'ai_conflict_mediator'
   | 'ai_home_cleaning_planner'
   | 'virtual_fitness_trainer'
-  | 'ai_fact_checker'
   | 'ai_book_title_generator'
   | 'digital_business_proposal_maker'
   | 'ai_flashcard_creator'
@@ -881,7 +878,6 @@ export type ModeId =
   | 'ai_business_slogan_shortener'
   | 'ai_webpage_speed_tester'
   | 'ai_song_genre_identifier'
-  | 'ai_real_estate_listing_writer'
   | 'ai_video_script_breakdown_tool'
   | 'ai_language_dialect_converter'
   | 'ai_food_pairing_suggestion_tool'
@@ -953,7 +949,6 @@ export type ModeId =
   | 'ai_gaming_strategy_advisor'
   | 'ai_character_voice_generator'
   | 'ai_blog_post_expansion_tool'
-  | 'ai_game_level_designer'
   | 'ai_virtual_pet_creator';
 
 
@@ -1479,3 +1474,5 @@ export const modes: Mode[] = [
     { id: 'loyalty_tier_upgrade_predictor', name: 'Loyalty Tier Upgrade Predictor', icon: ArrowUp, description: 'Predict loyalty tier upgrades.', component: TextGenerator, componentProps: textGeneratorProps('Loyalty Tier Upgrade', 'Provide customer data to predict loyalty tier upgrades.', 'Predict loyalty tier upgrades') },
     { id: 'lifetime_value_forecasting_ai', name: 'Lifetime Value Forecasting AI', icon: TrendingUp, description: 'Forecast customer lifetime value.', component: TextGenerator, componentProps: textGeneratorProps('Lifetime Value Forecast', 'Provide customer data to forecast their lifetime value.', 'Forecast customer lifetime value') },
 ];
+
+    
