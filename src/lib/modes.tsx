@@ -1,4 +1,3 @@
-
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
@@ -646,7 +645,6 @@ export type ModeId =
   | 'animated_logo_maker'
   | 'interactive_story_builder'
   | 'voice_emotion_analyzer'
-  | 'local_event_finder'
   | 'music_remix_tool'
   | 'digital_calendar_maker'
   | 'file_compression_tool'
@@ -1481,5 +1479,3 @@ export const modes: Mode[] = [
     { id: 'loyalty_tier_upgrade_predictor', name: 'Loyalty Tier Upgrade Predictor', icon: ArrowUp, description: 'Predict loyalty tier upgrades.', component: TextGenerator, componentProps: textGeneratorProps('Loyalty Tier Upgrade', 'Provide customer data to predict loyalty tier upgrades.', 'Predict loyalty tier upgrades') },
     { id: 'lifetime_value_forecasting_ai', name: 'Lifetime Value Forecasting AI', icon: TrendingUp, description: 'Forecast customer lifetime value.', component: TextGenerator, componentProps: textGeneratorProps('Lifetime Value Forecast', 'Provide customer data to forecast their lifetime value.', 'Forecast customer lifetime value') },
 ];
-
-    
