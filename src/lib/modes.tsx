@@ -412,6 +412,10 @@ import { AudioLoopMaker } from '@/components/modes/AudioLoopMaker';
 import { AudioMixer } from '@/components/modes/AudioMixer';
 import { AudioSyncTool } from '@/components/modes/AudioSyncTool';
 import { AudioTranscriptionTool } from '@/components/modes/AudioTranscriptionTool';
+import { AIBusinessPlanWriter } from '@/components/modes/AIBusinessPlanWriter';
+import { AIGameLevelDesigner } from '@/components/modes/AIGameLevelDesigner';
+import { AIJokeWriter } from '@/components/modes/AIJokeWriter';
+import { AITeacher } from '@/components/modes/AITeacher';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -751,6 +755,7 @@ export type ModeId =
   | 'ai_marketing_strategy_builder'
   | 'social_media_comment_responder'
   | 'ai_puzzle_solver'
+  | 'photo_collage_maker'
   | 'ai_writing_prompt_generator'
   | 'ai_video_game_storyline_writer'
   | 'ai_meme_idea_generator'
@@ -761,6 +766,8 @@ export type ModeId =
   | 'ai_conflict_mediator'
   | 'ai_home_cleaning_planner'
   | 'virtual_fitness_trainer'
+  | 'ai_speech_writer'
+  | 'ai_fact_checker'
   | 'ai_book_title_generator'
   | 'digital_business_proposal_maker'
   | 'ai_flashcard_creator'
