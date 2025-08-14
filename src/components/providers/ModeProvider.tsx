@@ -22,6 +22,8 @@ interface ModeContextType {
   setIsHistoryPanelOpen: (isOpen: boolean | ((isOpen: boolean) => boolean)) => void;
   isSettingsPanelOpen: boolean;
   setIsSettingsPanelOpen: (isOpen: boolean | ((isOpen: boolean) => boolean)) => void;
+  isHelpPanelOpen: boolean;
+  setIsHelpPanelOpen: (isOpen: boolean | ((isOpen: boolean) => boolean)) => void;
   history: HistoryItem[];
   addHistoryItem: (type: ModeId, prompt: string, data: any, fullConversation?: any[]) => void;
   clearHistory: () => void;
@@ -38,6 +40,7 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const [activeMode, setActiveMode] = useState<ModeId>('chat');
   const [isHistoryPanelOpen, setIsHistoryPanelOpen] = useState(false);
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
+  const [isHelpPanelOpen, setIsHelpPanelOpen] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [activeChat, setActiveChat] = useState<any[]>([]);
   const model = availableModels[0];
@@ -114,6 +117,8 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     setIsHistoryPanelOpen,
     isSettingsPanelOpen,
     setIsSettingsPanelOpen,
+    isHelpPanelOpen,
+    setIsHelpPanelOpen,
     history,
     addHistoryItem,
     clearHistory,

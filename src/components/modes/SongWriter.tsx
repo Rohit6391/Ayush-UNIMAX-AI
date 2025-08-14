@@ -6,14 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, Play, Square, Music, AlertTriangle, Loader2, LinkIcon, Clipboard, Check } from 'lucide-react';
+import { Settings, Play, Square, Music, AlertTriangle, Loader2, Clipboard, Check } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { writeSongAndMusic } from '@/ai/flows/write-song-and-music';
-import { findLyricsFromUrl } from '@/ai/flows/find-lyrics-from-url';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 export function SongWriter({ mode }: { mode: any }) {
     const { addHistoryItem, model } = useModes();
@@ -24,10 +20,6 @@ export function SongWriter({ mode }: { mode: any }) {
     const [composition, setComposition] = useState<any[] | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [copied, setCopied] = useState(false);
-    
-    // For lyric finder
-    const [url, setUrl] = useState('');
-    const [isFindingLyrics, setIsFindingLyrics] = useState(false);
 
     const cleanup = () => {
         if (window.Tone) {
@@ -83,20 +75,6 @@ export function SongWriter({ mode }: { mode: any }) {
         }
     };
     
-    const handleFindLyrics = async () => {
-        if (!url.trim()) { setError('Please enter a valid URL.'); return; }
-        setIsFindingLyrics(true); setError(''); setLyrics(''); setComposition(null); cleanup();
-        try {
-            const result = await findLyricsFromUrl({ url });
-            setLyrics(result.lyrics);
-             addHistoryItem('song_writer', `Find lyrics from ${url}`, result.lyrics);
-        } catch (err: any) {
-            setError(`Failed to find lyrics: ${err.message}`);
-        } finally {
-            setIsFindingLyrics(false);
-        }
-    }
-
     const handleCopy = () => {
         if (navigator.clipboard && lyrics) {
             navigator.clipboard.writeText(lyrics).then(() => {
@@ -108,39 +86,16 @@ export function SongWriter({ mode }: { mode: any }) {
 
     return (
         <ModeWrapper mode={mode}>
-            <Tabs defaultValue="generate" className="w-full mb-4">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="generate">Generate Song</TabsTrigger>
-                    <TabsTrigger value="find">Find Lyrics from URL</TabsTrigger>
-                </TabsList>
-                <TabsContent value="generate">
-                    <Textarea 
-                        value={prompt} 
-                        onChange={(e) => setPrompt(e.target.value)} 
-                        placeholder="e.g., A song about rain on a quiet city street in Japanese..." 
-                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
-                        rows={3} 
-                    />
-                    <Button onClick={handleGenerate} disabled={isLoading || isPlaying || isFindingLyrics} className="w-full mt-4">
-                        {isLoading ? <><Loader2 className="animate-spin mr-2" /> Writing Song...</> : 'Write Song'}
-                    </Button>
-                </TabsContent>
-                 <TabsContent value="find">
-                    <div className="space-y-2 text-left">
-                        <Label htmlFor="url-input">Song URL</Label>
-                        <Input 
-                            id="url-input" 
-                            placeholder="e.g., https://genius.com/queen-bohemian-rhapsody-lyrics" 
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                            disabled={isFindingLyrics}
-                        />
-                        <Button onClick={handleFindLyrics} disabled={isLoading || isFindingLyrics} className="w-full">
-                            {isFindingLyrics ? <><Loader2 className="animate-spin mr-2" /> Finding Lyrics...</> : 'Find Lyrics'}
-                        </Button>
-                    </div>
-                </TabsContent>
-            </Tabs>
+            <Textarea 
+                value={prompt} 
+                onChange={(e) => setPrompt(e.target.value)} 
+                placeholder="e.g., A song about rain on a quiet city street in Japanese..." 
+                className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors" 
+                rows={3} 
+            />
+            <Button onClick={handleGenerate} disabled={isLoading || isPlaying} className="w-full mt-4">
+                {isLoading ? <><Loader2 className="animate-spin mr-2" /> Writing Song...</> : 'Write Song'}
+            </Button>
             
             {error && (
                 <Alert variant="destructive" className="mt-6 text-left">
@@ -151,14 +106,14 @@ export function SongWriter({ mode }: { mode: any }) {
             )}
 
             <div className="mt-6 w-full">
-                {(isLoading || isFindingLyrics) && (
+                {isLoading && (
                     <Card className="w-full h-64 bg-muted/50 flex items-center justify-center animate-pulse">
                         <Music className="h-16 w-16 text-muted-foreground" />
                     </Card>
                 )}
-                {lyrics && !isLoading && !isFindingLyrics && (
+                {lyrics && !isLoading && (
                     <Card className="text-left">
-                        <CardHeader className="flex-row items-center justify-between">
+                         <CardHeader className="flex-row items-center justify-between">
                             <CardTitle>Generated Song</CardTitle>
                              <Button onClick={handleCopy} size="icon" variant="ghost" className="h-8 w-8">
                                 {copied ? <Check size={16}/> : <Clipboard size={16}/>}
