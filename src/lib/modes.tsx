@@ -879,7 +879,7 @@ export const modes: Mode[] = [
     { id: 'churn_risk_predictor', name: 'Churn Risk Predictor', icon: TrendingUp, component: ChurnRiskPredictor, description: 'Assess customer churn risk and suggest retention strategies.' },
     { id: 'profit_margin_optimizer', name: 'Profit Margin Optimizer', icon: BadgePercent, component: ProfitMarginOptimizer, description: 'Suggest strategies to optimize a product\'s profit margin.' },
     { id: 'games_knowledge', name: 'Games Knowledge', icon: Gamepad2, description: 'Get information and tips about any video game.', component: GamesKnowledge},
-    { id: 'yoga_fitness', name: 'Yoga & Fitness', icon: Dumbbell, description: 'Get guidance on yoga poses and fitness exercises.', component: YogaFitness},
+    { id: 'yoga_fitness', name: 'Yoga & Fitness', icon: Dumbbell, description: 'Get guidance on yoga poses, fitness exercises, and general wellness tips.', component: YogaFitness},
     { id: 'grammar_practice_creator', name: 'Grammar Practice Creator', icon: BookCheck, description: 'Generate grammar exercises for any language.', component: GrammarPracticeCreator},
     { id: 'sports_skills_trainer', name: 'Sports Skills Trainer', icon: Trophy, description: 'Learn how to improve your skills in any sport.', component: SportsSkillsTrainer},
     { id: 'quiz_generator', name: 'Quiz Generator', icon: HelpCircle, description: 'Generate quizzes on any topic.', component: QuizQuestionGenerator },

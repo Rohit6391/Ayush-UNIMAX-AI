@@ -62,19 +62,13 @@ const generateSoundFlow = ai.defineFlow(
   },
   async (input) => {
     try {
+      // The prompt is the sound description itself. The model is smart enough to handle it.
       const { media } = await ai.generate({
         model: googleAI.model('gemini-2.5-flash-preview-tts'),
         config: {
           responseModalities: ['AUDIO'],
-           speechConfig: {
-             voiceConfig: {
-               // Use a neutral voice suitable for sound effects
-               prebuiltVoiceConfig: { voiceName: 'Algenib' }, 
-             },
-           },
         },
-        // The prompt is the sound description itself
-        prompt: `Generate a sound effect that matches the following description: ${input.prompt}`,
+        prompt: `Generate a sound effect that perfectly matches the following description: ${input.prompt}`,
       });
 
       if (!media?.url) {
