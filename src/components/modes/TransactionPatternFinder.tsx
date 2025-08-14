@@ -1,7 +1,6 @@
-
 "use client";
 import { TextGenerator } from "./TextGenerator";
-import { transactionPatternFinderFlow } from "@/ai/flows/transaction-pattern-finder";
+import { findTransactionPatterns } from "@/ai/flows/transaction-pattern-finder";
 
 export function TransactionPatternFinder({ mode }: { mode: any }) {
     return (
@@ -11,7 +10,7 @@ export function TransactionPatternFinder({ mode }: { mode: any }) {
             buttonText="Find Patterns"
             generatePrompt={(prompt) => `Analyze the following transaction data for patterns: "${prompt}"`}
             resultTitle="Transaction Pattern Analysis"
-            flow={transactionPatternFinderFlow}
+            flow={(input: any) => findTransactionPatterns({ data: input.prompt })}
         />
     );
 }
