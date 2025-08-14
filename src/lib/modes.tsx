@@ -141,6 +141,10 @@ import { AIBusinessPlanWriter } from '@/components/modes/AIBusinessPlanWriter';
 import { AIGameLevelDesigner } from '@/components/modes/AIGameLevelDesigner';
 import { AIJokeWriter } from '@/components/modes/AIJokeWriter';
 import { AITeacher } from '@/components/modes/AITeacher';
+import { GamesKnowledge } from '@/components/modes/GamesKnowledge';
+import { YogaFitness } from '@/components/modes/YogaFitness';
+import { GrammarPracticeCreator } from '@/components/modes/GrammarPracticeCreator';
+import { SportsSkillsTrainer } from '@/components/modes/SportsSkillsTrainer';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -620,7 +624,9 @@ export type ModeId =
   | 'ai_gaming_strategy_advisor'
   | 'ai_character_voice_generator'
   | 'ai_blog_post_expansion_tool'
-  | 'ai_virtual_pet_creator';
+  | 'ai_virtual_pet_creator'
+  | 'sports_skills_trainer'
+  | 'grammar_practice_creator';
 
 
 export interface Mode {
@@ -869,4 +875,8 @@ export const modes: Mode[] = [
     { id: 'price_elasticity_estimator', name: 'Price Elasticity Estimator', icon: CircleDollarSign, component: PriceElasticityEstimator, description: 'Estimate the price elasticity of demand for a product.' },
     { id: 'churn_risk_predictor', name: 'Churn Risk Predictor', icon: TrendingUp, component: ChurnRiskPredictor, description: 'Assess customer churn risk and suggest retention strategies.' },
     { id: 'profit_margin_optimizer', name: 'Profit Margin Optimizer', icon: BadgePercent, component: ProfitMarginOptimizer, description: 'Suggest strategies to optimize a product\'s profit margin.' },
+    { id: 'games_knowledge', name: 'Games Knowledge', icon: Gamepad2, description: 'Get information and tips about any video game.', component: GamesKnowledge},
+    { id: 'yoga_fitness', name: 'Yoga & Fitness', icon: Dumbbell, description: 'Get guidance on yoga poses and fitness exercises.', component: YogaFitness},
+    { id: 'grammar_practice_creator', name: 'Grammar Practice Creator', icon: BookCheck, description: 'Generate grammar exercises for any language.', component: GrammarPracticeCreator},
+    { id: 'sports_skills_trainer', name: 'Sports Skills Trainer', icon: Trophy, description: 'Learn how to improve your skills in any sport.', component: SportsSkillsTrainer},
 ];
