@@ -1,9 +1,10 @@
+
 "use client";
 
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useModes } from '@/components/providers/ModeProvider';
 import { Button } from '@/components/ui/button';
-import { History, LogOut, Settings, HelpCircle } from 'lucide-react';
+import { History, LogOut, Settings, Info } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
 
 interface HeaderProps {
@@ -13,7 +14,7 @@ interface HeaderProps {
 
 export function Header({ setIsSignInModalOpen, activeModeName }: HeaderProps) {
   const { user, signOut } = useAuth();
-  const { setIsHistoryPanelOpen, setIsSettingsPanelOpen, setIsHelpPanelOpen } = useModes();
+  const { setIsHistoryPanelOpen, setIsSettingsPanelOpen, setIsAboutPanelOpen } = useModes();
 
   const handleSignOut = async () => {
     await signOut();
@@ -34,8 +35,8 @@ export function Header({ setIsSignInModalOpen, activeModeName }: HeaderProps) {
         <Button onClick={() => setIsSettingsPanelOpen(p => !p)} variant="ghost" size="icon" title="Settings">
           <Settings className="h-5 w-5" />
         </Button>
-        <Button onClick={() => setIsHelpPanelOpen(p => !p)} variant="ghost" size="icon" title="Help">
-          <HelpCircle className="h-5 w-5" />
+        <Button onClick={() => setIsAboutPanelOpen(p => !p)} variant="ghost" size="icon" title="About">
+          <Info className="h-5 w-5" />
         </Button>
         {user ? (
           <div className="flex items-center gap-2">

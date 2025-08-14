@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Header } from "@/components/layout/Header";
 import { HistoryPanel } from "@/components/panels/HistoryPanel";
 import { SettingsPanel } from "@/components/panels/SettingsPanel";
-import { HelpPanel } from "@/components/panels/HelpPanel";
+import { AboutPanel } from "@/components/panels/AboutPanel";
 import { SignInModal } from "@/components/dialogs/SignInModal";
 import { useModes } from '@/components/providers/ModeProvider';
 import { modes } from '@/lib/modes';
@@ -108,7 +108,7 @@ export function Dashboard() {
             </main>
             <HistoryPanel />
             <SettingsPanel />
-            <HelpPanel />
+            <AboutPanel />
           </div>
         </SidebarInset>
       </div>
