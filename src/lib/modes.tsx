@@ -145,11 +145,13 @@ import { GamesKnowledge } from '@/components/modes/GamesKnowledge';
 import { YogaFitness } from '@/components/modes/YogaFitness';
 import { GrammarPracticeCreator } from '@/components/modes/GrammarPracticeCreator';
 import { SportsSkillsTrainer } from '@/components/modes/SportsSkillsTrainer';
+import { QuizQuestionGenerator } from '@/components/modes/QuizQuestionGenerator';
+import { BookGenerator } from '@/components/modes/BookGenerator';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
   | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
-  | 'file_editor' | 'story_generator' | 'summarizer' | 'translator' | 'song_writer' 
+  | 'file_editor' | 'story_generator' | 'text_summarizer' | 'translator' | 'song_writer' 
   | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
   | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
   | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
@@ -626,7 +628,8 @@ export type ModeId =
   | 'ai_blog_post_expansion_tool'
   | 'ai_virtual_pet_creator'
   | 'sports_skills_trainer'
-  | 'grammar_practice_creator';
+  | 'grammar_practice_creator'
+  | 'quiz_generator' | 'book_generator';
 
 
 export interface Mode {
@@ -700,7 +703,7 @@ export const modes: Mode[] = [
     { id: 'market_research', name: 'Market Research', icon: Briefcase, description: 'Gather and analyze market data.', component: MarketResearch },
     { id: 'social_media_post_maker', name: 'Social Media Post Maker', icon: Megaphone, description: 'Generate engaging posts for social media.', component: SocialMediaPostMaker },
     { id: 'seo_tool', name: 'SEO Tool', icon: TrendingUp, description: 'Optimize your content for search engines.', component: SeoTool },
-    { id: 'summarizer', name: 'AI Summarizer', icon: FileQuestion, description: 'Summarize long texts, articles, or documents.', component: TextGenerator, componentProps: {
+    { id: 'text_summarizer', name: 'Text Summarizer', icon: FileQuestion, description: 'Summarize long texts, articles, or documents.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Paste a long article, report, or any text here to get a summary...",
         buttonText: "Summarize Text",
         generatePrompt: (p: string) => `Summarize the following text, providing the summary in the same language as the original text:\n\n${p}`,
@@ -879,4 +882,6 @@ export const modes: Mode[] = [
     { id: 'yoga_fitness', name: 'Yoga & Fitness', icon: Dumbbell, description: 'Get guidance on yoga poses and fitness exercises.', component: YogaFitness},
     { id: 'grammar_practice_creator', name: 'Grammar Practice Creator', icon: BookCheck, description: 'Generate grammar exercises for any language.', component: GrammarPracticeCreator},
     { id: 'sports_skills_trainer', name: 'Sports Skills Trainer', icon: Trophy, description: 'Learn how to improve your skills in any sport.', component: SportsSkillsTrainer},
+    { id: 'quiz_generator', name: 'Quiz Generator', icon: HelpCircle, description: 'Generate quizzes on any topic.', component: QuizQuestionGenerator },
+    { id: 'book_generator', name: 'Book Generator', icon: BookOpen, description: 'Write a book on any topic.', component: BookGenerator },
 ];
