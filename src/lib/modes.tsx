@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Thermometer as ThermometerIcon, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, Pilcro, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Thermometer as ThermometerIcon, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -242,6 +242,36 @@ import { ScriptDialogueWriter } from '@/components/modes/ScriptDialogueWriter';
 import { MonologueWriter } from '@/components/modes/MonologueWriter';
 import { SceneDescriptionWriter } from '@/components/modes/SceneDescriptionWriter';
 
+// Latest batch of modes
+import { CharacterBackstoryMaker } from '@/components/modes/CharacterBackstoryMaker';
+import { PlotTwistGenerator } from '@/components/modes/PlotTwistGenerator';
+import { ConflictIdeaMaker } from '@/components/modes/ConflictIdeaMaker';
+import { EndingSuggestor } from '@/components/modes/EndingSuggestor';
+import { BookSummaryMaker } from '@/components/modes/BookSummaryMaker';
+import { MovieSummaryMaker } from '@/components/modes/MovieSummaryMaker';
+import { EpisodeRecapWriter } from '@/components/modes/EpisodeRecapWriter';
+import { RecipeWriter } from '@/components/modes/RecipeWriter';
+import { MealPlanGenerator } from '@/components/modes/MealPlanGenerator';
+import { GroceryListMaker } from '@/components/modes/GroceryListMaker';
+import { CalorieCounter } from '@/components/modes/CalorieCounter';
+import { WorkoutPlanGenerator } from '@/components/modes/WorkoutPlanGenerator';
+import { YogaRoutineGenerator } from '@/components/modes/YogaRoutineGenerator';
+import { MeditationGuide } from '@/components/modes/MeditationGuide';
+import { BreathingExerciseGuide } from '@/components/modes/BreathingExerciseGuide';
+import { HabitTracker } from '@/components/modes/HabitTracker';
+import { SleepRoutinePlanner } from '@/components/modes/SleepRoutinePlanner';
+import { WaterIntakeTracker } from '@/components/modes/WaterIntakeTracker';
+import { MoodJournalPrompter } from '@/components/modes/MoodJournalPrompter';
+import { SelfCareChecklistMaker } from '@/components/modes/SelfCareChecklistMaker';
+import { MindMapCreator } from '@/components/modes/MindMapCreator';
+import { GoalTracker } from '@/components/modes/GoalTracker';
+import { MotivationQuoteSender } from '@/components/modes/MotivationQuoteSender';
+import { ChallengeIdeaGenerator } from '@/components/modes/ChallengeIdeaGenerator';
+import { DIYProjectIdeaMaker } from '@/components/modes/DIYProjectIdeaMaker';
+import { GiftIdeaGenerator } from '@/components/modes/GiftIdeaGenerator';
+import { PartyThemeGenerator } from '@/components/modes/PartyThemeGenerator';
+import { EventScheduleMaker } from '@/components/modes/EventScheduleMaker';
+import { InvitationMessageWriter } from '@/components/modes/InvitationMessageWriter';
 
 export type ModeId = 
   // Creative
@@ -268,7 +298,13 @@ export type ModeId =
   | 'app_name_generator' | 'game_name_generator' | 'playlist_name_generator' | 'event_name_generator' | 'book_title_generator' | 'chapter_title_generator' | 'course_title_generator'
   | 'lesson_plan_maker' | 'exam_question_generator' | 'flashcard_maker' | 'study_guide_maker' | 'concept_explainer' | 'historical_fact_finder' | 'science_fact_finder' | 'math_problem_solver' | 'equation_generator' | 'geometry_shape_drawer' | 'unit_conversion_practice_tool'
   | 'language_practice_partner' | 'vocabulary_builder' | 'spelling_quiz_maker' | 'grammar_quiz_maker' | 'reading_comprehension_tester'
-  | 'essay_topic_generator' | 'poetry_writer' | 'haiku_generator' | 'song_lyric_starter' | 'rap_verse_maker' | 'script_dialogue_writer' | 'monologue_writer' | 'scene_description_writer';
+  | 'essay_topic_generator' | 'poetry_writer' | 'haiku_generator' | 'song_lyric_starter' | 'rap_verse_maker' | 'script_dialogue_writer' | 'monologue_writer' | 'scene_description_writer'
+  // Latest Batch
+  | 'character_backstory_maker' | 'plot_twist_generator' | 'conflict_idea_maker' | 'ending_suggestor' | 'book_summary_maker' | 'movie_summary_maker' | 'episode_recap_writer'
+  | 'recipe_writer' | 'meal_plan_generator' | 'grocery_list_maker' | 'calorie_counter' | 'workout_plan_generator' | 'yoga_routine_generator' | 'meditation_guide' | 'breathing_exercise_guide'
+  | 'habit_tracker' | 'sleep_routine_planner' | 'water_intake_tracker' | 'mood_journal_prompter' | 'affirmation_generator' | 'self_care_checklist_maker' | 'mind_map_creator' | 'goal_tracker'
+  | 'motivation_quote_sender' | 'challenge_idea_generator' | 'diy_project_idea_maker' | 'gift_idea_generator' | 'party_theme_generator' | 'event_schedule_maker' | 'invitation_message_writer';
+
 
 
 export interface Mode {
@@ -285,7 +321,7 @@ const textUtilitiesProps = (id: ModeId, name: string, icon: React.ElementType, d
     name,
     icon,
     description,
-    component: TextUtilities,
+    component: TextGenerator,
     componentProps: {
         promptPlaceholder: "Enter text here...",
         buttonText: `Generate ${name}`,
@@ -562,4 +598,38 @@ export const modes: Mode[] = [
     { id: 'script_dialogue_writer', name: 'Script Dialogue Writer', icon: MessageSquare, description: 'Creates short dialogues.', component: ScriptDialogueWriter },
     { id: 'monologue_writer', name: 'Monologue Writer', icon: UserSquare, description: 'Generates monologues for scripts.', component: MonologueWriter },
     { id: 'scene_description_writer', name: 'Scene Description Writer', icon: Clapperboard, description: 'Writes scene details for stories.', component: SceneDescriptionWriter },
+    
+    // Latest batch of modes
+    { id: 'character_backstory_maker', name: 'Character Backstory Maker', icon: UserSquare, description: 'Creates fictional backstories.', component: CharacterBackstoryMaker },
+    { id: 'plot_twist_generator', name: 'Plot Twist Generator', icon: GitBranch, description: 'Suggests plot twists.', component: PlotTwistGenerator },
+    { id: 'conflict_idea_maker', name: 'Conflict Idea Maker', icon: Swords, description: 'Suggests story conflicts.', component: ConflictIdeaMaker },
+    { id: 'ending_suggestor', name: 'Ending Suggestor', icon: Milestone, description: 'Suggests story endings.', component: EndingSuggestor },
+    { id: 'book_summary_maker', name: 'Book Summary Maker', icon: BookOpen, description: 'Summarizes books.', component: BookSummaryMaker },
+    { id: 'movie_summary_maker', name: 'Movie Summary Maker', icon: Film, description: 'Summarizes films.', component: MovieSummaryMaker },
+    { id: 'episode_recap_writer', name: 'Episode Recap Writer', icon: Clapperboard, description: 'Creates TV show recaps.', component: EpisodeRecapWriter },
+    { id: 'recipe_writer', name: 'Recipe Writer', icon: CookingPot, description: 'Writes cooking recipes.', component: RecipeWriter },
+    { id: 'meal_plan_generator', name: 'Meal Plan Generator', icon: Calendar, description: 'Creates weekly meal plans.', component: MealPlanGenerator },
+    { id: 'grocery_list_maker', name: 'Grocery List Maker', icon: ListChecks, description: 'Generates shopping lists.', component: GroceryListMaker },
+    { id: 'calorie_counter', name: 'Calorie Counter', icon: Sigma, description: 'Estimates calories in meals.', component: CalorieCounter },
+    { id: 'workout_plan_generator', name: 'Workout Plan Generator', icon: Dumbbell, description: 'Creates fitness workout plans.', component: WorkoutPlanGenerator },
+    { id: 'yoga_routine_generator', name: 'Yoga Routine Generator', icon: Leaf, description: 'Suggests yoga sequences.', component: YogaRoutineGenerator },
+    { id: 'meditation_guide', name: 'Meditation Guide', icon: BrainCog, description: 'Gives meditation instructions.', component: MeditationGuide },
+    { id: 'breathing_exercise_guide', name: 'Breathing Exercise Guide', icon: Wind, description: 'Creates breathing patterns.', component: BreathingExerciseGuide },
+    { id: 'habit_tracker', name: 'Habit Tracker', icon: CheckSquare, description: 'Helps track daily habits.', component: HabitTracker },
+    { id: 'sleep_routine_planner', name: 'Sleep Routine Planner', icon: Moon, description: 'Suggests sleep improvement plans.', component: SleepRoutinePlanner },
+    { id: 'water_intake_tracker', name: 'Water Intake Tracker', icon: GlassWater, description: 'Monitors water consumption.', component: WaterIntakeTracker },
+    { id: 'mood_journal_prompter', name: 'Mood Journal Prompter', icon: BookHeart, description: 'Suggests prompts for mood tracking.', component: MoodJournalPrompter },
+    { id: 'affirmation_generator', name: 'Affirmation Generator', icon: Smile, description: 'Creates daily affirmations.', component: AffirmationGenerator },
+    { id: 'self_care_checklist_maker', name: 'Self-Care Checklist Maker', icon: ListChecks, description: 'Lists self-care activities.', component: SelfCareChecklistMaker },
+    { id: 'mind_map_creator', name: 'Mind Map Creator', icon: GitBranch, description: 'Generates simple mind maps.', component: MindMapCreator },
+    { id: 'goal_tracker', name: 'Goal Tracker', icon: Goal, description: 'Tracks progress toward goals.', component: GoalTracker },
+    { id: 'motivation_quote_sender', name: 'Motivation Quote Sender', icon: Quote, description: 'Sends daily motivational quotes.', component: MotivationQuoteSender },
+    { id: 'challenge_idea_generator', name: 'Challenge Idea Generator', icon: Trophy, description: 'Suggests 7-day or 30-day challenges.', component: ChallengeIdeaGenerator },
+    { id: 'diy_project_idea_maker', name: 'DIY Project Idea Maker', icon: Wrench, description: 'Suggests craft or home projects.', component: DIYProjectIdeaMaker },
+    { id: 'gift_idea_generator', name: 'Gift Idea Generator', icon: Gift, description: 'Suggests gifts for occasions.', component: GiftIdeaGenerator },
+    { id: 'party_theme_generator', name: 'Party Theme Generator', icon: PartyPopper, description: 'Suggests party themes.', component: PartyThemeGenerator },
+    { id: 'event_schedule_maker', name: 'Event Schedule Maker', icon: Calendar, description: 'Creates event timelines.', component: EventScheduleMaker },
+    { id: 'invitation_message_writer', name: 'Invitation Message Writer', icon: Mail, description: 'Writes short invites.', component: InvitationMessageWriter },
 ];
+
+    
