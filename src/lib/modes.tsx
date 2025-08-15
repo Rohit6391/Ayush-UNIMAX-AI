@@ -447,7 +447,6 @@ import { CitationGenerator } from '@/components/modes/CitationGenerator';
 import { ReferenceListMaker } from '@/components/modes/ReferenceListMaker';
 import { BibliographyMaker } from '@/components/modes/BibliographyMaker';
 import { ResearchQuestionGenerator } from '@/components/modes/ResearchQuestionGenerator';
-import { VideoMaker } from '@/components/modes/VideoMaker';
 import { HypothesisStatementMaker } from '@/components/modes/HypothesisStatementMaker';
 import { ExperimentDesignGenerator } from '@/components/modes/ExperimentDesignGenerator';
 import { ObservationLogMaker } from '@/components/modes/ObservationLogMaker';
@@ -478,7 +477,37 @@ import { MedicineReminder } from '@/components/modes/MedicineReminder';
 import { NutritionFactFinder } from '@/components/modes/NutritionFactFinder';
 import { DietPlanMaker } from '@/components/modes/DietPlanMaker';
 import { FoodAllergyAlertGuide } from '@/components/modes/FoodAllergyAlertGuide';
-
+import { SafeCookingTemperatureGuide } from '@/components/modes/SafeCookingTemperatureGuide';
+import { KitchenSafetyGuide } from '@/components/modes/KitchenSafetyGuide';
+import { SchoolSafetyChecklist } from '@/components/modes/SchoolSafetyChecklist';
+import { OfficeSafetyChecklist } from '@/components/modes/OfficeSafetyChecklist';
+import { FactorySafetyChecklist } from '@/components/modes/FactorySafetyChecklist';
+import { RoadSafetyTips } from '@/components/modes/RoadSafetyTips';
+import { BicycleSafetyGuide } from '@/components/modes/BicycleSafetyGuide';
+import { SwimmingSafetyGuide } from '@/components/modes/SwimmingSafetyGuide';
+import { HikingSafetyGuide } from '@/components/modes/HikingSafetyGuide';
+import { ChildSafetyTips } from '@/components/modes/ChildSafetyTips';
+import { ElderlyCareTips } from '@/components/modes/ElderlyCareTips';
+import { DisabilitySupportResourceFinder } from '@/components/modes/DisabilitySupportResourceFinder';
+import { CommunityEventIdeaGenerator } from '@/components/modes/CommunityEventIdeaGenerator';
+import { VolunteerTaskListMaker } from '@/components/modes/VolunteerTaskListMaker';
+import { FundraisingIdeaGenerator } from '@/components/modes/FundraisingIdeaGenerator';
+import { DonationCampaignWriter } from '@/components/modes/DonationCampaignWriter';
+import { CharityEventPlanMaker } from '@/components/modes/CharityEventPlanMaker';
+import { NonprofitMissionStatementMaker } from '@/components/modes/NonprofitMissionStatementMaker';
+import { SustainabilityTipGenerator } from '@/components/modes/SustainabilityTipGenerator';
+import { RecyclingGuide } from '@/components/modes/RecyclingGuide';
+import { CompostingGuide } from '@/components/modes/CompostingGuide';
+import { EnergySavingTips } from '@/components/modes/EnergySavingTips';
+import { WaterSavingTips } from '@/components/modes/WaterSavingTips';
+import { PollutionAwarenessGuide } from '@/components/modes/PollutionAwarenessGuide';
+import { WildlifeConservationTips } from '@/components/modes/WildlifeConservationTips';
+import { TreePlantingGuide } from '@/components/modes/TreePlantingGuide';
+import { GardenWildlifeAttractor } from '@/components/modes/GardenWildlifeAttractor';
+import { RenewableEnergyFacts } from '@/components/modes/RenewableEnergyFacts';
+import { ClimateChangeExplainer } from '@/components/modes/ClimateChangeExplainer';
+import { GreenProductSuggestor } from '@/components/modes/GreenProductSuggestor';
+import { VideoMaker } from '@/components/modes/VideoMaker';
 
 export type ModeId = 
   // Core
@@ -552,7 +581,14 @@ export type ModeId =
   | 'poster_slogan_maker' | 'banner_text_generator' | 'brochure_outline_maker' | 'pamphlet_content_writer' | 'flyer_text_maker' | 'announcement_writer'
   | 'press_release_writer' | 'public_notice_writer' | 'news_headline_generator' | 'news_summary_maker' | 'sports_update_writer' | 'weather_report_maker'
   | 'traffic_update_writer' | 'stock_price_update_writer' | 'cryptocurrency_update_writer' | 'economy_brief_maker' | 'political_news_summary_maker' | 'health_tip_generator'
-  | 'medical_term_explainer' | 'symptom_checker' | 'medicine_reminder' | 'nutrition_fact_finder' | 'diet_plan_maker' | 'food_allergy_alert_guide';
+  | 'medical_term_explainer' | 'symptom_checker' | 'medicine_reminder' | 'nutrition_fact_finder' | 'diet_plan_maker' | 'food_allergy_alert_guide'
+  // Newest Batch
+  | 'safe_cooking_temperature_guide' | 'kitchen_safety_guide' | 'school_safety_checklist' | 'office_safety_checklist' | 'factory_safety_checklist' | 'road_safety_tips'
+  | 'bicycle_safety_guide' | 'swimming_safety_guide' | 'hiking_safety_guide' | 'child_safety_tips' | 'elderly_care_tips' | 'disability_support_resource_finder'
+  | 'community_event_idea_generator' | 'volunteer_task_list_maker' | 'fundraising_idea_generator' | 'donation_campaign_writer' | 'charity_event_plan_maker'
+  | 'nonprofit_mission_statement_maker' | 'sustainability_tip_generator' | 'recycling_guide' | 'composting_guide' | 'energy_saving_tips' | 'water_saving_tips'
+  | 'pollution_awareness_guide' | 'wildlife_conservation_tips' | 'tree_planting_guide' | 'garden_wildlife_attractor' | 'renewable_energy_facts'
+  | 'climate_change_explainer' | 'green_product_suggestor';
   
 export interface Mode {
     id: ModeId;
@@ -1094,4 +1130,36 @@ export const modes: Mode[] = [
     { id: 'nutrition_fact_finder', name: 'Nutrition Fact Finder', icon: FileSearch, description: 'Shares nutrition facts.', component: NutritionFactFinder },
     { id: 'diet_plan_maker', name: 'Diet Plan Maker', icon: Calendar, description: 'Creates diet schedules.', component: DietPlanMaker },
     { id: 'food_allergy_alert_guide', name: 'Food Allergy Alert Guide', icon: AlertTriangle, description: 'Lists allergy precautions.', component: FoodAllergyAlertGuide },
+
+    // Newest Batch
+    { id: 'safe_cooking_temperature_guide', name: 'Safe Cooking Temperature Guide', icon: ThermometerIcon, description: 'Suggests cooking temps.', component: SafeCookingTemperatureGuide },
+    { id: 'kitchen_safety_guide', name: 'Kitchen Safety Guide', icon: AlertTriangle, description: 'Shares kitchen safety rules.', component: KitchenSafetyGuide },
+    { id: 'school_safety_checklist', name: 'School Safety Checklist', icon: School, description: 'Lists safety steps for schools.', component: SchoolSafetyChecklist },
+    { id: 'office_safety_checklist', name: 'Office Safety Checklist', icon: Building2, description: 'Lists safety measures for offices.', component: OfficeSafetyChecklist },
+    { id: 'factory_safety_checklist', name: 'Factory Safety Checklist', icon: Factory, description: 'Lists safety rules for factories.', component: FactorySafetyChecklist },
+    { id: 'road_safety_tips', name: 'Road Safety Tips', icon: Car, description: 'Shares driving safety advice.', component: RoadSafetyTips },
+    { id: 'bicycle_safety_guide', name: 'Bicycle Safety Guide', icon: Bike, description: 'Shares cycling safety tips.', component: BicycleSafetyGuide },
+    { id: 'swimming_safety_guide', name: 'Swimming Safety Guide', icon: Droplet, description: 'Shares water safety tips.', component: SwimmingSafetyGuide },
+    { id: 'hiking_safety_guide', name: 'Hiking Safety Guide', icon: Mountain, description: 'Shares mountain safety tips.', component: HikingSafetyGuide },
+    { id: 'child_safety_tips', name: 'Child Safety Tips', icon: User, description: 'Shares child safety advice.', component: ChildSafetyTips },
+    { id: 'elderly_care_tips', name: 'Elderly Care Tips', icon: User, description: 'Shares senior care advice.', component: ElderlyCareTips },
+    { id: 'disability_support_resource_finder', name: 'Disability Support Resource Finder', icon: Search, description: 'Suggests helpful resources.', component: DisabilitySupportResourceFinder },
+    { id: 'community_event_idea_generator', name: 'Community Event Idea Generator', icon: PartyPopper, description: 'Suggests local event ideas.', component: CommunityEventIdeaGenerator },
+    { id: 'volunteer_task_list_maker', name: 'Volunteer Task List Maker', icon: ListChecks, description: 'Lists volunteer duties.', component: VolunteerTaskListMaker },
+    { id: 'fundraising_idea_generator', name: 'Fundraising Idea Generator', icon: DollarSign, description: 'Suggests fundraising methods.', component: FundraisingIdeaGenerator },
+    { id: 'donation_campaign_writer', name: 'Donation Campaign Writer', icon: PenLine, description: 'Writes donation appeals.', component: DonationCampaignWriter },
+    { id: 'charity_event_plan_maker', name: 'Charity Event Plan Maker', icon: Calendar, description: 'Creates charity event plans.', component: CharityEventPlanMaker },
+    { id: 'nonprofit_mission_statement_maker', name: 'Nonprofit Mission Statement Maker', icon: FileText, description: 'Writes mission statements.', component: NonprofitMissionStatementMaker },
+    { id: 'sustainability_tip_generator', name: 'Sustainability Tip Generator', icon: Leaf, description: 'Shares eco-friendly tips.', component: SustainabilityTipGenerator },
+    { id: 'recycling_guide', name: 'Recycling Guide', icon: Recycle, description: 'Shares recycling rules.', component: RecyclingGuide },
+    { id: 'composting_guide', name: 'Composting Guide', icon: Recycle, description: 'Explains composting steps.', component: CompostingGuide },
+    { id: 'energy_saving_tips', name: 'Energy Saving Tips', icon: Lightbulb, description: 'Shares energy reduction advice.', component: EnergySavingTips },
+    { id: 'water_saving_tips', name: 'Water Saving Tips', icon: Droplet, description: 'Shares water conservation tips.', component: WaterSavingTips },
+    { id: 'pollution_awareness_guide', name: 'Pollution Awareness Guide', icon: Wind, description: 'Educates on pollution reduction.', component: PollutionAwarenessGuide },
+    { id: 'wildlife_conservation_tips', name: 'Wildlife Conservation Tips', icon: Rabbit, description: 'Suggests wildlife protection steps.', component: WildlifeConservationTips },
+    { id: 'tree_planting_guide', name: 'Tree Planting Guide', icon: Leaf, description: 'Shares planting steps.', component: TreePlantingGuide },
+    { id: 'garden_wildlife_attractor', name: 'Garden Wildlife Attractor', icon: Bird, description: 'Suggests ways to attract animals.', component: GardenWildlifeAttractor },
+    { id: 'renewable_energy_facts', name: 'Renewable Energy Facts', icon: Wind, description: 'Shares facts on clean energy.', component: RenewableEnergyFacts },
+    { id: 'climate_change_explainer', name: 'Climate Change Explainer', icon: Globe, description: 'Explains climate science simply.', component: ClimateChangeExplainer },
+    { id: 'green_product_suggestor', name: 'Green Product Suggestor', icon: Leaf, description: 'Suggests eco-friendly items.', component: GreenProductSuggestor },
 ];
