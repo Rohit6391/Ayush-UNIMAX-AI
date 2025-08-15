@@ -1,8 +1,7 @@
-
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -146,7 +145,7 @@ import { GrammarPracticeCreator } from '@/components/modes/GrammarPracticeCreato
 import { SportsSkillsTrainer } from '@/components/modes/SportsSkillsTrainer';
 import { QuizQuestionGenerator } from '@/components/modes/QuizQuestionGenerator';
 import { BookGenerator } from '@/components/modes/BookGenerator';
-import { TextGenerator } from '@/components/modes/TextGenerator';
+import { TextUtilities } from '@/components/modes/TextUtilities';
 import { JokeFinder } from '@/components/modes/JokeFinder';
 import { RhymeFinder } from '@/components/modes/RhymeFinder';
 import { IdiomExplainer } from '@/components/modes/IdiomExplainer';
@@ -326,6 +325,36 @@ import { DogTrainingTipGiver } from '@/components/modes/DogTrainingTipGiver';
 import { CatBehaviorExplainer } from '@/components/modes/CatBehaviorExplainer';
 import { PetNameGenerator } from '@/components/modes/PetNameGenerator';
 import { WildlifeFactFinder } from '@/components/modes/WildlifeFactFinder';
+import { BirdWatchingGuide } from '@/components/modes/BirdWatchingGuide';
+import { FishingTipGiver } from '@/components/modes/FishingTipGiver';
+import { CampingChecklistMaker } from '@/components/modes/CampingChecklistMaker';
+import { HikingRouteSuggestor } from '@/components/modes/HikingRouteSuggestor';
+import { WorkoutTimer } from '@/components/modes/WorkoutTimer';
+import { StepCounter } from '@/components/modes/StepCounter';
+import { BodyMassIndexCalculator } from '@/components/modes/BodyMassIndexCalculator';
+import { HeartRateZoneCalculator } from '@/components/modes/HeartRateZoneCalculator';
+import { StretchingRoutineGenerator } from '@/components/modes/StretchingRoutineGenerator';
+import { DanceMoveSuggestor } from '@/components/modes/DanceMoveSuggestor';
+import { MusicPracticeTracker } from '@/components/modes/MusicPracticeTracker';
+import { InstrumentLearningGuide } from '@/components/modes/InstrumentLearningGuide';
+import { SongChordFinder } from '@/components/modes/SongChordFinder';
+import { LyricRhymeImprover } from '@/components/modes/LyricRhymeImprover';
+import { DJPlaylistOrganizer } from '@/components/modes/DJPlaylistOrganizer';
+import { PhotographyTipGiver } from '@/components/modes/PhotographyTipGiver';
+import { CameraSettingGuide } from '@/components/modes/CameraSettingGuide';
+import { PhotoCaptionGenerator } from '@/components/modes/PhotoCaptionGenerator';
+import { SocialMediaPostScheduler } from '@/components/modes/SocialMediaPostScheduler';
+import { ContentCalendarMaker } from '@/components/modes/ContentCalendarMaker';
+import { HashtagTrendFinder } from '@/components/modes/HashtagTrendFinder';
+import { ViralIdeaGenerator } from '@/components/modes/ViralIdeaGenerator';
+import { AdCopywriter } from '@/components/modes/AdCopywriter';
+import { SalesScriptWriter } from '@/components/modes/SalesScriptWriter';
+import { ColdEmailWriter } from '@/components/modes/ColdEmailWriter';
+import { MarketingIdeaGenerator } from '@/components/modes/MarketingIdeaGenerator';
+import { SEOKeywordSuggestor } from '@/components/modes/SEOKewordSuggestor';
+import { MetaDescriptionWriter } from '@/components/modes/MetaDescriptionWriter';
+import { BlogTagGenerator } from '@/components/modes/BlogTagGenerator';
+import { YouTubeTitleMaker } from '@/components/modes/YouTubeTitleMaker';
 
 export type ModeId = 
   // Creative
@@ -367,8 +396,13 @@ export type ModeId =
   | 'plagiarism_free_rewriter' | 'product_review_writer' | 'service_review_writer' | 'movie_review_maker' | 'game_review_writer' | 'app_review_generator' | 'book_review_writer'
   | 'travel_itinerary_maker' | 'packing_list_maker' | 'local_attraction_finder' | 'restaurant_suggestor' | 'food_pairing_suggestor' | 'cocktail_recipe_maker' | 'smoothie_recipe_generator' | 'dessert_idea_generator' | 'meal_substitute_finder' | 'cooking_tip_giver' | 'kitchen_measurement_converter' | 'leftover_recipe_maker'
   | 'cleaning_checklist_maker' | 'chore_scheduler' | 'minimalist_declutter_guide' | 'budget_friendly_home_decor_ideas'
-  | 'gardening_tip_giver' | 'plant_watering_reminder' | 'pet_care_guide' | 'dog_training_tip_giver' | 'cat_behavior_explainer' | 'pet_name_generator' | 'wildlife_fact_finder';
-
+  | 'gardening_tip_giver' | 'plant_watering_reminder' | 'pet_care_guide' | 'dog_training_tip_giver' | 'cat_behavior_explainer' | 'pet_name_generator' | 'wildlife_fact_finder'
+  // Newest batch
+  | 'bird_watching_guide' | 'fishing_tip_giver' | 'camping_checklist_maker' | 'hiking_route_suggestor' | 'workout_timer' | 'step_counter' | 'body_mass_index_calculator' | 'heart_rate_zone_calculator' | 'stretching_routine_generator' | 'dance_move_suggestor'
+  | 'music_practice_tracker' | 'instrument_learning_guide' | 'song_chord_finder' | 'lyric_rhyme_improver' | 'dj_playlist_organizer'
+  | 'photography_tip_giver' | 'camera_setting_guide' | 'photo_caption_generator' | 'social_media_post_scheduler' | 'content_calendar_maker' | 'hashtag_trend_finder' | 'viral_idea_generator'
+  | 'ad_copywriter' | 'sales_script_writer' | 'cold_email_writer' | 'marketing_idea_generator' | 'seo_keyword_suggestor' | 'meta_description_writer' | 'blog_tag_generator' | 'youtube_title_maker';
+  
 export interface Mode {
     id: ModeId;
     name: string;
@@ -383,7 +417,7 @@ const textUtilitiesProps = (id: ModeId, name: string, icon: React.ElementType, d
     name,
     icon,
     description,
-    component: TextGenerator,
+    component: TextUtilities,
     componentProps: {
         promptPlaceholder: "Enter text here...",
         buttonText: `Generate ${name}`,
@@ -458,7 +492,6 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Write a well-formatted and professional email for the following purpose. The email should be in the same language as the prompt. Purpose: ${p}`,
         resultTitle: "Generated Email"
     }},
-    { id: 'speech_writer', name: 'Speech Writer', icon: Presentation, description: 'Draft compelling speeches for any occasion.', component: SpeechWriter },
     { id: 'fact_checker', name: 'Fact Checker', icon: CheckSquare, description: 'Check the accuracy of a statement.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Enter a statement to fact-check, e.g., 'The sky is green.'",
         buttonText: "Fact-Check",
@@ -547,8 +580,8 @@ export const modes: Mode[] = [
     textUtilitiesProps('simple_translator', 'Text Translator (Simple)', Languages, 'Translates text into chosen languages.', 'Translate the following text to Spanish'),
     textUtilitiesProps('text_shortener', 'Text Shortener', Text, 'Makes text concise without losing meaning.', 'Shorten the following text to its most concise form while keeping the core meaning'),
     textUtilitiesProps('email_subject_line_maker', 'Email Subject Line Maker', Mailbox, 'Suggests attractive subject lines.', 'Suggest 5 attractive email subject lines for an email about the following topic'),
-    {...textUtilitiesProps('readability_checker', 'Readability Checker', Glasses, 'Analyzes and scores text reading level.', 'Analyze the readability of the following text and provide a score (e.g., Flesch-Kincaid Grade Level)'), component: TextGenerator},
-    {...textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', CircleOff, 'Detects copied or duplicate content.', 'Check the following text for potential plagiarism by searching for similar phrases online and report your findings.'), component: TextGenerator},
+    {...textUtilitiesProps('readability_checker', 'Readability Checker', Glasses, 'Analyzes and scores text reading level.', 'Analyze the readability of the following text and provide a score (e.g., Flesch-Kincaid Grade Level)'), component: TextUtilities},
+    {...textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', CircleOff, 'Detects copied or duplicate content.', 'Check the following text for potential plagiarism by searching for similar phrases online and report your findings.'), component: TextUtilities},
     textUtilitiesProps('blog_idea_generator', 'Blog Idea Generator', FilePlus2, 'Suggests topics for blogs.', 'Generate 5 blog post ideas based on the following topic'),
     textUtilitiesProps('blog_outline_maker', 'Blog Outline Maker', ListTree, 'Creates a structured outline for blogs.', 'Create a structured outline with sections and sub-points for a blog post about the following topic'),
     textUtilitiesProps('blog_intro_writer', 'Blog Intro Writer', PenLine, 'Writes engaging introductions for blogs.', 'Write an engaging introductory paragraph for a blog post about the following topic'),
@@ -749,4 +782,36 @@ export const modes: Mode[] = [
     { id: 'cat_behavior_explainer', name: 'Cat Behavior Explainer', icon: Cat, description: 'Explains cat behavior.', component: CatBehaviorExplainer },
     { id: 'pet_name_generator', name: 'Pet Name Generator', icon: Tag, description: 'Suggests pet names.', component: PetNameGenerator },
     { id: 'wildlife_fact_finder', name: 'Wildlife Fact Finder', icon: Rabbit, description: 'Shares animal facts.', component: WildlifeFactFinder },
+
+    // Newest Batch
+    { id: 'bird_watching_guide', name: 'Bird Watching Guide', icon: Bird, description: 'Suggests bird identification tips.', component: BirdWatchingGuide },
+    { id: 'fishing_tip_giver', name: 'Fishing Tip Giver', icon: Anchor, description: 'Shares fishing advice.', component: FishingTipGiver },
+    { id: 'camping_checklist_maker', name: 'Camping Checklist Maker', icon: Tent, description: 'Lists camping essentials.', component: CampingChecklistMaker },
+    { id: 'hiking_route_suggestor', name: 'Hiking Route Suggestor', icon: Mountain, description: 'Suggests hiking trails.', component: HikingRouteSuggestor },
+    { id: 'workout_timer', name: 'Workout Timer', icon: Clock, description: 'Sets exercise timers.', component: WorkoutTimer },
+    { id: 'step_counter', name: 'Step Counter (Manual)', icon: Footprints, description: 'Logs walking steps.', component: StepCounter },
+    { id: 'body_mass_index_calculator', name: 'Body Mass Index Calculator', icon: User, description: 'Calculates BMI.', component: BodyMassIndexCalculator },
+    { id: 'heart_rate_zone_calculator', name: 'Heart Rate Zone Calculator', icon: HeartPulse, description: 'Finds workout heart rate zones.', component: HeartRateZoneCalculator },
+    { id: 'stretching_routine_generator', name: 'Stretching Routine Generator', icon: ArrowUp, description: 'Suggests stretching exercises.', component: StretchingRoutineGenerator },
+    { id: 'dance_move_suggestor', name: 'Dance Move Suggestor', icon: Music, description: 'Suggests dance moves.', component: DanceMoveSuggestor },
+    { id: 'music_practice_tracker', name: 'Music Practice Tracker', icon: Piano, description: 'Logs music practice sessions.', component: MusicPracticeTracker },
+    { id: 'instrument_learning_guide', name: 'Instrument Learning Guide', icon: Music, description: 'Gives basic instrument tips.', component: InstrumentLearningGuide },
+    { id: 'song_chord_finder', name: 'Song Chord Finder', icon: Music, description: 'Finds chords for songs.', component: SongChordFinder },
+    { id: 'lyric_rhyme_improver', name: 'Lyric Rhyme Improver', icon: Music, description: 'Suggests better rhymes.', component: LyricRhymeImprover },
+    { id: 'dj_playlist_organizer', name: 'DJ Playlist Organizer', icon: Disc, description: 'Sorts music playlists.', component: DJPlaylistOrganizer },
+    { id: 'photography_tip_giver', name: 'Photography Tip Giver', icon: Camera, description: 'Shares photo tips.', component: PhotographyTipGiver },
+    { id: 'camera_setting_guide', name: 'Camera Setting Guide', icon: Settings, description: 'Suggests camera settings.', component: CameraSettingGuide },
+    { id: 'photo_caption_generator', name: 'Photo Caption Generator', icon: Captions, description: 'Suggests captions for images.', component: PhotoCaptionGenerator },
+    { id: 'social_media_post_scheduler', name: 'Social Media Post Scheduler', icon: Calendar, description: 'Plans post timings.', component: SocialMediaPostScheduler },
+    { id: 'content_calendar_maker', name: 'Content Calendar Maker', icon: Calendar, description: 'Creates monthly content calendars.', component: ContentCalendarMaker },
+    { id: 'hashtag_trend_finder', name: 'Hashtag Trend Finder', icon: Hash, description: 'Finds trending hashtags.', component: HashtagTrendFinder },
+    { id: 'viral_idea_generator', name: 'Viral Idea Generator', icon: Lightbulb, description: 'Suggests viral content ideas.', component: ViralIdeaGenerator },
+    { id: 'ad_copywriter', name: 'Ad Copywriter', icon: Megaphone, description: 'Writes short ads.', component: AdCopywriter },
+    { id: 'sales_script_writer', name: 'Sales Script Writer', icon: MessageSquare, description: 'Creates sales conversation scripts.', component: SalesScriptWriter },
+    { id: 'cold_email_writer', name: 'Cold Email Writer', icon: Mail, description: 'Writes outreach emails.', component: ColdEmailWriter },
+    { id: 'marketing_idea_generator', name: 'Marketing Idea Generator', icon: Lightbulb, description: 'Suggests marketing strategies.', component: MarketingIdeaGenerator },
+    { id: 'seo_keyword_suggestor', name: 'SEO Keyword Suggestor', icon: Key, description: 'Suggests keywords for SEO.', component: SEOKeywordSuggestor },
+    { id: 'meta_description_writer', name: 'Meta Description Writer', icon: FileText, description: 'Writes SEO meta descriptions.', component: MetaDescriptionWriter },
+    { id: 'blog_tag_generator', name: 'Blog Tag Generator', icon: Tag, description: 'Suggests blog post tags.', component: BlogTagGenerator },
+    { id: 'youtube_title_maker', name: 'YouTube Title Maker', icon: Video, description: 'Suggests video titles.', component: YouTubeTitleMaker },
 ];
