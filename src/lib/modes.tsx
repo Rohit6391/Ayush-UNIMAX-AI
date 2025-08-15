@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcroRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript, Vote
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -10,6 +10,7 @@ import { PhotoEditor } from '@/components/modes/PhotoEditor';
 import { VideoGenerator } from '@/components/modes/VideoGenerator';
 import { VideoEditor } from '@/components/modes/VideoEditor';
 import { CodeGenerator } from '@/components/modes/CodeGenerator';
+import { TextGenerator } from '@/components/modes/TextGenerator';
 import { WebsiteMaker } from '@/components/modes/WebsiteMaker';
 import { AppMaker } from '@/components/modes/AppMaker';
 import { GameMaker } from '@/components/modes/GameMaker';
@@ -146,7 +147,6 @@ import { GrammarPracticeCreator } from '@/components/modes/GrammarPracticeCreato
 import { SportsSkillsTrainer } from '@/components/modes/SportsSkillsTrainer';
 import { QuizQuestionGenerator } from '@/components/modes/QuizQuestionGenerator';
 import { BookGenerator } from '@/components/modes/BookGenerator';
-import { TextGenerator } from '@/components/modes/TextGenerator';
 import { TextUtilities } from '@/components/modes/TextUtilities';
 import { JokeFinder } from '@/components/modes/JokeFinder';
 import { RhymeFinder } from '@/components/modes/RhymeFinder';
@@ -387,6 +387,36 @@ import { SquareRootFinder } from '@/components/modes/SquareRootFinder';
 import { ExponentCalculator } from '@/components/modes/ExponentCalculator';
 import { LogarithmCalculator } from '@/components/modes/LogarithmCalculator';
 import { ProbabilityCalculator } from '@/components/modes/ProbabilityCalculator';
+import { StatisticsSummarizer } from '@/components/modes/StatisticsSummarizer';
+import { TrendFinder } from '@/components/modes/TrendFinder';
+import { CorrelationFinder } from '@/components/modes/CorrelationFinder';
+import { BasicForecastMaker } from '@/components/modes/BasicForecastMaker';
+import { BudgetChartMaker } from '@/components/modes/BudgetChartMaker';
+import { PieChartGenerator } from '@/components/modes/PieChartGenerator';
+import { BarGraphGenerator } from '@/components/modes/BarGraphGenerator';
+import { LineChartGenerator } from '@/components/modes/LineChartGenerator';
+import { TimelineMaker } from '@/components/modes/TimelineMaker';
+import { FlowchartGenerator } from '@/components/modes/FlowchartGenerator';
+import { ChecklistMaker } from '@/components/modes/ChecklistMaker';
+import { KanbanBoardMaker } from '@/components/modes/KanbanBoardMaker';
+import { MindMapOutlineMaker } from '@/components/modes/MindMapOutlineMaker';
+import { ProjectDeadlineTracker } from '@/components/modes/ProjectDeadlineTracker';
+import { GanttChartGenerator } from '@/components/modes/GanttChartGenerator';
+import { TeamRoleAssignor } from '@/components/modes/TeamRoleAssignor';
+import { TeamFeedbackCollector } from '@/components/modes/TeamFeedbackCollector';
+import { IdeaVotingTool } from '@/components/modes/IdeaVotingTool';
+import { BrainstormTopicGenerator } from '@/components/modes/BrainstormTopicGenerator';
+import { InnovationIdeaGenerator } from '@/components/modes/InnovationIdeaGenerator';
+import { ProblemStatementMaker } from '@/components/modes/ProblemStatementMaker';
+import { SolutionProposalWriter } from '@/components/modes/SolutionProposalWriter';
+import { HowToGuideMaker } from '@/components/modes/HowToGuideMaker';
+import { TroubleshootingFlowMaker } from '@/components/modes/TroubleshootingFlowMaker';
+import { FAQGenerator } from '@/components/modes/FAQGenerator';
+import { GlossaryCreator } from '@/components/modes/GlossaryCreator';
+import { TutorialScriptWriter } from '@/components/modes/TutorialScriptWriter';
+import { StepByStepGuideMaker } from '@/components/modes/StepByStepGuideMaker';
+import { QuickTipsWriter } from '@/components/modes/QuickTipsWriter';
+import { ErrorMessageRewriter } from '@/components/modes/ErrorMessageRewriter';
 
 export type ModeId = 
   // Core
@@ -443,7 +473,12 @@ export type ModeId =
   | 'online_course_outline_maker' | 'lesson_script_writer' | 'test_answer_key_generator' | 'poll_result_analyzer' | 'data_summarizer' | 'csv_to_table_formatter'
   | 'chart_idea_generator' | 'basic_data_calculator' | 'average_calculator' | 'percentage_calculator' | 'ratio_calculator' | 'fraction_simplifier' | 'decimal_to_fraction_converter'
   | 'binary_to_decimal_converter' | 'hex_to_decimal_converter' | 'number_base_converter' | 'prime_number_finder' | 'factor_finder' | 'multiplication_table_maker'
-  | 'division_step_solver' | 'square_root_finder' | 'exponent_calculator' | 'logarithm_calculator' | 'probability_calculator';
+  | 'division_step_solver' | 'square_root_finder' | 'exponent_calculator' | 'logarithm_calculator' | 'probability_calculator'
+  // New 30 modes
+  | 'statistics_summarizer' | 'trend_finder' | 'correlation_finder' | 'basic_forecast_maker' | 'budget_chart_maker' | 'pie_chart_generator' | 'bar_graph_generator' | 'line_chart_generator'
+  | 'timeline_maker' | 'flowchart_generator' | 'checklist_maker' | 'kanban_board_maker' | 'mind_map_outline_maker' | 'project_deadline_tracker' | 'gantt_chart_generator' | 'team_role_assignor'
+  | 'team_feedback_collector' | 'idea_voting_tool' | 'brainstorm_topic_generator' | 'innovation_idea_generator' | 'problem_statement_maker' | 'solution_proposal_writer' | 'how_to_guide_maker'
+  | 'troubleshooting_flow_maker' | 'faq_generator' | 'glossary_creator' | 'tutorial_script_writer' | 'step_by_step_guide_maker' | 'quick_tips_writer' | 'error_message_rewriter';
 
 export interface Mode {
     id: ModeId;
@@ -889,4 +924,38 @@ export const modes: Mode[] = [
     { id: 'exponent_calculator', name: 'Exponent Calculator', icon: Superscript, description: 'Calculates exponents.', component: ExponentCalculator },
     { id: 'logarithm_calculator', name: 'Logarithm Calculator', icon: Sigma, description: 'Calculates logs.', component: LogarithmCalculator },
     { id: 'probability_calculator', name: 'Probability Calculator', icon: Dices, description: 'Finds probability values.', component: ProbabilityCalculator },
+
+    // New 30 modes
+    { id: 'statistics_summarizer', name: 'Statistics Summarizer', icon: BarChart3, description: 'Summarizes data stats.', component: StatisticsSummarizer },
+    { id: 'trend_finder', name: 'Trend Finder', icon: TrendingUp, description: 'Finds trends in data.', component: TrendFinder },
+    { id: 'correlation_finder', name: 'Correlation Finder', icon: Link, description: 'Finds relationships between data.', component: CorrelationFinder },
+    { id: 'basic_forecast_maker', name: 'Basic Forecast Maker', icon: LineChart, description: 'Predicts simple future values.', component: BasicForecastMaker },
+    { id: 'budget_chart_maker', name: 'Budget Chart Maker', icon: PieChart, description: 'Creates spending charts.', component: BudgetChartMaker },
+    { id: 'pie_chart_generator', name: 'Pie Chart Generator', icon: PieChart, description: 'Makes pie charts.', component: PieChartGenerator },
+    { id: 'bar_graph_generator', name: 'Bar Graph Generator', icon: BarChart3, description: 'Creates bar graphs.', component: BarGraphGenerator },
+    { id: 'line_chart_generator', name: 'Line Chart Generator', icon: LineChart, description: 'Creates line charts.', component: LineChartGenerator },
+    { id: 'timeline_maker', name: 'Timeline Maker', icon: GanttChart, description: 'Creates timelines.', component: TimelineMaker },
+    { id: 'flowchart_generator', name: 'Flowchart Generator', icon: Workflow, description: 'Creates flowcharts.', component: FlowchartGenerator },
+    { id: 'checklist_maker', name: 'Checklist Maker', icon: ListChecks, description: 'Creates interactive checklists.', component: ChecklistMaker },
+    { id: 'kanban_board_maker', name: 'Kanban Board Maker', icon: GanttChart, description: 'Creates task boards.', component: KanbanBoardMaker },
+    { id: 'mind_map_outline_maker', name: 'Mind Map Outline Maker', icon: GitBranch, description: 'Suggests mind map outlines.', component: MindMapOutlineMaker },
+    { id: 'project_deadline_tracker', name: 'Project Deadline Tracker', icon: Calendar, description: 'Tracks due dates.', component: ProjectDeadlineTracker },
+    { id: 'gantt_chart_generator', name: 'Gantt Chart Generator', icon: GanttChart, description: 'Creates project timelines.', component: GanttChartGenerator },
+    { id: 'team_role_assignor', name: 'Team Role Assignor', icon: Users, description: 'Assigns team roles.', component: TeamRoleAssignor },
+    { id: 'team_feedback_collector', name: 'Team Feedback Collector', icon: MessageSquare, description: 'Creates feedback forms.', component: TeamFeedbackCollector },
+    { id: 'idea_voting_tool', name: 'Idea Voting Tool', icon: Vote, description: 'Lets users vote on ideas.', component: IdeaVotingTool },
+    { id: 'brainstorm_topic_generator', name: 'Brainstorm Topic Generator', icon: Lightbulb, description: 'Suggests brainstorming prompts.', component: BrainstormTopicGenerator },
+    { id: 'innovation_idea_generator', name: 'Innovation Idea Generator', icon: Wand2, description: 'Suggests creative solutions.', component: InnovationIdeaGenerator },
+    { id: 'problem_statement_maker', name: 'Problem Statement Maker', icon: FileText, description: 'Frames problem statements.', component: ProblemStatementMaker },
+    { id: 'solution_proposal_writer', name: 'Solution Proposal Writer', icon: FileText, description: 'Writes problem solutions.', component: SolutionProposalWriter },
+    { id: 'how_to_guide_maker', name: 'How-To Guide Maker', icon: BookOpen, description: 'Writes instructional guides.', component: HowToGuideMaker },
+    { id: 'troubleshooting_flow_maker', name: 'Troubleshooting Flow Maker', icon: Workflow, description: 'Creates troubleshooting steps.', component: TroubleshootingFlowMaker },
+    { id: 'faq_generator', name: 'FAQ Generator', icon: HelpCircle, description: 'Makes question-answer lists.', component: FAQGenerator },
+    { id: 'glossary_creator', name: 'Glossary Creator', icon: BookOpen, description: 'Makes term definitions.', component: GlossaryCreator },
+    { id: 'tutorial_script_writer', name: 'Tutorial Script Writer', icon: Feather, description: 'Writes tutorial scripts.', component: TutorialScriptWriter },
+    { id: 'step_by_step_guide_maker', name: 'Step-by-Step Guide Maker', icon: ListOrdered, description: 'Breaks tasks into steps.', component: StepByStepGuideMaker },
+    { id: 'quick_tips_writer', name: 'Quick Tips Writer', icon: Lightbulb, description: 'Shares short helpful tips.', component: QuickTipsWriter },
+    { id: 'error_message_rewriter', name: 'Error Message Rewriter', icon: MessageSquare, description: 'Makes friendly error messages.', component: ErrorMessageRewriter },
 ];
+
+    
