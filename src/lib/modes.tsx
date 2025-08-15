@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Thermometer as ThermometerIcon, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -241,8 +241,6 @@ import { RapVerseMaker } from '@/components/modes/RapVerseMaker';
 import { ScriptDialogueWriter } from '@/components/modes/ScriptDialogueWriter';
 import { MonologueWriter } from '@/components/modes/MonologueWriter';
 import { SceneDescriptionWriter } from '@/components/modes/SceneDescriptionWriter';
-
-// Latest batch of modes
 import { CharacterBackstoryMaker } from '@/components/modes/CharacterBackstoryMaker';
 import { PlotTwistGenerator } from '@/components/modes/PlotTwistGenerator';
 import { ConflictIdeaMaker } from '@/components/modes/ConflictIdeaMaker';
@@ -272,6 +270,36 @@ import { GiftIdeaGenerator } from '@/components/modes/GiftIdeaGenerator';
 import { PartyThemeGenerator } from '@/components/modes/PartyThemeGenerator';
 import { EventScheduleMaker } from '@/components/modes/EventScheduleMaker';
 import { InvitationMessageWriter } from '@/components/modes/InvitationMessageWriter';
+import { SpeechWriter } from '@/components/modes/SpeechWriter';
+import { ToastSpeechWriter } from '@/components/modes/ToastSpeechWriter';
+import { EulogyWriter } from '@/components/modes/EulogyWriter';
+import { ThankYouNoteMaker } from '@/components/modes/ThankYouNoteMaker';
+import { ApologyLetterWriter } from '@/components/modes/ApologyLetterWriter';
+import { LoveLetterWriter } from '@/components/modes/LoveLetterWriter';
+import { ComplimentGenerator } from '@/components/modes/ComplimentGenerator';
+import { RoastJokeGenerator } from '@/components/modes/RoastJokeGenerator';
+import { GreetingCardMessageMaker } from '@/components/modes/GreetingCardMessageMaker';
+import { HolidayWishMaker } from '@/components/modes/HolidayWishMaker';
+import { BirthdayWishMaker } from '@/components/modes/BirthdayWishMaker';
+import { AnniversaryWishMaker } from '@/components/modes/AnniversaryWishMaker';
+import { CondolenceMessageWriter } from '@/components/modes/CondolenceMessageWriter';
+import { CongratulationsMessageWriter } from '@/components/modes/CongratulationsMessageWriter';
+import { ShortStoryWriter } from '@/components/modes/ShortStoryWriter';
+import { FairyTaleCreator } from '@/components/modes/FairyTaleCreator';
+import { FableWriter } from '@/components/modes/FableWriter';
+import { HorrorStoryMaker } from '@/components/modes/HorrorStoryMaker';
+import { MysteryStoryGenerator } from '@/components/modes/MysteryStoryGenerator';
+import { FantasyStoryBuilder } from '@/components/modes/FantasyStoryBuilder';
+import { SciFiStoryMaker } from '@/components/modes/SciFiStoryMaker';
+import { DetectiveCaseIdeaMaker } from '@/components/modes/DetectiveCaseIdeaMaker';
+import { SuperheroStoryCreator } from '@/components/modes/SuperheroStoryCreator';
+import { VillainProfileMaker } from '@/components/modes/VillainProfileMaker';
+import { SideCharacterGenerator } from '@/components/modes/SideCharacterGenerator';
+import { DialogueImprover } from '@/components/modes/DialogueImprover';
+import { ScenePacingAdjuster } from '@/components/modes/ScenePacingAdjuster';
+import { NarrativeStyleChanger } from '@/components/modes/NarrativeStyleChanger';
+import { PerspectiveRewriter } from '@/components/modes/PerspectiveRewriter';
+import { ArticleRewriter } from '@/components/modes/ArticleRewriter';
 
 export type ModeId = 
   // Creative
@@ -303,7 +331,12 @@ export type ModeId =
   | 'character_backstory_maker' | 'plot_twist_generator' | 'conflict_idea_maker' | 'ending_suggestor' | 'book_summary_maker' | 'movie_summary_maker' | 'episode_recap_writer'
   | 'recipe_writer' | 'meal_plan_generator' | 'grocery_list_maker' | 'calorie_counter' | 'workout_plan_generator' | 'yoga_routine_generator' | 'meditation_guide' | 'breathing_exercise_guide'
   | 'habit_tracker' | 'sleep_routine_planner' | 'water_intake_tracker' | 'mood_journal_prompter' | 'self_care_checklist_maker' | 'mind_map_creator' | 'goal_tracker'
-  | 'motivation_quote_sender' | 'challenge_idea_generator' | 'diy_project_idea_maker' | 'gift_idea_generator' | 'party_theme_generator' | 'event_schedule_maker' | 'invitation_message_writer';
+  | 'motivation_quote_sender' | 'challenge_idea_generator' | 'diy_project_idea_maker' | 'gift_idea_generator' | 'party_theme_generator' | 'event_schedule_maker' | 'invitation_message_writer'
+  // Newest Batch
+  | 'toast_speech_writer' | 'eulogy_writer' | 'thank_you_note_maker' | 'apology_letter_writer' | 'love_letter_writer' | 'compliment_generator' | 'roast_joke_generator' | 'greeting_card_message_maker'
+  | 'holiday_wish_maker' | 'birthday_wish_maker' | 'anniversary_wish_maker' | 'condolence_message_writer' | 'congratulations_message_writer'
+  | 'short_story_writer' | 'fairy_tale_creator' | 'fable_writer' | 'horror_story_maker' | 'mystery_story_generator' | 'fantasy_story_builder' | 'sci_fi_story_maker' | 'detective_case_idea_maker' | 'superhero_story_creator'
+  | 'villain_profile_maker' | 'side_character_generator' | 'dialogue_improver' | 'scene_pacing_adjuster' | 'narrative_style_changer' | 'perspective_rewriter' | 'article_rewriter';
 
 
 
@@ -396,12 +429,7 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Write a well-formatted and professional email for the following purpose. The email should be in the same language as the prompt. Purpose: ${p}`,
         resultTitle: "Generated Email"
     }},
-    { id: 'speech_writer', name: 'Speech Writer', icon: Presentation, description: 'Draft compelling speeches for any occasion.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'A best man speech for my childhood friend' or 'A motivational speech for a sales team'...",
-        buttonText: "Write Speech",
-        generatePrompt: (p: string) => `Write a powerful and engaging speech for the following occasion. The speech should be in the same language as the prompt. Occasion: ${p}`,
-        resultTitle: "Generated Speech"
-    }},
+    { id: 'speech_writer', name: 'Speech Writer', icon: Presentation, description: 'Draft compelling speeches for any occasion.', component: SpeechWriter },
     { id: 'fact_checker', name: 'Fact Checker', icon: CheckSquare, description: 'Check the accuracy of a statement.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Enter a statement to fact-check, e.g., 'The sky is green.'",
         buttonText: "Fact-Check",
@@ -599,7 +627,7 @@ export const modes: Mode[] = [
     { id: 'monologue_writer', name: 'Monologue Writer', icon: UserSquare, description: 'Generates monologues for scripts.', component: MonologueWriter },
     { id: 'scene_description_writer', name: 'Scene Description Writer', icon: Clapperboard, description: 'Writes scene details for stories.', component: SceneDescriptionWriter },
     
-    // Latest batch of modes
+    // Latest Batch
     { id: 'character_backstory_maker', name: 'Character Backstory Maker', icon: UserSquare, description: 'Creates fictional backstories.', component: CharacterBackstoryMaker },
     { id: 'plot_twist_generator', name: 'Plot Twist Generator', icon: GitBranch, description: 'Suggests plot twists.', component: PlotTwistGenerator },
     { id: 'conflict_idea_maker', name: 'Conflict Idea Maker', icon: Swords, description: 'Suggests story conflicts.', component: ConflictIdeaMaker },
@@ -629,4 +657,35 @@ export const modes: Mode[] = [
     { id: 'party_theme_generator', name: 'Party Theme Generator', icon: PartyPopper, description: 'Suggests party themes.', component: PartyThemeGenerator },
     { id: 'event_schedule_maker', name: 'Event Schedule Maker', icon: Calendar, description: 'Creates event timelines.', component: EventScheduleMaker },
     { id: 'invitation_message_writer', name: 'Invitation Message Writer', icon: Mail, description: 'Writes short invites.', component: InvitationMessageWriter },
+
+    // Final 30 modes
+    { id: 'toast_speech_writer', name: 'Toast Speech Writer', icon: Presentation, description: 'Creates event toast speeches.', component: ToastSpeechWriter },
+    { id: 'eulogy_writer', name: 'Eulogy Writer', icon: BookHeart, description: 'Writes memorial speeches.', component: EulogyWriter },
+    { id: 'thank_you_note_maker', name: 'Thank-You Note Maker', icon: Mail, description: 'Creates thank-you messages.', component: ThankYouNoteMaker },
+    { id: 'apology_letter_writer', name: 'Apology Letter Writer', icon: Mailbox, description: 'Writes polite apologies.', component: ApologyLetterWriter },
+    { id: 'love_letter_writer', name: 'Love Letter Writer', icon: Heart, description: 'Writes romantic letters.', component: LoveLetterWriter },
+    { id: 'compliment_generator', name: 'Compliment Generator', icon: Smile, description: 'Creates nice compliments.', component: ComplimentGenerator },
+    { id: 'roast_joke_generator', name: 'Roast Joke Generator', icon: MicVocal, description: 'Creates light-hearted roast jokes.', component: RoastJokeGenerator },
+    { id: 'greeting_card_message_maker', name: 'Greeting Card Message Maker', icon: Gift, description: 'Suggests card messages.', component: GreetingCardMessageMaker },
+    { id: 'holiday_wish_maker', name: 'Holiday Wish Maker', icon: PartyPopper, description: 'Creates festive wishes.', component: HolidayWishMaker },
+    { id: 'birthday_wish_maker', name: 'Birthday Wish Maker', icon: Gift, description: 'Writes birthday messages.', component: BirthdayWishMaker },
+    { id: 'anniversary_wish_maker', name: 'Anniversary Wish Maker', icon: Heart, description: 'Suggests anniversary greetings.', component: AnniversaryWishMaker },
+    { id: 'condolence_message_writer', name: 'Condolence Message Writer', icon: BookHeart, description: 'Writes sympathy messages.', component: CondolenceMessageWriter },
+    { id: 'congratulations_message_writer', name: 'Congratulations Message Writer', icon: Trophy, description: 'Suggests congratulatory messages.', component: CongratulationsMessageWriter },
+    { id: 'short_story_writer', name: 'Short Story Writer', icon: BookOpen, description: 'Writes short fiction.', component: ShortStoryWriter },
+    { id: 'fairy_tale_creator', name: 'Fairy Tale Creator', icon: Crown, description: 'Writes fairy tale-style stories.', component: FairyTaleCreator },
+    { id: 'fable_writer', name: 'Fable Writer', icon: PawPrint, description: 'Creates moral stories.', component: FableWriter },
+    { id: 'horror_story_maker', name: 'Horror Story Maker', icon: VenetianMask, description: 'Writes short horror tales.', component: HorrorStoryMaker },
+    { id: 'mystery_story_generator', name: 'Mystery Story Generator', icon: Search, description: 'Creates mystery plot ideas.', component: MysteryStoryGenerator },
+    { id: 'fantasy_story_builder', name: 'Fantasy Story Builder', icon: Telescope, description: 'Suggests fantasy story elements.', component: FantasyStoryBuilder },
+    { id: 'sci_fi_story_maker', name: 'Sci-Fi Story Maker', icon: Telescope, description: 'Creates science fiction plots.', component: SciFiStoryMaker },
+    { id: 'detective_case_idea_maker', name: 'Detective Case Idea Maker', icon: Search, description: 'Suggests crime investigation plots.', component: DetectiveCaseIdeaMaker },
+    { id: 'superhero_story_creator', name: 'Superhero Story Creator', icon: ShieldCheck, description: 'Builds superhero story ideas.', component: SuperheroStoryCreator },
+    { id: 'villain_profile_maker', name: 'Villain Profile Maker', icon: UserSquare, description: 'Creates fictional villain profiles.', component: VillainProfileMaker },
+    { id: 'side_character_generator', name: 'Side Character Generator', icon: Users, description: 'Suggests minor character ideas.', component: SideCharacterGenerator },
+    { id: 'dialogue_improver', name: 'Dialogue Improver', icon: MessageSquareHeart, description: 'Enhances existing dialogues.', component: DialogueImprover },
+    { id: 'scene_pacing_adjuster', name: 'Scene Pacing Adjuster', icon: Clock, description: 'Speeds up or slows down story pacing.', component: ScenePacingAdjuster },
+    { id: 'narrative_style_changer', name: 'Narrative Style Changer', icon: PenLine, description: 'Changes writing style.', component: NarrativeStyleChanger },
+    { id: 'perspective_rewriter', name: 'Perspective Rewriter', icon: Users, description: 'Changes text from 1st to 3rd person.', component: PerspectiveRewriter },
+    { id: 'article_rewriter', name: 'Article Rewriter', icon: RefreshCw, description: 'Rephrases articles.', component: ArticleRewriter },
 ];
