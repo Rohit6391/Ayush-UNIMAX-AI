@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Thermometer as ThermometerIcon, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Thermometer as ThermometerIcon, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -178,8 +178,6 @@ import { BusinessIdeaGenerator } from '@/components/modes/BusinessIdeaGenerator'
 import { StartupPitchWriter } from '@/components/modes/StartupPitchWriter';
 import { CostEstimateCalculator } from '@/components/modes/CostEstimateCalculator';
 import { ROICalculator } from '@/components/modes/ROICalculator';
-
-// New modes
 import { BudgetPlanner } from '@/components/modes/BudgetPlanner';
 import { ExpenseTracker } from '@/components/modes/ExpenseTracker';
 import { SavingsGoalCalculator } from '@/components/modes/SavingsGoalCalculator';
@@ -211,96 +209,66 @@ import { NicknameMaker } from '@/components/modes/NicknameMaker';
 import { WifiNameGenerator } from '@/components/modes/WifiNameGenerator';
 import { DomainNameGenerator } from '@/components/modes/DomainNameGenerator';
 
+// New Modes
+import { AppNameGenerator } from '@/components/modes/AppNameGenerator';
+import { GameNameGenerator } from '@/components/modes/GameNameGenerator';
+import { PlaylistNameGenerator } from '@/components/modes/PlaylistNameGenerator';
+import { EventNameGenerator } from '@/components/modes/EventNameGenerator';
+import { BookTitleGenerator } from '@/components/modes/BookTitleGenerator';
+import { ChapterTitleGenerator } from '@/components/modes/ChapterTitleGenerator';
+import { CourseTitleGenerator } from '@/components/modes/CourseTitleGenerator';
+import { LessonPlanMaker } from '@/components/modes/LessonPlanMaker';
+import { ExamQuestionGenerator } from '@/components/modes/ExamQuestionGenerator';
+import { FlashcardMaker } from '@/components/modes/FlashcardMaker';
+import { StudyGuideMaker } from '@/components/modes/StudyGuideMaker';
+import { ConceptExplainer } from '@/components/modes/ConceptExplainer';
+import { HistoricalFactFinder } from '@/components/modes/HistoricalFactFinder';
+import { ScienceFactFinder } from '@/components/modes/ScienceFactFinder';
+import { MathProblemSolver } from '@/components/modes/MathProblemSolver';
+import { EquationGenerator } from '@/components/modes/EquationGenerator';
+import { GeometryShapeDrawer } from '@/components/modes/GeometryShapeDrawer';
+import { UnitConversionPracticeTool } from '@/components/modes/UnitConversionPracticeTool';
+import { LanguagePracticePartner } from '@/components/modes/LanguagePracticePartner';
+import { VocabularyBuilder } from '@/components/modes/VocabularyBuilder';
+import { SpellingQuizMaker } from '@/components/modes/SpellingQuizMaker';
+import { GrammarQuizMaker } from '@/components/modes/GrammarQuizMaker';
+import { ReadingComprehensionTester } from '@/components/modes/ReadingComprehensionTester';
+import { EssayTopicGenerator } from '@/components/modes/EssayTopicGenerator';
+import { PoetryWriter } from '@/components/modes/PoetryWriter';
+import { HaikuGenerator } from '@/components/modes/HaikuGenerator';
+import { SongLyricStarter } from '@/components/modes/SongLyricStarter';
+import { RapVerseMaker } from '@/components/modes/RapVerseMaker';
+import { ScriptDialogueWriter } from '@/components/modes/ScriptDialogueWriter';
+import { MonologueWriter } from '@/components/modes/MonologueWriter';
+import { SceneDescriptionWriter } from '@/components/modes/SceneDescriptionWriter';
+
+
 export type ModeId = 
-  | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
-  | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
-  | 'file_editor' | 'story_generator' | 'text_summarizer' | 'translator' | 'song_writer' 
-  | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
-  | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
-  | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
-  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat'
-  | 'logo_maker' | 'design_assistant' | 'three_d_modeler' | 'animation_tool' | 'seo_tool'
-  | 'social_media_post_maker' | 'market_research'
-  | 'text_rewriter_pro' | 'creative_content_expander' | 'conversational_flow_designer' | 'technical_document_generator'
-  | 'storyboard_idea_expander' | 'digital_persona_creator' | 'smart_prompt_optimizer' | 'context_aware_summary_maker'
-  | 'reading_comprehension_assistant' | 'knowledge_graph_builder' | 'smart_data_categorizer' | 'concept_map_generator'
-  | 'interview_question_creator' | 'job_role_analyzer' | 'industry_report_writer' | 'product_feature_brainstormer'
-  | 'meeting_notes_formatter' | 'text_complexity_adjuster' | 'idiom_and_metaphor_finder' | 'paragraph_flow_improver'
-  | 'acronym_expander' | 'real_time_definition_finder' | 'smart_keyword_highlighter' | 'tone_and_mood_adjuster'
-  | 'formality_level_converter' | 'brand_voice_enforcer' | 'multilingual_synonym_finder' | 'title_and_headline_optimizer'
-  | 'long_form_report_writer' | 'smart_question_answer_engine' | 'policy_drafting_assistant' | 'legal_clause_suggestion_tool'
-  | 'patent_abstract_generator' | 'contract_simplifier' | 'compliance_document_checker' | 'script_scene_expander'
-  | 'interview_transcript_formatter' | 'fictional_world_builder' | 'conflict_plot_generator' | 'character_dialogue_improver'
-  | 'multi_threaded_story_planner' | 'fiction_outline_maker' | 'comedy_script_punch_up_tool' | 'villain_backstory_creator'
-  | 'theme_and_motif_analyzer' | 'story_arc_evaluator' | 'mythology_based_plot_creator' | 'sci_fi_concept_designer'
-  | 'fantasy_lore_generator' | 'alternate_history_plot_writer' | 'scientific_hypothesis_suggestor' | 'experiment_design_planner'
-  | 'research_summary_maker' | 'journal_abstract_creator' | 'methodology_drafting_tool' | 'lab_report_formatter'
-  | 'academic_citation_builder' | 'equation_solver_pro' | 'graph_theory_visualizer' | 'statistical_pattern_finder'
-  | 'data_anomaly_detector' | 'predictive_model_trainer' | 'simulation_scenario_builder' | 'ai_behavior_modeler'
-  | 'ethics_risk_analyzer' | 'bias_detector_engine' | 'privacy_impact_forecaster' | 'algorithmic_explainability_tool'
-  | 'dataset_integrity_checker' | 'feature_importance_analyzer' | 'forecast_accuracy_evaluator' | 'root_cause_analysis_bot'
-  | 'data_quality_score_generator' | 'multi_variable_trend_predictor' | 'business_kpi_forecaster' | 'competitor_comparison_engine'
-  | 'market_gap_identifier' | 'customer_segmentation_mapper' | 'price_elasticity_estimator' | 'churn_risk_predictor'
-  | 'profit_margin_optimizer'
-  | 'supply_chain_ai_planner'
-  | 'inventory_auto_forecaster'
-  | 'logistics_route_optimizer'
-  | 'vendor_risk_scorer'
-  | 'fraud_detection_engine'
-  | 'transaction_pattern_finder'
-  | 'credit_risk_analyzer'
-  | 'investment_portfolio_optimizer'
-  | 'financial_statement_summarizer'
-  | 'brand_finder'
-  | 'product_finder'
-  | 'study_material_analyzer'
-  | 'ai_teacher'
-  | 'ad_banner_maker'
-  | 'ad_copy_generator'
-  | 'affirmation_generator'
-  | 'ai_business_plan_writer'
-  | 'ai_game_level_designer'
-  | 'ai_joke_writer'
-  | 'ai_therapist'
-  | 'ai_virtual_pet_creator'
-  | 'animated_gif_editor'
-  | 'animated_infographic_maker'
-  | 'animated_logo_maker'
-  | 'app_ui_designer'
-  | 'audio_enhancer'
-  | 'audio_loop_maker'
-  | 'audio_mixer'
-  | 'audio_sync_tool'
-  | 'audio_transcription_tool'
-  | 'sports_skills_trainer'
-  | 'grammar_practice_creator'
-  | 'quiz_generator' | 'book_generator'
+  // Creative
+  | 'photo_generator' | 'logo_maker' | 'design_assistant' | 'photo_editor' | 'video_generator' | 'animation_tool' | 'three_d_modeler' | 'video_editor' | 'sound_generator' | 'story_generator' | 'song_writer' | 'poem_generator' | 'character_generator' | 'dream_interpreter'
+  // Development
+  | 'code_generator' | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' | 'file_editor'
+  // Business & Marketing
+  | 'chart_maker' | 'market_research' | 'social_media_post_maker' | 'seo_tool' | 'ad_maker' | 'email_writer' | 'speech_writer' | 'fact_checker' | 'brand_finder' | 'product_finder'
+  | 'supply_chain_ai_planner' | 'inventory_auto_forecaster' | 'logistics_route_optimizer' | 'vendor_risk_scorer' | 'fraud_detection_engine' | 'transaction_pattern_finder' | 'credit_risk_analyzer' | 'investment_portfolio_optimizer' | 'financial_statement_summarizer'
+  | 'text_rewriter_pro' | 'creative_content_expander' | 'conversational_flow_designer' | 'technical_document_generator' | 'storyboard_idea_expander' | 'digital_persona_creator' | 'smart_prompt_optimizer' | 'title_and_headline_optimizer'
+  | 'long_form_report_writer' | 'smart_question_answer_engine' | 'policy_drafting_assistant' | 'legal_clause_suggestion_tool' | 'patent_abstract_generator' | 'contract_simplifier' | 'compliance_document_checker' | 'business_kpi_forecaster' | 'competitor_comparison_engine' | 'market_gap_identifier' | 'customer_segmentation_mapper' | 'price_elasticity_estimator' | 'churn_risk_predictor' | 'profit_margin_optimizer'
+  // Core
+  | 'chat' | 'fun_chat' | 'voice_chat' | 'translator'
+  // Productivity & Education
+  | 'homework_helper' | 'study_material_analyzer' | 'ai_teacher' | 'games_knowledge' | 'yoga_fitness' | 'grammar_practice_creator' | 'sports_skills_trainer' | 'quiz_generator' | 'book_generator'
+  | 'text_summarizer' | 'question_giver' | 'idea_generator' | 'recipe_creator' | 'travel_planner' | 'grammar_corrector'
   // Text Utilities
-  | 'text_formatter' | 'spelling_checker' | 'word_counter' | 'hashtag_generator'
-  | 'caption_maker' | 'daily_planner' | 'note_summarizer' | 'paragraph_expander'
-  | 'question_generator' | 'keyword_finder' | 'text_cleaner' | 'text_tone_adjuster'
-  | 'synonym_finder' | 'antonym_finder' | 'acronym_maker' | 'emoji_replacer'
-  | 'headline_creator' | 'title_case_converter' | 'bullet_point_maker'
-  | 'simple_translator' | 'text_shortener' | 'email_subject_line_maker'
-  | 'readability_checker' | 'blog_idea_generator'
-  | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer'
-  | 'story_idea_generator'
+  | 'text_formatter' | 'spelling_checker' | 'word_counter' | 'hashtag_generator' | 'caption_maker' | 'daily_planner' | 'note_summarizer' | 'paragraph_expander' | 'question_generator' | 'keyword_finder' | 'text_cleaner' | 'text_tone_adjuster' | 'synonym_finder' | 'antonym_finder' | 'acronym_maker' | 'emoji_replacer' | 'headline_creator' | 'title_case_converter' | 'bullet_point_maker' | 'simple_translator' | 'text_shortener' | 'email_subject_line_maker' | 'readability_checker' | 'plagiarism_checker' | 'blog_idea_generator' | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer' | 'story_idea_generator'
   // Business/Productivity Utilities
-  | 'joke_finder' | 'rhyme_finder' | 'idiom_explainer' | 'fact_finder'
-  | 'list_creator' | 'quote_finder' | 'motivational_message_maker' | 'reminder_maker'
-  | 'calendar_event_filler' | 'tagline_maker' | 'brand_name_generator' | 'slogan_maker'
-  | 'product_description_writer' | 'ad_headline_creator' | 'poll_question_maker' | 'survey_question_generator'
-  | 'resume_bullet_point_maker' | 'job_title_suggestor' | 'skill_list_generator' | 'cover_letter_writer'
-  | 'meeting_agenda_maker' | 'meeting_summary_writer' | 'task_priority_sorter' | 'decision_helper'
-  | 'pro_con_list_maker' | 'swot_analyzer' | 'business_idea_generator' | 'startup_pitch_writer'
-  | 'cost_estimate_calculator' | 'roi_calculator'
+  | 'joke_finder' | 'rhyme_finder' | 'idiom_explainer' | 'fact_finder' | 'list_creator' | 'quote_finder' | 'motivational_message_maker' | 'reminder_maker' | 'calendar_event_filler' | 'tagline_maker' | 'brand_name_generator' | 'slogan_maker' | 'product_description_writer' | 'ad_headline_creator' | 'poll_question_maker' | 'survey_question_generator' | 'resume_bullet_point_maker' | 'job_title_suggestor' | 'skill_list_generator' | 'cover_letter_writer' | 'meeting_agenda_maker' | 'meeting_summary_writer' | 'task_priority_sorter' | 'decision_helper' | 'pro_con_list_maker' | 'swot_analyzer' | 'business_idea_generator' | 'startup_pitch_writer' | 'cost_estimate_calculator' | 'roi_calculator'
   // New batch
-  | 'budget_planner' | 'expense_tracker' | 'savings_goal_calculator' | 'loan_calculator' | 'interest_calculator'
-  | 'profit_calculator' | 'break_even_calculator' | 'tax_calculator' | 'currency_converter' | 'unit_converter'
-  | 'weight_converter' | 'temperature_converter' | 'length_converter' | 'area_converter' | 'volume_converter'
-  | 'speed_converter' | 'time_zone_converter' | 'age_calculator' | 'date_difference_finder' | 'countdown_timer_maker'
-  | 'stopwatch_tool' | 'random_number_picker' | 'random_name_picker' | 'dice_roller' | 'coin_flip'
-  | 'password_generator' | 'username_generator' | 'nickname_maker' | 'wifi_name_generator' | 'domain_name_generator';
+  | 'budget_planner' | 'expense_tracker' | 'savings_goal_calculator' | 'loan_calculator' | 'interest_calculator' | 'profit_calculator' | 'break_even_calculator' | 'tax_calculator' | 'currency_converter' | 'unit_converter' | 'weight_converter' | 'temperature_converter' | 'length_converter' | 'area_converter' | 'volume_converter' | 'speed_converter' | 'time_zone_converter' | 'age_calculator' | 'date_difference_finder' | 'countdown_timer_maker' | 'stopwatch_tool' | 'random_number_picker' | 'random_name_picker' | 'dice_roller' | 'coin_flip' | 'password_generator' | 'username_generator' | 'nickname_maker' | 'wifi_name_generator' | 'domain_name_generator'
+  // Newest Batch
+  | 'app_name_generator' | 'game_name_generator' | 'playlist_name_generator' | 'event_name_generator' | 'book_title_generator' | 'chapter_title_generator' | 'course_title_generator'
+  | 'lesson_plan_maker' | 'exam_question_generator' | 'flashcard_maker' | 'study_guide_maker' | 'concept_explainer' | 'historical_fact_finder' | 'science_fact_finder' | 'math_problem_solver' | 'equation_generator' | 'geometry_shape_drawer' | 'unit_conversion_practice_tool'
+  | 'language_practice_partner' | 'vocabulary_builder' | 'spelling_quiz_maker' | 'grammar_quiz_maker' | 'reading_comprehension_tester'
+  | 'essay_topic_generator' | 'poetry_writer' | 'haiku_generator' | 'song_lyric_starter' | 'rap_verse_maker' | 'script_dialogue_writer' | 'monologue_writer' | 'scene_description_writer';
 
 
 export interface Mode {
@@ -327,7 +295,7 @@ const textUtilitiesProps = (id: ModeId, name: string, icon: React.ElementType, d
 });
 
 export const modes: Mode[] = [
-    // Original Modes
+    // Core & Creative
     { id: 'chat', name: 'AI Chat', icon: BrainCircuit, description: 'Your AI command center for text and files.', component: ChatInterface },
     { id: 'fun_chat', name: 'Fun Chat', icon: Bot, description: 'Chat with a more creative and playful AI.', component: ChatInterface, componentProps: { isFunChat: true } },
     { id: 'voice_chat', name: 'Voice Chat', icon: Mic, description: 'Talk directly with the AI in a voice conversation.', component: VoiceInterface },
@@ -365,6 +333,8 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Provide a thoughtful and psychological interpretation of the following dream, considering common symbols and themes. The interpretation should be in the same language as the dream description. Dream: ${p}`,
         resultTitle: "Dream Interpretation"
     }},
+
+    // Development & Tech
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
     { id: 'code_analyzer', name: 'Code Analyzer', icon: Search, description: 'Analyze code for errors, performance, and best practices.', component: CodeAnalyzer },
     { id: 'website_maker', name: 'Website Maker', icon: Globe, description: 'Generate, preview, and import websites.', component: WebsiteMaker },
@@ -372,17 +342,12 @@ export const modes: Mode[] = [
     { id: 'game_maker', name: 'Game Maker', icon: Gamepad2, description: 'Design, import, and create plans for your game.', component: GameMaker },
     { id: 'file_maker', name: 'File Maker', icon: FilePlus, description: 'Create downloadable files from a prompt.', component: FileMaker },
     { id: 'file_editor', name: 'File Editor', icon: FileEdit, description: 'Edit uploaded files with AI instructions.', component: FileEditor },
+    
+    // Business & Marketing
     { id: 'chart_maker', name: 'Chart & Graph Maker', icon: BarChart3, description: 'Create charts and graphs from data.', component: ChartMaker },
     { id: 'market_research', name: 'Market Research', icon: Briefcase, description: 'Gather and analyze market data.', component: MarketResearch },
     { id: 'social_media_post_maker', name: 'Social Media Post Maker', icon: Megaphone, description: 'Generate engaging posts for social media.', component: SocialMediaPostMaker },
     { id: 'seo_tool', name: 'SEO Tool', icon: TrendingUp, description: 'Optimize your content for search engines.', component: SeoTool },
-    { id: 'text_summarizer', name: 'Text Summarizer', icon: FileQuestion, description: 'Summarize long texts, articles, or documents.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "Paste a long article, report, or any text here to get a summary...",
-        buttonText: "Summarize Text",
-        generatePrompt: (p: string) => `Summarize the following text, providing the summary in the same language as the original text:\n\n${p}`,
-        resultTitle: "Summary"
-    }},
-    { id: 'translator', name: 'Translator', icon: Globe, description: 'Translate text between multiple languages.', component: Translator },
     { id: 'ad_maker', name: 'Video Ad Script Maker', icon: Megaphone, description: 'Create compelling video ad scripts.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., A new brand of sparkling water with natural fruit flavors...",
         buttonText: "Generate Ad Script",
@@ -407,18 +372,45 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Please fact-check the following statement, provide a determination (e.g., True, False, Misleading), and a brief explanation with sources if possible. The response should be in the same language as the statement. Statement: ${p}`,
         resultTitle: "Fact-Check Result"
     }},
+    { id: 'brand_finder', name: 'Brand Finder', icon: Crown, description: 'Find top brands for any product.', component: BrandFinder },
+    { id: 'product_finder', name: 'Product Finder', icon: ShoppingCart, description: 'Find where to buy products online.', component: ProductFinder },
+    { id: 'supply_chain_ai_planner', name: 'Supply Chain AI Planner', icon: Workflow, description: 'Plan and optimize supply chain logistics.', component: SupplyChainAiPlanner },
+    { id: 'inventory_auto_forecaster', name: 'Inventory Auto-Forecaster', icon: Package, description: 'Forecast inventory needs based on historical data.', component: InventoryAutoForecaster },
+    { id: 'logistics_route_optimizer', name: 'Logistics Route Optimizer', icon: Route, description: 'Find the most efficient logistics routes.', component: LogisticsRouteOptimizer },
+    { id: 'vendor_risk_scorer', name: 'Vendor Risk Scorer', icon: ShieldCheck, description: 'Score vendors based on risk factors.', component: VendorRiskScorer },
+    { id: 'fraud_detection_engine', name: 'Fraud Detection Engine', icon: Bug, description: 'Detect fraudulent transactions and patterns.', component: FraudDetectionEngine },
+    { id: 'transaction_pattern_finder', name: 'Transaction Pattern Finder', icon: LineChart, description: 'Find patterns in transaction data.', component: TransactionPatternFinder },
+    { id: 'credit_risk_analyzer', name: 'Credit Risk Analyzer', icon: Scale, description: 'Analyze credit risk for individuals or businesses.', component: CreditRiskAnalyzer },
+    { id: 'investment_portfolio_optimizer', name: 'Investment Portfolio Optimizer', icon: PieChart, description: 'Suggest optimizations for an investment portfolio.', component: InvestmentPortfolioOptimizer },
+    { id: 'financial_statement_summarizer', name: 'Financial Statement Summarizer', icon: FileText, description: 'Summarize complex financial statements.', component: FinancialStatementSummarizer },
+
+    // Education & Productivity
     { id: 'homework_helper', name: 'Homework Planner', icon: School, description: 'Plan assignments and get AI help.', component: HomeworkPlanner },
+    { id: 'study_material_analyzer', name: 'Study Material Analyzer', icon: GraduationCap, description: 'Analyze study material and get a quiz.', component: StudyMaterialAnalyzer },
+    { id: 'ai_teacher', name: 'AI Teacher', icon: School, description: 'Teaches concepts for education.', component: AITeacher },
+    { id: 'games_knowledge', name: 'Games Knowledge', icon: Gamepad2, description: 'Get information and tips about any video game.', component: GamesKnowledge},
+    { id: 'yoga_fitness', name: 'Yoga & Fitness', icon: Dumbbell, description: 'Get guidance on yoga poses, fitness exercises, and general wellness tips.', component: YogaFitness},
+    { id: 'grammar_practice_creator', name: 'Grammar Practice Creator', icon: BookCheck, description: 'Generate grammar exercises for any language.', component: GrammarPracticeCreator},
+    { id: 'sports_skills_trainer', name: 'Sports Skills Trainer', icon: Trophy, description: 'Learn how to improve your skills in any sport.', component: SportsSkillsTrainer},
+    { id: 'quiz_generator', name: 'Quiz Generator', icon: HelpCircle, description: 'Generate quizzes on any topic.', component: QuizQuestionGenerator },
+    { id: 'book_generator', name: 'Book Generator', icon: BookOpen, description: 'Write a book on any topic.', component: BookGenerator },
+    { id: 'text_summarizer', name: 'Text Summarizer', icon: FileQuestion, description: 'Summarize long texts, articles, or documents.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Paste a long article, report, or any text here to get a summary...",
+        buttonText: "Summarize Text",
+        generatePrompt: (p: string) => `Summarize the following text, providing the summary in the same language as the original text:\n\n${p}`,
+        resultTitle: "Summary"
+    }},
     { id: 'question_giver', name: 'Question Giver', icon: HelpCircle, description: 'Get questions for any topic.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., 'The history of the Roman Empire' or 'La physique quantique'...",
         buttonText: "Generate Questions",
         generatePrompt: (p: string) => `Generate a list of 10 insightful questions about the following topic. The questions should be in the same language as the topic provided. Topic: ${p}`,
         resultTitle: "Generated Questions"
     }},
-    { id: 'fact_giver', name: 'Fact Giver', icon: Lightbulb, description: 'Get interesting facts about any topic.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'Space exploration' or 'The Roman Empire'",
-        buttonText: "Get Facts",
-        generatePrompt: (p: string) => `Generate a list of 5 interesting and verifiable facts about the following topic. The facts should be in the same language as the topic. Topic: ${p}`,
-        resultTitle: "Interesting Facts"
+    { id: 'idea_generator', name: 'Idea Generator', icon: Lightbulb, description: 'Brainstorm creative ideas on any topic.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Business ideas for a small town' or 'Plot ideas for a sci-fi novel'...",
+        buttonText: "Generate Ideas",
+        generatePrompt: (p: string) => `Generate a list of creative and unique ideas for the following topic. The ideas should be in the same language as the prompt. Topic: ${p}`,
+        resultTitle: "Creative Ideas"
     }},
     { id: 'recipe_creator', name: 'Recipe Creator', icon: CookingPot, description: 'Create recipes from a list of ingredients.', component: TextGenerator, componentProps: {
         promptPlaceholder: "e.g., 'chicken, rice, broccoli, soy sauce'...",
@@ -432,123 +424,12 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Create a detailed travel itinerary for the following trip: ${p}. Include suggestions for accommodations, activities for each day, and dining options. The itinerary should be in the same language as the prompt.`,
         resultTitle: "Travel Itinerary"
     }},
-    { id: 'brand_finder', name: 'Brand Finder', icon: Crown, description: 'Find top brands for any product.', component: BrandFinder },
-    { id: 'product_finder', name: 'Product Finder', icon: ShoppingCart, description: 'Find where to buy products online.', component: ProductFinder },
-    { id: 'study_material_analyzer', name: 'Study Material Analyzer', icon: GraduationCap, description: 'Analyze study material and get a quiz.', component: StudyMaterialAnalyzer },
-    { id: 'ad_banner_maker', name: 'Ad Banner Maker', icon: Megaphone, description: 'Designs banners for marketing.', component: AdBannerMaker },
-    { id: 'ad_copy_generator', name: 'Ad Copy Generator', icon: Feather, description: 'Writes ads for marketing.', component: AdCopyGenerator },
-    { id: 'affirmation_generator', name: 'Affirmation Generator', icon: Smile, description: 'Creates affirmations for self-growth.', component: AffirmationGenerator },
-    { id: 'ai_business_plan_writer', name: 'AI Business Plan Writer', icon: Briefcase, description: 'Writes business plans for startups.', component: AIBusinessPlanWriter },
-    { id: 'ai_game_level_designer', name: 'AI Game Level Designer', icon: Gamepad2, description: 'Generates playable level layouts.', component: AIGameLevelDesigner },
-    { id: 'ai_joke_writer', name: 'AI Joke Writer', icon: Smile, description: 'Writes jokes for entertainment.', component: AIJokeWriter },
-    { id: 'ai_teacher', name: 'AI Teacher', icon: School, description: 'Teaches concepts for education.', component: AITeacher },
-    { id: 'ai_therapist', name: 'AI Therapist', icon: HeartPulse, description: 'Mental health guidance for wellness.', component: AITherapist },
-    { id: 'ai_virtual_pet_creator', name: 'AI Virtual Pet Creator', icon: PawPrint, description: 'Designs virtual pets for games.', component: AIVirtualPetCreator },
-    { id: 'animated_gif_editor', name: 'Animated GIF Editor', icon: Film, description: 'Edits GIFs for social sharing.', component: AnimatedGIFEditor },
-    { id: 'animated_infographic_maker', name: 'Animated Infographic Maker', icon: BarChart3, description: 'Designs animated charts for presentations.', component: AnimatedInfographicMaker },
-    { id: 'animated_logo_maker', name: 'Animated Logo Maker', icon: Star, description: 'Animates logos for branding.', component: AnimatedLogoMaker },
-    { id: 'app_ui_designer', name: 'App UI Designer', icon: AppWindow, description: 'Designs app interfaces for development.', component: AppUIDesigner },
-    { id: 'audio_enhancer', name: 'Audio Enhancer', icon: AudioLines, description: 'Improves sound for podcasts/music.', component: AudioEnhancer },
-    { id: 'audio_loop_maker', name: 'Audio Loop Maker', icon: Music, description: 'Creates loops for music production.', component: AudioLoopMaker },
-    { id: 'audio_mixer', name: 'Audio Mixer', icon: SlidersHorizontal, description: 'Mixes tracks for DJs.', component: AudioMixer },
-    { id: 'audio_sync_tool', name: 'Audio Sync Tool', icon: Clock, description: 'Syncs audio for editing.', component: AudioSyncTool },
-    { id: 'audio_transcription_tool', name: 'Audio Transcription Tool', icon: FileText, description: 'Transcribes audio for accessibility.', component: AudioTranscriptionTool },
-    { id: 'supply_chain_ai_planner', name: 'Supply Chain AI Planner', icon: Workflow, description: 'Plan and optimize supply chain logistics.', component: SupplyChainAiPlanner },
-    { id: 'inventory_auto_forecaster', name: 'Inventory Auto-Forecaster', icon: Package, description: 'Forecast inventory needs based on historical data.', component: InventoryAutoForecaster },
-    { id: 'logistics_route_optimizer', name: 'Logistics Route Optimizer', icon: Route, description: 'Find the most efficient logistics routes.', component: LogisticsRouteOptimizer },
-    { id: 'vendor_risk_scorer', name: 'Vendor Risk Scorer', icon: ShieldCheck, description: 'Score vendors based on risk factors.', component: VendorRiskScorer },
-    { id: 'fraud_detection_engine', name: 'Fraud Detection Engine', icon: Bug, description: 'Detect fraudulent transactions and patterns.', component: FraudDetectionEngine },
-    { id: 'transaction_pattern_finder', name: 'Transaction Pattern Finder', icon: LineChart, description: 'Find patterns in transaction data.', component: TransactionPatternFinder },
-    { id: 'credit_risk_analyzer', name: 'Credit Risk Analyzer', icon: Scale, description: 'Analyze credit risk for individuals or businesses.', component: CreditRiskAnalyzer },
-    { id: 'investment_portfolio_optimizer', name: 'Investment Portfolio Optimizer', icon: PieChart, description: 'Suggest optimizations for an investment portfolio.', component: InvestmentPortfolioOptimizer },
-    { id: 'financial_statement_summarizer', name: 'Financial Statement Summarizer', icon: FileText, description: 'Summarize complex financial statements.', component: FinancialStatementSummarizer },
-    { id: 'text_rewriter_pro', name: 'Text Rewriter Pro', icon: RefreshCw, component: TextRewriterPro, description: 'Rewrite text for clarity, style, and impact.' },
-    { id: 'creative_content_expander', name: 'Creative Content Expander', icon: Wand2, component: CreativeContentExpander, description: 'Expand a topic into a detailed, engaging article.' },
-    { id: 'conversational_flow_designer', name: 'Conversational Flow Designer', icon: MessageCircleIcon, component: ConversationalFlowDesigner, description: 'Design a conversational flow for a chatbot.' },
-    { id: 'technical_document_generator', name: 'Technical Document Generator', icon: BookCopy, component: TechnicalDocumentGenerator, description: 'Generate technical documents and specifications.' },
-    { id: 'storyboard_idea_expander', name: 'Storyboard Idea Expander', icon: Clapperboard, component: StoryboardIdeaExpander, description: 'Expand a storyboard idea into a 3-scene summary.' },
-    { id: 'digital_persona_creator', name: 'Digital Persona Creator', icon: Users, component: DigitalPersonaCreator, description: 'Create detailed user personas for marketing and product design.' },
-    { id: 'smart_prompt_optimizer', name: 'Smart Prompt Optimizer', icon: BrainCog, component: SmartPromptOptimizer, description: 'Rewrite a prompt to be more specific, clear, and effective.' },
-    { id: 'context_aware_summary_maker', name: 'Context-Aware Summary Maker', icon: FileSearch, component: ContextAwareSummaryMaker, description: 'Summarize text with a specific context in mind.' },
-    { id: 'reading_comprehension_assistant', name: 'Reading Comprehension Assistant', icon: BookOpen, component: ReadingComprehensionAssistant, description: 'Answer questions based on a provided text.' },
-    { id: 'knowledge_graph_builder', name: 'Knowledge Graph Builder', icon: GitBranch, component: KnowledgeGraphBuilder, description: 'Build a knowledge graph from text.' },
-    { id: 'smart_data_categorizer', name: 'Smart Data Categorizer', icon: SlidersHorizontal, component: SmartDataCategorizer, description: 'Categorize a list of items into logical groups.' },
-    { id: 'concept_map_generator', name: 'Concept Map Generator', icon: Map, component: ConceptMapGenerator, description: 'Generate a concept map from a topic.' },
-    { id: 'interview_question_creator', name: 'Interview Question Creator', icon: HelpCircle, component: InterviewQuestionCreator, description: 'Generate interview questions for any job role.' },
-    { id: 'job_role_analyzer', name: 'Job Role Analyzer', icon: Briefcase, component: JobRoleAnalyzer, description: 'Analyze a job role and create a detailed description.' },
-    { id: 'industry_report_writer', name: 'Industry Report Writer', icon: Building2, component: IndustryReportWriter, description: 'Write a brief report on the current state of an industry.' },
-    { id: 'product_feature_brainstormer', name: 'Product Feature Brainstormer', icon: Lightbulb, component: ProductFeatureBrainstormer, description: 'Brainstorm creative and useful features for a product.' },
-    { id: 'meeting_notes_formatter', name: 'Meeting Notes Formatter', icon: FileText, component: MeetingNotesFormatter, description: 'Format raw meeting notes into a clean summary.' },
-    { id: 'text_complexity_adjuster', name: 'Text Complexity Adjuster', icon: ArrowDownUp, component: TextComplexityAdjuster, description: 'Rewrite text to a specified reading level or for a target audience.' },
-    { id: 'idiom_and_metaphor_finder', name: 'Idiom and Metaphor Finder', icon: Drama, component: IdiomAndMetaphorFinder, description: 'Identify idioms, metaphors, and figures of speech in a text.' },
-    { id: 'paragraph_flow_improver', name: 'Paragraph Flow Improver', icon: ArrowDownAZ, component: ParagraphFlowImprover, description: 'Improve the logical flow and readability of a paragraph.' },
-    { id: 'acronym_expander', name: 'Acronym Expander', icon: BookCopy, component: AcronymExpander, description: 'Find and expand acronyms in a text.' },
-    { id: 'real_time_definition_finder', name: 'Real-Time Definition Finder', icon: HelpCircle, component: RealTimeDefinitionFinder, description: 'Provide definitions for specific words in a text.' },
-    { id: 'smart_keyword_highlighter', name: 'Smart Keyword Highlighter', icon: Paintbrush, component: SmartKeywordHighlighter, description: 'Identify and highlight the most important keywords in a text.' },
-    { id: 'tone_and_mood_adjuster', name: 'Tone and Mood Adjuster', icon: Smile, component: ToneAndMoodAdjuster, description: 'Rewrite text to have a specified tone and mood.' },
-    { id: 'formality_level_converter', name: 'Formality Level Converter', icon: Briefcase, component: FormalityLevelConverter, description: 'Convert text between formal and informal styles.' },
-    { id: 'brand_voice_enforcer', name: 'Brand Voice Enforcer', icon: Megaphone, component: BrandVoiceEnforcer, description: 'Ensure text aligns with specified brand voice guidelines.' },
-    { id: 'multilingual_synonym_finder', name: 'Multilingual Synonym Finder', icon: Languages, component: MultilingualSynonymFinder, description: 'Provide synonyms for a word in multiple languages.' },
-    { id: 'title_and_headline_optimizer', name: 'Title & Headline Optimizer', icon: Target, component: TitleOptimizer, description: 'Generate compelling and SEO-friendly titles.' },
-    { id: 'long_form_report_writer', name: 'Long-form Report Writer', icon: FileText, component: LongFormReportWriter, description: 'Generate a comprehensive report from a topic and key points.' },
-    { id: 'smart_question_answer_engine', name: 'Smart Question-Answer Engine', icon: HelpCircle, component: SmartQuestionAnswerEngine, description: 'Get a clear, concise, and factual answer to any question.' },
-    { id: 'policy_drafting_assistant', name: 'Policy Drafting Assistant', icon: Landmark, component: PolicyDraftingAssistant, description: 'Draft a clear and comprehensive company policy.' },
-    { id: 'legal_clause_suggestion_tool', name: 'Legal Clause Suggestion Tool', icon: Scale, component: LegalClauseSuggestionTool, description: 'Get a standard, well-formulated legal clause.' },
-    { id: 'patent_abstract_generator', name: 'Patent Abstract Generator', icon: BookCopy, component: PatentAbstractGenerator, description: 'Write a clear, concise abstract for a patent application.' },
-    { id: 'contract_simplifier', name: 'Contract Simplifier', icon: FileQuestion, component: ContractSimplifier, description: 'Rewrite complex legal text into plain, easy-to-understand language.' },
-    { id: 'compliance_document_checker', name: 'Compliance Document Checker', icon: ShieldCheck, component: ComplianceDocumentChecker, description: 'Review a document against a specified compliance standard.' },
-    { id: 'script_scene_expander', name: 'Script Scene Expander', icon: Clapperboard, component: ScriptSceneExpander, description: 'Expand a brief scene description into a full script scene.' },
-    { id: 'interview_transcript_formatter', name: 'Interview Transcript Formatter', icon: FileText, component: InterviewTranscriptFormatter, description: 'Format a raw interview transcript into a clean, readable document.' },
-    { id: 'fictional_world_builder', name: 'Fictional World Builder', icon: Globe, component: FictionalWorldBuilder, description: 'Create a detailed description of a fictional world.' },
-    { id: 'conflict_plot_generator', name: 'Conflict Plot Generator', icon: Swords, component: ConflictPlotGenerator, description: 'Expand a core conflict into a compelling plot outline.' },
-    { id: 'character_dialogue_improver', name: 'Character Dialogue Improver', icon: MessageCircleIcon, component: CharacterDialogueImprover, description: 'Rewrite dialogue to be more impactful and character-driven.' },
-    { id: 'multi_threaded_story_planner', name: 'Multi-threaded Story Planner', icon: GitBranch, component: MultiThreadedStoryPlanner, description: 'Create a plan for how different plotlines will intersect.' },
-    { id: 'fiction_outline_maker', name: 'Fiction Outline Maker', icon: GanttChart, component: FictionOutlineMaker, description: 'Create a detailed, chapter-by-chapter outline for a novel.' },
-    { id: 'comedy_script_punch_up_tool', name: 'Comedy Script Punch-up Tool', icon: Smile, component: ComedyScriptPunchUpTool, description: 'Get funnier alternative lines or scenarios for a joke or scene.' },
-    { id: 'villain_backstory_creator', name: 'Villain Backstory Creator', icon: UserSquare, component: VillainBackstoryCreator, description: 'Create a compelling and tragic backstory for a villain.' },
-    { id: 'theme_and_motif_analyzer', name: 'Theme and Motif Analyzer', icon: BookOpen, component: ThemeAndMotifAnalyzer, description: 'Identify major themes and recurring motifs in a text.' },
-    { id: 'story_arc_evaluator', name: 'Story Arc Evaluator', icon: TrendingUp, component: StoryArcEvaluator, description: 'Evaluate a story or character arc for completeness.' },
-    { id: 'mythology_based_plot_creator', name: 'Mythology-based Plot Creator', icon: VenetianMask, component: MythologyBasedPlotCreator, description: 'Create a unique story plot based on a myth.' },
-    { id: 'sci_fi_concept_designer', name: 'Sci-Fi Concept Designer', icon: Telescope, component: SciFiConceptDesigner, description: 'Flesh out a sci-fi concept with details.' },
-    { id: 'fantasy_lore_generator', name: 'Fantasy Lore Generator', icon: Crown, component: FantasyLoreGenerator, description: 'Generate detailed lore for a fantasy concept.' },
-    { id: 'alternate_history_plot_writer', name: 'Alternate History Plot Writer', icon: Landmark, component: AlternateHistoryPlotWriter, description: 'Create a compelling alternate history plot.' },
-    { id: 'scientific_hypothesis_suggestor', name: 'Scientific Hypothesis Suggestor', icon: Beaker, component: ScientificHypothesisSuggestor, description: 'Suggest three novel, testable scientific hypotheses.' },
-    { id: 'experiment_design_planner', name: 'Experiment Design Planner', icon: FlaskConical, component: ExperimentDesignPlanner, description: 'Design a detailed experimental plan to test a hypothesis.' },
-    { id: 'research_summary_maker', name: 'Research Summary Maker', icon: FileSearch, component: ResearchSummaryMaker, description: 'Summarize a research paper for a lay audience.' },
-    { id: 'journal_abstract_creator', name: 'Journal Abstract Creator', icon: BookCopy, component: JournalAbstractCreator, description: 'Write a formal, structured abstract for a research paper.' },
-    { id: 'methodology_drafting_tool', name: 'Methodology Drafting Tool', icon: FileText, component: MethodologyDraftingTool, description: "Write a detailed 'Methodology' section for a research paper." },
-    { id: 'lab_report_formatter', name: 'Lab Report Formatter', icon: TestTube, component:LabReportFormatter, description: 'Format raw lab notes into a structured lab report.' },
-    { id: 'academic_citation_builder', name: 'Academic Citation Builder', icon: Library, component: AcademicCitationBuilder, description: 'Generate a perfectly formatted academic citation.' },
-    { id: 'equation_solver_pro', name: 'Equation Solver Pro', icon: Minus, component: EquationSolverPro, description: 'Solve a mathematical equation with a step-by-step process.' },
-    { id: 'graph_theory_visualizer', name: 'Graph Theory Visualizer', icon: GitBranch, component: GraphTheoryVisualizer, description: 'Create a text-based representation of a graph.' },
-    { id: 'statistical_pattern_finder', name: 'Statistical Pattern Finder', icon: LineChart, component: StatisticalPatternFinder, description: 'Identify significant patterns, trends, or correlations in a dataset.' },
-    { id: 'data_anomaly_detector', name: 'Data Anomaly Detector', icon: Bug, component: DataAnomalyDetector, description: 'Detect outliers or anomalies in a dataset.' },
-    { id: 'predictive_model_trainer', name: 'Predictive Model Trainer', icon: BrainCog, component: PredictiveModelTrainer, description: 'Outline the steps to train a predictive model.' },
-    { id: 'simulation_scenario_builder', name: 'Simulation Scenario Builder', icon: Component, component: SimulationScenarioBuilder, description: 'Create a detailed scenario for a system simulation.' },
-    { id: 'ai_behavior_modeler', name: 'AI Behavior Modeler', icon: Puzzle, component: AiBehaviorModeler, description: 'Design a behavior tree or state machine for an AI agent.' },
-    { id: 'ethics_risk_analyzer', name: 'Ethics Risk Analyzer', icon: ShieldCheck, component: EthicsRiskAnalyzer, description: 'Analyze an AI application for potential ethical risks.' },
-    { id: 'bias_detector_engine', name: 'Bias Detector Engine', icon: Scale, component: BiasDetectorEngine, description: 'Analyze text or a dataset for potential sources of bias.' },
-    { id: 'privacy_impact_forecaster', name: 'Privacy Impact Forecaster', icon: UserSquare, component: PrivacyImpactForecaster, description: 'Conduct a privacy impact assessment for a product.' },
-    { id: 'algorithmic_explainability_tool', name: 'Algorithmic Explainability Tool', icon: FileSearch, component: AlgorithmicExplainabilityTool, description: "Provide a clear explanation for an algorithm's decision." },
-    { id: 'dataset_integrity_checker', name: 'Dataset Integrity Checker', icon: CheckSquare, component: DatasetIntegrityChecker, description: 'Identify potential integrity issues in a dataset.' },
-    { id: 'feature_importance_analyzer', name: 'Feature Importance Analyzer', icon: SlidersHorizontal, component: FeatureImportanceAnalyzer, description: "Rank features by their importance in a model's predictions." },
-    { id: 'forecast_accuracy_evaluator', name: 'Forecast Accuracy Evaluator', icon: BadgePercent, component: ForecastAccuracyEvaluator, description: 'Evaluate the accuracy of a forecast using key metrics.' },
-    { id: 'root_cause_analysis_bot', name: 'Root Cause Analysis Bot', icon: Footprints, component: RootCauseAnalysisBot, description: "Perform a root cause analysis using the '5 Whys' technique." },
-    { id: 'data_quality_score_generator', name: 'Data Quality Score Generator', icon: Star, component: DataQualityScoreGenerator, description: 'Provide a data quality score for a dataset.' },
-    { id: 'multi_variable_trend_predictor', name: 'Multi-variable Trend Predictor', icon: LineChart, component: MultiVariableTrendPredictor, description: 'Predict future trends based on multiple variables.' },
-    { id: 'business_kpi_forecaster', name: 'Business KPI Forecaster', icon: TrendingUp, component: BusinessKpiForecaster, description: 'Provide a text-based forecast and analysis for business KPIs.' },
-    { id: 'competitor_comparison_engine', name: 'Competitor Comparison Engine', icon: Swords, component: CompetitorComparisonEngine, description: 'Provide a detailed SWOT analysis of competitors.' },
-    { id: 'market_gap_identifier', name: 'Market Gap Identifier', icon: Search, component: MarketGapIdentifier, description: 'Analyze a market to identify gaps and underserved niches.' },
-    { id: 'customer_segmentation_mapper', name: 'Customer Segmentation Mapper', icon: Users, component: CustomerSegmentationMapper, description: 'Create distinct customer segments for a product.' },
-    { id: 'price_elasticity_estimator', name: 'Price Elasticity Estimator', icon: CircleDollarSign, component: PriceElasticityEstimator, description: 'Estimate the price elasticity of demand for a product.' },
-    { id: 'churn_risk_predictor', name: 'Churn Risk Predictor', icon: TrendingUp, component: ChurnRiskPredictor, description: 'Assess customer churn risk and suggest retention strategies.' },
-    { id: 'profit_margin_optimizer', name: 'Profit Margin Optimizer', icon: BadgePercent, component: ProfitMarginOptimizer, description: 'Suggest strategies to optimize a product\'s profit margin.' },
-    { id: 'games_knowledge', name: 'Games Knowledge', icon: Gamepad2, description: 'Get information and tips about any video game.', component: GamesKnowledge},
-    { id: 'yoga_fitness', name: 'Yoga & Fitness', icon: Dumbbell, description: 'Get guidance on yoga poses, fitness exercises, and general wellness tips.', component: YogaFitness},
-    { id: 'grammar_practice_creator', name: 'Grammar Practice Creator', icon: BookCheck, description: 'Generate grammar exercises for any language.', component: GrammarPracticeCreator},
-    { id: 'sports_skills_trainer', name: 'Sports Skills Trainer', icon: Trophy, description: 'Learn how to improve your skills in any sport.', component: SportsSkillsTrainer},
-    { id: 'quiz_generator', name: 'Quiz Generator', icon: HelpCircle, description: 'Generate quizzes on any topic.', component: QuizQuestionGenerator },
-    { id: 'book_generator', name: 'Book Generator', icon: BookOpen, description: 'Write a book on any topic.', component: BookGenerator },
+    { id: 'grammar_corrector', name: 'Grammar Corrector', icon: BookCheck, description: 'Correct grammar and spelling mistakes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Paste your text here to correct grammar and spelling...",
+        buttonText: "Correct Grammar",
+        generatePrompt: (p: string) => `Correct the grammar and spelling of the following text, and provide the corrected version in the same language:\n\n${p}`,
+        resultTitle: "Corrected Text"
+    }},
 
     // Text Utilities
     textUtilitiesProps('text_formatter', 'Text Formatter', Pilcrow, 'Cleans and formats messy text into a neat layout.', 'Format the following text into a clean, readable layout'),
@@ -573,9 +454,8 @@ export const modes: Mode[] = [
     textUtilitiesProps('simple_translator', 'Text Translator (Simple)', Languages, 'Translates text into chosen languages.', 'Translate the following text to Spanish'),
     textUtilitiesProps('text_shortener', 'Text Shortener', Text, 'Makes text concise without losing meaning.', 'Shorten the following text to its most concise form while keeping the core meaning'),
     textUtilitiesProps('email_subject_line_maker', 'Email Subject Line Maker', Mailbox, 'Suggests attractive subject lines.', 'Suggest 5 attractive email subject lines for an email about the following topic'),
-    {...textUtilitiesProps('grammar_corrector', 'Grammar Corrector', BookCheck, 'Fixes grammar issues in text.', 'Correct the grammar and spelling of the following text, and provide only the corrected version'), component: TextGenerator},
     textUtilitiesProps('readability_checker', 'Readability Checker', Glasses, 'Analyzes and scores text reading level.', 'Analyze the readability of the following text and provide a score (e.g., Flesch-Kincaid Grade Level)'),
-    textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', CircleOff, 'Detects copied or duplicate content.', 'Check the following text for potential plagiarism by searching for similar phrases online and report your findings.'),
+    {...textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', CircleOff, 'Detects copied or duplicate content.', 'Check the following text for potential plagiarism by searching for similar phrases online and report your findings.'), component: TextGenerator},
     textUtilitiesProps('blog_idea_generator', 'Blog Idea Generator', FilePlus2, 'Suggests topics for blogs.', 'Generate 5 blog post ideas based on the following topic'),
     textUtilitiesProps('blog_outline_maker', 'Blog Outline Maker', ListTree, 'Creates a structured outline for blogs.', 'Create a structured outline with sections and sub-points for a blog post about the following topic'),
     textUtilitiesProps('blog_intro_writer', 'Blog Intro Writer', PenLine, 'Writes engaging introductions for blogs.', 'Write an engaging introductory paragraph for a blog post about the following topic'),
@@ -614,7 +494,7 @@ export const modes: Mode[] = [
     { id: 'cost_estimate_calculator', name: 'Cost Estimate Calculator', icon: Sigma, description: 'Estimates costs for projects.', component: CostEstimateCalculator },
     { id: 'roi_calculator', name: 'ROI Calculator', icon: BadgePercent, description: 'Calculates return on investment.', component: ROICalculator },
 
-    // Newest batch
+    // Financial & Unit Conversion Utilities
     { id: 'budget_planner', name: 'Budget Planner', icon: Banknote, description: 'Plans budgets for personal or business use.', component: BudgetPlanner },
     { id: 'expense_tracker', name: 'Expense Tracker', icon: Receipt, description: 'Tracks daily expenses.', component: ExpenseTracker },
     { id: 'savings_goal_calculator', name: 'Savings Goal Calculator', icon: PiggyBank, description: 'Calculates savings targets.', component: SavingsGoalCalculator },
@@ -632,6 +512,8 @@ export const modes: Mode[] = [
     { id: 'volume_converter', name: 'Volume Converter', icon: Beaker, description: 'Converts volume measurements.', component: VolumeConverter },
     { id: 'speed_converter', name: 'Speed Converter', icon: Car, description: 'Converts between speed units.', component: SpeedConverter },
     { id: 'time_zone_converter', name: 'Time Zone Converter', icon: Globe, description: 'Converts time between locations.', component: TimeZoneConverter },
+    
+    // Time & Randomization Utilities
     { id: 'age_calculator', name: 'Age Calculator', icon: User, description: 'Calculates age from date of birth.', component: AgeCalculator },
     { id: 'date_difference_finder', name: 'Date Difference Finder', icon: Calendar, description: 'Finds days between two dates.', component: DateDifferenceFinder },
     { id: 'countdown_timer_maker', name: 'Countdown Timer Maker', icon: Clock, description: 'Creates countdown timers.', component: CountdownTimerMaker },
@@ -640,9 +522,45 @@ export const modes: Mode[] = [
     { id: 'random_name_picker', name: 'Random Name Picker', icon: Users, description: 'Picks random names from a list.', component: RandomNamePicker },
     { id: 'dice_roller', name: 'Dice Roller', icon: Dices, description: 'Simulates dice rolling.', component: DiceRoller },
     { id: 'coin_flip', name: 'Coin Flip', icon: CircleDollarSign, description: 'Flips a virtual coin.', component: CoinFlip },
+    
+    // Naming & Security Utilities
     { id: 'password_generator', name: 'Password Generator', icon: Lock, description: 'Creates secure passwords.', component: PasswordGenerator },
     { id: 'username_generator', name: 'Username Generator', icon: AtSign, description: 'Suggests usernames.', component: UsernameGenerator },
     { id: 'nickname_maker', name: 'Nickname Maker', icon: Smile, description: 'Generates fun nicknames.', component: NicknameMaker },
     { id: 'wifi_name_generator', name: 'Wi-Fi Name Generator', icon: Wifi, description: 'Suggests Wi-Fi SSIDs.', component: WifiNameGenerator },
     { id: 'domain_name_generator', name: 'Domain Name Generator', icon: Globe, description: 'Suggests website domains.', component: DomainNameGenerator },
+    
+    // Education & Creative Writing Utilities
+    { id: 'app_name_generator', name: 'App Name Generator', icon: AppWindow, description: 'Suggests mobile app names.', component: AppNameGenerator },
+    { id: 'game_name_generator', name: 'Game Name Generator', icon: Gamepad2, description: 'Suggests game titles.', component: GameNameGenerator },
+    { id: 'playlist_name_generator', name: 'Playlist Name Generator', icon: Music, description: 'Suggests music playlist names.', component: PlaylistNameGenerator },
+    { id: 'event_name_generator', name: 'Event Name Generator', icon: Calendar, description: 'Suggests names for events.', component: EventNameGenerator },
+    { id: 'book_title_generator', name: 'Book Title Generator', icon: BookOpen, description: 'Suggests book titles.', component: BookTitleGenerator },
+    { id: 'chapter_title_generator', name: 'Chapter Title Generator', icon: ListOrdered, description: 'Suggests chapter names.', component: ChapterTitleGenerator },
+    { id: 'course_title_generator', name: 'Course Title Generator', icon: GraduationCap, description: 'Suggests online course titles.', component: CourseTitleGenerator },
+    { id: 'lesson_plan_maker', name: 'Lesson Plan Maker', icon: ListChecks, description: 'Creates teaching lesson plans.', component: LessonPlanMaker },
+    { id: 'exam_question_generator', name: 'Exam Question Generator', icon: FileQuestion, description: 'Creates test questions.', component: ExamQuestionGenerator },
+    { id: 'flashcard_maker', name: 'Flashcard Maker', icon: BookCopy, description: 'Generates flashcards for study.', component: FlashcardMaker },
+    { id: 'study_guide_maker', name: 'Study Guide Maker', icon: BookHeart, description: 'Creates condensed study notes.', component: StudyGuideMaker },
+    { id: 'concept_explainer', name: 'Concept Explainer', icon: Lightbulb, description: 'Explains difficult concepts simply.', component: ConceptExplainer },
+    { id: 'historical_fact_finder', name: 'Historical Fact Finder', icon: Landmark, description: 'Gives quick historical facts.', component: HistoricalFactFinder },
+    { id: 'science_fact_finder', name: 'Science Fact Finder', icon: Beaker, description: 'Shares quick science facts.', component: ScienceFactFinder },
+    { id: 'math_problem_solver', name: 'Math Problem Solver', icon: Sigma, description: 'Solves math problems step-by-step.', component: MathProblemSolver },
+    { id: 'equation_generator', name: 'Equation Generator', icon: SquarePi, description: 'Creates math practice equations.', component: EquationGenerator },
+    { id: 'geometry_shape_drawer', name: 'Geometry Shape Drawer', icon: Ruler, description: 'Generates diagrams for shapes.', component: GeometryShapeDrawer },
+    { id: 'unit_conversion_practice_tool', name: 'Unit Conversion Practice Tool', icon: Ruler, description: 'Makes unit conversion exercises.', component: UnitConversionPracticeTool },
+    { id: 'language_practice_partner', name: 'Language Practice Partner', icon: Languages, description: 'Simulates basic conversation practice.', component: LanguagePracticePartner },
+    { id: 'vocabulary_builder', name: 'Vocabulary Builder', icon: BookCheck, description: 'Suggests new words to learn.', component: VocabularyBuilder },
+    { id: 'spelling_quiz_maker', name: 'Spelling Quiz Maker', icon: SpellCheck, description: 'Generates spelling quizzes.', component: SpellingQuizMaker },
+    { id: 'grammar_quiz_maker', name: 'Grammar Quiz Maker', icon: BookCheck, description: 'Creates grammar practice questions.', component: GrammarQuizMaker },
+    { id: 'reading_comprehension_tester', name: 'Reading Comprehension Tester', icon: BookOpen, description: 'Generates comprehension passages.', component: ReadingComprehensionTester },
+    { id: 'essay_topic_generator', name: 'Essay Topic Generator', icon: Feather, description: 'Suggests essay writing topics.', component: EssayTopicGenerator },
+    { id: 'poetry_writer', name: 'Poetry Writer', icon: Feather, description: 'Writes short poems.', component: PoetryWriter },
+    { id: 'haiku_generator', name: 'Haiku Generator', icon: Feather, description: 'Creates haiku poems.', component: HaikuGenerator },
+    { id: 'song_lyric_starter', name: 'Song Lyric Starter', icon: Music, description: 'Suggests opening lines for songs.', component: SongLyricStarter },
+    { id: 'rap_verse_maker', name: 'Rap Verse Maker', icon: MicVocal, description: 'Generates rap-style lyrics.', component: RapVerseMaker },
+    { id: 'script_dialogue_writer', name: 'Script Dialogue Writer', icon: MessageSquare, description: 'Creates short dialogues.', component: ScriptDialogueWriter },
+    { id: 'monologue_writer', name: 'Monologue Writer', icon: UserSquare, description: 'Generates monologues for scripts.', component: MonologueWriter },
+    { id: 'scene_description_writer', name: 'Scene Description Writer', icon: Clapperboard, description: 'Writes scene details for stories.', component: SceneDescriptionWriter },
 ];
+
