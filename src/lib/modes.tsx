@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -358,12 +358,42 @@ import { MetaDescriptionWriter } from '@/components/modes/MetaDescriptionWriter'
 import { BlogTagGenerator } from '@/components/modes/BlogTagGenerator';
 import { YouTubeTitleMaker } from '@/components/modes/YouTubeTitleMaker';
 import { VideoMaker } from '@/components/modes/VideoMaker';
+import { YouTubeDescriptionWriter } from '@/components/modes/YouTubeDescriptionWriter';
+import { YouTubeTagGenerator } from '@/components/modes/YouTubeTagGenerator';
+import { VideoScriptWriter } from '@/components/modes/VideoScriptWriter';
+import { ShortVideoIdeaGenerator } from '@/components/modes/ShortVideoIdeaGenerator';
+import { LiveStreamTopicGenerator } from '@/components/modes/LiveStreamTopicGenerator';
+import { WebinarOutlineMaker } from '@/components/modes/WebinarOutlineMaker';
+import { OnlineCourseOutlineMaker } from '@/components/modes/OnlineCourseOutlineMaker';
+import { LessonScriptWriter } from '@/components/modes/LessonScriptWriter';
+import { TestAnswerKeyGenerator } from '@/components/modes/TestAnswerKeyGenerator';
+import { PollResultAnalyzer } from '@/components/modes/PollResultAnalyzer';
+import { DataSummarizer } from '@/components/modes/DataSummarizer';
+import { CsvToTableFormatter } from '@/components/modes/CsvToTableFormatter';
+import { ChartIdeaGenerator } from '@/components/modes/ChartIdeaGenerator';
+import { BasicDataCalculator } from '@/components/modes/BasicDataCalculator';
+import { AverageCalculator } from '@/components/modes/AverageCalculator';
+import { PercentageCalculator } from '@/components/modes/PercentageCalculator';
+import { RatioCalculator } from '@/components/modes/RatioCalculator';
+import { FractionSimplifier } from '@/components/modes/FractionSimplifier';
+import { DecimalToFractionConverter } from '@/components/modes/DecimalToFractionConverter';
+import { BinaryToDecimalConverter } from '@/components/modes/BinaryToDecimalConverter';
+import { HexToDecimalConverter } from '@/components/modes/HexToDecimalConverter';
+import { NumberBaseConverter } from '@/components/modes/NumberBaseConverter';
+import { PrimeNumberFinder } from '@/components/modes/PrimeNumberFinder';
+import { FactorFinder } from '@/components/modes/FactorFinder';
+import { MultiplicationTableMaker } from '@/components/modes/MultiplicationTableMaker';
+import { DivisionStepSolver } from '@/components/modes/DivisionStepSolver';
+import { SquareRootFinder } from '@/components/modes/SquareRootFinder';
+import { ExponentCalculator } from '@/components/modes/ExponentCalculator';
+import { LogarithmCalculator } from '@/components/modes/LogarithmCalculator';
+import { ProbabilityCalculator } from '@/components/modes/ProbabilityCalculator';
 
 export type ModeId = 
   // Core
   | 'chat' | 'fun_chat' | 'voice_chat'
   // Creative & Media
-  | 'photo_generator' | 'logo_maker' | 'design_assistant' | 'photo_editor' | 'video_generator' | 'animation_tool' | 'three_d_modeler' | 'video_editor' | 'sound_generator' | 'story_generator' | 'song_writer' | 'poem_generator' | 'character_generator' | 'dream_interpreter' | 'video_maker'
+  | 'photo_generator' | 'logo_maker' | 'design_assistant' | 'photo_editor' | 'video_maker' | 'video_generator' | 'animation_tool' | 'three_d_modeler' | 'video_editor' | 'sound_generator' | 'story_generator' | 'song_writer' | 'poem_generator' | 'character_generator' | 'dream_interpreter'
   // Development & Tech
   | 'code_generator' | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' | 'file_editor'
   // Business & Marketing
@@ -408,8 +438,14 @@ export type ModeId =
   | 'bird_watching_guide' | 'fishing_tip_giver' | 'camping_checklist_maker' | 'hiking_route_suggestor' | 'workout_timer' | 'step_counter' | 'body_mass_index_calculator' | 'heart_rate_zone_calculator' | 'stretching_routine_generator' | 'dance_move_suggestor'
   | 'music_practice_tracker' | 'instrument_learning_guide' | 'song_chord_finder' | 'lyric_rhyme_improver' | 'dj_playlist_organizer'
   | 'photography_tip_giver' | 'camera_setting_guide' | 'photo_caption_generator' | 'social_media_post_scheduler' | 'content_calendar_maker' | 'hashtag_trend_finder' | 'viral_idea_generator'
-  | 'ad_copywriter' | 'sales_script_writer' | 'cold_email_writer' | 'marketing_idea_generator' | 'seo_keyword_suggestor' | 'meta_description_writer' | 'blog_tag_generator' | 'youtube_title_maker';
-  
+  | 'ad_copywriter' | 'sales_script_writer' | 'cold_email_writer' | 'marketing_idea_generator' | 'seo_keyword_suggestor' | 'meta_description_writer' | 'blog_tag_generator' | 'youtube_title_maker'
+  // Final 30
+  | 'youtube_description_writer' | 'youtube_tag_generator' | 'video_script_writer' | 'short_video_idea_generator' | 'live_stream_topic_generator' | 'webinar_outline_maker'
+  | 'online_course_outline_maker' | 'lesson_script_writer' | 'test_answer_key_generator' | 'poll_result_analyzer' | 'data_summarizer' | 'csv_to_table_formatter'
+  | 'chart_idea_generator' | 'basic_data_calculator' | 'average_calculator' | 'percentage_calculator' | 'ratio_calculator' | 'fraction_simplifier' | 'decimal_to_fraction_converter'
+  | 'binary_to_decimal_converter' | 'hex_to_decimal_converter' | 'number_base_converter' | 'prime_number_finder' | 'factor_finder' | 'multiplication_table_maker'
+  | 'division_step_solver' | 'square_root_finder' | 'exponent_calculator' | 'logarithm_calculator' | 'probability_calculator';
+
 export interface Mode {
     id: ModeId;
     name: string;
@@ -822,4 +858,38 @@ export const modes: Mode[] = [
     { id: 'meta_description_writer', name: 'Meta Description Writer', icon: FileText, description: 'Writes SEO meta descriptions.', component: MetaDescriptionWriter },
     { id: 'blog_tag_generator', name: 'Blog Tag Generator', icon: Tag, description: 'Suggests blog post tags.', component: BlogTagGenerator },
     { id: 'youtube_title_maker', name: 'YouTube Title Maker', icon: Video, description: 'Suggests video titles.', component: YouTubeTitleMaker },
+
+    // Final 30
+    { id: 'youtube_description_writer', name: 'YouTube Description Writer', icon: Youtube, description: 'Writes video descriptions.', component: YouTubeDescriptionWriter },
+    { id: 'youtube_tag_generator', name: 'YouTube Tag Generator', icon: Tag, description: 'Suggests video tags.', component: YouTubeTagGenerator },
+    { id: 'video_script_writer', name: 'Video Script Writer', icon: FileText, description: 'Writes short video scripts.', component: VideoScriptWriter },
+    { id: 'short_video_idea_generator', name: 'Short Video Idea Generator', icon: Lightbulb, description: 'Suggests video content ideas.', component: ShortVideoIdeaGenerator },
+    { id: 'live_stream_topic_generator', name: 'Live Stream Topic Generator', icon: Mic, description: 'Suggests live topics.', component: LiveStreamTopicGenerator },
+    { id: 'webinar_outline_maker', name: 'Webinar Outline Maker', icon: ListOrdered, description: 'Creates webinar structures.', component: WebinarOutlineMaker },
+    { id: 'online_course_outline_maker', name: 'Online Course Outline Maker', icon: ListOrdered, description: 'Designs course content lists.', component: OnlineCourseOutlineMaker },
+    { id: 'lesson_script_writer', name: 'Lesson Script Writer', icon: Feather, description: 'Writes educational lesson scripts.', component: LessonScriptWriter },
+    { id: 'test_answer_key_generator', name: 'Test Answer Key Generator', icon: Key, description: 'Creates answer keys.', component: TestAnswerKeyGenerator },
+    { id: 'poll_result_analyzer', name: 'Poll Result Analyzer', icon: BarChart3, description: 'Analyzes poll results.', component: PollResultAnalyzer },
+    { id: 'data_summarizer', name: 'Data Summarizer', icon: FileJson, description: 'Summarizes raw data.', component: DataSummarizer },
+    { id: 'csv_to_table_formatter', name: 'CSV to Table Formatter', icon: Table, description: 'Formats CSV into clean tables.', component: CsvToTableFormatter },
+    { id: 'chart_idea_generator', name: 'Chart Idea Generator', icon: PieChart, description: 'Suggests chart types for data.', component: ChartIdeaGenerator },
+    { id: 'basic_data_calculator', name: 'Basic Data Calculator', icon: Calculator, description: 'Performs simple data calculations.', component: BasicDataCalculator },
+    { id: 'average_calculator', name: 'Average Calculator', icon: Sigma, description: 'Calculates averages.', component: AverageCalculator },
+    { id: 'percentage_calculator', name: 'Percentage Calculator', icon: PercentCircle, description: 'Finds percentages.', component: PercentageCalculator },
+    { id: 'ratio_calculator', name: 'Ratio Calculator', icon: Scale, description: 'Calculates ratios.', component: RatioCalculator },
+    { id: 'fraction_simplifier', name: 'Fraction Simplifier', icon: Minus, description: 'Simplifies fractions.', component: FractionSimplifier },
+    { id: 'decimal_to_fraction_converter', name: 'Decimal to Fraction Converter', icon: ArrowRightLeft, description: 'Converts decimal to fraction.', component: DecimalToFractionConverter },
+    { id: 'binary_to_decimal_converter', name: 'Binary to Decimal Converter', icon: Binary, description: 'Converts binary numbers.', component: BinaryToDecimalConverter },
+    { id: 'hex_to_decimal_converter', name: 'Hex to Decimal Converter', icon: Hash, description: 'Converts hexadecimal numbers.', component: HexToDecimalConverter },
+    { id: 'number_base_converter', name: 'Number Base Converter', icon: Sigma, description: 'Converts between number systems.', component: NumberBaseConverter },
+    { id: 'prime_number_finder', name: 'Prime Number Finder', icon: Search, description: 'Finds prime numbers.', component: PrimeNumberFinder },
+    { id: 'factor_finder', name: 'Factor Finder', icon: List, description: 'Finds factors of a number.', component: FactorFinder },
+    { id: 'multiplication_table_maker', name: 'Multiplication Table Maker', icon: X, description: 'Generates tables for a number.', component: MultiplicationTableMaker },
+    { id: 'division_step_solver', name: 'Division Step Solver', icon: Divide, description: 'Shows division steps.', component: DivisionStepSolver },
+    { id: 'square_root_finder', name: 'Square Root Finder', icon: SquareRadical, description: 'Calculates square roots.', component: SquareRootFinder },
+    { id: 'exponent_calculator', name: 'Exponent Calculator', icon: Superscript, description: 'Calculates exponents.', component: ExponentCalculator },
+    { id: 'logarithm_calculator', name: 'Logarithm Calculator', icon: Sigma, description: 'Calculates logs.', component: LogarithmCalculator },
+    { id: 'probability_calculator', name: 'Probability Calculator', icon: Dices, description: 'Finds probability values.', component: ProbabilityCalculator },
 ];
+
+    
