@@ -10,6 +10,7 @@ import { PhotoEditor } from '@/components/modes/PhotoEditor';
 import { VideoGenerator } from '@/components/modes/VideoGenerator';
 import { VideoEditor } from '@/components/modes/VideoEditor';
 import { CodeGenerator } from '@/components/modes/CodeGenerator';
+import { TextGenerator } from '@/components/modes/TextGenerator';
 import { WebsiteMaker } from '@/components/modes/WebsiteMaker';
 import { AppMaker } from '@/components/modes/AppMaker';
 import { GameMaker } from '@/components/modes/GameMaker';
@@ -356,29 +357,34 @@ import { SEOKeywordSuggestor } from '@/components/modes/SEOKewordSuggestor';
 import { MetaDescriptionWriter } from '@/components/modes/MetaDescriptionWriter';
 import { BlogTagGenerator } from '@/components/modes/BlogTagGenerator';
 import { YouTubeTitleMaker } from '@/components/modes/YouTubeTitleMaker';
+import { VideoMaker } from '@/components/modes/VideoMaker';
 
 export type ModeId = 
-  // Creative
-  | 'photo_generator' | 'logo_maker' | 'design_assistant' | 'photo_editor' | 'video_generator' | 'animation_tool' | 'three_d_modeler' | 'video_editor' | 'sound_generator' | 'story_generator' | 'song_writer' | 'poem_generator' | 'character_generator' | 'dream_interpreter'
-  // Development
+  // Core
+  | 'chat' | 'fun_chat' | 'voice_chat'
+  // Creative & Media
+  | 'photo_generator' | 'logo_maker' | 'design_assistant' | 'photo_editor' | 'video_generator' | 'animation_tool' | 'three_d_modeler' | 'video_editor' | 'sound_generator' | 'story_generator' | 'song_writer' | 'poem_generator' | 'character_generator' | 'dream_interpreter' | 'video_maker'
+  // Development & Tech
   | 'code_generator' | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' | 'file_editor'
   // Business & Marketing
   | 'chart_maker' | 'market_research' | 'social_media_post_maker' | 'seo_tool' | 'ad_maker' | 'email_writer' | 'speech_writer' | 'fact_checker' | 'brand_finder' | 'product_finder'
   | 'supply_chain_ai_planner' | 'inventory_auto_forecaster' | 'logistics_route_optimizer' | 'vendor_risk_scorer' | 'fraud_detection_engine' | 'transaction_pattern_finder' | 'credit_risk_analyzer' | 'investment_portfolio_optimizer' | 'financial_statement_summarizer'
   | 'text_rewriter_pro' | 'creative_content_expander' | 'conversational_flow_designer' | 'technical_document_generator' | 'storyboard_idea_expander' | 'digital_persona_creator' | 'smart_prompt_optimizer' | 'title_and_headline_optimizer'
   | 'long_form_report_writer' | 'smart_question_answer_engine' | 'policy_drafting_assistant' | 'legal_clause_suggestion_tool' | 'patent_abstract_generator' | 'contract_simplifier' | 'compliance_document_checker' | 'business_kpi_forecaster' | 'competitor_comparison_engine' | 'market_gap_identifier' | 'customer_segmentation_mapper' | 'price_elasticity_estimator' | 'churn_risk_predictor' | 'profit_margin_optimizer'
-  // Core
-  | 'chat' | 'fun_chat' | 'voice_chat' | 'translator'
-  // Productivity & Education
+  // Education & Productivity
   | 'homework_helper' | 'study_material_analyzer' | 'ai_teacher' | 'games_knowledge' | 'yoga_fitness' | 'grammar_practice_creator' | 'sports_skills_trainer' | 'quiz_generator' | 'book_generator'
   | 'text_summarizer' | 'question_giver' | 'idea_generator' | 'recipe_creator' | 'travel_planner' | 'grammar_corrector'
   // Text Utilities
   | 'text_formatter' | 'spelling_checker' | 'word_counter' | 'hashtag_generator' | 'caption_maker' | 'daily_planner' | 'note_summarizer' | 'paragraph_expander' | 'question_generator' | 'keyword_finder' | 'text_cleaner' | 'text_tone_adjuster' | 'synonym_finder' | 'antonym_finder' | 'acronym_maker' | 'emoji_replacer' | 'headline_creator' | 'title_case_converter' | 'bullet_point_maker' | 'simple_translator' | 'text_shortener' | 'email_subject_line_maker' | 'readability_checker' | 'plagiarism_checker' | 'blog_idea_generator' | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer' | 'story_idea_generator'
   // Business/Productivity Utilities
   | 'joke_finder' | 'rhyme_finder' | 'idiom_explainer' | 'fact_finder' | 'list_creator' | 'quote_finder' | 'motivational_message_maker' | 'reminder_maker' | 'calendar_event_filler' | 'tagline_maker' | 'brand_name_generator' | 'slogan_maker' | 'product_description_writer' | 'ad_headline_creator' | 'poll_question_maker' | 'survey_question_generator' | 'resume_bullet_point_maker' | 'job_title_suggestor' | 'skill_list_generator' | 'cover_letter_writer' | 'meeting_agenda_maker' | 'meeting_summary_writer' | 'task_priority_sorter' | 'decision_helper' | 'pro_con_list_maker' | 'swot_analyzer' | 'business_idea_generator' | 'startup_pitch_writer' | 'cost_estimate_calculator' | 'roi_calculator'
-  // New batch
-  | 'budget_planner' | 'expense_tracker' | 'savings_goal_calculator' | 'loan_calculator' | 'interest_calculator' | 'profit_calculator' | 'break_even_calculator' | 'tax_calculator' | 'currency_converter' | 'unit_converter' | 'weight_converter' | 'temperature_converter' | 'length_converter' | 'area_converter' | 'volume_converter' | 'speed_converter' | 'time_zone_converter' | 'age_calculator' | 'date_difference_finder' | 'countdown_timer_maker' | 'stopwatch_tool' | 'random_number_picker' | 'random_name_picker' | 'dice_roller' | 'coin_flip' | 'password_generator' | 'username_generator' | 'nickname_maker' | 'wifi_name_generator' | 'domain_name_generator'
-  // Newest Batch
+  // Financial & Unit Conversion Utilities
+  | 'budget_planner' | 'expense_tracker' | 'savings_goal_calculator' | 'loan_calculator' | 'interest_calculator' | 'profit_calculator' | 'break_even_calculator' | 'tax_calculator' | 'currency_converter' | 'unit_converter' | 'weight_converter' | 'temperature_converter' | 'length_converter' | 'area_converter' | 'volume_converter' | 'speed_converter' | 'time_zone_converter'
+  // Time & Randomization Utilities
+  | 'age_calculator' | 'date_difference_finder' | 'countdown_timer_maker' | 'stopwatch_tool' | 'random_number_picker' | 'random_name_picker' | 'dice_roller' | 'coin_flip'
+  // Naming & Security Utilities
+  | 'password_generator' | 'username_generator' | 'nickname_maker' | 'wifi_name_generator' | 'domain_name_generator'
+  // Education & Creative Writing Utilities
   | 'app_name_generator' | 'game_name_generator' | 'playlist_name_generator' | 'event_name_generator' | 'book_title_generator' | 'chapter_title_generator' | 'course_title_generator'
   | 'lesson_plan_maker' | 'exam_question_generator' | 'flashcard_maker' | 'study_guide_maker' | 'concept_explainer' | 'historical_fact_finder' | 'science_fact_finder' | 'math_problem_solver' | 'equation_generator' | 'geometry_shape_drawer' | 'unit_conversion_practice_tool'
   | 'language_practice_partner' | 'vocabulary_builder' | 'spelling_quiz_maker' | 'grammar_quiz_maker' | 'reading_comprehension_tester'
@@ -436,6 +442,7 @@ export const modes: Mode[] = [
     { id: 'logo_maker', name: 'Logo Maker', icon: Paintbrush, description: 'Generate creative logos for your business or brand.', component: LogoMaker },
     { id: 'design_assistant', name: 'Design Assistant', icon: Star, description: 'Get design suggestions and guidance.', component: DesignAssistant },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
+    { id: 'video_maker', name: 'Video Maker', icon: Video, description: 'Generate a video from a text prompt or animate an image.', component: VideoMaker },
     { id: 'video_generator', name: 'Video Storyboard', icon: VideoIcon, description: 'Generate a video storyboard with narration.', component: VideoGenerator },
     { id: 'animation_tool', name: 'Animation Planner', icon: GanttChart, description: 'Plan animations and motion graphics.', component: AnimationTool },
     { id: 'three_d_modeler', name: '3D Model Planner', icon: PieChart, description: 'Create plans for 3D models.', component: ThreeDModeler },
@@ -752,7 +759,7 @@ export const modes: Mode[] = [
     { id: 'perspective_rewriter', name: 'Perspective Rewriter', icon: Users, description: 'Changes text from 1st to 3rd person.', component: PerspectiveRewriter },
     { id: 'article_rewriter', name: 'Article Rewriter', icon: RefreshCw, description: 'Rephrases articles.', component: ArticleRewriter },
 
-    // Final batch
+    // Latest batch
     { id: 'plagiarism_free_rewriter', name: 'Plagiarism-Free Rewriter', icon: RefreshCw, description: 'Ensures unique wording.', component: PlagiarismFreeRewriter },
     { id: 'product_review_writer', name: 'Product Review Writer', icon: Star, description: 'Writes product reviews.', component: ProductReviewWriter },
     { id: 'service_review_writer', name: 'Service Review Writer', icon: Star, description: 'Writes service feedback.', component: ServiceReviewWriter },
@@ -784,7 +791,7 @@ export const modes: Mode[] = [
     { id: 'pet_name_generator', name: 'Pet Name Generator', icon: Tag, description: 'Suggests pet names.', component: PetNameGenerator },
     { id: 'wildlife_fact_finder', name: 'Wildlife Fact Finder', icon: Rabbit, description: 'Shares animal facts.', component: WildlifeFactFinder },
 
-    // Newest Batch
+    // Newest batch
     { id: 'bird_watching_guide', name: 'Bird Watching Guide', icon: Bird, description: 'Suggests bird identification tips.', component: BirdWatchingGuide },
     { id: 'fishing_tip_giver', name: 'Fishing Tip Giver', icon: Anchor, description: 'Shares fishing advice.', component: FishingTipGiver },
     { id: 'camping_checklist_maker', name: 'Camping Checklist Maker', icon: Tent, description: 'Lists camping essentials.', component: CampingChecklistMaker },
