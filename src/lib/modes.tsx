@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Thermometer as ThermometerIcon, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -179,6 +179,38 @@ import { StartupPitchWriter } from '@/components/modes/StartupPitchWriter';
 import { CostEstimateCalculator } from '@/components/modes/CostEstimateCalculator';
 import { ROICalculator } from '@/components/modes/ROICalculator';
 
+// New modes
+import { BudgetPlanner } from '@/components/modes/BudgetPlanner';
+import { ExpenseTracker } from '@/components/modes/ExpenseTracker';
+import { SavingsGoalCalculator } from '@/components/modes/SavingsGoalCalculator';
+import { LoanCalculator } from '@/components/modes/LoanCalculator';
+import { InterestCalculator } from '@/components/modes/InterestCalculator';
+import { ProfitCalculator } from '@/components/modes/ProfitCalculator';
+import { BreakEvenCalculator } from '@/components/modes/BreakEvenCalculator';
+import { TaxCalculator } from '@/components/modes/TaxCalculator';
+import { CurrencyConverter } from '@/components/modes/CurrencyConverter';
+import { UnitConverter } from '@/components/modes/UnitConverter';
+import { WeightConverter } from '@/components/modes/WeightConverter';
+import { TemperatureConverter } from '@/components/modes/TemperatureConverter';
+import { LengthConverter } from '@/components/modes/LengthConverter';
+import { AreaConverter } from '@/components/modes/AreaConverter';
+import { VolumeConverter } from '@/components/modes/VolumeConverter';
+import { SpeedConverter } from '@/components/modes/SpeedConverter';
+import { TimeZoneConverter } from '@/components/modes/TimeZoneConverter';
+import { AgeCalculator } from '@/components/modes/AgeCalculator';
+import { DateDifferenceFinder } from '@/components/modes/DateDifferenceFinder';
+import { CountdownTimerMaker } from '@/components/modes/CountdownTimerMaker';
+import { StopwatchTool } from '@/components/modes/StopwatchTool';
+import { RandomNumberPicker } from '@/components/modes/RandomNumberPicker';
+import { RandomNamePicker } from '@/components/modes/RandomNamePicker';
+import { DiceRoller } from '@/components/modes/DiceRoller';
+import { CoinFlip } from '@/components/modes/CoinFlip';
+import { PasswordGenerator } from '@/components/modes/PasswordGenerator';
+import { UsernameGenerator } from '@/components/modes/UsernameGenerator';
+import { NicknameMaker } from '@/components/modes/NicknameMaker';
+import { WifiNameGenerator } from '@/components/modes/WifiNameGenerator';
+import { DomainNameGenerator } from '@/components/modes/DomainNameGenerator';
+
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
   | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
@@ -243,7 +275,7 @@ export type ModeId =
   | 'sports_skills_trainer'
   | 'grammar_practice_creator'
   | 'quiz_generator' | 'book_generator'
-  // New Text Utilities
+  // Text Utilities
   | 'text_formatter' | 'spelling_checker' | 'word_counter' | 'hashtag_generator'
   | 'caption_maker' | 'daily_planner' | 'note_summarizer' | 'paragraph_expander'
   | 'question_generator' | 'keyword_finder' | 'text_cleaner' | 'text_tone_adjuster'
@@ -253,7 +285,7 @@ export type ModeId =
   | 'readability_checker' | 'blog_idea_generator'
   | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer'
   | 'story_idea_generator'
-  // New Business/Productivity Utilities
+  // Business/Productivity Utilities
   | 'joke_finder' | 'rhyme_finder' | 'idiom_explainer' | 'fact_finder'
   | 'list_creator' | 'quote_finder' | 'motivational_message_maker' | 'reminder_maker'
   | 'calendar_event_filler' | 'tagline_maker' | 'brand_name_generator' | 'slogan_maker'
@@ -261,7 +293,15 @@ export type ModeId =
   | 'resume_bullet_point_maker' | 'job_title_suggestor' | 'skill_list_generator' | 'cover_letter_writer'
   | 'meeting_agenda_maker' | 'meeting_summary_writer' | 'task_priority_sorter' | 'decision_helper'
   | 'pro_con_list_maker' | 'swot_analyzer' | 'business_idea_generator' | 'startup_pitch_writer'
-  | 'cost_estimate_calculator' | 'roi_calculator';
+  | 'cost_estimate_calculator' | 'roi_calculator'
+  // New batch
+  | 'budget_planner' | 'expense_tracker' | 'savings_goal_calculator' | 'loan_calculator' | 'interest_calculator'
+  | 'profit_calculator' | 'break_even_calculator' | 'tax_calculator' | 'currency_converter' | 'unit_converter'
+  | 'weight_converter' | 'temperature_converter' | 'length_converter' | 'area_converter' | 'volume_converter'
+  | 'speed_converter' | 'time_zone_converter' | 'age_calculator' | 'date_difference_finder' | 'countdown_timer_maker'
+  | 'stopwatch_tool' | 'random_number_picker' | 'random_name_picker' | 'dice_roller' | 'coin_flip'
+  | 'password_generator' | 'username_generator' | 'nickname_maker' | 'wifi_name_generator' | 'domain_name_generator';
+
 
 export interface Mode {
     id: ModeId;
@@ -510,7 +550,7 @@ export const modes: Mode[] = [
     { id: 'quiz_generator', name: 'Quiz Generator', icon: HelpCircle, description: 'Generate quizzes on any topic.', component: QuizQuestionGenerator },
     { id: 'book_generator', name: 'Book Generator', icon: BookOpen, description: 'Write a book on any topic.', component: BookGenerator },
 
-    // New Text Utilities
+    // Text Utilities
     textUtilitiesProps('text_formatter', 'Text Formatter', Pilcrow, 'Cleans and formats messy text into a neat layout.', 'Format the following text into a clean, readable layout'),
     textUtilitiesProps('spelling_checker', 'Spelling Checker', SpellCheck, 'Finds and fixes spelling mistakes instantly.', 'Correct all spelling mistakes in the following text and provide only the corrected version'),
     textUtilitiesProps('word_counter', 'Word Counter', Sigma, 'Counts words, characters, and sentences in text.', 'Count the words, characters, and sentences in the following text and provide only the counts in a simple format'),
@@ -542,7 +582,7 @@ export const modes: Mode[] = [
     textUtilitiesProps('blog_conclusion_writer', 'Blog Conclusion Writer', WrapTextIcon, 'Generates a closing paragraph.', 'Write a strong concluding paragraph for a blog post about the following topic'),
     textUtilitiesProps('story_idea_generator', 'Story Idea Generator', BookHeart, 'Suggests ideas for short stories.', 'Generate 3 unique story ideas based on the following genre or theme'),
 
-    // New Business/Productivity Utilities
+    // Business/Productivity Utilities
     { id: 'joke_finder', name: 'Joke Finder', icon: Smile, description: 'Finds or creates short jokes.', component: JokeFinder },
     { id: 'rhyme_finder', name: 'Rhyme Finder', icon: Music, description: 'Finds rhyming words for poetry or songs.', component: RhymeFinder },
     { id: 'idiom_explainer', name: 'Idiom Explainer', icon: BookOpen, description: 'Explains the meaning of idioms.', component: IdiomExplainer },
@@ -573,4 +613,36 @@ export const modes: Mode[] = [
     { id: 'startup_pitch_writer', name: 'Startup Pitch Writer', icon: Presentation, description: 'Writes short pitch presentations.', component: StartupPitchWriter },
     { id: 'cost_estimate_calculator', name: 'Cost Estimate Calculator', icon: Sigma, description: 'Estimates costs for projects.', component: CostEstimateCalculator },
     { id: 'roi_calculator', name: 'ROI Calculator', icon: BadgePercent, description: 'Calculates return on investment.', component: ROICalculator },
+
+    // Newest batch
+    { id: 'budget_planner', name: 'Budget Planner', icon: Banknote, description: 'Plans budgets for personal or business use.', component: BudgetPlanner },
+    { id: 'expense_tracker', name: 'Expense Tracker', icon: Receipt, description: 'Tracks daily expenses.', component: ExpenseTracker },
+    { id: 'savings_goal_calculator', name: 'Savings Goal Calculator', icon: PiggyBank, description: 'Calculates savings targets.', component: SavingsGoalCalculator },
+    { id: 'loan_calculator', name: 'Loan Calculator', icon: Landmark, description: 'Calculates loan payments.', component: LoanCalculator },
+    { id: 'interest_calculator', name: 'Interest Calculator', icon: PercentCircle, description: 'Computes interest on investments.', component: InterestCalculator },
+    { id: 'profit_calculator', name: 'Profit Calculator', icon: DollarSign, description: 'Calculates business profit.', component: ProfitCalculator },
+    { id: 'break_even_calculator', name: 'Break-even Calculator', icon: Goal, description: 'Finds break-even point for sales.', component: BreakEvenCalculator },
+    { id: 'tax_calculator', name: 'Tax Calculator', icon: Calculator, description: 'Estimates taxes owed.', component: TaxCalculator },
+    { id: 'currency_converter', name: 'Currency Converter', icon: Coins, description: 'Converts between currencies.', component: CurrencyConverter },
+    { id: 'unit_converter', name: 'Unit Converter', icon: Ruler, description: 'Converts measurement units.', component: UnitConverter },
+    { id: 'weight_converter', name: 'Weight Converter', icon: Scale, description: 'Converts weight units.', component: WeightConverter },
+    { id: 'temperature_converter', name: 'Temperature Converter', icon: ThermometerIcon, description: 'Converts Celsius, Fahrenheit, Kelvin.', component: TemperatureConverter },
+    { id: 'length_converter', name: 'Length Converter', icon: Milestone, description: 'Converts length measurements.', component: LengthConverter },
+    { id: 'area_converter', name: 'Area Converter', icon: LandPlot, description: 'Converts area measurements.', component: AreaConverter },
+    { id: 'volume_converter', name: 'Volume Converter', icon: Beaker, description: 'Converts volume measurements.', component: VolumeConverter },
+    { id: 'speed_converter', name: 'Speed Converter', icon: Car, description: 'Converts between speed units.', component: SpeedConverter },
+    { id: 'time_zone_converter', name: 'Time Zone Converter', icon: Globe, description: 'Converts time between locations.', component: TimeZoneConverter },
+    { id: 'age_calculator', name: 'Age Calculator', icon: User, description: 'Calculates age from date of birth.', component: AgeCalculator },
+    { id: 'date_difference_finder', name: 'Date Difference Finder', icon: Calendar, description: 'Finds days between two dates.', component: DateDifferenceFinder },
+    { id: 'countdown_timer_maker', name: 'Countdown Timer Maker', icon: Clock, description: 'Creates countdown timers.', component: CountdownTimerMaker },
+    { id: 'stopwatch_tool', name: 'Stopwatch Tool', icon: Timer, description: 'Digital stopwatch.', component: StopwatchTool },
+    { id: 'random_number_picker', name: 'Random Number Picker', icon: Hash, description: 'Picks a random number.', component: RandomNumberPicker },
+    { id: 'random_name_picker', name: 'Random Name Picker', icon: Users, description: 'Picks random names from a list.', component: RandomNamePicker },
+    { id: 'dice_roller', name: 'Dice Roller', icon: Dices, description: 'Simulates dice rolling.', component: DiceRoller },
+    { id: 'coin_flip', name: 'Coin Flip', icon: CircleDollarSign, description: 'Flips a virtual coin.', component: CoinFlip },
+    { id: 'password_generator', name: 'Password Generator', icon: Lock, description: 'Creates secure passwords.', component: PasswordGenerator },
+    { id: 'username_generator', name: 'Username Generator', icon: AtSign, description: 'Suggests usernames.', component: UsernameGenerator },
+    { id: 'nickname_maker', name: 'Nickname Maker', icon: Smile, description: 'Generates fun nicknames.', component: NicknameMaker },
+    { id: 'wifi_name_generator', name: 'Wi-Fi Name Generator', icon: Wifi, description: 'Suggests Wi-Fi SSIDs.', component: WifiNameGenerator },
+    { id: 'domain_name_generator', name: 'Domain Name Generator', icon: Globe, description: 'Suggests website domains.', component: DomainNameGenerator },
 ];
