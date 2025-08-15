@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -10,7 +10,6 @@ import { PhotoEditor } from '@/components/modes/PhotoEditor';
 import { VideoGenerator } from '@/components/modes/VideoGenerator';
 import { VideoEditor } from '@/components/modes/VideoEditor';
 import { CodeGenerator } from '@/components/modes/CodeGenerator';
-import { TextGenerator } from '@/components/modes/TextGenerator';
 import { WebsiteMaker } from '@/components/modes/WebsiteMaker';
 import { AppMaker } from '@/components/modes/AppMaker';
 import { GameMaker } from '@/components/modes/GameMaker';
@@ -147,6 +146,7 @@ import { GrammarPracticeCreator } from '@/components/modes/GrammarPracticeCreato
 import { SportsSkillsTrainer } from '@/components/modes/SportsSkillsTrainer';
 import { QuizQuestionGenerator } from '@/components/modes/QuizQuestionGenerator';
 import { BookGenerator } from '@/components/modes/BookGenerator';
+import { TextGenerator } from '@/components/modes/TextGenerator';
 import { TextUtilities } from '@/components/modes/TextUtilities';
 import { JokeFinder } from '@/components/modes/JokeFinder';
 import { RhymeFinder } from '@/components/modes/RhymeFinder';
@@ -357,7 +357,6 @@ import { SEOKeywordSuggestor } from '@/components/modes/SEOKewordSuggestor';
 import { MetaDescriptionWriter } from '@/components/modes/MetaDescriptionWriter';
 import { BlogTagGenerator } from '@/components/modes/BlogTagGenerator';
 import { YouTubeTitleMaker } from '@/components/modes/YouTubeTitleMaker';
-import { VideoMaker } from '@/components/modes/VideoMaker';
 import { YouTubeDescriptionWriter } from '@/components/modes/YouTubeDescriptionWriter';
 import { YouTubeTagGenerator } from '@/components/modes/YouTubeTagGenerator';
 import { VideoScriptWriter } from '@/components/modes/VideoScriptWriter';
@@ -871,7 +870,7 @@ export const modes: Mode[] = [
     { id: 'test_answer_key_generator', name: 'Test Answer Key Generator', icon: Key, description: 'Creates answer keys.', component: TestAnswerKeyGenerator },
     { id: 'poll_result_analyzer', name: 'Poll Result Analyzer', icon: BarChart3, description: 'Analyzes poll results.', component: PollResultAnalyzer },
     { id: 'data_summarizer', name: 'Data Summarizer', icon: FileJson, description: 'Summarizes raw data.', component: DataSummarizer },
-    { id: 'csv_to_table_formatter', name: 'CSV to Table Formatter', icon: Table, description: 'Formats CSV into clean tables.', component: CsvToTableFormatter },
+    { id: 'csv_to_table_formatter', name: 'CSV to Table Formatter', icon: TableIcon, description: 'Formats CSV into clean tables.', component: CsvToTableFormatter },
     { id: 'chart_idea_generator', name: 'Chart Idea Generator', icon: PieChart, description: 'Suggests chart types for data.', component: ChartIdeaGenerator },
     { id: 'basic_data_calculator', name: 'Basic Data Calculator', icon: Calculator, description: 'Performs simple data calculations.', component: BasicDataCalculator },
     { id: 'average_calculator', name: 'Average Calculator', icon: Sigma, description: 'Calculates averages.', component: AverageCalculator },
@@ -891,5 +890,3 @@ export const modes: Mode[] = [
     { id: 'logarithm_calculator', name: 'Logarithm Calculator', icon: Sigma, description: 'Calculates logs.', component: LogarithmCalculator },
     { id: 'probability_calculator', name: 'Probability Calculator', icon: Dices, description: 'Finds probability values.', component: ProbabilityCalculator },
 ];
-
-    
