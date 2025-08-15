@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -148,6 +148,36 @@ import { SportsSkillsTrainer } from '@/components/modes/SportsSkillsTrainer';
 import { QuizQuestionGenerator } from '@/components/modes/QuizQuestionGenerator';
 import { BookGenerator } from '@/components/modes/BookGenerator';
 import { TextUtilities } from '@/components/modes/TextUtilities';
+import { JokeFinder } from '@/components/modes/JokeFinder';
+import { RhymeFinder } from '@/components/modes/RhymeFinder';
+import { IdiomExplainer } from '@/components/modes/IdiomExplainer';
+import { FactFinder } from '@/components/modes/FactFinder';
+import { ListCreator } from '@/components/modes/ListCreator';
+import { QuoteFinder } from '@/components/modes/QuoteFinder';
+import { MotivationalMessageMaker } from '@/components/modes/MotivationalMessageMaker';
+import { ReminderMaker } from '@/components/modes/ReminderMaker';
+import { CalendarEventFiller } from '@/components/modes/CalendarEventFiller';
+import { TaglineMaker } from '@/components/modes/TaglineMaker';
+import { BrandNameGenerator } from '@/components/modes/BrandNameGenerator';
+import { SloganMaker } from '@/components/modes/SloganMaker';
+import { ProductDescriptionWriter } from '@/components/modes/ProductDescriptionWriter';
+import { AdHeadlineCreator } from '@/components/modes/AdHeadlineCreator';
+import { PollQuestionMaker } from '@/components/modes/PollQuestionMaker';
+import { SurveyQuestionGenerator } from '@/components/modes/SurveyQuestionGenerator';
+import { ResumeBulletPointMaker } from '@/components/modes/ResumeBulletPointMaker';
+import { JobTitleSuggestor } from '@/components/modes/JobTitleSuggestor';
+import { SkillListGenerator } from '@/components/modes/SkillListGenerator';
+import { CoverLetterWriter } from '@/components/modes/CoverLetterWriter';
+import { MeetingAgendaMaker } from '@/components/modes/MeetingAgendaMaker';
+import { MeetingSummaryWriter } from '@/components/modes/MeetingSummaryWriter';
+import { TaskPrioritySorter } from '@/components/modes/TaskPrioritySorter';
+import { DecisionHelper } from '@/components/modes/DecisionHelper';
+import { ProConListMaker } from '@/components/modes/ProConListMaker';
+import { SWOTAnalyzer } from '@/components/modes/SWOTAnalyzer';
+import { BusinessIdeaGenerator } from '@/components/modes/BusinessIdeaGenerator';
+import { StartupPitchWriter } from '@/components/modes/StartupPitchWriter';
+import { CostEstimateCalculator } from '@/components/modes/CostEstimateCalculator';
+import { ROICalculator } from '@/components/modes/ROICalculator';
 
 export type ModeId = 
   | 'chat' | 'voice_chat' | 'photo_generator' | 'photo_editor' | 'video_generator' | 'video_editor' | 'code_generator' 
@@ -220,9 +250,18 @@ export type ModeId =
   | 'synonym_finder' | 'antonym_finder' | 'acronym_maker' | 'emoji_replacer'
   | 'headline_creator' | 'title_case_converter' | 'bullet_point_maker'
   | 'simple_translator' | 'text_shortener' | 'email_subject_line_maker'
-  | 'readability_checker' | 'plagiarism_checker' | 'blog_idea_generator'
+  | 'readability_checker' | 'blog_idea_generator'
   | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer'
-  | 'story_idea_generator';
+  | 'story_idea_generator'
+  // New Business/Productivity Utilities
+  | 'joke_finder' | 'rhyme_finder' | 'idiom_explainer' | 'fact_finder'
+  | 'list_creator' | 'quote_finder' | 'motivational_message_maker' | 'reminder_maker'
+  | 'calendar_event_filler' | 'tagline_maker' | 'brand_name_generator' | 'slogan_maker'
+  | 'product_description_writer' | 'ad_headline_creator' | 'poll_question_maker' | 'survey_question_generator'
+  | 'resume_bullet_point_maker' | 'job_title_suggestor' | 'skill_list_generator' | 'cover_letter_writer'
+  | 'meeting_agenda_maker' | 'meeting_summary_writer' | 'task_priority_sorter' | 'decision_helper'
+  | 'pro_con_list_maker' | 'swot_analyzer' | 'business_idea_generator' | 'startup_pitch_writer'
+  | 'cost_estimate_calculator' | 'roi_calculator';
 
 export interface Mode {
     id: ModeId;
@@ -494,7 +533,7 @@ export const modes: Mode[] = [
     textUtilitiesProps('simple_translator', 'Text Translator (Simple)', Languages, 'Translates text into chosen languages.', 'Translate the following text to Spanish'),
     textUtilitiesProps('text_shortener', 'Text Shortener', Text, 'Makes text concise without losing meaning.', 'Shorten the following text to its most concise form while keeping the core meaning'),
     textUtilitiesProps('email_subject_line_maker', 'Email Subject Line Maker', Mailbox, 'Suggests attractive subject lines.', 'Suggest 5 attractive email subject lines for an email about the following topic'),
-    {...textUtilitiesProps('grammar_corrector', 'Grammar Corrector', BookCheck, 'Fixes grammar issues in text.', 'Correct the grammar and spelling of the following text, and provide only the corrected version'), component: TextGenerator}, // Keep original component for this one
+    {...textUtilitiesProps('grammar_corrector', 'Grammar Corrector', BookCheck, 'Fixes grammar issues in text.', 'Correct the grammar and spelling of the following text, and provide only the corrected version'), component: TextGenerator},
     textUtilitiesProps('readability_checker', 'Readability Checker', Glasses, 'Analyzes and scores text reading level.', 'Analyze the readability of the following text and provide a score (e.g., Flesch-Kincaid Grade Level)'),
     textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', CircleOff, 'Detects copied or duplicate content.', 'Check the following text for potential plagiarism by searching for similar phrases online and report your findings.'),
     textUtilitiesProps('blog_idea_generator', 'Blog Idea Generator', FilePlus2, 'Suggests topics for blogs.', 'Generate 5 blog post ideas based on the following topic'),
@@ -502,4 +541,36 @@ export const modes: Mode[] = [
     textUtilitiesProps('blog_intro_writer', 'Blog Intro Writer', PenLine, 'Writes engaging introductions for blogs.', 'Write an engaging introductory paragraph for a blog post about the following topic'),
     textUtilitiesProps('blog_conclusion_writer', 'Blog Conclusion Writer', WrapTextIcon, 'Generates a closing paragraph.', 'Write a strong concluding paragraph for a blog post about the following topic'),
     textUtilitiesProps('story_idea_generator', 'Story Idea Generator', BookHeart, 'Suggests ideas for short stories.', 'Generate 3 unique story ideas based on the following genre or theme'),
+
+    // New Business/Productivity Utilities
+    { id: 'joke_finder', name: 'Joke Finder', icon: Smile, description: 'Finds or creates short jokes.', component: JokeFinder },
+    { id: 'rhyme_finder', name: 'Rhyme Finder', icon: Music, description: 'Finds rhyming words for poetry or songs.', component: RhymeFinder },
+    { id: 'idiom_explainer', name: 'Idiom Explainer', icon: BookOpen, description: 'Explains the meaning of idioms.', component: IdiomExplainer },
+    { id: 'fact_finder', name: 'Fact Finder', icon: Lightbulb, description: 'Finds quick factual answers from knowledge.', component: FactFinder },
+    { id: 'list_creator', name: 'List Creator', icon: ListOrdered, description: 'Turns ideas into organized numbered lists.', component: ListCreator },
+    { id: 'quote_finder', name: 'Quote Finder', icon: Quote, description: 'Suggests quotes for a given topic.', component: QuoteFinder },
+    { id: 'motivational_message_maker', name: 'Motivational Message Maker', icon: Heart, description: 'Creates uplifting short messages.', component: MotivationalMessageMaker },
+    { id: 'reminder_maker', name: 'Reminder Maker', icon: Bell, description: 'Sets reminders for tasks.', component: ReminderMaker },
+    { id: 'calendar_event_filler', name: 'Calendar Event Filler', icon: Calendar, description: 'Generates event details for calendars.', component: CalendarEventFiller },
+    { id: 'tagline_maker', name: 'Tagline Maker', icon: Tag, description: 'Creates catchy brand taglines.', component: TaglineMaker },
+    { id: 'brand_name_generator', name: 'Brand Name Generator', icon: Wand2, description: 'Suggests unique brand names.', component: BrandNameGenerator },
+    { id: 'slogan_maker', name: 'Slogan Maker', icon: Megaphone, description: 'Makes short marketing slogans.', component: SloganMaker },
+    { id: 'product_description_writer', name: 'Product Description Writer', icon: FileText, description: 'Writes sales descriptions.', component: ProductDescriptionWriter },
+    { id: 'ad_headline_creator', name: 'Ad Headline Creator', icon: Type, description: 'Creates short ad headlines.', component: AdHeadlineCreator },
+    { id: 'poll_question_maker', name: 'Poll Question Maker', icon: ListChecks, description: 'Suggests questions for polls.', component: PollQuestionMaker },
+    { id: 'survey_question_generator', name: 'Survey Question Generator', icon: FileQuestion, description: 'Creates structured survey questions.', component: SurveyQuestionGenerator },
+    { id: 'resume_bullet_point_maker', name: 'Resume Bullet Point Maker', icon: ArrowBigDownDash, description: 'Generates professional CV bullet points.', component: ResumeBulletPointMaker },
+    { id: 'job_title_suggestor', name: 'Job Title Suggestor', icon: Briefcase, description: 'Suggests suitable job titles.', component: JobTitleSuggestor },
+    { id: 'skill_list_generator', name: 'Skill List Generator', icon: List, description: 'Lists skills for specific roles.', component: SkillListGenerator },
+    { id: 'cover_letter_writer', name: 'Cover Letter Writer', icon: Mail, description: 'Generates job cover letters.', component: CoverLetterWriter },
+    { id: 'meeting_agenda_maker', name: 'Meeting Agenda Maker', icon: ListOrdered, description: 'Creates meeting agendas.', component: MeetingAgendaMaker },
+    { id: 'meeting_summary_writer', name: 'Meeting Summary Writer', icon: FileJson, description: 'Summarizes meeting notes.', component: MeetingSummaryWriter },
+    { id: 'task_priority_sorter', name: 'Task Priority Sorter', icon: Filter, description: 'Organizes tasks by priority.', component: TaskPrioritySorter },
+    { id: 'decision_helper', name: 'Decision Helper', icon: Crosshair, description: 'Suggests best choices based on criteria.', component: DecisionHelper },
+    { id: 'pro_con_list_maker', name: 'Pro/Con List Maker', icon: List, description: 'Lists pros and cons for a decision.', component: ProConListMaker },
+    { id: 'swot_analyzer', name: 'SWOT Analyzer', icon: BarChartBig, description: 'Creates Strengths, Weaknesses, Opportunities, Threats.', component: SWOTAnalyzer },
+    { id: 'business_idea_generator', name: 'Business Idea Generator', icon: Lightbulb, description: 'Suggests startup ideas.', component: BusinessIdeaGenerator },
+    { id: 'startup_pitch_writer', name: 'Startup Pitch Writer', icon: Presentation, description: 'Writes short pitch presentations.', component: StartupPitchWriter },
+    { id: 'cost_estimate_calculator', name: 'Cost Estimate Calculator', icon: Sigma, description: 'Estimates costs for projects.', component: CostEstimateCalculator },
+    { id: 'roi_calculator', name: 'ROI Calculator', icon: BadgePercent, description: 'Calculates return on investment.', component: ROICalculator },
 ];
