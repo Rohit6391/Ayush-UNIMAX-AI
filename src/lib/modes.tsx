@@ -447,6 +447,37 @@ import { CitationGenerator } from '@/components/modes/CitationGenerator';
 import { ReferenceListMaker } from '@/components/modes/ReferenceListMaker';
 import { BibliographyMaker } from '@/components/modes/BibliographyMaker';
 import { ResearchQuestionGenerator } from '@/components/modes/ResearchQuestionGenerator';
+import { VideoMaker } from '@/components/modes/VideoMaker';
+import { HypothesisStatementMaker } from '@/components/modes/HypothesisStatementMaker';
+import { ExperimentDesignGenerator } from '@/components/modes/ExperimentDesignGenerator';
+import { ObservationLogMaker } from '@/components/modes/ObservationLogMaker';
+import { LabReportWriter } from '@/components/modes/LabReportWriter';
+import { SurveyResultSummarizer } from '@/components/modes/SurveyResultSummarizer';
+import { InfographicIdeaGenerator } from '@/components/modes/InfographicIdeaGenerator';
+import { PosterSloganMaker } from '@/components/modes/PosterSloganMaker';
+import { BannerTextGenerator } from '@/components/modes/BannerTextGenerator';
+import { BrochureOutlineMaker } from '@/components/modes/BrochureOutlineMaker';
+import { PamphletContentWriter } from '@/components/modes/PamphletContentWriter';
+import { FlyerTextMaker } from '@/components/modes/FlyerTextMaker';
+import { AnnouncementWriter } from '@/components/modes/AnnouncementWriter';
+import { PressReleaseWriter } from '@/components/modes/PressReleaseWriter';
+import { PublicNoticeWriter } from '@/components/modes/PublicNoticeWriter';
+import { NewsHeadlineGenerator } from '@/components/modes/NewsHeadlineGenerator';
+import { NewsSummaryMaker } from '@/components/modes/NewsSummaryMaker';
+import { SportsUpdateWriter } from '@/components/modes/SportsUpdateWriter';
+import { WeatherReportMaker } from '@/components/modes/WeatherReportMaker';
+import { TrafficUpdateWriter } from '@/components/modes/TrafficUpdateWriter';
+import { StockPriceUpdateWriter } from '@/components/modes/StockPriceUpdateWriter';
+import { CryptocurrencyUpdateWriter } from '@/components/modes/CryptocurrencyUpdateWriter';
+import { EconomyBriefMaker } from '@/components/modes/EconomyBriefMaker';
+import { PoliticalNewsSummaryMaker } from '@/components/modes/PoliticalNewsSummaryMaker';
+import { HealthTipGenerator } from '@/components/modes/HealthTipGenerator';
+import { MedicalTermExplainer } from '@/components/modes/MedicalTermExplainer';
+import { SymptomChecker } from '@/components/modes/SymptomChecker';
+import { MedicineReminder } from '@/components/modes/MedicineReminder';
+import { NutritionFactFinder } from '@/components/modes/NutritionFactFinder';
+import { DietPlanMaker } from '@/components/modes/DietPlanMaker';
+import { FoodAllergyAlertGuide } from '@/components/modes/FoodAllergyAlertGuide';
 
 
 export type ModeId = 
@@ -515,7 +546,13 @@ export type ModeId =
   | 'help_article_writer' | 'troubleshooting_checklist' | 'warranty_policy_writer' | 'terms_and_conditions_writer' | 'privacy_policy_writer' | 'refund_policy_writer' | 'safety_instruction_maker'
   | 'emergency_contact_list_maker' | 'first_aid_guide' | 'disaster_preparedness_guide' | 'travel_safety_tips' | 'scam_warning_guide' | 'password_safety_tips' | 'social_media_safety_guide'
   | 'cybersecurity_checklist' | 'antivirus_tip_guide' | 'phishing_email_identifier' | 'fake_news_checker' | 'fact_verification_tool' | 'citation_generator' | 'reference_list_maker'
-  | 'bibliography_maker' | 'research_question_generator';
+  | 'bibliography_maker' | 'research_question_generator'
+  // New 30 modes batch
+  | 'hypothesis_statement_maker' | 'experiment_design_generator' | 'observation_log_maker' | 'lab_report_writer' | 'survey_result_summarizer' | 'infographic_idea_generator'
+  | 'poster_slogan_maker' | 'banner_text_generator' | 'brochure_outline_maker' | 'pamphlet_content_writer' | 'flyer_text_maker' | 'announcement_writer'
+  | 'press_release_writer' | 'public_notice_writer' | 'news_headline_generator' | 'news_summary_maker' | 'sports_update_writer' | 'weather_report_maker'
+  | 'traffic_update_writer' | 'stock_price_update_writer' | 'cryptocurrency_update_writer' | 'economy_brief_maker' | 'political_news_summary_maker' | 'health_tip_generator'
+  | 'medical_term_explainer' | 'symptom_checker' | 'medicine_reminder' | 'nutrition_fact_finder' | 'diet_plan_maker' | 'food_allergy_alert_guide';
   
 export interface Mode {
     id: ModeId;
@@ -526,12 +563,12 @@ export interface Mode {
     componentProps?: Record<string, any>;
 }
 
-const textGeneratorProps = (id: ModeId, name: string, icon: React.ElementType, description: string, promptPrefix: string) => ({
+const textUtilitiesProps = (id: ModeId, name: string, icon: React.ElementType, description: string, promptPrefix: string) => ({
     id,
     name,
     icon,
     description,
-    component: TextGenerator,
+    component: TextUtilities,
     componentProps: {
         promptPlaceholder: "Enter text here...",
         buttonText: `Generate ${name}`,
@@ -1025,4 +1062,36 @@ export const modes: Mode[] = [
     { id: 'reference_list_maker', name: 'Reference List Maker', icon: ListOrdered, description: 'Generates reference lists.', component: ReferenceListMaker },
     { id: 'bibliography_maker', name: 'Bibliography Maker', icon: BookOpen, description: 'Creates bibliographies.', component: BibliographyMaker },
     { id: 'research_question_generator', name: 'Research Question Generator', icon: HelpCircle, description: 'Suggests research topics.', component: ResearchQuestionGenerator },
+    
+    // New 30 modes batch
+    { id: 'hypothesis_statement_maker', name: 'Hypothesis Statement Maker', icon: Beaker, description: 'Writes hypotheses.', component: HypothesisStatementMaker },
+    { id: 'experiment_design_generator', name: 'Experiment Design Generator', icon: FlaskConical, description: 'Creates science experiment steps.', component: ExperimentDesignGenerator },
+    { id: 'observation_log_maker', name: 'Observation Log Maker', icon: FileSearch, description: 'Creates observation sheets.', component: ObservationLogMaker },
+    { id: 'lab_report_writer', name: 'Lab Report Writer', icon: TestTube, description: 'Writes lab reports.', component: LabReportWriter },
+    { id: 'survey_result_summarizer', name: 'Survey Result Summarizer', icon: BarChart3, description: 'Summarizes survey data.', component: SurveyResultSummarizer },
+    { id: 'infographic_idea_generator', name: 'Infographic Idea Generator', icon: GanttChart, description: 'Suggests infographic designs.', component: InfographicIdeaGenerator },
+    { id: 'poster_slogan_maker', name: 'Poster Slogan Maker', icon: Megaphone, description: 'Suggests slogans for posters.', component: PosterSloganMaker },
+    { id: 'banner_text_generator', name: 'Banner Text Generator', icon: TextIcon, description: 'Suggests banner headlines.', component: BannerTextGenerator },
+    { id: 'brochure_outline_maker', name: 'Brochure Outline Maker', icon: ListOrdered, description: 'Creates brochure layouts.', component: BrochureOutlineMaker },
+    { id: 'pamphlet_content_writer', name: 'Pamphlet Content Writer', icon: FileText, description: 'Writes pamphlet text.', component: PamphletContentWriter },
+    { id: 'flyer_text_maker', name: 'Flyer Text Maker', icon: FileText, description: 'Creates short flyer messages.', component: FlyerTextMaker },
+    { id: 'announcement_writer', name: 'Announcement Writer', icon: Megaphone, description: 'Writes public announcements.', component: AnnouncementWriter },
+    { id: 'press_release_writer', name: 'Press Release Writer', icon: MessageSquare, description: 'Creates press releases.', component: PressReleaseWriter },
+    { id: 'public_notice_writer', name: 'Public Notice Writer', icon: AlertTriangle, description: 'Writes formal notices.', component: PublicNoticeWriter },
+    { id: 'news_headline_generator', name: 'News Headline Generator', icon: TextIcon, description: 'Suggests news headlines.', component: NewsHeadlineGenerator },
+    { id: 'news_summary_maker', name: 'News Summary Maker', icon: FileJson, description: 'Summarizes news articles.', component: NewsSummaryMaker },
+    { id: 'sports_update_writer', name: 'Sports Update Writer', icon: Trophy, description: 'Writes sports news updates.', component: SportsUpdateWriter },
+    { id: 'weather_report_maker', name: 'Weather Report Maker', icon: Cloud, description: 'Writes weather summaries.', component: WeatherReportMaker },
+    { id: 'traffic_update_writer', name: 'Traffic Update Writer', icon: Car, description: 'Writes traffic reports.', component: TrafficUpdateWriter },
+    { id: 'stock_price_update_writer', name: 'Stock Price Update Writer', icon: LineChart, description: 'Writes stock summaries.', component: StockPriceUpdateWriter },
+    { id: 'cryptocurrency_update_writer', name: 'Cryptocurrency Update Writer', icon: Coins, description: 'Writes crypto market updates.', component: CryptocurrencyUpdateWriter },
+    { id: 'economy_brief_maker', name: 'Economy Brief Maker', icon: Landmark, description: 'Summarizes economic trends.', component: EconomyBriefMaker },
+    { id: 'political_news_summary_maker', name: 'Political News Summary Maker', icon: Landmark, description: 'Summarizes politics news.', component: PoliticalNewsSummaryMaker },
+    { id: 'health_tip_generator', name: 'Health Tip Generator', icon: HeartPulse, description: 'Shares short health tips.', component: HealthTipGenerator },
+    { id: 'medical_term_explainer', name: 'Medical Term Explainer', icon: BookOpen, description: 'Explains medical terms.', component: MedicalTermExplainer },
+    { id: 'symptom_checker', name: 'Symptom Checker', icon: Stethoscope, description: 'Suggests possible causes for symptoms.', component: SymptomChecker },
+    { id: 'medicine_reminder', name: 'Medicine Reminder', icon: Bell, description: 'Sends medicine timing alerts.', component: MedicineReminder },
+    { id: 'nutrition_fact_finder', name: 'Nutrition Fact Finder', icon: FileSearch, description: 'Shares nutrition facts.', component: NutritionFactFinder },
+    { id: 'diet_plan_maker', name: 'Diet Plan Maker', icon: Calendar, description: 'Creates diet schedules.', component: DietPlanMaker },
+    { id: 'food_allergy_alert_guide', name: 'Food Allergy Alert Guide', icon: AlertTriangle, description: 'Lists allergy precautions.', component: FoodAllergyAlertGuide },
 ];
