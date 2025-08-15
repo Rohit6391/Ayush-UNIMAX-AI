@@ -454,7 +454,7 @@ export const modes: Mode[] = [
     textUtilitiesProps('simple_translator', 'Text Translator (Simple)', Languages, 'Translates text into chosen languages.', 'Translate the following text to Spanish'),
     textUtilitiesProps('text_shortener', 'Text Shortener', Text, 'Makes text concise without losing meaning.', 'Shorten the following text to its most concise form while keeping the core meaning'),
     textUtilitiesProps('email_subject_line_maker', 'Email Subject Line Maker', Mailbox, 'Suggests attractive subject lines.', 'Suggest 5 attractive email subject lines for an email about the following topic'),
-    textUtilitiesProps('readability_checker', 'Readability Checker', Glasses, 'Analyzes and scores text reading level.', 'Analyze the readability of the following text and provide a score (e.g., Flesch-Kincaid Grade Level)'),
+    {...textUtilitiesProps('readability_checker', 'Readability Checker', Glasses, 'Analyzes and scores text reading level.', 'Analyze the readability of the following text and provide a score (e.g., Flesch-Kincaid Grade Level)'), component: TextGenerator},
     {...textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', CircleOff, 'Detects copied or duplicate content.', 'Check the following text for potential plagiarism by searching for similar phrases online and report your findings.'), component: TextGenerator},
     textUtilitiesProps('blog_idea_generator', 'Blog Idea Generator', FilePlus2, 'Suggests topics for blogs.', 'Generate 5 blog post ideas based on the following topic'),
     textUtilitiesProps('blog_outline_maker', 'Blog Outline Maker', ListTree, 'Creates a structured outline for blogs.', 'Create a structured outline with sections and sub-points for a blog post about the following topic'),
@@ -517,7 +517,7 @@ export const modes: Mode[] = [
     { id: 'age_calculator', name: 'Age Calculator', icon: User, description: 'Calculates age from date of birth.', component: AgeCalculator },
     { id: 'date_difference_finder', name: 'Date Difference Finder', icon: Calendar, description: 'Finds days between two dates.', component: DateDifferenceFinder },
     { id: 'countdown_timer_maker', name: 'Countdown Timer Maker', icon: Clock, description: 'Creates countdown timers.', component: CountdownTimerMaker },
-    { id: 'stopwatch_tool', name: 'Stopwatch Tool', icon: Timer, description: 'Digital stopwatch.', component: StopwatchTool },
+    { id: 'stopwatch_tool', name: 'Stopwatch Tool', icon: Clock, description: 'Digital stopwatch.', component: StopwatchTool },
     { id: 'random_number_picker', name: 'Random Number Picker', icon: Hash, description: 'Picks a random number.', component: RandomNumberPicker },
     { id: 'random_name_picker', name: 'Random Name Picker', icon: Users, description: 'Picks random names from a list.', component: RandomNamePicker },
     { id: 'dice_roller', name: 'Dice Roller', icon: Dices, description: 'Simulates dice rolling.', component: DiceRoller },
@@ -563,4 +563,3 @@ export const modes: Mode[] = [
     { id: 'monologue_writer', name: 'Monologue Writer', icon: UserSquare, description: 'Generates monologues for scripts.', component: MonologueWriter },
     { id: 'scene_description_writer', name: 'Scene Description Writer', icon: Clapperboard, description: 'Writes scene details for stories.', component: SceneDescriptionWriter },
 ];
-
