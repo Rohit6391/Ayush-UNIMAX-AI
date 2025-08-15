@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Text, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -10,7 +10,6 @@ import { PhotoEditor } from '@/components/modes/PhotoEditor';
 import { VideoGenerator } from '@/components/modes/VideoGenerator';
 import { VideoEditor } from '@/components/modes/VideoEditor';
 import { CodeGenerator } from '@/components/modes/CodeGenerator';
-import { TextGenerator } from '@/components/modes/TextGenerator';
 import { WebsiteMaker } from '@/components/modes/WebsiteMaker';
 import { AppMaker } from '@/components/modes/AppMaker';
 import { GameMaker } from '@/components/modes/GameMaker';
@@ -147,7 +146,7 @@ import { GrammarPracticeCreator } from '@/components/modes/GrammarPracticeCreato
 import { SportsSkillsTrainer } from '@/components/modes/SportsSkillsTrainer';
 import { QuizQuestionGenerator } from '@/components/modes/QuizQuestionGenerator';
 import { BookGenerator } from '@/components/modes/BookGenerator';
-import { TextUtilities } from '@/components/modes/TextUtilities';
+import { TextGenerator } from '@/components/modes/TextGenerator';
 import { JokeFinder } from '@/components/modes/JokeFinder';
 import { RhymeFinder } from '@/components/modes/RhymeFinder';
 import { IdiomExplainer } from '@/components/modes/IdiomExplainer';
@@ -208,8 +207,6 @@ import { UsernameGenerator } from '@/components/modes/UsernameGenerator';
 import { NicknameMaker } from '@/components/modes/NicknameMaker';
 import { WifiNameGenerator } from '@/components/modes/WifiNameGenerator';
 import { DomainNameGenerator } from '@/components/modes/DomainNameGenerator';
-
-// New Modes
 import { AppNameGenerator } from '@/components/modes/AppNameGenerator';
 import { GameNameGenerator } from '@/components/modes/GameNameGenerator';
 import { PlaylistNameGenerator } from '@/components/modes/PlaylistNameGenerator';
@@ -270,7 +267,6 @@ import { GiftIdeaGenerator } from '@/components/modes/GiftIdeaGenerator';
 import { PartyThemeGenerator } from '@/components/modes/PartyThemeGenerator';
 import { EventScheduleMaker } from '@/components/modes/EventScheduleMaker';
 import { InvitationMessageWriter } from '@/components/modes/InvitationMessageWriter';
-import { SpeechWriter } from '@/components/modes/SpeechWriter';
 import { ToastSpeechWriter } from '@/components/modes/ToastSpeechWriter';
 import { EulogyWriter } from '@/components/modes/EulogyWriter';
 import { ThankYouNoteMaker } from '@/components/modes/ThankYouNoteMaker';
@@ -300,6 +296,36 @@ import { ScenePacingAdjuster } from '@/components/modes/ScenePacingAdjuster';
 import { NarrativeStyleChanger } from '@/components/modes/NarrativeStyleChanger';
 import { PerspectiveRewriter } from '@/components/modes/PerspectiveRewriter';
 import { ArticleRewriter } from '@/components/modes/ArticleRewriter';
+import { PlagiarismFreeRewriter } from '@/components/modes/PlagiarismFreeRewriter';
+import { ProductReviewWriter } from '@/components/modes/ProductReviewWriter';
+import { ServiceReviewWriter } from '@/components/modes/ServiceReviewWriter';
+import { MovieReviewMaker } from '@/components/modes/MovieReviewMaker';
+import { GameReviewWriter } from '@/components/modes/GameReviewWriter';
+import { AppReviewGenerator } from '@/components/modes/AppReviewGenerator';
+import { BookReviewWriter } from '@/components/modes/BookReviewWriter';
+import { TravelItineraryMaker } from '@/components/modes/TravelItineraryMaker';
+import { PackingListMaker } from '@/components/modes/PackingListMaker';
+import { LocalAttractionFinder } from '@/components/modes/LocalAttractionFinder';
+import { RestaurantSuggestor } from '@/components/modes/RestaurantSuggestor';
+import { FoodPairingSuggestor } from '@/components/modes/FoodPairingSuggestor';
+import { CocktailRecipeMaker } from '@/components/modes/CocktailRecipeMaker';
+import { SmoothieRecipeGenerator } from '@/components/modes/SmoothieRecipeGenerator';
+import { DessertIdeaGenerator } from '@/components/modes/DessertIdeaGenerator';
+import { MealSubstituteFinder } from '@/components/modes/MealSubstituteFinder';
+import { CookingTipGiver } from '@/components/modes/CookingTipGiver';
+import { KitchenMeasurementConverter } from '@/components/modes/KitchenMeasurementConverter';
+import { LeftoverRecipeMaker } from '@/components/modes/LeftoverRecipeMaker';
+import { CleaningChecklistMaker } from '@/components/modes/CleaningChecklistMaker';
+import { ChoreScheduler } from '@/components/modes/ChoreScheduler';
+import { MinimalistDeclutterGuide } from '@/components/modes/MinimalistDeclutterGuide';
+import { BudgetFriendlyHomeDecorIdeas } from '@/components/modes/BudgetFriendlyHomeDecorIdeas';
+import { GardeningTipGiver } from '@/components/modes/GardeningTipGiver';
+import { PlantWateringReminder } from '@/components/modes/PlantWateringReminder';
+import { PetCareGuide } from '@/components/modes/PetCareGuide';
+import { DogTrainingTipGiver } from '@/components/modes/DogTrainingTipGiver';
+import { CatBehaviorExplainer } from '@/components/modes/CatBehaviorExplainer';
+import { PetNameGenerator } from '@/components/modes/PetNameGenerator';
+import { WildlifeFactFinder } from '@/components/modes/WildlifeFactFinder';
 
 export type ModeId = 
   // Creative
@@ -336,9 +362,12 @@ export type ModeId =
   | 'toast_speech_writer' | 'eulogy_writer' | 'thank_you_note_maker' | 'apology_letter_writer' | 'love_letter_writer' | 'compliment_generator' | 'roast_joke_generator' | 'greeting_card_message_maker'
   | 'holiday_wish_maker' | 'birthday_wish_maker' | 'anniversary_wish_maker' | 'condolence_message_writer' | 'congratulations_message_writer'
   | 'short_story_writer' | 'fairy_tale_creator' | 'fable_writer' | 'horror_story_maker' | 'mystery_story_generator' | 'fantasy_story_builder' | 'sci_fi_story_maker' | 'detective_case_idea_maker' | 'superhero_story_creator'
-  | 'villain_profile_maker' | 'side_character_generator' | 'dialogue_improver' | 'scene_pacing_adjuster' | 'narrative_style_changer' | 'perspective_rewriter' | 'article_rewriter';
-
-
+  | 'villain_profile_maker' | 'side_character_generator' | 'dialogue_improver' | 'scene_pacing_adjuster' | 'narrative_style_changer' | 'perspective_rewriter' | 'article_rewriter'
+  // Latest batch
+  | 'plagiarism_free_rewriter' | 'product_review_writer' | 'service_review_writer' | 'movie_review_maker' | 'game_review_writer' | 'app_review_generator' | 'book_review_writer'
+  | 'travel_itinerary_maker' | 'packing_list_maker' | 'local_attraction_finder' | 'restaurant_suggestor' | 'food_pairing_suggestor' | 'cocktail_recipe_maker' | 'smoothie_recipe_generator' | 'dessert_idea_generator' | 'meal_substitute_finder' | 'cooking_tip_giver' | 'kitchen_measurement_converter' | 'leftover_recipe_maker'
+  | 'cleaning_checklist_maker' | 'chore_scheduler' | 'minimalist_declutter_guide' | 'budget_friendly_home_decor_ideas'
+  | 'gardening_tip_giver' | 'plant_watering_reminder' | 'pet_care_guide' | 'dog_training_tip_giver' | 'cat_behavior_explainer' | 'pet_name_generator' | 'wildlife_fact_finder';
 
 export interface Mode {
     id: ModeId;
@@ -658,7 +687,7 @@ export const modes: Mode[] = [
     { id: 'event_schedule_maker', name: 'Event Schedule Maker', icon: Calendar, description: 'Creates event timelines.', component: EventScheduleMaker },
     { id: 'invitation_message_writer', name: 'Invitation Message Writer', icon: Mail, description: 'Writes short invites.', component: InvitationMessageWriter },
 
-    // Final 30 modes
+    // Newest Batch
     { id: 'toast_speech_writer', name: 'Toast Speech Writer', icon: Presentation, description: 'Creates event toast speeches.', component: ToastSpeechWriter },
     { id: 'eulogy_writer', name: 'Eulogy Writer', icon: BookHeart, description: 'Writes memorial speeches.', component: EulogyWriter },
     { id: 'thank_you_note_maker', name: 'Thank-You Note Maker', icon: Mail, description: 'Creates thank-you messages.', component: ThankYouNoteMaker },
@@ -688,4 +717,36 @@ export const modes: Mode[] = [
     { id: 'narrative_style_changer', name: 'Narrative Style Changer', icon: PenLine, description: 'Changes writing style.', component: NarrativeStyleChanger },
     { id: 'perspective_rewriter', name: 'Perspective Rewriter', icon: Users, description: 'Changes text from 1st to 3rd person.', component: PerspectiveRewriter },
     { id: 'article_rewriter', name: 'Article Rewriter', icon: RefreshCw, description: 'Rephrases articles.', component: ArticleRewriter },
+
+    // Final batch
+    { id: 'plagiarism_free_rewriter', name: 'Plagiarism-Free Rewriter', icon: RefreshCw, description: 'Ensures unique wording.', component: PlagiarismFreeRewriter },
+    { id: 'product_review_writer', name: 'Product Review Writer', icon: Star, description: 'Writes product reviews.', component: ProductReviewWriter },
+    { id: 'service_review_writer', name: 'Service Review Writer', icon: Star, description: 'Writes service feedback.', component: ServiceReviewWriter },
+    { id: 'movie_review_maker', name: 'Movie Review Maker', icon: Film, description: 'Creates short movie reviews.', component: MovieReviewMaker },
+    { id: 'game_review_writer', name: 'Game Review Writer', icon: Gamepad2, description: 'Writes game reviews.', component: GameReviewWriter },
+    { id: 'app_review_generator', name: 'App Review Generator', icon: AppWindow, description: 'Writes app feedback.', component: AppReviewGenerator },
+    { id: 'book_review_writer', name: 'Book Review Writer', icon: BookOpen, description: 'Writes book reviews.', component: BookReviewWriter },
+    { id: 'travel_itinerary_maker', name: 'Travel Itinerary Maker', icon: Plane, description: 'Creates travel plans.', component: TravelItineraryMaker },
+    { id: 'packing_list_maker', name: 'Packing List Maker', icon: Package, description: 'Suggests packing essentials.', component: PackingListMaker },
+    { id: 'local_attraction_finder', name: 'Local Attraction Finder', icon: Map, description: 'Suggests nearby places to visit.', component: LocalAttractionFinder },
+    { id: 'restaurant_suggestor', name: 'Restaurant Suggestor', icon: CookingPot, description: 'Recommends restaurants.', component: RestaurantSuggestor },
+    { id: 'food_pairing_suggestor', name: 'Food Pairing Suggestor', icon: Utensils, description: 'Suggests food & drink combinations.', component: FoodPairingSuggestor },
+    { id: 'cocktail_recipe_maker', name: 'Cocktail Recipe Maker', icon: Martini, description: 'Creates drink recipes.', component: CocktailRecipeMaker },
+    { id: 'smoothie_recipe_generator', name: 'Smoothie Recipe Generator', icon: TestTube, description: 'Suggests smoothie blends.', component: SmoothieRecipeGenerator },
+    { id: 'dessert_idea_generator', name: 'Dessert Idea Generator', icon: IceCream, description: 'Suggests dessert recipes.', component: DessertIdeaGenerator },
+    { id: 'meal_substitute_finder', name: 'Meal Substitute Finder', icon: Shuffle, description: 'Suggests ingredient replacements.', component: MealSubstituteFinder },
+    { id: 'cooking_tip_giver', name: 'Cooking Tip Giver', icon: ChefHat, description: 'Shares cooking advice.', component: CookingTipGiver },
+    { id: 'kitchen_measurement_converter', name: 'Kitchen Measurement Converter', icon: Ruler, description: 'Converts cooking measurements.', component: KitchenMeasurementConverter },
+    { id: 'leftover_recipe_maker', name: 'Leftover Recipe Maker', icon: Recycle, description: 'Suggests recipes using leftovers.', component: LeftoverRecipeMaker },
+    { id: 'cleaning_checklist_maker', name: 'Cleaning Checklist Maker', icon: ListChecks, description: 'Creates cleaning routines.', component: CleaningChecklistMaker },
+    { id: 'chore_scheduler', name: 'Chore Scheduler', icon: Calendar, description: 'Assigns chores to people/days.', component: ChoreScheduler },
+    { id: 'minimalist_declutter_guide', name: 'Minimalist Declutter Guide', icon: Trash, description: 'Suggests decluttering steps.', component: MinimalistDeclutterGuide },
+    { id: 'budget_friendly_home_decor_ideas', name: 'Budget Home Decor Ideas', icon: Home, description: 'Suggests cheap decor tips.', component: BudgetFriendlyHomeDecorIdeas },
+    { id: 'gardening_tip_giver', name: 'Gardening Tip Giver', icon: Leaf, description: 'Shares plant care tips.', component: GardeningTipGiver },
+    { id: 'plant_watering_reminder', name: 'Plant Watering Reminder', icon: Droplet, description: 'Sends plant watering alerts.', component: PlantWateringReminder },
+    { id: 'pet_care_guide', name: 'Pet Care Guide', icon: PawPrint, description: 'Shares pet care instructions.', component: PetCareGuide },
+    { id: 'dog_training_tip_giver', name: 'Dog Training Tip Giver', icon: Dog, description: 'Suggests dog training advice.', component: DogTrainingTipGiver },
+    { id: 'cat_behavior_explainer', name: 'Cat Behavior Explainer', icon: Cat, description: 'Explains cat behavior.', component: CatBehaviorExplainer },
+    { id: 'pet_name_generator', name: 'Pet Name Generator', icon: Tag, description: 'Suggests pet names.', component: PetNameGenerator },
+    { id: 'wildlife_fact_finder', name: 'Wildlife Fact Finder', icon: Rabbit, description: 'Shares animal facts.', component: WildlifeFactFinder },
 ];
