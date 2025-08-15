@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcroRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript, Vote
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript, Vote
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -417,6 +417,37 @@ import { TutorialScriptWriter } from '@/components/modes/TutorialScriptWriter';
 import { StepByStepGuideMaker } from '@/components/modes/StepByStepGuideMaker';
 import { QuickTipsWriter } from '@/components/modes/QuickTipsWriter';
 import { ErrorMessageRewriter } from '@/components/modes/ErrorMessageRewriter';
+import { AppWalkthroughWriter } from '@/components/modes/AppWalkthroughWriter';
+import { FeatureListMaker } from '@/components/modes/FeatureListMaker';
+import { ReleaseNoteWriter } from '@/components/modes/ReleaseNoteWriter';
+import { PatchNoteFormatter } from '@/components/modes/PatchNoteFormatter';
+import { BugReportTemplateMaker } from '@/components/modes/BugReportTemplateMaker';
+import { UserFeedbackFormMaker } from '@/components/modes/UserFeedbackFormMaker';
+import { CustomerSupportScript } from '@/components/modes/CustomerSupportScript';
+import { HelpArticleWriter } from '@/components/modes/HelpArticleWriter';
+import { TroubleshootingChecklist } from '@/components/modes/TroubleshootingChecklist';
+import { WarrantyPolicyWriter } from '@/components/modes/WarrantyPolicyWriter';
+import { TermsAndConditionsWriter } from '@/components/modes/TermsAndConditionsWriter';
+import { PrivacyPolicyWriter } from '@/components/modes/PrivacyPolicyWriter';
+import { RefundPolicyWriter } from '@/components/modes/RefundPolicyWriter';
+import { SafetyInstructionMaker } from '@/components/modes/SafetyInstructionMaker';
+import { EmergencyContactListMaker } from '@/components/modes/EmergencyContactListMaker';
+import { FirstAidGuide } from '@/components/modes/FirstAidGuide';
+import { DisasterPreparednessGuide } from '@/components/modes/DisasterPreparednessGuide';
+import { TravelSafetyTips } from '@/components/modes/TravelSafetyTips';
+import { ScamWarningGuide } from '@/components/modes/ScamWarningGuide';
+import { PasswordSafetyTips } from '@/components/modes/PasswordSafetyTips';
+import { SocialMediaSafetyGuide } from '@/components/modes/SocialMediaSafetyGuide';
+import { CybersecurityChecklist } from '@/components/modes/CybersecurityChecklist';
+import { AntivirusTipGuide } from '@/components/modes/AntivirusTipGuide';
+import { PhishingEmailIdentifier } from '@/components/modes/PhishingEmailIdentifier';
+import { FakeNewsChecker } from '@/components/modes/FakeNewsChecker';
+import { FactVerificationTool } from '@/components/modes/FactVerificationTool';
+import { CitationGenerator } from '@/components/modes/CitationGenerator';
+import { ReferenceListMaker } from '@/components/modes/ReferenceListMaker';
+import { BibliographyMaker } from '@/components/modes/BibliographyMaker';
+import { ResearchQuestionGenerator } from '@/components/modes/ResearchQuestionGenerator';
+
 
 export type ModeId = 
   // Core
@@ -478,8 +509,14 @@ export type ModeId =
   | 'statistics_summarizer' | 'trend_finder' | 'correlation_finder' | 'basic_forecast_maker' | 'budget_chart_maker' | 'pie_chart_generator' | 'bar_graph_generator' | 'line_chart_generator'
   | 'timeline_maker' | 'flowchart_generator' | 'checklist_maker' | 'kanban_board_maker' | 'mind_map_outline_maker' | 'project_deadline_tracker' | 'gantt_chart_generator' | 'team_role_assignor'
   | 'team_feedback_collector' | 'idea_voting_tool' | 'brainstorm_topic_generator' | 'innovation_idea_generator' | 'problem_statement_maker' | 'solution_proposal_writer' | 'how_to_guide_maker'
-  | 'troubleshooting_flow_maker' | 'faq_generator' | 'glossary_creator' | 'tutorial_script_writer' | 'step_by_step_guide_maker' | 'quick_tips_writer' | 'error_message_rewriter';
-
+  | 'troubleshooting_flow_maker' | 'faq_generator' | 'glossary_creator' | 'tutorial_script_writer' | 'step_by_step_guide_maker' | 'quick_tips_writer' | 'error_message_rewriter'
+  // Latest addition
+  | 'app_walkthrough_writer' | 'feature_list_maker' | 'release_note_writer' | 'patch_note_formatter' | 'bug_report_template_maker' | 'user_feedback_form_maker' | 'customer_support_script'
+  | 'help_article_writer' | 'troubleshooting_checklist' | 'warranty_policy_writer' | 'terms_and_conditions_writer' | 'privacy_policy_writer' | 'refund_policy_writer' | 'safety_instruction_maker'
+  | 'emergency_contact_list_maker' | 'first_aid_guide' | 'disaster_preparedness_guide' | 'travel_safety_tips' | 'scam_warning_guide' | 'password_safety_tips' | 'social_media_safety_guide'
+  | 'cybersecurity_checklist' | 'antivirus_tip_guide' | 'phishing_email_identifier' | 'fake_news_checker' | 'fact_verification_tool' | 'citation_generator' | 'reference_list_maker'
+  | 'bibliography_maker' | 'research_question_generator';
+  
 export interface Mode {
     id: ModeId;
     name: string;
@@ -489,12 +526,12 @@ export interface Mode {
     componentProps?: Record<string, any>;
 }
 
-const textUtilitiesProps = (id: ModeId, name: string, icon: React.ElementType, description: string, promptPrefix: string) => ({
+const textGeneratorProps = (id: ModeId, name: string, icon: React.ElementType, description: string, promptPrefix: string) => ({
     id,
     name,
     icon,
     description,
-    component: TextUtilities,
+    component: TextGenerator,
     componentProps: {
         promptPlaceholder: "Enter text here...",
         buttonText: `Generate ${name}`,
@@ -956,6 +993,36 @@ export const modes: Mode[] = [
     { id: 'step_by_step_guide_maker', name: 'Step-by-Step Guide Maker', icon: ListOrdered, description: 'Breaks tasks into steps.', component: StepByStepGuideMaker },
     { id: 'quick_tips_writer', name: 'Quick Tips Writer', icon: Lightbulb, description: 'Shares short helpful tips.', component: QuickTipsWriter },
     { id: 'error_message_rewriter', name: 'Error Message Rewriter', icon: MessageSquare, description: 'Makes friendly error messages.', component: ErrorMessageRewriter },
-];
-
     
+    // Latest addition
+    { id: 'app_walkthrough_writer', name: 'App Walkthrough Writer', icon: AppWindow, description: 'Creates onboarding guides.', component: AppWalkthroughWriter },
+    { id: 'feature_list_maker', name: 'Feature List Maker', icon: ListChecks, description: 'Lists app or product features.', component: FeatureListMaker },
+    { id: 'release_note_writer', name: 'Release Note Writer', icon: FileText, description: 'Writes update notes.', component: ReleaseNoteWriter },
+    { id: 'patch_note_formatter', name: 'Patch Note Formatter', icon: FileText, description: 'Formats patch updates.', component: PatchNoteFormatter },
+    { id: 'bug_report_template_maker', name: 'Bug Report Template Maker', icon: Bug, description: 'Creates bug report templates.', component: BugReportTemplateMaker },
+    { id: 'user_feedback_form_maker', name: 'User Feedback Form Maker', icon: MessageSquare, description: 'Creates user feedback forms.', component: UserFeedbackFormMaker },
+    { id: 'customer_support_script', name: 'Customer Support Script', icon: MessageSquare, description: 'Suggests support responses.', component: CustomerSupportScript },
+    { id: 'help_article_writer', name: 'Help Article Writer', icon: BookOpen, description: 'Writes help documentation.', component: HelpArticleWriter },
+    { id: 'troubleshooting_checklist', name: 'Troubleshooting Checklist', icon: ListChecks, description: 'Creates repair checklists.', component: TroubleshootingChecklist },
+    { id: 'warranty_policy_writer', name: 'Warranty Policy Writer', icon: FileText, description: 'Writes simple warranty texts.', component: WarrantyPolicyWriter },
+    { id: 'terms_and_conditions_writer', name: 'Terms & Conditions Writer', icon: Landmark, description: 'Creates legal disclaimers.', component: TermsAndConditionsWriter },
+    { id: 'privacy_policy_writer', name: 'Privacy Policy Writer', icon: ShieldCheck, description: 'Writes privacy policies.', component: PrivacyPolicyWriter },
+    { id: 'refund_policy_writer', name: 'Refund Policy Writer', icon: DollarSign, description: 'Creates refund policies.', component: RefundPolicyWriter },
+    { id: 'safety_instruction_maker', name: 'Safety Instruction Maker', icon: AlertTriangle, description: 'Writes safety guidelines.', component: SafetyInstructionMaker },
+    { id: 'emergency_contact_list_maker', name: 'Emergency Contact List Maker', icon: List, description: 'Lists emergency numbers.', component: EmergencyContactListMaker },
+    { id: 'first_aid_guide', name: 'First Aid Guide', icon: HeartPulse, description: 'Shares basic first aid steps.', component: FirstAidGuide },
+    { id: 'disaster_preparedness_guide', name: 'Disaster Preparedness Guide', icon: Home, description: 'Suggests safety steps.', component: DisasterPreparednessGuide },
+    { id: 'travel_safety_tips', name: 'Travel Safety Tips', icon: Plane, description: 'Shares safety advice for travelers.', component: TravelSafetyTips },
+    { id: 'scam_warning_guide', name: 'Scam Warning Guide', icon: AlertTriangle, description: 'Educates on common scams.', component: ScamWarningGuide },
+    { id: 'password_safety_tips', name: 'Password Safety Tips', icon: Lock, description: 'Suggests password security rules.', component: PasswordSafetyTips },
+    { id: 'social_media_safety_guide', name: 'Social Media Safety Guide', icon: Users, description: 'Shares online safety tips.', component: SocialMediaSafetyGuide },
+    { id: 'cybersecurity_checklist', name: 'Cybersecurity Checklist', icon: ShieldCheck, description: 'Lists online security steps.', component: CybersecurityChecklist },
+    { id: 'antivirus_tip_guide', name: 'Antivirus Tip Guide', icon: ShieldCheck, description: 'Suggests antivirus best practices.', component: AntivirusTipGuide },
+    { id: 'phishing_email_identifier', name: 'Phishing Email Identifier', icon: Mail, description: 'Detects suspicious emails.', component: PhishingEmailIdentifier },
+    { id: 'fake_news_checker', name: 'Fake News Checker', icon: Search, description: 'Identifies false news.', component: FakeNewsChecker },
+    { id: 'fact_verification_tool', name: 'Fact Verification Tool', icon: CheckSquare, description: 'Verifies statements.', component: FactVerificationTool },
+    { id: 'citation_generator', name: 'Citation Generator', icon: Quote, description: 'Creates citations in various formats.', component: CitationGenerator },
+    { id: 'reference_list_maker', name: 'Reference List Maker', icon: ListOrdered, description: 'Generates reference lists.', component: ReferenceListMaker },
+    { id: 'bibliography_maker', name: 'Bibliography Maker', icon: BookOpen, description: 'Creates bibliographies.', component: BibliographyMaker },
+    { id: 'research_question_generator', name: 'Research Question Generator', icon: HelpCircle, description: 'Suggests research topics.', component: ResearchQuestionGenerator },
+];
