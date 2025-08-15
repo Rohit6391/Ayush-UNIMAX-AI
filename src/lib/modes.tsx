@@ -2,7 +2,7 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript, Vote
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript, Vote, Bike, ArrowRightLeft
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -297,15 +297,54 @@ import { ScenePacingAdjuster } from '@/components/modes/ScenePacingAdjuster';
 import { NarrativeStyleChanger } from '@/components/modes/NarrativeStyleChanger';
 import { PerspectiveRewriter } from '@/components/modes/PerspectiveRewriter';
 import { ArticleRewriter } from '@/components/modes/ArticleRewriter';
+import { MovieReviewMaker } from '@/components/modes/MovieReviewMaker';
+import { PackingListMaker } from '@/components/modes/PackingListMaker';
+import { VideoMaker } from '@/components/modes/VideoMaker';
+import { SoloTravelGuide } from '@/components/modes/SoloTravelGuide';
+import { GroupTripPlanner } from '@/components/modes/GroupTripPlanner';
+import { RoadTripItineraryMaker } from '@/components/modes/RoadTripItineraryMaker';
+import { FestivalGuide } from '@/components/modes/FestivalGuide';
+import { SeasonalActivityGuide } from '@/components/modes/SeasonalActivityGuide';
+import { LocalBusinessFinder } from '@/components/modes/LocalBusinessFinder';
+import { VisualStoryMapper } from '@/components/modes/VisualStoryMapper';
+import { AIDailyMotivationCoach } from '@/components/modes/AIDailyMotivationCoach';
+import { MinimalistLivingTips } from '@/components/modes/MinimalistLivingTips';
+import { ZeroWasteTips } from '@/components/modes/ZeroWasteTips';
+import { UpcyclingProjectIdeas } from '@/components/modes/UpcyclingProjectIdeas';
+import { RepairGuide } from '@/components/modes/RepairGuide';
+import { SecondHandShoppingTips } from '@/components/modes/SecondHandShoppingTips';
+import { BudgetTravelTips } from '@/components/modes/BudgetTravelTips';
+import { DigitalNomadTips } from '@/components/modes/DigitalNomadTips';
+import { RemoteJobBoardScraper } from '@/components/modes/RemoteJobBoardScraper';
+import { WorkFromHomeSetupGuide } from '@/components/modes/WorkFromHomeSetupGuide';
+import { ProductivityTimer } from '@/components/modes/ProductivityTimer';
+import { FocusMusicSuggestor } from '@/components/modes/FocusMusicSuggestor';
+import { TaskCompletionTracker } from '@/components/modes/TaskCompletionTracker';
+import { StudyBreakReminder } from '@/components/modes/StudyBreakReminder';
+import { TimeBlockingPlanner } from '@/components/modes/TimeBlockingPlanner';
+import { WeeklyReviewTemplate } from '@/components/modes/WeeklyReviewTemplate';
+import { MonthlyReflectionTemplate } from '@/components/modes/MonthlyReflectionTemplate';
+import { YearlyGoalPlanner } from '@/components/modes/YearlyGoalPlanner';
+import { LifeBucketListMaker } from '@/components/modes/LifeBucketListMaker';
+import { TravelBucketListMaker } from '@/components/modes/TravelBucketListMaker';
+import { SkillLearningPlan } from '@/components/modes/SkillLearningPlan';
+import { LanguageLearningPlan } from '@/components/modes/LanguageLearningPlan';
+import { BookReadingPlan } from '@/components/modes/BookReadingPlan';
+import { PodcastRecommendationList } from '@/components/modes/PodcastRecommendationList';
+import { MovieRecommendationList } from '@/components/modes/MovieRecommendationList';
+import { SeriesRecommendationList } from '@/components/modes/SeriesRecommendationList';
+import { GameRecommendationList } from '@/components/modes/GameRecommendationList';
+import { MusicPlaylistSuggestor } from '@/components/modes/MusicPlaylistSuggestor';
+import { HobbyIdeaGenerator } from '@/components/modes/HobbyIdeaGenerator';
+import { WeekendActivityPlanner } from '@/components/modes/WeekendActivityPlanner';
+import { FamilyActivityPlanner } from '@/components/modes/FamilyActivityPlanner';
 import { PlagiarismFreeRewriter } from '@/components/modes/PlagiarismFreeRewriter';
 import { ProductReviewWriter } from '@/components/modes/ProductReviewWriter';
 import { ServiceReviewWriter } from '@/components/modes/ServiceReviewWriter';
-import { MovieReviewMaker } from '@/components/modes/MovieReviewMaker';
 import { GameReviewWriter } from '@/components/modes/GameReviewWriter';
 import { AppReviewGenerator } from '@/components/modes/AppReviewGenerator';
 import { BookReviewWriter } from '@/components/modes/BookReviewWriter';
 import { TravelItineraryMaker } from '@/components/modes/TravelItineraryMaker';
-import { PackingListMaker } from '@/components/modes/PackingListMaker';
 import { LocalAttractionFinder } from '@/components/modes/LocalAttractionFinder';
 import { RestaurantSuggestor } from '@/components/modes/RestaurantSuggestor';
 import { FoodPairingSuggestor } from '@/components/modes/FoodPairingSuggestor';
@@ -357,157 +396,6 @@ import { SEOKeywordSuggestor } from '@/components/modes/SEOKewordSuggestor';
 import { MetaDescriptionWriter } from '@/components/modes/MetaDescriptionWriter';
 import { BlogTagGenerator } from '@/components/modes/BlogTagGenerator';
 import { YouTubeTitleMaker } from '@/components/modes/YouTubeTitleMaker';
-import { YouTubeDescriptionWriter } from '@/components/modes/YouTubeDescriptionWriter';
-import { YouTubeTagGenerator } from '@/components/modes/YouTubeTagGenerator';
-import { VideoScriptWriter } from '@/components/modes/VideoScriptWriter';
-import { ShortVideoIdeaGenerator } from '@/components/modes/ShortVideoIdeaGenerator';
-import { LiveStreamTopicGenerator } from '@/components/modes/LiveStreamTopicGenerator';
-import { WebinarOutlineMaker } from '@/components/modes/WebinarOutlineMaker';
-import { OnlineCourseOutlineMaker } from '@/components/modes/OnlineCourseOutlineMaker';
-import { LessonScriptWriter } from '@/components/modes/LessonScriptWriter';
-import { TestAnswerKeyGenerator } from '@/components/modes/TestAnswerKeyGenerator';
-import { PollResultAnalyzer } from '@/components/modes/PollResultAnalyzer';
-import { DataSummarizer } from '@/components/modes/DataSummarizer';
-import { CsvToTableFormatter } from '@/components/modes/CsvToTableFormatter';
-import { ChartIdeaGenerator } from '@/components/modes/ChartIdeaGenerator';
-import { BasicDataCalculator } from '@/components/modes/BasicDataCalculator';
-import { AverageCalculator } from '@/components/modes/AverageCalculator';
-import { PercentageCalculator } from '@/components/modes/PercentageCalculator';
-import { RatioCalculator } from '@/components/modes/RatioCalculator';
-import { FractionSimplifier } from '@/components/modes/FractionSimplifier';
-import { DecimalToFractionConverter } from '@/components/modes/DecimalToFractionConverter';
-import { BinaryToDecimalConverter } from '@/components/modes/BinaryToDecimalConverter';
-import { HexToDecimalConverter } from '@/components/modes/HexToDecimalConverter';
-import { NumberBaseConverter } from '@/components/modes/NumberBaseConverter';
-import { PrimeNumberFinder } from '@/components/modes/PrimeNumberFinder';
-import { FactorFinder } from '@/components/modes/FactorFinder';
-import { MultiplicationTableMaker } from '@/components/modes/MultiplicationTableMaker';
-import { DivisionStepSolver } from '@/components/modes/DivisionStepSolver';
-import { SquareRootFinder } from '@/components/modes/SquareRootFinder';
-import { ExponentCalculator } from '@/components/modes/ExponentCalculator';
-import { LogarithmCalculator } from '@/components/modes/LogarithmCalculator';
-import { ProbabilityCalculator } from '@/components/modes/ProbabilityCalculator';
-import { StatisticsSummarizer } from '@/components/modes/StatisticsSummarizer';
-import { TrendFinder } from '@/components/modes/TrendFinder';
-import { CorrelationFinder } from '@/components/modes/CorrelationFinder';
-import { BasicForecastMaker } from '@/components/modes/BasicForecastMaker';
-import { BudgetChartMaker } from '@/components/modes/BudgetChartMaker';
-import { PieChartGenerator } from '@/components/modes/PieChartGenerator';
-import { BarGraphGenerator } from '@/components/modes/BarGraphGenerator';
-import { LineChartGenerator } from '@/components/modes/LineChartGenerator';
-import { TimelineMaker } from '@/components/modes/TimelineMaker';
-import { FlowchartGenerator } from '@/components/modes/FlowchartGenerator';
-import { ChecklistMaker } from '@/components/modes/ChecklistMaker';
-import { KanbanBoardMaker } from '@/components/modes/KanbanBoardMaker';
-import { MindMapOutlineMaker } from '@/components/modes/MindMapOutlineMaker';
-import { ProjectDeadlineTracker } from '@/components/modes/ProjectDeadlineTracker';
-import { GanttChartGenerator } from '@/components/modes/GanttChartGenerator';
-import { TeamRoleAssignor } from '@/components/modes/TeamRoleAssignor';
-import { TeamFeedbackCollector } from '@/components/modes/TeamFeedbackCollector';
-import { IdeaVotingTool } from '@/components/modes/IdeaVotingTool';
-import { BrainstormTopicGenerator } from '@/components/modes/BrainstormTopicGenerator';
-import { InnovationIdeaGenerator } from '@/components/modes/InnovationIdeaGenerator';
-import { ProblemStatementMaker } from '@/components/modes/ProblemStatementMaker';
-import { SolutionProposalWriter } from '@/components/modes/SolutionProposalWriter';
-import { HowToGuideMaker } from '@/components/modes/HowToGuideMaker';
-import { TroubleshootingFlowMaker } from '@/components/modes/TroubleshootingFlowMaker';
-import { FAQGenerator } from '@/components/modes/FAQGenerator';
-import { GlossaryCreator } from '@/components/modes/GlossaryCreator';
-import { TutorialScriptWriter } from '@/components/modes/TutorialScriptWriter';
-import { StepByStepGuideMaker } from '@/components/modes/StepByStepGuideMaker';
-import { QuickTipsWriter } from '@/components/modes/QuickTipsWriter';
-import { ErrorMessageRewriter } from '@/components/modes/ErrorMessageRewriter';
-import { AppWalkthroughWriter } from '@/components/modes/AppWalkthroughWriter';
-import { FeatureListMaker } from '@/components/modes/FeatureListMaker';
-import { ReleaseNoteWriter } from '@/components/modes/ReleaseNoteWriter';
-import { PatchNoteFormatter } from '@/components/modes/PatchNoteFormatter';
-import { BugReportTemplateMaker } from '@/components/modes/BugReportTemplateMaker';
-import { UserFeedbackFormMaker } from '@/components/modes/UserFeedbackFormMaker';
-import { CustomerSupportScript } from '@/components/modes/CustomerSupportScript';
-import { HelpArticleWriter } from '@/components/modes/HelpArticleWriter';
-import { TroubleshootingChecklist } from '@/components/modes/TroubleshootingChecklist';
-import { WarrantyPolicyWriter } from '@/components/modes/WarrantyPolicyWriter';
-import { TermsAndConditionsWriter } from '@/components/modes/TermsAndConditionsWriter';
-import { PrivacyPolicyWriter } from '@/components/modes/PrivacyPolicyWriter';
-import { RefundPolicyWriter } from '@/components/modes/RefundPolicyWriter';
-import { SafetyInstructionMaker } from '@/components/modes/SafetyInstructionMaker';
-import { EmergencyContactListMaker } from '@/components/modes/EmergencyContactListMaker';
-import { FirstAidGuide } from '@/components/modes/FirstAidGuide';
-import { DisasterPreparednessGuide } from '@/components/modes/DisasterPreparednessGuide';
-import { TravelSafetyTips } from '@/components/modes/TravelSafetyTips';
-import { ScamWarningGuide } from '@/components/modes/ScamWarningGuide';
-import { PasswordSafetyTips } from '@/components/modes/PasswordSafetyTips';
-import { SocialMediaSafetyGuide } from '@/components/modes/SocialMediaSafetyGuide';
-import { CybersecurityChecklist } from '@/components/modes/CybersecurityChecklist';
-import { AntivirusTipGuide } from '@/components/modes/AntivirusTipGuide';
-import { PhishingEmailIdentifier } from '@/components/modes/PhishingEmailIdentifier';
-import { FakeNewsChecker } from '@/components/modes/FakeNewsChecker';
-import { FactVerificationTool } from '@/components/modes/FactVerificationTool';
-import { CitationGenerator } from '@/components/modes/CitationGenerator';
-import { ReferenceListMaker } from '@/components/modes/ReferenceListMaker';
-import { BibliographyMaker } from '@/components/modes/BibliographyMaker';
-import { ResearchQuestionGenerator } from '@/components/modes/ResearchQuestionGenerator';
-import { HypothesisStatementMaker } from '@/components/modes/HypothesisStatementMaker';
-import { ExperimentDesignGenerator } from '@/components/modes/ExperimentDesignGenerator';
-import { ObservationLogMaker } from '@/components/modes/ObservationLogMaker';
-import { LabReportWriter } from '@/components/modes/LabReportWriter';
-import { SurveyResultSummarizer } from '@/components/modes/SurveyResultSummarizer';
-import { InfographicIdeaGenerator } from '@/components/modes/InfographicIdeaGenerator';
-import { PosterSloganMaker } from '@/components/modes/PosterSloganMaker';
-import { BannerTextGenerator } from '@/components/modes/BannerTextGenerator';
-import { BrochureOutlineMaker } from '@/components/modes/BrochureOutlineMaker';
-import { PamphletContentWriter } from '@/components/modes/PamphletContentWriter';
-import { FlyerTextMaker } from '@/components/modes/FlyerTextMaker';
-import { AnnouncementWriter } from '@/components/modes/AnnouncementWriter';
-import { PressReleaseWriter } from '@/components/modes/PressReleaseWriter';
-import { PublicNoticeWriter } from '@/components/modes/PublicNoticeWriter';
-import { NewsHeadlineGenerator } from '@/components/modes/NewsHeadlineGenerator';
-import { NewsSummaryMaker } from '@/components/modes/NewsSummaryMaker';
-import { SportsUpdateWriter } from '@/components/modes/SportsUpdateWriter';
-import { WeatherReportMaker } from '@/components/modes/WeatherReportMaker';
-import { TrafficUpdateWriter } from '@/components/modes/TrafficUpdateWriter';
-import { StockPriceUpdateWriter } from '@/components/modes/StockPriceUpdateWriter';
-import { CryptocurrencyUpdateWriter } from '@/components/modes/CryptocurrencyUpdateWriter';
-import { EconomyBriefMaker } from '@/components/modes/EconomyBriefMaker';
-import { PoliticalNewsSummaryMaker } from '@/components/modes/PoliticalNewsSummaryMaker';
-import { HealthTipGenerator } from '@/components/modes/HealthTipGenerator';
-import { MedicalTermExplainer } from '@/components/modes/MedicalTermExplainer';
-import { SymptomChecker } from '@/components/modes/SymptomChecker';
-import { MedicineReminder } from '@/components/modes/MedicineReminder';
-import { NutritionFactFinder } from '@/components/modes/NutritionFactFinder';
-import { DietPlanMaker } from '@/components/modes/DietPlanMaker';
-import { FoodAllergyAlertGuide } from '@/components/modes/FoodAllergyAlertGuide';
-import { SafeCookingTemperatureGuide } from '@/components/modes/SafeCookingTemperatureGuide';
-import { KitchenSafetyGuide } from '@/components/modes/KitchenSafetyGuide';
-import { SchoolSafetyChecklist } from '@/components/modes/SchoolSafetyChecklist';
-import { OfficeSafetyChecklist } from '@/components/modes/OfficeSafetyChecklist';
-import { FactorySafetyChecklist } from '@/components/modes/FactorySafetyChecklist';
-import { RoadSafetyTips } from '@/components/modes/RoadSafetyTips';
-import { BicycleSafetyGuide } from '@/components/modes/BicycleSafetyGuide';
-import { SwimmingSafetyGuide } from '@/components/modes/SwimmingSafetyGuide';
-import { HikingSafetyGuide } from '@/components/modes/HikingSafetyGuide';
-import { ChildSafetyTips } from '@/components/modes/ChildSafetyTips';
-import { ElderlyCareTips } from '@/components/modes/ElderlyCareTips';
-import { DisabilitySupportResourceFinder } from '@/components/modes/DisabilitySupportResourceFinder';
-import { CommunityEventIdeaGenerator } from '@/components/modes/CommunityEventIdeaGenerator';
-import { VolunteerTaskListMaker } from '@/components/modes/VolunteerTaskListMaker';
-import { FundraisingIdeaGenerator } from '@/components/modes/FundraisingIdeaGenerator';
-import { DonationCampaignWriter } from '@/components/modes/DonationCampaignWriter';
-import { CharityEventPlanMaker } from '@/components/modes/CharityEventPlanMaker';
-import { NonprofitMissionStatementMaker } from '@/components/modes/NonprofitMissionStatementMaker';
-import { SustainabilityTipGenerator } from '@/components/modes/SustainabilityTipGenerator';
-import { RecyclingGuide } from '@/components/modes/RecyclingGuide';
-import { CompostingGuide } from '@/components/modes/CompostingGuide';
-import { EnergySavingTips } from '@/components/modes/EnergySavingTips';
-import { WaterSavingTips } from '@/components/modes/WaterSavingTips';
-import { PollutionAwarenessGuide } from '@/components/modes/PollutionAwarenessGuide';
-import { WildlifeConservationTips } from '@/components/modes/WildlifeConservationTips';
-import { TreePlantingGuide } from '@/components/modes/TreePlantingGuide';
-import { GardenWildlifeAttractor } from '@/components/modes/GardenWildlifeAttractor';
-import { RenewableEnergyFacts } from '@/components/modes/RenewableEnergyFacts';
-import { ClimateChangeExplainer } from '@/components/modes/ClimateChangeExplainer';
-import { GreenProductSuggestor } from '@/components/modes/GreenProductSuggestor';
-import { VideoMaker } from '@/components/modes/VideoMaker';
 
 export type ModeId = 
   // Core
@@ -515,81 +403,491 @@ export type ModeId =
   // Creative & Media
   | 'photo_generator' | 'logo_maker' | 'design_assistant' | 'photo_editor' | 'video_maker' | 'video_generator' | 'animation_tool' | 'three_d_modeler' | 'video_editor' | 'sound_generator' | 'story_generator' | 'song_writer' | 'poem_generator' | 'character_generator' | 'dream_interpreter'
   // Development & Tech
-  | 'code_generator' | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' | 'file_editor'
-  // Business & Marketing
-  | 'chart_maker' | 'market_research' | 'social_media_post_maker' | 'seo_tool' | 'ad_maker' | 'email_writer' | 'speech_writer' | 'fact_checker' | 'brand_finder' | 'product_finder'
-  | 'supply_chain_ai_planner' | 'inventory_auto_forecaster' | 'logistics_route_optimizer' | 'vendor_risk_scorer' | 'fraud_detection_engine' | 'transaction_pattern_finder' | 'credit_risk_analyzer' | 'investment_portfolio_optimizer' | 'financial_statement_summarizer'
-  | 'text_rewriter_pro' | 'creative_content_expander' | 'conversational_flow_designer' | 'technical_document_generator' | 'storyboard_idea_expander' | 'digital_persona_creator' | 'smart_prompt_optimizer' | 'title_and_headline_optimizer'
-  | 'long_form_report_writer' | 'smart_question_answer_engine' | 'policy_drafting_assistant' | 'legal_clause_suggestion_tool' | 'patent_abstract_generator' | 'contract_simplifier' | 'compliance_document_checker' | 'business_kpi_forecaster' | 'competitor_comparison_engine' | 'market_gap_identifier' | 'customer_segmentation_mapper' | 'price_elasticity_estimator' | 'churn_risk_predictor' | 'profit_margin_optimizer'
-  // Education & Productivity
-  | 'homework_helper' | 'study_material_analyzer' | 'ai_teacher' | 'games_knowledge' | 'yoga_fitness' | 'grammar_practice_creator' | 'sports_skills_trainer' | 'quiz_generator' | 'book_generator'
-  | 'text_summarizer' | 'question_giver' | 'idea_generator' | 'recipe_creator' | 'travel_planner' | 'grammar_corrector'
-  // Text Utilities
-  | 'text_formatter' | 'spelling_checker' | 'word_counter' | 'hashtag_generator' | 'caption_maker' | 'daily_planner' | 'note_summarizer' | 'paragraph_expander' | 'question_generator' | 'keyword_finder' | 'text_cleaner' | 'text_tone_adjuster' | 'synonym_finder' | 'antonym_finder' | 'acronym_maker' | 'emoji_replacer' | 'headline_creator' | 'title_case_converter' | 'bullet_point_maker' | 'simple_translator' | 'text_shortener' | 'email_subject_line_maker' | 'readability_checker' | 'plagiarism_checker' | 'blog_idea_generator' | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer' | 'story_idea_generator'
-  // Business/Productivity Utilities
-  | 'joke_finder' | 'rhyme_finder' | 'idiom_explainer' | 'fact_finder' | 'list_creator' | 'quote_finder' | 'motivational_message_maker' | 'reminder_maker' | 'calendar_event_filler' | 'tagline_maker' | 'brand_name_generator' | 'slogan_maker' | 'product_description_writer' | 'ad_headline_creator' | 'poll_question_maker' | 'survey_question_generator' | 'resume_bullet_point_maker' | 'job_title_suggestor' | 'skill_list_generator' | 'cover_letter_writer' | 'meeting_agenda_maker' | 'meeting_summary_writer' | 'task_priority_sorter' | 'decision_helper' | 'pro_con_list_maker' | 'swot_analyzer' | 'business_idea_generator' | 'startup_pitch_writer' | 'cost_estimate_calculator' | 'roi_calculator'
-  // Financial & Unit Conversion Utilities
-  | 'budget_planner' | 'expense_tracker' | 'savings_goal_calculator' | 'loan_calculator' | 'interest_calculator' | 'profit_calculator' | 'break_even_calculator' | 'tax_calculator' | 'currency_converter' | 'unit_converter' | 'weight_converter' | 'temperature_converter' | 'length_converter' | 'area_converter' | 'volume_converter' | 'speed_converter' | 'time_zone_converter'
-  // Time & Randomization Utilities
-  | 'age_calculator' | 'date_difference_finder' | 'countdown_timer_maker' | 'stopwatch_tool' | 'random_number_picker' | 'random_name_picker' | 'dice_roller' | 'coin_flip'
-  // Naming & Security Utilities
-  | 'password_generator' | 'username_generator' | 'nickname_maker' | 'wifi_name_generator' | 'domain_name_generator'
-  // Education & Creative Writing Utilities
-  | 'app_name_generator' | 'game_name_generator' | 'playlist_name_generator' | 'event_name_generator' | 'book_title_generator' | 'chapter_title_generator' | 'course_title_generator'
-  | 'lesson_plan_maker' | 'exam_question_generator' | 'flashcard_maker' | 'study_guide_maker' | 'concept_explainer' | 'historical_fact_finder' | 'science_fact_finder' | 'math_problem_solver' | 'equation_generator' | 'geometry_shape_drawer' | 'unit_conversion_practice_tool'
-  | 'language_practice_partner' | 'vocabulary_builder' | 'spelling_quiz_maker' | 'grammar_quiz_maker' | 'reading_comprehension_tester'
-  | 'essay_topic_generator' | 'poetry_writer' | 'haiku_generator' | 'song_lyric_starter' | 'rap_verse_maker' | 'script_dialogue_writer' | 'monologue_writer' | 'scene_description_writer'
-  // Latest Batch
-  | 'character_backstory_maker' | 'plot_twist_generator' | 'conflict_idea_maker' | 'ending_suggestor' | 'book_summary_maker' | 'movie_summary_maker' | 'episode_recap_writer'
-  | 'recipe_writer' | 'meal_plan_generator' | 'grocery_list_maker' | 'calorie_counter' | 'workout_plan_generator' | 'yoga_routine_generator' | 'meditation_guide' | 'breathing_exercise_guide'
-  | 'habit_tracker' | 'sleep_routine_planner' | 'water_intake_tracker' | 'mood_journal_prompter' | 'self_care_checklist_maker' | 'mind_map_creator' | 'goal_tracker'
-  | 'motivation_quote_sender' | 'challenge_idea_generator' | 'diy_project_idea_maker' | 'gift_idea_generator' | 'party_theme_generator' | 'event_schedule_maker' | 'invitation_message_writer'
-  // Newest Batch
-  | 'toast_speech_writer' | 'eulogy_writer' | 'thank_you_note_maker' | 'apology_letter_writer' | 'love_letter_writer' | 'compliment_generator' | 'roast_joke_generator' | 'greeting_card_message_maker'
-  | 'holiday_wish_maker' | 'birthday_wish_maker' | 'anniversary_wish_maker' | 'condolence_message_writer' | 'congratulations_message_writer'
-  | 'short_story_writer' | 'fairy_tale_creator' | 'fable_writer' | 'horror_story_maker' | 'mystery_story_generator' | 'fantasy_story_builder' | 'sci_fi_story_maker' | 'detective_case_idea_maker' | 'superhero_story_creator'
-  | 'villain_profile_maker' | 'side_character_generator' | 'dialogue_improver' | 'scene_pacing_adjuster' | 'narrative_style_changer' | 'perspective_rewriter' | 'article_rewriter'
-  // Latest batch
-  | 'plagiarism_free_rewriter' | 'product_review_writer' | 'service_review_writer' | 'movie_review_maker' | 'game_review_writer' | 'app_review_generator' | 'book_review_writer'
-  | 'travel_itinerary_maker' | 'packing_list_maker' | 'local_attraction_finder' | 'restaurant_suggestor' | 'food_pairing_suggestor' | 'cocktail_recipe_maker' | 'smoothie_recipe_generator' | 'dessert_idea_generator' | 'meal_substitute_finder' | 'cooking_tip_giver' | 'kitchen_measurement_converter' | 'leftover_recipe_maker'
-  | 'cleaning_checklist_maker' | 'chore_scheduler' | 'minimalist_declutter_guide' | 'budget_friendly_home_decor_ideas'
-  | 'gardening_tip_giver' | 'plant_watering_reminder' | 'pet_care_guide' | 'dog_training_tip_giver' | 'cat_behavior_explainer' | 'pet_name_generator' | 'wildlife_fact_finder'
-  // Newest batch
-  | 'bird_watching_guide' | 'fishing_tip_giver' | 'camping_checklist_maker' | 'hiking_route_suggestor' | 'workout_timer' | 'step_counter' | 'body_mass_index_calculator' | 'heart_rate_zone_calculator' | 'stretching_routine_generator' | 'dance_move_suggestor'
-  | 'music_practice_tracker' | 'instrument_learning_guide' | 'song_chord_finder' | 'lyric_rhyme_improver' | 'dj_playlist_organizer'
-  | 'photography_tip_giver' | 'camera_setting_guide' | 'photo_caption_generator' | 'social_media_post_scheduler' | 'content_calendar_maker' | 'hashtag_trend_finder' | 'viral_idea_generator'
-  | 'ad_copywriter' | 'sales_script_writer' | 'cold_email_writer' | 'marketing_idea_generator' | 'seo_keyword_suggestor' | 'meta_description_writer' | 'blog_tag_generator' | 'youtube_title_maker'
-  // Final 30
-  | 'youtube_description_writer' | 'youtube_tag_generator' | 'video_script_writer' | 'short_video_idea_generator' | 'live_stream_topic_generator' | 'webinar_outline_maker'
-  | 'online_course_outline_maker' | 'lesson_script_writer' | 'test_answer_key_generator' | 'poll_result_analyzer' | 'data_summarizer' | 'csv_to_table_formatter'
-  | 'chart_idea_generator' | 'basic_data_calculator' | 'average_calculator' | 'percentage_calculator' | 'ratio_calculator' | 'fraction_simplifier' | 'decimal_to_fraction_converter'
-  | 'binary_to_decimal_converter' | 'hex_to_decimal_converter' | 'number_base_converter' | 'prime_number_finder' | 'factor_finder' | 'multiplication_table_maker'
-  | 'division_step_solver' | 'square_root_finder' | 'exponent_calculator' | 'logarithm_calculator' | 'probability_calculator'
-  // New 30 modes
-  | 'statistics_summarizer' | 'trend_finder' | 'correlation_finder' | 'basic_forecast_maker' | 'budget_chart_maker' | 'pie_chart_generator' | 'bar_graph_generator' | 'line_chart_generator'
-  | 'timeline_maker' | 'flowchart_generator' | 'checklist_maker' | 'kanban_board_maker' | 'mind_map_outline_maker' | 'project_deadline_tracker' | 'gantt_chart_generator' | 'team_role_assignor'
-  | 'team_feedback_collector' | 'idea_voting_tool' | 'brainstorm_topic_generator' | 'innovation_idea_generator' | 'problem_statement_maker' | 'solution_proposal_writer' | 'how_to_guide_maker'
-  | 'troubleshooting_flow_maker' | 'faq_generator' | 'glossary_creator' | 'tutorial_script_writer' | 'step_by_step_guide_maker' | 'quick_tips_writer' | 'error_message_rewriter'
-  // Latest addition
-  | 'app_walkthrough_writer' | 'feature_list_maker' | 'release_note_writer' | 'patch_note_formatter' | 'bug_report_template_maker' | 'user_feedback_form_maker' | 'customer_support_script'
-  | 'help_article_writer' | 'troubleshooting_checklist' | 'warranty_policy_writer' | 'terms_and_conditions_writer' | 'privacy_policy_writer' | 'refund_policy_writer' | 'safety_instruction_maker'
-  | 'emergency_contact_list_maker' | 'first_aid_guide' | 'disaster_preparedness_guide' | 'travel_safety_tips' | 'scam_warning_guide' | 'password_safety_tips' | 'social_media_safety_guide'
-  | 'cybersecurity_checklist' | 'antivirus_tip_guide' | 'phishing_email_identifier' | 'fake_news_checker' | 'fact_verification_tool' | 'citation_generator' | 'reference_list_maker'
-  | 'bibliography_maker' | 'research_question_generator'
-  // New 30 modes batch
-  | 'hypothesis_statement_maker' | 'experiment_design_generator' | 'observation_log_maker' | 'lab_report_writer' | 'survey_result_summarizer' | 'infographic_idea_generator'
-  | 'poster_slogan_maker' | 'banner_text_generator' | 'brochure_outline_maker' | 'pamphlet_content_writer' | 'flyer_text_maker' | 'announcement_writer'
-  | 'press_release_writer' | 'public_notice_writer' | 'news_headline_generator' | 'news_summary_maker' | 'sports_update_writer' | 'weather_report_maker'
-  | 'traffic_update_writer' | 'stock_price_update_writer' | 'cryptocurrency_update_writer' | 'economy_brief_maker' | 'political_news_summary_maker' | 'health_tip_generator'
-  | 'medical_term_explainer' | 'symptom_checker' | 'medicine_reminder' | 'nutrition_fact_finder' | 'diet_plan_maker' | 'food_allergy_alert_guide'
-  // Newest Batch
-  | 'safe_cooking_temperature_guide' | 'kitchen_safety_guide' | 'school_safety_checklist' | 'office_safety_checklist' | 'factory_safety_checklist' | 'road_safety_tips'
-  | 'bicycle_safety_guide' | 'swimming_safety_guide' | 'hiking_safety_guide' | 'child_safety_tips' | 'elderly_care_tips' | 'disability_support_resource_finder'
-  | 'community_event_idea_generator' | 'volunteer_task_list_maker' | 'fundraising_idea_generator' | 'donation_campaign_writer' | 'charity_event_plan_maker'
-  | 'nonprofit_mission_statement_maker' | 'sustainability_tip_generator' | 'recycling_guide' | 'composting_guide' | 'energy_saving_tips' | 'water_saving_tips'
-  | 'pollution_awareness_guide' | 'wildlife_conservation_tips' | 'tree_planting_guide' | 'garden_wildlife_attractor' | 'renewable_energy_facts'
-  | 'climate_change_explainer' | 'green_product_suggestor';
-  
+  | 'code_generator' | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
+  | 'file_editor' | 'story_generator' | 'text_summarizer' | 'translator' | 'song_writer' 
+  | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
+  | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
+  | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
+  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat'
+  | 'logo_maker' | 'design_assistant' | 'three_d_modeler' | 'animation_tool' | 'seo_tool'
+  | 'social_media_post_maker' | 'market_research' | 'video_maker'
+  | 'text_rewriter_pro' | 'creative_content_expander' | 'conversational_flow_designer' | 'technical_document_generator'
+  | 'storyboard_idea_expander' | 'digital_persona_creator' | 'smart_prompt_optimizer' | 'context_aware_summary_maker'
+  | 'reading_comprehension_assistant' | 'knowledge_graph_builder' | 'smart_data_categorizer' | 'concept_map_generator'
+  | 'interview_question_creator' | 'job_role_analyzer' | 'industry_report_writer' | 'product_feature_brainstormer'
+  | 'meeting_notes_formatter' | 'text_complexity_adjuster' | 'idiom_and_metaphor_finder' | 'paragraph_flow_improver'
+  | 'acronym_expander' | 'real_time_definition_finder' | 'smart_keyword_highlighter' | 'tone_and_mood_adjuster'
+  | 'formality_level_converter' | 'brand_voice_enforcer' | 'multilingual_synonym_finder' | 'title_and_headline_optimizer'
+  | 'long_form_report_writer' | 'smart_question_answer_engine' | 'policy_drafting_assistant' | 'legal_clause_suggestion_tool'
+  | 'patent_abstract_generator' | 'contract_simplifier' | 'compliance_document_checker' | 'script_scene_expander'
+  | 'interview_transcript_formatter' | 'fictional_world_builder' | 'conflict_plot_generator' | 'character_dialogue_improver'
+  | 'multi_threaded_story_planner' | 'fiction_outline_maker' | 'comedy_script_punch_up_tool' | 'villain_backstory_creator'
+  | 'theme_and_motif_analyzer' | 'story_arc_evaluator' | 'mythology_based_plot_creator' | 'sci_fi_concept_designer'
+  | 'fantasy_lore_generator' | 'alternate_history_plot_writer' | 'scientific_hypothesis_suggestor' | 'experiment_design_planner'
+  | 'research_summary_maker' | 'journal_abstract_creator' | 'methodology_drafting_tool' | 'lab_report_formatter'
+  | 'academic_citation_builder' | 'equation_solver_pro' | 'graph_theory_visualizer' | 'statistical_pattern_finder'
+  | 'data_anomaly_detector' | 'predictive_model_trainer' | 'simulation_scenario_builder' | 'ai_behavior_modeler'
+  | 'ethics_risk_analyzer' | 'bias_detector_engine' | 'privacy_impact_forecaster' | 'algorithmic_explainability_tool'
+  | 'dataset_integrity_checker' | 'feature_importance_analyzer' | 'forecast_accuracy_evaluator' | 'root_cause_analysis_bot'
+  | 'data_quality_score_generator' | 'multi_variable_trend_predictor' | 'business_kpi_forecaster' | 'competitor_comparison_engine'
+  | 'market_gap_identifier' | 'customer_segmentation_mapper' | 'price_elasticity_estimator' | 'churn_risk_predictor'
+  | 'profit_margin_optimizer'
+  | 'supply_chain_ai_planner'
+  | 'inventory_auto_forecaster'
+  | 'logistics_route_optimizer'
+  | 'vendor_risk_scorer'
+  | 'fraud_detection_engine'
+  | 'transaction_pattern_finder'
+  | 'credit_risk_analyzer'
+  | 'investment_portfolio_optimizer'
+  | 'financial_statement_summarizer'
+  | 'brand_finder'
+  | 'product_finder'
+  | 'study_material_analyzer'
+  | 'ai_teacher'
+  | 'video_script_generator'
+  | 'event_planner'
+  | 'mind_map_maker'
+  | 'data_visualizer'
+  | 'song_lyrics_writer'
+  | 'ai_therapist'
+  | 'voice_changer'
+  | 'job_description_writer'
+  | 'legal_document_writer'
+  | 'real_estate_listing_writer'
+  | 'price_estimator'
+  | 'interview_coach'
+  | 'resume_analyzer'
+  | 'cover_letter_writer'
+  | 'survey_maker'
+  | 'poll_creator'
+  | 'customer_support_bot'
+  | 'faq_generator'
+  | 'ai_librarian'
+  | 'movie_recommendation_bot'
+  | 'playlist_creator'
+  | 'music_recommendation_engine'
+  | 'game_idea_generator'
+  | 'game_level_designer'
+  | 'puzzle_maker'
+  | 'riddle_generator'
+  | 'jokes_generator'
+  | 'horoscope_writer'
+  | 'tarot_reader_bot'
+  | 'meditation_guide'
+  | 'affirmation_generator'
+  | 'habit_tracker'
+  | 'study_planner'
+  | 'flashcard_maker'
+  | 'note_summarizer'
+  | 'research_assistant'
+  | 'citation_generator'
+  | 'plagiarism_checker'
+  | 'proofreader'
+  | 'tone_changer'
+  | 'script_formatter'
+  | 'blog_post_generator'
+  | 'newsletter_writer'
+  | 'product_review_writer'
+  | 'ad_banner_maker'
+  | 'brochure_designer'
+  | 'poster_maker'
+  | 'flyer_generator'
+  | 'infographic_maker'
+  | 'social_post_designer'
+  | 'thumbnail_creator'
+  | 'app_ui_designer'
+  | 'website_mockup_generator'
+  | 'landing_page_builder'
+  | 'ebook_creator'
+  | 'magazine_layout_designer'
+  | 'resume_template_maker'
+  | 'presentation_template_maker'
+  | 'banner_animation_tool'
+  | 'icon_maker'
+  | 'button_generator'
+  | 'emoji_creator'
+  | 'sticker_maker'
+  | 'wallpaper_generator'
+  | 'pattern_designer'
+  | 'font_designer'
+  | 'typeface_identifier'
+  | 'color_matcher'
+  | 'photo_collage_maker'
+  | 'panorama_stitcher'
+  | 'time_lapse_creator'
+  | 'slow_motion_editor'
+  | 'stop_motion_creator'
+  | 'animated_gif_editor'
+  | 'cinemagraph_maker'
+  | 'slideshow_creator'
+  | 'video_montage_maker'
+  | 'music_video_creator'
+  | 'lyric_video_generator'
+  | 'video_intro_maker'
+  | 'outro_creator'
+  | 'screen_recorder'
+  | 'live_stream_overlay_designer'
+  | 'face_cam_frame_maker'
+  | 'reaction_video_maker'
+  | 'green_screen_editor'
+  | 'chroma_key_tool'
+  | 'voice_over_recorder'
+  | 'dubbing_tool'
+  | 'audio_sync_tool'
+  | 'noise_remover'
+  | 'equalizer_tool'
+  | 'auto_tune_tool'
+  | 'audio_mixer'
+  | 'ai_math_solver'
+  | 'interior_design_planner'
+  | 'clothing_design_generator'
+  | 'social_media_scheduler'
+  | 'voice_over_script_generator'
+  | 'animated_infographic_maker'
+  | 'digital_art_generator'
+  | 'photo_slideshow_creator'
+  | 'web_banner_maker'
+  | 'book_cover_designer'
+  | 'ai_customer_support_bot'
+  | 'game_character_creator'
+  | 'song_lyric_writer'
+  | 'audio_transcription_tool'
+  | 'mood_board_creator'
+  | 'event_invitation_maker'
+  | 'digital_planner'
+  | 'whiteboard_animation_tool'
+  | 'classroom_quiz_generator'
+  | 'ai_debate_partner'
+  | 'learning_path_builder'
+  | 'cooking_timer_app'
+  | 'diet_meal_planner'
+  | 'photography_shot_list_tool'
+  | 'animated_logo_maker'
+  | 'interactive_story_builder'
+  | 'voice_emotion_analyzer'
+  | 'local_event_finder'
+  | 'music_remix_tool'
+  | 'digital_calendar_maker'
+  | 'file_compression_tool'
+  | 'auto_caption_tool'
+  | 'document_scanner_app'
+  | 'writing_style_converter'
+  | 'script_breakdown_tool'
+  | 'ai_rap_lyric_generator'
+  | 'comic_strip_maker'
+  | 'mind_map_creator'
+  | 'logo_font_matcher'
+  | '3d_animation_generator'
+  | 'classroom_attendance_tracker'
+  | 'ai_horoscope_generator'
+  | 'resume_formatter'
+  | 'podcast_name_generator'
+  | 'business_card_maker'
+  | 'ai_detective_bot'
+  | 'ebook_formatter'
+  | 'recipe_calorie_calculator'
+  | 'photo_lighting_adjuster'
+  | 'infographic_designer'
+  | 'audio_loop_maker'
+  | 'online_form_builder'
+  | 'ai_puzzle_generator'
+  | 'virtual_pet_creator'
+  | 'resume_proofreader'
+  | 'blog_seo_optimizer'
+  | 'travel_budget_calculator'
+  | 'greeting_card_designer'
+  | 'voice_dubbing_tool'
+  | 'storyboarding_tool'
+  | 'file_encryption_tool'
+  | 'image_to_pdf_converter'
+  | 'music_mood_classifier'
+  | 'slide_deck_optimizer'
+  | 'logo_shape_generator'
+  | 'classroom_resource_planner'
+  | 'song_key_detector'
+  | 'audio_speed_changer'
+  | 'text_to_emoji_converter'
+  | 'ai_novel_writer'
+  | 'photo_watermark_remover'
+  | 'online_poster_maker'
+  | 'ai_dream_interpreter'
+  | 'budget_expense_tracker'
+  | 'furniture_ar_viewer'
+  | 'ai_slogan_generator'
+  | 'interactive_map_builder'
+  | 'document_translator'
+  | 'virtual_lab_simulator'
+  | 'digital_comic_lettering_tool'
+  | 'ai_email_sorter'
+  | 'podcast_editing_tool'
+  | 'online_resume_hosting'
+  | 'ai_voice_narrator'
+  | 'content_plagiarism_checker'
+  | '3d_avatar_creator'
+  | 'ai_business_plan_writer'
+  | 'video_meme_generator'
+  | 'ai_legal_document_drafter'
+  | 'blog_post_formatter'
+  | 'ai_presentation_coach'
+  | 'ai_resume_analyzer'
+  | 'smart_invoice_generator'
+  | 'ai_tagline_generator'
+  | 'language_pronunciation_coach'
+  | 'online_signature_creator'
+  | 'podcast_episode_planner'
+  | 'ai_brand_name_finder'
+  | 'custom_calendar_generator'
+  | 'digital_scrapbook_maker'
+  | 'ai_business_email_writer'
+  | 'qr_code_designer'
+  | 'ai_greeting_generator'
+  | 'website_accessibility_checker'
+  | 'digital_invitation_maker'
+  | 'mood_based_playlist_maker'
+  | 'product_description_generator'
+  | 'ai_personal_shopper'
+  | 'resume_gap_filler'
+  | 'smart_to_do_list'
+  | 'ai_grammar_coach'
+  | 'content_tone_analyzer'
+  | 'voice_cloning_tool'
+  | 'ai_workshop_planner'
+  | 'audio_book_creator'
+  | 'travel_safety_checker'
+  | 'meme_text_overlay_tool'
+  | 'ai_comedy_script_writer'
+  | 'interactive_learning_game_maker'
+  | 'recipe_ingredient_converter'
+  | 'virtual_makeup_try_on'
+  | 'online_brochure_maker'
+  | 'ai_gift_recommendation_tool'
+  | 'custom_map_designer'
+  | 'ai_product_idea_generator'
+  | 'virtual_travel_guide'
+  | 'music_tempo_changer'
+  | 'ai_poem_writer'
+  | 'ai_tattoo_design_maker'
+  | 'interactive_quiz_maker'
+  | 'digital_flipbook_creator'
+  | 'speech_to_text_tool'
+  | 'ai_résumé_tailor'
+  | 'event_budget_planner'
+  | 'digital_greeting_animator'
+  | 'ai_marketing_strategy_builder'
+  | 'social_media_comment_responder'
+  | 'ai_puzzle_solver'
+  | 'photo_collage_maker'
+  | 'ai_writing_prompt_generator'
+  | 'ai_video_game_storyline_writer'
+  | 'ai_meme_idea_generator'
+  | 'live_poll_creator'
+  | 'ai_book_summary_tool'
+  | 'virtual_stage_designer'
+  | 'ai_resume_scanner'
+  | 'ai_conflict_mediator'
+  | 'ai_home_cleaning_planner'
+  | 'virtual_fitness_trainer'
+  | 'ai_speech_writer'
+  | 'ai_fact_checker'
+  | 'ai_book_title_generator'
+  | 'digital_business_proposal_maker'
+  | 'ai_flashcard_creator'
+  | 'audio_noise_reducer'
+  | 'digital_mood_tracker'
+  | 'ai_fundraising_campaign_planner'
+  | 'virtual_garden_planner'
+  | 'ai_story_ending_generator'
+  | 'ai_product_packaging_designer'
+  | 'ai_resume_bullet_point_writer'
+  | 'interactive_flowchart_maker'
+  | 'ai_public_speaking_coach'
+  | 'ai_debate_topic_generator'
+  | 'ai_scene_description_writer'
+  | 'digital_recipe_book_maker'
+  | 'ai_daily_planner'
+  | 'virtual_dance_choreographer'
+  | 'ai_legal_contract_analyzer'
+  | 'ai_career_path_planner'
+  | 'digital_checklists_app'
+  | 'ai_fantasy_map_maker'
+  | 'ai_ad_copy_generator'
+  | 'ai_character_personality_builder'
+  | 'ai_voiceover_localizer'
+  | 'ai_academic_citation_tool'
+  | 'ai_startup_idea_validator'
+  | 'ai_time_zone_converter'
+  | 'ai_email_tone_adjuster'
+  | 'ai_audience_targeting_tool'
+  | 'digital_story_template_library'
+  | 'ai_playlist_transition_tool'
+  | 'ai_gift_card_designer'
+  | 'ai_weather_event_predictor'
+  | 'ai_employee_feedback_tool'
+  | 'ai_speech_emotion_enhancer'
+  | 'ai_photo_style_transfer_tool'
+  | 'ai_dream_vacation_planner'
+  | 'ai_podcast_topic_generator'
+  | 'ai_digital_bill_splitter'
+  | 'ai_document_summarizer'
+  | 'ai_voice_command_creator'
+  | 'ai_music_genre_converter'
+  | 'ai_influencer_finder'
+  | 'ai_recipe_flavor_enhancer'
+  | 'ai_class_notes_organizer'
+  | 'ai_ad_headline_split_tester'
+  | 'ai_custom_font_designer'
+  | 'ai_online_community_builder'
+  | 'ai_background_noise_generator'
+  | 'ai_pet_care_planner'
+  | 'ai_grammar_quiz_maker'
+  | 'ai_digital_stamp_creator'
+  | 'ai_home_renovation_planner'
+  | 'ai_academic_paper_grader'
+  | 'ai_logo_animation_tool'
+  | 'ai_book_plot_outline_creator'
+  | 'ai_social_media_analytics_tool'
+  | 'ai_blog_comment_moderator'
+  | 'ai_image_upscaler'
+  | 'ai_conference_agenda_builder'
+  | 'ai_newsletter_content_generator'
+  | 'ai_story_character_name_generator'
+  | 'ai_music_mood_mixer'
+  | 'ai_political_speech_analyzer'
+  | 'ai_resume_infographic_maker'
+  | 'ai_voice_acting_coach'
+  | 'ai_game_mechanics_designer'
+  | 'ai_social_post_rewriter'
+  | 'ai_mood_board_organizer'
+  | 'ai_digital_comic_creator'
+  | 'ai_training_schedule_planner'
+  | 'ai_short_story_generator'
+  | 'ai_ad_campaign_tracker'
+  | 'ai_social_caption_shortener'
+  | 'ai_fictional_language_creator'
+  | 'ai_user_interface_designer'
+  | 'ai_live_chat_responder'
+  | 'ai_document_redaction_tool'
+  | 'ai_blog_image_finder'
+  | 'ai_skill_assessment_tool'
+  | 'ai_scene_transition_maker'
+  | 'ai_language_idiom_finder'
+  | 'ai_company_slogan_tester'
+  | 'ai_group_discussion_simulator'
+  | 'ai_video_highlight_reel_maker'
+  | 'ai_tag_suggestion_tool'
+  | 'ai_brand_color_finder'
+  | 'ai_music_sheet_creator'
+  | 'ai_virtual_interview_simulator'
+  | 'ai_social_media_story_maker'
+  | 'ai_content_repurposing_tool'
+  | 'ai_pet_training_assistant'
+  | 'ai_virtual_study_buddy'
+  | 'ai_song_title_generator'
+  | 'ai_custom_illustration_tool'
+  | 'ai_handwriting_font_converter'
+  | 'ai_brand_mood_analyzer'
+  | 'ai_business_risk_assessor'
+  | 'ai_social_media_hashtag_tester'
+  | 'ai_digital_greeting_card_maker'
+  | 'ai_customer_loyalty_program_builder'
+  | 'ai_classroom_seating_planner'
+  | 'ai_stock_market_trend_analyzer'
+  | 'ai_resume_design_templates'
+  | 'ai_podcast_episode_summarizer'
+  | 'ai_story_conflict_generator'
+  | 'ai_business_kpi_tracker'
+  | 'ai_slide_deck_storyboard_tool'
+  | 'ai_music_sampling_tool'
+  | 'ai_content_length_optimizer'
+  | 'ai_fashion_mood_forecaster'
+  | 'ai_study_notes_summarizer'
+  | 'ai_voice_activated_to_do_list'
+  | 'ai_livestream_script_writer'
+  | 'ai_business_slogan_shortener'
+  | 'ai_webpage_speed_tester'
+  | 'ai_song_genre_identifier'
+  | 'ai_video_script_breakdown_tool'
+  | 'ai_language_dialect_converter'
+  | 'ai_food_pairing_suggestion_tool'
+  | 'ai_brand_tagline_shortener'
+  | 'ai_youtube_title_optimizer'
+  | 'ai_job_role_description_writer'
+  | 'ai_health_symptom_checker'
+  | 'ai_hobby_suggestion_tool'
+  | 'ai_social_media_post_scheduler'
+  | 'ai_personality_quiz_creator'
+  | 'ai_resume_summary_generator'
+  | 'ai_content_calendar_planner'
+  | 'ai_ecommerce_product_tagger'
+  | 'ai_story_arc_builder'
+  | 'ai_news_headline_analyzer'
+  | 'ai_blog_outline_generator'
+  | 'ai_podcast_guest_finder'
+  | 'ai_corporate_training_planner'
+  | 'ai_language_translation_game'
+  | 'ai_team_collaboration_board'
+  | 'ai_resume_ats_checker'
+  | 'ai_art_style_identifier'
+  | 'ai_digital_mood_journal'
+  | 'ai_fiction_story_starter'
+  | 'ai_brand_value_analyzer'
+  | 'ai_interactive_resume_builder'
+  | 'ai_scene_lighting_planner'
+  | 'ai_brand_name_shortener'
+  | 'ai_video_scene_tagger'
+  | 'ai_creative_writing_coach'
+  | 'ai_virtual_museum_tour_creator'
+  | 'ai_music_chord_progression_generator'
+  | 'ai_book_genre_classifier'
+  | 'ai_social_listening_tool'
+  | 'ai_virtual_classroom_builder'
+  | 'ai_brand_personality_quiz'
+  | 'ai_website_color_scheme_tester'
+  | 'ai_marketing_budget_calculator'
+  | 'ai_digital_handwriting_analyzer'
+  | 'ai_event_ticket_designer'
+  | 'ai_voice_gender_switcher'
+  | 'ai_cooking_recipe_improver'
+  | 'ai_website_wireframe_creator'
+  | 'ai_story_dialogue_improver'
+  | 'ai_image_captioning_tool'
+  | 'ai_product_price_optimizer'
+  | 'ai_sports_match_predictor'
+  | 'ai_fashion_accessory_designer'
+  | 'ai_remote_team_icebreaker_tool'
+  | 'ai_livestream_overlay_creator'
+  | 'ai_story_villain_creator'
+  | 'ai_song_lyric_rhyme_finder'
+  | 'ai_virtual_fashion_show_creator'
+  | 'ai_resume_skill_gap_analyzer'
+  | 'ai_employee_recognition_tool'
+  | 'ai_brand_storytelling_tool'
+  | 'ai_recipe_step_visualizer'
+  | 'ai_music_vocal_remover'
+  | 'ai_blog_readability_checker'
+  | 'ai_book_character_tracker'
+  | 'ai_online_course_outline_maker'
+  | 'ai_interview_question_generator'
+  | 'ai_video_background_remover'
+  | 'ai_story_time_estimator'
+  | 'ai_business_email_formatter'
+  | 'ai_music_key_changer'
+  | 'ai_social_media_poll_maker'
+  | 'ai_conference_speaker_finder'
+  | 'ai_gaming_strategy_advisor'
+  | 'ai_character_voice_generator'
+  | 'ai_blog_post_expansion_tool'
+  | 'ai_virtual_pet_creator'
+  | 'sports_skills_trainer'
+  | 'grammar_practice_creator'
+  | 'quiz_generator' | 'book_generator'
+  // My additions
+  | 'minimalist_living_tips' | 'zero_waste_tips' | 'upcycling_project_ideas' | 'repair_guide' | 'second_hand_shopping_tips' | 'budget_travel_tips' | 'digital_nomad_tips' | 'remote_job_board_scraper' | 'work_from_home_setup_guide' | 'productivity_timer' | 'focus_music_suggestor' | 'task_completion_tracker' | 'study_break_reminder' | 'time_blocking_planner' | 'weekly_review_template' | 'monthly_reflection_template' | 'yearly_goal_planner' | 'life_bucket_list_maker' | 'travel_bucket_list_maker' | 'skill_learning_plan' | 'language_learning_plan' | 'book_reading_plan' | 'podcast_recommendation_list' | 'movie_recommendation_list' | 'series_recommendation_list' | 'game_recommendation_list' | 'music_playlist_suggestor' | 'hobby_idea_generator' | 'weekend_activity_planner' | 'family_activity_planner'
+  | 'solo_travel_guide' | 'group_trip_planner' | 'road_trip_itinerary_maker' | 'festival_guide' | 'seasonal_activity_guide' | 'local_business_finder' | 'visual_story_mapper' | 'ai_daily_motivation_coach'
+  ;
+
+
 export interface Mode {
     id: ModeId;
     name: string;
@@ -641,18 +939,8 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Write a poem based on the following request. The poem should be in the same language as the prompt. Request: ${p}`,
         resultTitle: "Generated Poem"
     }},
-    { id: 'character_generator', name: 'Character Generator', icon: UserSquare, description: 'Create detailed characters for stories.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'A grizzled detective with a troubled past' or 'A cheerful elf from a hidden forest'...",
-        buttonText: "Create Character",
-        generatePrompt: (p: string) => `Create a detailed character profile based on the following description: ${p}. Include their name, appearance, personality, backstory, and motivations. The profile should be in the same language as the prompt.`,
-        resultTitle: "Character Profile"
-    }},
-    { id: 'dream_interpreter', name: 'Dream Interpreter', icon: MoonStar, description: 'Analyze and find the meaning of your dreams.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "Describe your dream in as much detail as possible...",
-        buttonText: "Interpret Dream",
-        generatePrompt: (p: string) => `Provide a thoughtful and psychological interpretation of the following dream, considering common symbols and themes. The interpretation should be in the same language as the dream description. Dream: ${p}`,
-        resultTitle: "Dream Interpretation"
-    }},
+    { id: 'character_generator', name: 'Character Generator', icon: UserSquare, description: 'Create detailed characters for stories.', component: CharacterGenerator },
+    { id: 'dream_interpreter', name: 'Dream Interpreter', icon: MoonStar, description: 'Analyze and find the meaning of your dreams.', component: DreamInterpreter },
 
     // Development & Tech
     { id: 'code_generator', name: 'Code Generator', icon: Code, description: 'Generate, manage, and import code.', component: CodeGenerator },
@@ -674,12 +962,7 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Write a compelling and descriptive video ad script for the following product/service, including scene descriptions, dialogue, and camera shots. The script should be in the same language as the prompt. Prompt: ${p}`,
         resultTitle: "Video Ad Script"
     }},
-    { id: 'email_writer', name: 'Email Writer', icon: Mail, description: 'Draft professional and personal emails.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'An email to my boss requesting time off' or 'A follow-up email after a job interview'...",
-        buttonText: "Write Email",
-        generatePrompt: (p: string) => `Write a well-formatted and professional email for the following purpose. The email should be in the same language as the prompt. Purpose: ${p}`,
-        resultTitle: "Generated Email"
-    }},
+    { id: 'email_writer', name: 'Email Writer', icon: Mail, description: 'Draft professional and personal emails.', component: EmailWriter },
     { id: 'fact_checker', name: 'Fact Checker', icon: CheckSquare, description: 'Check the accuracy of a statement.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Enter a statement to fact-check, e.g., 'The sky is green.'",
         buttonText: "Fact-Check",
@@ -732,12 +1015,7 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Create a delicious recipe using the following ingredients: ${p}. Provide a name for the dish, a list of ingredients, and step-by-step instructions. The recipe should be in the same language as the prompt.`,
         resultTitle: "Your Custom Recipe"
     }},
-    { id: 'travel_planner', name: 'Travel Planner', icon: Plane, description: 'Plan your next trip with a custom itinerary.', component: TextGenerator, componentProps: {
-        promptPlaceholder: "e.g., 'A 5-day trip to Paris for a couple on a budget'...",
-        buttonText: "Plan Trip",
-        generatePrompt: (p: string) => `Create a detailed travel itinerary for the following trip: ${p}. Include suggestions for accommodations, activities for each day, and dining options. The itinerary should be in the same language as the prompt.`,
-        resultTitle: "Travel Itinerary"
-    }},
+    { id: 'travel_planner', name: 'Travel Planner', icon: Plane, description: 'Plan your next trip with a custom itinerary.', component: TravelPlanner },
     { id: 'grammar_corrector', name: 'Grammar Corrector', icon: BookCheck, description: 'Correct grammar and spelling mistakes.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Paste your text here to correct grammar and spelling...",
         buttonText: "Correct Grammar",
@@ -943,12 +1221,10 @@ export const modes: Mode[] = [
     { id: 'plagiarism_free_rewriter', name: 'Plagiarism-Free Rewriter', icon: RefreshCw, description: 'Ensures unique wording.', component: PlagiarismFreeRewriter },
     { id: 'product_review_writer', name: 'Product Review Writer', icon: Star, description: 'Writes product reviews.', component: ProductReviewWriter },
     { id: 'service_review_writer', name: 'Service Review Writer', icon: Star, description: 'Writes service feedback.', component: ServiceReviewWriter },
-    { id: 'movie_review_maker', name: 'Movie Review Maker', icon: Film, description: 'Creates short movie reviews.', component: MovieReviewMaker },
     { id: 'game_review_writer', name: 'Game Review Writer', icon: Gamepad2, description: 'Writes game reviews.', component: GameReviewWriter },
     { id: 'app_review_generator', name: 'App Review Generator', icon: AppWindow, description: 'Writes app feedback.', component: AppReviewGenerator },
     { id: 'book_review_writer', name: 'Book Review Writer', icon: BookOpen, description: 'Writes book reviews.', component: BookReviewWriter },
     { id: 'travel_itinerary_maker', name: 'Travel Itinerary Maker', icon: Plane, description: 'Creates travel plans.', component: TravelItineraryMaker },
-    { id: 'packing_list_maker', name: 'Packing List Maker', icon: Package, description: 'Suggests packing essentials.', component: PackingListMaker },
     { id: 'local_attraction_finder', name: 'Local Attraction Finder', icon: Map, description: 'Suggests nearby places to visit.', component: LocalAttractionFinder },
     { id: 'restaurant_suggestor', name: 'Restaurant Suggestor', icon: CookingPot, description: 'Recommends restaurants.', component: RestaurantSuggestor },
     { id: 'food_pairing_suggestor', name: 'Food Pairing Suggestor', icon: Utensils, description: 'Suggests food & drink combinations.', component: FoodPairingSuggestor },
@@ -1162,4 +1438,44 @@ export const modes: Mode[] = [
     { id: 'renewable_energy_facts', name: 'Renewable Energy Facts', icon: Wind, description: 'Shares facts on clean energy.', component: RenewableEnergyFacts },
     { id: 'climate_change_explainer', name: 'Climate Change Explainer', icon: Globe, description: 'Explains climate science simply.', component: ClimateChangeExplainer },
     { id: 'green_product_suggestor', name: 'Green Product Suggestor', icon: Leaf, description: 'Suggests eco-friendly items.', component: GreenProductSuggestor },
+
+    // My additions
+    { id: 'minimalist_living_tips', name: 'Minimalist Living Tips', icon: Home, description: 'Shares simple living advice.', component: MinimalistLivingTips },
+    { id: 'zero_waste_tips', name: 'Zero Waste Tips', icon: Trash, description: 'Shares waste-free lifestyle ideas.', component: ZeroWasteTips },
+    { id: 'upcycling_project_ideas', name: 'Upcycling Project Ideas', icon: Recycle, description: 'Suggests reuse projects.', component: UpcyclingProjectIdeas },
+    { id: 'repair_guide', name: 'Repair Guide', icon: Wrench, description: 'Suggests repair steps for items.', component: RepairGuide },
+    { id: 'second_hand_shopping_tips', name: 'Second-Hand Shopping Tips', icon: Shirt, description: 'Shares thrift buying advice.', component: SecondHandShoppingTips },
+    { id: 'budget_travel_tips', name: 'Budget Travel Tips', icon: PiggyBank, description: 'Shares cheap travel ideas.', component: BudgetTravelTips },
+    { id: 'digital_nomad_tips', name: 'Digital Nomad Tips', icon: Briefcase, description: 'Shares remote work travel advice.', component: DigitalNomadTips },
+    { id: 'remote_job_board_scraper', name: 'Remote Job Board Scraper', icon: Search, description: 'Lists remote work ideas.', component: RemoteJobBoardScraper },
+    { id: 'work_from_home_setup_guide', name: 'Work From Home Setup Guide', icon: Home, description: 'Suggests home office tips.', component: WorkFromHomeSetupGuide },
+    { id: 'productivity_timer', name: 'Productivity Timer', icon: Clock, description: 'Alternates work and break times.', component: ProductivityTimer },
+    { id: 'focus_music_suggestor', name: 'Focus Music Suggestor', icon: Music, description: 'Suggests focus-boosting music.', component: FocusMusicSuggestor },
+    { id: 'task_completion_tracker', name: 'Task Completion Tracker', icon: CheckSquare, description: 'Tracks finished tasks.', component: TaskCompletionTracker },
+    { id: 'study_break_reminder', name: 'Study Break Reminder', icon: Clock, description: 'Reminds to take breaks.', component: StudyBreakReminder },
+    { id: 'time_blocking_planner', name: 'Time Blocking Planner', icon: Calendar, description: 'Divides day into time blocks.', component: TimeBlockingPlanner },
+    { id: 'weekly_review_template', name: 'Weekly Review Template', icon: ListChecks, description: 'Creates review checklists.', component: WeeklyReviewTemplate },
+    { id: 'monthly_reflection_template', name: 'Monthly Reflection Template', icon: BookOpen, description: 'Creates reflection questions.', component: MonthlyReflectionTemplate },
+    { id: 'yearly_goal_planner', name: 'Yearly Goal Planner', icon: Goal, description: 'Suggests yearly goal structure.', component: YearlyGoalPlanner },
+    { id: 'life_bucket_list_maker', name: 'Life Bucket List Maker', icon: List, description: 'Lists long-term goals.', component: LifeBucketListMaker },
+    { id: 'travel_bucket_list_maker', name: 'Travel Bucket List Maker', icon: Plane, description: 'Lists dream destinations.', component: TravelBucketListMaker },
+    { id: 'skill_learning_plan', name: 'Skill Learning Plan', icon: GraduationCap, description: 'Creates skill acquisition steps.', component: SkillLearningPlan },
+    { id: 'language_learning_plan', name: 'Language Learning Plan', icon: Languages, description: 'Suggests study schedules for languages.', component: LanguageLearningPlan },
+    { id: 'book_reading_plan', name: 'Book Reading Plan', icon: BookOpen, description: 'Creates reading timelines.', component: BookReadingPlan },
+    { id: 'podcast_recommendation_list', name: 'Podcast Recommendation List', icon: Mic, description: 'Suggests podcasts.', component: PodcastRecommendationList },
+    { id: 'movie_recommendation_list', name: 'Movie Recommendation List', icon: Film, description: 'Suggests films.', component: MovieRecommendationList },
+    { id: 'series_recommendation_list', name: 'Series Recommendation List', icon: Clapperboard, description: 'Suggests TV shows.', component: SeriesRecommendationList },
+    { id: 'game_recommendation_list', name: 'Game Recommendation List', icon: Gamepad2, description: 'Suggests video games.', component: GameRecommendationList },
+    { id: 'music_playlist_suggestor', name: 'Music Playlist Suggestor', icon: Music, description: 'Suggests songs.', component: MusicPlaylistSuggestor },
+    { id: 'hobby_idea_generator', name: 'Hobby Idea Generator', icon: Puzzle, description: 'Suggests hobbies to try.', component: HobbyIdeaGenerator },
+    { id: 'weekend_activity_planner', name: 'Weekend Activity Planner', icon: Calendar, description: 'Suggests weekend activities.', component: WeekendActivityPlanner },
+    { id: 'family_activity_planner', name: 'Family Activity Planner', icon: Users, description: 'Suggests family-friendly ideas.', component: FamilyActivityPlanner },
+    { id: 'solo_travel_guide', name: 'Solo Travel Guide', icon: User, description: 'Shares solo travel tips.', component: SoloTravelGuide },
+    { id: 'group_trip_planner', name: 'Group Trip Planner', icon: Users, description: 'Plans group trips.', component: GroupTripPlanner },
+    { id: 'road_trip_itinerary_maker', name: 'Road Trip Itinerary Maker', icon: Car, description: 'Suggests road trip routes.', component: RoadTripItineraryMaker },
+    { id: 'festival_guide', name: 'Festival Guide', icon: PartyPopper, description: 'Shares festival information.', component: FestivalGuide },
+    { id: 'seasonal_activity_guide', name: 'Seasonal Activity Guide', icon: Sun, description: 'Suggests seasonal activities.', component: SeasonalActivityGuide },
+    { id: 'local_business_finder', name: 'Local Business Finder', icon: Building2, description: 'Suggests nearby services.', component: LocalBusinessFinder },
+    { id: 'visual_story_mapper', name: 'Visual Story Mapper', icon: GitBranch, description: 'Visually maps out stories and plotlines.', component: VisualStoryMapper },
+    { id: 'ai_daily_motivation_coach', name: 'AI Daily Motivation Coach', icon: Heart, description: 'Sends daily motivational messages.', component: AIDailyMotivationCoach },
 ];
