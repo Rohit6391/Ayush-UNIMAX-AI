@@ -396,7 +396,6 @@ import { GardenWildlifeAttractor } from '@/components/modes/GardenWildlifeAttrac
 import { RenewableEnergyFacts } from '@/components/modes/RenewableEnergyFacts';
 import { ClimateChangeExplainer } from '@/components/modes/ClimateChangeExplainer';
 import { GreenProductSuggestor } from '@/components/modes/GreenProductSuggestor';
-import { InterviewCoach } from '@/components/modes/InterviewCoach';
 
 export type ModeId = 
   // Core
@@ -422,7 +421,7 @@ export type ModeId =
   // Education & Productivity
   | 'homework_helper' | 'study_material_analyzer' | 'ai_teacher' | 'games_knowledge' | 'yoga_fitness' | 'grammar_practice_creator' | 'sports_skills_trainer' | 'quiz_generator' | 'book_generator' | 'text_summarizer' | 'question_giver' | 'idea_generator' | 'recipe_creator' | 'travel_planner' | 'grammar_corrector'
   // Text Utilities
-  | 'text_formatter' | 'spelling_checker' | 'word_counter' | 'hashtag_generator' | 'caption_maker' | 'daily_planner' | 'note_summarizer' | 'paragraph_expander' | 'question_generator' | 'keyword_finder' | 'text_cleaner' | 'text_tone_adjuster' | 'synonym_finder' | 'antonym_finder' | 'acronym_maker' | 'emoji_replacer' | 'headline_creator' | 'title_case_converter' | 'bullet_point_maker' | 'simple_translator' | 'text_shortener' | 'email_subject_line_maker' | 'readability_checker' | 'plagiarism_checker' | 'blog_idea_generator' | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer' | 'story_idea_generator' | 'interview_coach'
+  | 'text_formatter' | 'spelling_checker' | 'word_counter' | 'hashtag_generator' | 'caption_maker' | 'daily_planner' | 'note_summarizer' | 'paragraph_expander' | 'question_generator' | 'keyword_finder' | 'text_cleaner' | 'text_tone_adjuster' | 'synonym_finder' | 'antonym_finder' | 'acronym_maker' | 'emoji_replacer' | 'headline_creator' | 'title_case_converter' | 'bullet_point_maker' | 'simple_translator' | 'text_shortener' | 'email_subject_line_maker' | 'readability_checker' | 'plagiarism_checker' | 'blog_idea_generator' | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer' | 'story_idea_generator'
   // My additions
   | 'minimalist_living_tips' | 'zero_waste_tips' | 'upcycling_project_ideas' | 'repair_guide' | 'second_hand_shopping_tips' | 'budget_travel_tips' | 'digital_nomad_tips' | 'remote_job_board_scraper' | 'work_from_home_setup_guide' | 'productivity_timer' | 'focus_music_suggestor' | 'task_completion_tracker' | 'study_break_reminder' | 'time_blocking_planner' | 'weekly_review_template' | 'monthly_reflection_template' | 'yearly_goal_planner' | 'life_bucket_list_maker' | 'travel_bucket_list_maker' | 'skill_learning_plan' | 'language_learning_plan' | 'book_reading_plan' | 'podcast_recommendation_list' | 'movie_recommendation_list' | 'series_recommendation_list' | 'game_recommendation_list' | 'music_playlist_suggestor' | 'hobby_idea_generator' | 'weekend_activity_planner' | 'family_activity_planner'
   | 'solo_travel_guide' | 'group_trip_planner' | 'road_trip_itinerary_maker' | 'festival_guide' | 'seasonal_activity_guide' | 'local_business_finder' | 'visual_story_mapper' | 'ai_daily_motivation_coach'
@@ -582,8 +581,7 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Correct the grammar and spelling of the following text, and provide the corrected version in the same language:\n\n${p}`,
         resultTitle: "Corrected Text"
     }},
-    { id: 'interview_coach', name: 'Interview Coach', icon: UserSquare, description: 'Practice and get feedback for job interviews.', component: InterviewCoach },
-
+    
     // Text Utilities
     textUtilitiesProps('text_formatter', 'Text Formatter', Pilcrow, 'Cleans and formats messy text into a neat layout.', 'Format the following text into a clean, readable layout'),
     textUtilitiesProps('spelling_checker', 'Spelling Checker', SpellCheck, 'Finds and fixes spelling mistakes instantly.', 'Correct all spelling mistakes in the following text and provide only the corrected version'),
