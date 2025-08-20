@@ -8,10 +8,8 @@ export function TeamFeedbackCollector({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Describe the project or topic for feedback."
             buttonText="Create Feedback Form"
-            generatePrompt={(prompt) => `Create a team feedback form for: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a team feedback form for: "${p}"`}
             resultTitle="Feedback Form"
         />
     );
 }
-
-    

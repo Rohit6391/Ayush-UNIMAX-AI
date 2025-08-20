@@ -9,5 +9,3 @@ export function BudgetChartMaker({ mode }: { mode: any }) {
         />
     );
 }
-
-    

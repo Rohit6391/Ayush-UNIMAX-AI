@@ -8,8 +8,8 @@ export function AnnouncementWriter({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'An announcement about a new company holiday.'"
             buttonText="Write Announcement"
-            generatePrompt={(prompt) => 
-                `You are a communications manager. Write a clear and professional announcement about the following topic. Topic: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a communications manager. Write a clear and professional announcement about the following topic. Topic: "${p}"`
             }
             resultTitle="Announcement"
         />

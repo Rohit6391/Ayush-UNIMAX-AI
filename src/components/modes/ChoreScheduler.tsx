@@ -1,3 +1,4 @@
+
 "use client";
 import { TextGenerator } from "./TextGenerator";
 
@@ -7,8 +8,8 @@ export function ChoreScheduler({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'Assign chores for a family of four for a week'"
             buttonText="Schedule Chores"
-            generatePrompt={(prompt) => 
-                `You are a family organizer. Create a simple chore schedule based on the following request. Assign chores to people or days as specified. Request: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a family organizer. Create a simple chore schedule based on the following request. Assign chores to people or days as specified. Request: "${p}"`
             }
             resultTitle="Chore Schedule"
         />

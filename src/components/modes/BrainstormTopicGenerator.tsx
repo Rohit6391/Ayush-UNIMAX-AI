@@ -8,10 +8,8 @@ export function BrainstormTopicGenerator({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Enter a general theme for brainstorming."
             buttonText="Generate Topics"
-            generatePrompt={(prompt) => `Generate brainstorming topics for: "${prompt}"`}
+            generatePrompt={(p: string) => `Generate brainstorming topics for: "${p}"`}
             resultTitle="Brainstorming Topics"
         />
     );
 }
-
-    

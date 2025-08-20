@@ -8,8 +8,8 @@ export function InfographicIdeaGenerator({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'Infographic ideas for the benefits of recycling.'"
             buttonText="Generate Ideas"
-            generatePrompt={(prompt) => 
-                `You are a graphic designer. Suggest three creative ideas for an infographic on the following topic. Describe the visual layout for each. Topic: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a graphic designer. Suggest three creative ideas for an infographic on the following topic. Describe the visual layout for each. Topic: "${p}"`
             }
             resultTitle="Infographic Ideas"
         />

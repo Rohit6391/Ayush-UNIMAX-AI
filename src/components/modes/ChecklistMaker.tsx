@@ -8,10 +8,8 @@ export function ChecklistMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Provide a list of items for a checklist."
             buttonText="Make Checklist"
-            generatePrompt={(prompt) => `Create a checklist from the following items: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a checklist from the following items: "${p}"`}
             resultTitle="Checklist"
         />
     );
 }
-
-    

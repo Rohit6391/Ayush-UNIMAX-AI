@@ -8,10 +8,8 @@ export function TroubleshootingFlowMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Describe a problem to create a troubleshooting flow for."
             buttonText="Make Flow"
-            generatePrompt={(prompt) => `Create a troubleshooting flow for: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a troubleshooting flow for: "${p}"`}
             resultTitle="Troubleshooting Flow"
         />
     );
 }
-
-    

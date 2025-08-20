@@ -8,8 +8,8 @@ export function PamphletContentWriter({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'Content for a pamphlet on dental hygiene.'"
             buttonText="Write Content"
-            generatePrompt={(prompt) => 
-                `You are a health educator. Write concise and informative content for a pamphlet on the following topic. Topic: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a health educator. Write concise and informative content for a pamphlet on the following topic. Topic: "${p}"`
             }
             resultTitle="Pamphlet Content"
         />

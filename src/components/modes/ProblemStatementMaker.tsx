@@ -8,10 +8,8 @@ export function ProblemStatementMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Describe a problem to frame a statement."
             buttonText="Frame Statement"
-            generatePrompt={(prompt) => `Create a problem statement for: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a problem statement for: "${p}"`}
             resultTitle="Problem Statement"
         />
     );
 }
-
-    

@@ -8,8 +8,8 @@ export function PoliticalNewsSummaryMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'Summarize the latest debate on healthcare policy.'"
             buttonText="Make Summary"
-            generatePrompt={(prompt) => 
-                `You are a political analyst. Provide a neutral, factual summary of the following political event or topic. Topic: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a political analyst. Provide a neutral, factual summary of the following political event or topic. Topic: "${p}"`
             }
             resultTitle="Political News Summary"
         />

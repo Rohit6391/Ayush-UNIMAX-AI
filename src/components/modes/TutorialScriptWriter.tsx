@@ -8,10 +8,8 @@ export function TutorialScriptWriter({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Describe a topic for a tutorial script."
             buttonText="Write Script"
-            generatePrompt={(prompt) => `Write a tutorial script for: "${prompt}"`}
+            generatePrompt={(p: string) => `Write a tutorial script for: "${p}"`}
             resultTitle="Tutorial Script"
         />
     );
 }
-
-    

@@ -9,5 +9,3 @@ export function BarGraphGenerator({ mode }: { mode: any }) {
         />
     );
 }
-
-    

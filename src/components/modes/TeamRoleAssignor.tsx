@@ -8,10 +8,8 @@ export function TeamRoleAssignor({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="List team members and tasks to assign roles."
             buttonText="Assign Roles"
-            generatePrompt={(prompt) => `Assign team roles for the project: "${prompt}"`}
+            generatePrompt={(p: string) => `Assign team roles for the project: "${p}"`}
             resultTitle="Team Roles"
         />
     );
 }
-
-    

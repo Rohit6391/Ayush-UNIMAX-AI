@@ -9,5 +9,3 @@ export function PieChartGenerator({ mode }: { mode: any }) {
         />
     );
 }
-
-    

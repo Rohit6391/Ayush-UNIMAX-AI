@@ -1,3 +1,4 @@
+
 "use client";
 import { TextGenerator } from "./TextGenerator";
 
@@ -7,8 +8,8 @@ export function PhotographyTipGiver({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'Tips for taking better portrait photos' or 'How to photograph landscapes'"
             buttonText="Get Tips"
-            generatePrompt={(prompt) => 
-                `You are a professional photographer. Provide three actionable tips for improving photography in the following area. Area: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a professional photographer. Provide three actionable tips for improving photography in the following area. Area: "${p}"`
             }
             resultTitle="Photography Tips"
         />

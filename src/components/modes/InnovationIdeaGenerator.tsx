@@ -8,10 +8,8 @@ export function InnovationIdeaGenerator({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Describe a problem to generate innovative ideas for."
             buttonText="Generate Ideas"
-            generatePrompt={(prompt) => `Generate innovative ideas for the problem: "${prompt}"`}
+            generatePrompt={(p: string) => `Generate innovative ideas for the problem: "${p}"`}
             resultTitle="Innovation Ideas"
         />
     );
 }
-
-    

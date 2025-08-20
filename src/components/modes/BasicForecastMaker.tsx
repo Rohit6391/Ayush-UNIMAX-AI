@@ -8,10 +8,8 @@ export function BasicForecastMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Provide historical data to make a forecast."
             buttonText="Make Forecast"
-            generatePrompt={(prompt) => `Create a basic forecast based on: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a basic forecast based on: "${p}"`}
             resultTitle="Basic Forecast"
         />
     );
 }
-
-    

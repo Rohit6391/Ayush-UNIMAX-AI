@@ -8,10 +8,8 @@ export function ErrorMessageRewriter({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Enter an error message to rewrite."
             buttonText="Rewrite Message"
-            generatePrompt={(prompt) => `Rewrite the following error message to be more user-friendly: "${prompt}"`}
+            generatePrompt={(p: string) => `Rewrite the following error message to be more user-friendly: "${p}"`}
             resultTitle="Rewritten Error Message"
         />
     );
 }
-
-    

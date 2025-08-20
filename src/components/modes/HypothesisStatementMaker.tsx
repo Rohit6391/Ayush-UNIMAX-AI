@@ -8,8 +8,8 @@ export function HypothesisStatementMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'If students get more sleep, then their grades will improve.'"
             buttonText="Write Hypothesis"
-            generatePrompt={(prompt) => 
-                `You are a research scientist. Based on the following idea, formulate a clear, testable hypothesis. Idea: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a research scientist. Based on the following idea, formulate a clear, testable hypothesis. Idea: "${p}"`
             }
             resultTitle="Hypothesis Statement"
         />

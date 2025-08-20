@@ -8,10 +8,8 @@ export function IdeaVotingTool({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="List ideas to be voted on."
             buttonText="Create Voting Poll"
-            generatePrompt={(prompt) => `Create a voting poll for the ideas: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a voting poll for the ideas: "${p}"`}
             resultTitle="Voting Poll"
         />
     );
 }
-
-    

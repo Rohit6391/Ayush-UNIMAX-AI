@@ -8,8 +8,8 @@ export function NewsSummaryMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Paste a news article to summarize."
             buttonText="Summarize News"
-            generatePrompt={(prompt) => 
-                `You are a journalist. Summarize the following news article into a short, objective paragraph. Article: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a journalist. Summarize the following news article into a short, objective paragraph. Article: "${p}"`
             }
             resultTitle="News Summary"
         />

@@ -8,10 +8,8 @@ export function SolutionProposalWriter({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Describe a problem to propose a solution for."
             buttonText="Write Proposal"
-            generatePrompt={(prompt) => `Write a solution proposal for the problem: "${prompt}"`}
+            generatePrompt={(p: string) => `Write a solution proposal for the problem: "${p}"`}
             resultTitle="Solution Proposal"
         />
     );
 }
-
-    

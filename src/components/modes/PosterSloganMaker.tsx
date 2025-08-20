@@ -8,8 +8,8 @@ export function PosterSloganMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'Slogans for a school safety poster.'"
             buttonText="Make Slogans"
-            generatePrompt={(prompt) => 
-                `You are a copywriter. Create three short and catchy slogans for a poster on the following theme. Theme: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a copywriter. Create three short and catchy slogans for a poster on the following theme. Theme: "${p}"`
             }
             resultTitle="Poster Slogans"
         />

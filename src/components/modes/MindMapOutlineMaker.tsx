@@ -8,10 +8,8 @@ export function MindMapOutlineMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Enter a central topic for a mind map."
             buttonText="Create Mind Map Outline"
-            generatePrompt={(prompt) => `Create a mind map outline for the topic: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a mind map outline for the topic: "${p}"`}
             resultTitle="Mind Map Outline"
         />
     );
 }
-
-    

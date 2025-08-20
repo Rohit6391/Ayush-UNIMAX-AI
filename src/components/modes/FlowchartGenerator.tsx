@@ -8,10 +8,8 @@ export function FlowchartGenerator({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Describe a process to generate a flowchart."
             buttonText="Generate Flowchart"
-            generatePrompt={(prompt) => `Generate a text-based flowchart for the process: "${prompt}"`}
+            generatePrompt={(p: string) => `Generate a text-based flowchart for the process: "${p}"`}
             resultTitle="Flowchart"
         />
     );
 }
-
-    

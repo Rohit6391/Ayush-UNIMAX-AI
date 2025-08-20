@@ -8,8 +8,8 @@ export function HealthTipGenerator({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'Tips for staying hydrated.'"
             buttonText="Get Health Tip"
-            generatePrompt={(prompt) => 
-                `You are a health and wellness coach. Provide a short, actionable health tip on the following topic. Topic: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a health and wellness coach. Provide a short, actionable health tip on the following topic. Topic: "${p}"`
             }
             resultTitle="Health Tip"
         />

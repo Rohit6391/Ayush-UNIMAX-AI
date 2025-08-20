@@ -8,10 +8,8 @@ export function CorrelationFinder({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Provide data to find correlations."
             buttonText="Find Correlations"
-            generatePrompt={(prompt) => `Find correlations in the following data: "${prompt}"`}
+            generatePrompt={(p: string) => `Find correlations in the following data: "${p}"`}
             resultTitle="Data Correlations"
         />
     );
 }
-
-    

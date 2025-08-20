@@ -8,10 +8,8 @@ export function ProjectDeadlineTracker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="List project tasks and their due dates."
             buttonText="Track Deadlines"
-            generatePrompt={(prompt) => `Create a deadline tracking list for: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a deadline tracking list for: "${p}"`}
             resultTitle="Project Deadlines"
         />
     );
 }
-
-    

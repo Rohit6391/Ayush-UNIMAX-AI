@@ -8,10 +8,8 @@ export function StatisticsSummarizer({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Provide data to summarize statistics."
             buttonText="Generate Statistics Summary"
-            generatePrompt={(prompt) => `Summarize statistics for: "${prompt}"`}
+            generatePrompt={(p: string) => `Summarize statistics for: "${p}"`}
             resultTitle="Statistics Summary"
         />
     );
 }
-
-    

@@ -8,10 +8,8 @@ export function TrendFinder({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Provide data to find trends."
             buttonText="Find Trends"
-            generatePrompt={(prompt) => `Find trends in the following data: "${prompt}"`}
+            generatePrompt={(p: string) => `Find trends in the following data: "${p}"`}
             resultTitle="Data Trends"
         />
     );
 }
-
-    

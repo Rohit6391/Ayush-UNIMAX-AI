@@ -8,10 +8,8 @@ export function QuickTipsWriter({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Enter a topic to get quick tips for."
             buttonText="Write Tips"
-            generatePrompt={(prompt) => `Write some quick tips for: "${prompt}"`}
+            generatePrompt={(p: string) => `Write some quick tips for: "${p}"`}
             resultTitle="Quick Tips"
         />
     );
 }
-
-    

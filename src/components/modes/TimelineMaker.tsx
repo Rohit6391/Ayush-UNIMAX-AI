@@ -8,10 +8,8 @@ export function TimelineMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Provide a series of events to create a timeline."
             buttonText="Create Timeline"
-            generatePrompt={(prompt) => `Create a timeline for: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a timeline for: "${p}"`}
             resultTitle="Timeline"
         />
     );
 }
-
-    

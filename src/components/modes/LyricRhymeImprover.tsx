@@ -1,3 +1,4 @@
+
 "use client";
 import { TextGenerator } from "./TextGenerator";
 
@@ -7,8 +8,8 @@ export function LyricRhymeImprover({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="e.g., 'Suggest better rhymes for the line: The sky is so blue, just for me and you.'"
             buttonText="Improve Rhyme"
-            generatePrompt={(prompt) => 
-                `You are a professional songwriter. For the following lyric, suggest three alternative rhyming lines that are more creative or evocative. Lyric: "${prompt}"`
+            generatePrompt={(p: string) => 
+                `You are a professional songwriter. For the following lyric, suggest three alternative rhyming lines that are more creative or evocative. Lyric: "${p}"`
             }
             resultTitle="Improved Rhymes"
         />

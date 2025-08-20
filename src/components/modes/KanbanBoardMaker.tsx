@@ -8,10 +8,8 @@ export function KanbanBoardMaker({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Provide tasks for a Kanban board (e.g., To Do, In Progress, Done)."
             buttonText="Make Kanban Board"
-            generatePrompt={(prompt) => `Create a text-based Kanban board for the tasks: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a text-based Kanban board for the tasks: "${p}"`}
             resultTitle="Kanban Board"
         />
     );
 }
-
-    

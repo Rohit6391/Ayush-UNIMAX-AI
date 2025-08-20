@@ -8,10 +8,8 @@ export function GanttChartGenerator({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="List project tasks with start and end dates."
             buttonText="Generate Gantt Chart"
-            generatePrompt={(prompt) => `Create a text-based Gantt chart for the project: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a text-based Gantt chart for the project: "${p}"`}
             resultTitle="Gantt Chart"
         />
     );
 }
-
-    

@@ -8,10 +8,8 @@ export function GlossaryCreator({ mode }: { mode: any }) {
             mode={mode}
             promptPlaceholder="Provide a list of terms to create a glossary."
             buttonText="Create Glossary"
-            generatePrompt={(prompt) => `Create a glossary for the terms: "${prompt}"`}
+            generatePrompt={(p: string) => `Create a glossary for the terms: "${p}"`}
             resultTitle="Glossary"
         />
     );
 }
-
-    

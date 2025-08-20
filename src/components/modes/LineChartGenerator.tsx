@@ -9,5 +9,3 @@ export function LineChartGenerator({ mode }: { mode: any }) {
         />
     );
 }
-
-    
