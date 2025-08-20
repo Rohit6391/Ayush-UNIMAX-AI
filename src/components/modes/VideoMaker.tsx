@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef } from 'react';
@@ -71,7 +70,7 @@ export function VideoMaker({ mode }: { mode: any }) {
 
             if (result.videoUrl) {
                 setVideoUrl(result.videoUrl);
-                addHistoryItem('video_generator', prompt, result.videoUrl);
+                addHistoryItem('video_maker', prompt, result.videoUrl);
             } else {
                 throw new Error("The AI failed to generate a video. Please try a different prompt.");
             }

@@ -1,4 +1,3 @@
-
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
@@ -595,7 +594,7 @@ export const modes: Mode[] = [
         resultTitle: "Corrected Text"
     }},
 
-    // NEW MODES START HERE
+    // Lifestyle & Hobbies
     {...textGeneratorProps('movie_review_maker', 'Movie Review Maker', Film, 'Writes detailed movie reviews.', 'Write a review for the movie')},
     {...textGeneratorProps('packing_list_maker', 'Packing List Maker', List, 'Generates packing lists for trips.', 'Create a packing list for')},
     {...textGeneratorProps('solo_travel_guide', 'Solo Travel Guide', User, 'Shares solo travel tips.', 'Provide solo travel tips for')},
@@ -636,12 +635,6 @@ export const modes: Mode[] = [
     {...textGeneratorProps('hobby_idea_generator', 'Hobby Idea Generator', Puzzle, 'Suggests hobbies to try.', 'Suggest hobbies for')},
     {...textGeneratorProps('weekend_activity_planner', 'Weekend Activity Planner', Calendar, 'Suggests weekend activities.', 'Plan weekend activities for')},
     {...textGeneratorProps('family_activity_planner', 'Family Activity Planner', Users, 'Suggests family-friendly ideas.', 'Plan family activities for')},
-    {...textGeneratorProps('plagiarism_free_rewriter', 'Plagiarism-Free Rewriter', RefreshCw, 'Rewrites text for originality.', 'Rewrite the following text to be plagiarism-free')},
-    {...textGeneratorProps('product_review_writer', 'Product Review Writer', PenLine, 'Writes authentic product reviews.', 'Write a review for the product')},
-    {...textGeneratorProps('service_review_writer', 'Service Review Writer', PenLine, 'Writes helpful service reviews.', 'Write a review for the service')},
-    {...textGeneratorProps('game_review_writer', 'Game Review Writer', Gamepad2, 'Writes detailed game reviews.', 'Write a review for the game')},
-    {...textGeneratorProps('app_review_generator', 'App Review Generator', AppWindow, 'Generates reviews for mobile apps.', 'Generate a review for the app')},
-    {...textGeneratorProps('book_review_writer', 'Book Review Writer', BookOpen, 'Writes insightful book reviews.', 'Write a review for the book')},
     {...textGeneratorProps('travel_itinerary_maker', 'Travel Itinerary Maker', Plane, 'Creates detailed travel itineraries.', 'Create an itinerary for a trip to')},
     {...textGeneratorProps('local_attraction_finder', 'Local Attraction Finder', Map, 'Finds interesting local spots.', 'Find local attractions in')},
     {...textGeneratorProps('restaurant_suggestor', 'Restaurant Suggestor', Utensils, 'Recommends places to eat.', 'Suggest restaurants in')},
@@ -682,6 +675,8 @@ export const modes: Mode[] = [
     {...textGeneratorProps('photography_tip_giver', 'Photography Tip Giver', Camera, 'Gives photography advice.', 'Give photography tips for')},
     {...textGeneratorProps('camera_setting_guide', 'Camera Setting Guide', Settings, 'Guides on camera settings.', 'Create a camera setting guide for')},
     {...textGeneratorProps('photo_caption_generator', 'Photo Caption Generator', Captions, 'Generates captions for photos.', 'Generate a caption for a photo of')},
+
+    // Social Media & Marketing Utilities
     {...textGeneratorProps('social_media_post_scheduler', 'Social Media Post Scheduler', Calendar, 'Schedules social media posts.', 'Schedule a social media post for')},
     {...textGeneratorProps('content_calendar_maker', 'Content Calendar Maker', Calendar, 'Creates content calendars.', 'Create a content calendar for')},
     {...textGeneratorProps('hashtag_trend_finder', 'Hashtag Trend Finder', Hash, 'Finds trending hashtags.', 'Find trending hashtags for')},
@@ -702,29 +697,31 @@ export const modes: Mode[] = [
     {...textGeneratorProps('webinar_outline_maker', 'Webinar Outline Maker', Presentation, 'Creates outlines for webinars.', 'Create a webinar outline for')},
     {...textGeneratorProps('online_course_outline_maker', 'Online Course Outline Maker', GraduationCap, 'Creates outlines for online courses.', 'Create an online course outline for')},
     {...textGeneratorProps('lesson_script_writer', 'Lesson Script Writer', PenLine, 'Writes scripts for lessons.', 'Write a lesson script for')},
-    {...textGeneratorProps('test_answer_key_generator', 'Test Answer Key Generator', Key, 'Generates answer keys for tests.', 'Generate an answer key for')},
-    {...textGeneratorProps('poll_result_analyzer', 'Poll Result Analyzer', BarChart3, 'Analyzes results from polls.', 'Analyze the poll results for')},
-    {...textGeneratorProps('data_summarizer', 'Data Summarizer', FileSearch, 'Summarizes complex data sets.', 'Summarize the data for')},
-    {...textGeneratorProps('csv_to_table_formatter', 'CSV to Table Formatter', TableIcon, 'Formats CSV data into tables.', 'Format the CSV data into a table')},
-    {...textGeneratorProps('chart_idea_generator', 'Chart Idea Generator', Lightbulb, 'Suggests chart types for data.', 'Suggest a chart for')},
-    {...textGeneratorProps('basic_data_calculator', 'Basic Data Calculator', Sigma, 'Performs basic data calculations.', 'Calculate the data for')},
-    {...textGeneratorProps('average_calculator', 'Average Calculator', Sigma, 'Calculates the average of numbers.', 'Calculate the average of')},
-    {...textGeneratorProps('percentage_calculator', 'Percentage Calculator', PercentCircle, 'Calculates percentages.', 'Calculate the percentage of')},
-    {...textGeneratorProps('ratio_calculator', 'Ratio Calculator', Divide, 'Calculates ratios.', 'Calculate the ratio of')},
-    {...textGeneratorProps('fraction_simplifier', 'Fraction Simplifier', Superscript, 'Simplifies fractions.', 'Simplify the fraction')},
-    {...textGeneratorProps('decimal_to_fraction_converter', 'Decimal to Fraction Converter', Superscript, 'Converts decimals to fractions.', 'Convert the decimal to a fraction')},
-    {...textGeneratorProps('binary_to_decimal_converter', 'Binary to Decimal Converter', Binary, 'Converts binary to decimal.', 'Convert the binary number to decimal')},
-    {...textGeneratorProps('hex_to_decimal_converter', 'Hex to Decimal Converter', Hash, 'Converts hexadecimal to decimal.', 'Convert the hexadecimal number to decimal')},
-    {...textGeneratorProps('number_base_converter', 'Number Base Converter', Shuffle, 'Converts between number bases.', 'Convert the number')},
-    {...textGeneratorProps('prime_number_finder', 'Prime Number Finder', Search, 'Finds prime numbers in a range.', 'Find prime numbers up to')},
-    {...textGeneratorProps('factor_finder', 'Factor Finder', Sigma, 'Finds factors of a number.', 'Find factors of')},
-    {...textGeneratorProps('multiplication_table_maker', 'Multiplication Table Maker', TableIcon, 'Generates multiplication tables.', 'Create a multiplication table for')},
-    {...textGeneratorProps('division_step_solver', 'Division Step Solver', Divide, 'Solves division problems step-by-step.', 'Solve the division problem')},
-    {...textGeneratorProps('square_root_finder', 'Square Root Finder', SquareRadical, 'Finds the square root of a number.', 'Find the square root of')},
-    {...textGeneratorProps('exponent_calculator', 'Exponent Calculator', ArrowUp, 'Calculates exponents.', 'Calculate the exponent')},
-    {...textGeneratorProps('logarithm_calculator', 'Logarithm Calculator', Sigma, 'Calculates logarithms.', 'Calculate the logarithm of')},
-    {...textGeneratorProps('probability_calculator', 'Probability Calculator', Dices, 'Calculates probabilities.', 'Calculate the probability of')},
-    {...textGeneratorProps('statistics_summarizer', 'Statistics Summarizer', BarChart3, 'Summarizes statistical data.', 'Summarize the statistics for')},
+
+    // Data & Math Utilities
+    {...textUtilitiesProps('test_answer_key_generator', 'Test Answer Key Generator', Key, 'Generates answer keys for tests.', 'Create an answer key for')},
+    {...textUtilitiesProps('poll_result_analyzer', 'Poll Result Analyzer', BarChart3, 'Analyzes results from polls.', 'Analyze poll results for')},
+    {...textUtilitiesProps('data_summarizer', 'Data Summarizer', FileSearch, 'Summarizes complex data sets.', 'Summarize the data for')},
+    {...textUtilitiesProps('csv_to_table_formatter', 'CSV to Table Formatter', TableIcon, 'Formats CSV data into tables.', 'Format CSV data into a table for')},
+    {...textUtilitiesProps('chart_idea_generator', 'Chart Idea Generator', Lightbulb, 'Suggests chart types for data.', 'Suggest a chart for')},
+    {...textUtilitiesProps('basic_data_calculator', 'Basic Data Calculator', Sigma, 'Performs basic data calculations.', 'Calculate')},
+    {...textUtilitiesProps('average_calculator', 'Average Calculator', Sigma, 'Calculates the average of numbers.', 'Calculate the average of')},
+    {...textUtilitiesProps('percentage_calculator', 'Percentage Calculator', PercentCircle, 'Calculates percentages.', 'Calculate the percentage of')},
+    {...textUtilitiesProps('ratio_calculator', 'Ratio Calculator', Divide, 'Calculates ratios.', 'Calculate the ratio of')},
+    {...textUtilitiesProps('fraction_simplifier', 'Fraction Simplifier', Superscript, 'Simplifies fractions.', 'Simplify the fraction')},
+    {...textUtilitiesProps('decimal_to_fraction_converter', 'Decimal to Fraction Converter', Superscript, 'Converts decimals to fractions.', 'Convert to fraction')},
+    {...textUtilitiesProps('binary_to_decimal_converter', 'Binary to Decimal Converter', Binary, 'Converts binary to decimal.', 'Convert to decimal')},
+    {...textUtilitiesProps('hex_to_decimal_converter', 'Hex to Decimal Converter', Hash, 'Converts hexadecimal to decimal.', 'Convert to decimal')},
+    {...textUtilitiesProps('number_base_converter', 'Number Base Converter', Shuffle, 'Converts between number bases.', 'Convert')},
+    {...textUtilitiesProps('prime_number_finder', 'Prime Number Finder', Search, 'Finds prime numbers in a range.', 'Find prime numbers up to')},
+    {...textUtilitiesProps('factor_finder', 'Factor Finder', Sigma, 'Finds factors of a number.', 'Find factors of')},
+    {...textUtilitiesProps('multiplication_table_maker', 'Multiplication Table Maker', TableIcon, 'Generates multiplication tables.', 'Create multiplication table for')},
+    {...textUtilitiesProps('division_step_solver', 'Division Step Solver', Divide, 'Solves division problems step-by-step.', 'Solve')},
+    {...textUtilitiesProps('square_root_finder', 'Square Root Finder', SquareRadical, 'Finds the square root of a number.', 'Find the square root of')},
+    {...textUtilitiesProps('exponent_calculator', 'Exponent Calculator', ArrowUp, 'Calculates exponents.', 'Calculate')},
+    {...textUtilitiesProps('logarithm_calculator', 'Logarithm Calculator', Sigma, 'Calculates logarithms.', 'Calculate the logarithm of')},
+    {...textUtilitiesProps('probability_calculator', 'Probability Calculator', Dices, 'Calculates probabilities.', 'Calculate the probability of')},
+    {...textGeneratorProps('statistics_summarizer', 'Statistics Summarizer', BarChart3, 'Summarizes statistical data.', 'Summarize statistics for')},
     {...textGeneratorProps('trend_finder', 'Trend Finder', TrendingUp, 'Finds trends in data sets.', 'Find trends in')},
     {...textGeneratorProps('correlation_finder', 'Correlation Finder', Link, 'Finds correlations in data.', 'Find correlations in')},
     {...textGeneratorProps('basic_forecast_maker', 'Basic Forecast Maker', TrendingUp, 'Makes basic data forecasts.', 'Make a forecast for')},
@@ -732,6 +729,8 @@ export const modes: Mode[] = [
     {...textGeneratorProps('pie_chart_generator', 'Pie Chart Generator', PieChart, 'Generates pie charts.', 'Generate a pie chart for')},
     {...textGeneratorProps('bar_graph_generator', 'Bar Graph Generator', BarChartBig, 'Generates bar graphs.', 'Generate a bar graph for')},
     {...textGeneratorProps('line_chart_generator', 'Line Chart Generator', LineChart, 'Generates line charts.', 'Generate a line chart for')},
+
+    // Project & Task Management Utilities
     {...textGeneratorProps('timeline_maker', 'Timeline Maker', GanttChart, 'Creates timelines for events.', 'Create a timeline for')},
     {...textGeneratorProps('flowchart_generator', 'Flowchart Generator', GitBranch, 'Generates flowcharts for processes.', 'Generate a flowchart for')},
     {...textGeneratorProps('checklist_maker', 'Checklist Maker', ListChecks, 'Generates checklists for tasks.', 'Create a checklist for')},
@@ -746,6 +745,8 @@ export const modes: Mode[] = [
     {...textGeneratorProps('innovation_idea_generator', 'Innovation Idea Generator', Wand2, 'Generates innovative ideas.', 'Generate innovation ideas for')},
     {...textGeneratorProps('problem_statement_maker', 'Problem Statement Maker', HelpCircle, 'Frames clear problem statements.', 'Create a problem statement for')},
     {...textGeneratorProps('solution_proposal_writer', 'Solution Proposal Writer', PenLine, 'Writes proposals for solutions.', 'Write a solution proposal for')},
+
+    // Writing & Documentation Utilities
     {...textGeneratorProps('how_to_guide_maker', 'How-To Guide Maker', BookOpen, 'Creates step-by-step guides.', 'Create a how-to guide for')},
     {...textGeneratorProps('troubleshooting_flow_maker', 'Troubleshooting Flow Maker', Workflow, 'Creates troubleshooting flows.', 'Create a troubleshooting flow for')},
     {...textGeneratorProps('faq_generator', 'FAQ Generator', HelpCircle, 'Generates Frequently Asked Questions.', 'Generate FAQs for')},
@@ -763,6 +764,8 @@ export const modes: Mode[] = [
     {...textGeneratorProps('customer_support_script', 'Customer Support Script', MessageSquareHeart, 'Writes scripts for customer support.', 'Write a customer support script for')},
     {...textGeneratorProps('help_article_writer', 'Help Article Writer', BookOpen, 'Writes articles for help centers.', 'Write a help article for')},
     {...textGeneratorProps('troubleshooting_checklist', 'Troubleshooting Checklist', ListChecks, 'Creates troubleshooting checklists.', 'Create a troubleshooting checklist for')},
+
+    // Legal & Safety Utilities
     {...textGeneratorProps('warranty_policy_writer', 'Warranty Policy Writer', ShieldCheck, 'Writes warranty policies.', 'Write a warranty policy for')},
     {...textGeneratorProps('terms_and_conditions_writer', 'Terms and Conditions Writer', Landmark, 'Writes terms and conditions.', 'Write terms and conditions for')},
     {...textGeneratorProps('privacy_policy_writer', 'Privacy Policy Writer', ShieldCheck, 'Writes privacy policies.', 'Write a privacy policy for')},
@@ -780,6 +783,8 @@ export const modes: Mode[] = [
     {...textGeneratorProps('phishing_email_identifier', 'Phishing Email Identifier', Mail, 'Identifies phishing emails.', 'Identify the phishing email')},
     {...textGeneratorProps('fake_news_checker', 'Fake News Checker', Search, 'Checks for fake news.', 'Check for fake news in')},
     {...textGeneratorProps('fact_verification_tool', 'Fact Verification Tool', CheckSquare, 'Verifies facts and claims.', 'Verify the fact')},
+    
+    // Academic Utilities
     {...textGeneratorProps('citation_generator', 'Citation Generator', Quote, 'Generates academic citations.', 'Generate a citation for')},
     {...textGeneratorProps('reference_list_maker', 'Reference List Maker', ListOrdered, 'Creates lists of references.', 'Create a reference list for')},
     {...textGeneratorProps('bibliography_maker', 'Bibliography Maker', Library, 'Creates bibliographies.', 'Create a bibliography for')},
@@ -789,12 +794,16 @@ export const modes: Mode[] = [
     {...textGeneratorProps('observation_log_maker', 'Observation Log Maker', BookOpen, 'Creates logs for observations.', 'Create an observation log for')},
     {...textGeneratorProps('lab_report_writer', 'Lab Report Writer', TestTube, 'Writes formal lab reports.', 'Write a lab report for')},
     {...textGeneratorProps('survey_result_summarizer', 'Survey Result Summarizer', FileSearch, 'Summarizes survey results.', 'Summarize the survey results for')},
+
+    // Design & Media Utilities
     {...textGeneratorProps('infographic_idea_generator', 'Infographic Idea Generator', BarChart3, 'Generates ideas for infographics.', 'Generate infographic ideas for')},
     {...textGeneratorProps('poster_slogan_maker', 'Poster Slogan Maker', Megaphone, 'Creates slogans for posters.', 'Create a slogan for a poster about')},
     {...textGeneratorProps('banner_text_generator', 'Banner Text Generator', Megaphone, 'Generates text for banners.', 'Generate text for a banner about')},
     {...textGeneratorProps('brochure_outline_maker', 'Brochure Outline Maker', Layout, 'Creates outlines for brochures.', 'Create a brochure outline for')},
     {...textGeneratorProps('pamphlet_content_writer', 'Pamphlet Content Writer', FileText, 'Writes content for pamphlets.', 'Write content for a pamphlet about')},
     {...textGeneratorProps('flyer_text_maker', 'Flyer Text Maker', FileText, 'Generates text for flyers.', 'Generate text for a flyer about')},
+
+    // News & Information Utilities
     {...textGeneratorProps('announcement_writer', 'Announcement Writer', Bell, 'Writes official announcements.', 'Write an announcement about')},
     {...textGeneratorProps('press_release_writer', 'Press Release Writer', Newspaper, 'Writes press releases.', 'Write a press release about')},
     {...textGeneratorProps('public_notice_writer', 'Public Notice Writer', AlertTriangle, 'Writes public notices.', 'Write a public notice about')},
@@ -807,6 +816,8 @@ export const modes: Mode[] = [
     {...textGeneratorProps('cryptocurrency_update_writer', 'Cryptocurrency Update Writer', CircleDollarSign, 'Writes updates on cryptocurrencies.', 'Write a cryptocurrency update for')},
     {...textGeneratorProps('economy_brief_maker', 'Economy Brief Maker', Landmark, 'Creates briefs on the economy.', 'Create an economy brief on')},
     {...textGeneratorProps('political_news_summary_maker', 'Political News Summary Maker', Landmark, 'Summarizes political news.', 'Summarize the political news')},
+
+    // Health & Wellness Utilities
     {...textGeneratorProps('health_tip_generator', 'Health Tip Generator', HeartPulse, 'Generates health and wellness tips.', 'Generate a health tip for')},
     {...textGeneratorProps('medical_term_explainer', 'Medical Term Explainer', Stethoscope, 'Explains medical terminology.', 'Explain the medical term')},
     {...textGeneratorProps('symptom_checker', 'Symptom Checker', Stethoscope, 'Checks symptoms for possible conditions.', 'Check the symptoms')},
@@ -816,6 +827,8 @@ export const modes: Mode[] = [
     {...textGeneratorProps('food_allergy_alert_guide', 'Food Allergy Alert Guide', AlertTriangle, 'Guides on food allergies.', 'Create a food allergy guide for')},
     {...textGeneratorProps('safe_cooking_temperature_guide', 'Safe Cooking Temperature Guide', ThermometerIcon, 'Guides on safe cooking temperatures.', 'Create a safe cooking temperature guide for')},
     {...textGeneratorProps('kitchen_safety_guide', 'Kitchen Safety Guide', AlertTriangle, 'Guides on kitchen safety.', 'Create a kitchen safety guide')},
+
+    // Safety & Community Utilities
     {...textGeneratorProps('school_safety_checklist', 'School Safety Checklist', School, 'Checklists for school safety.', 'Create a school safety checklist')},
     {...textGeneratorProps('office_safety_checklist', 'Office Safety Checklist', Building2, 'Checklists for office safety.', 'Create an office safety checklist')},
     {...textGeneratorProps('factory_safety_checklist', 'Factory Safety Checklist', Factory, 'Checklists for factory safety.', 'Create a factory safety checklist')},
@@ -832,6 +845,8 @@ export const modes: Mode[] = [
     {...textGeneratorProps('donation_campaign_writer', 'Donation Campaign Writer', PenLine, 'Writes for donation campaigns.', 'Write a donation campaign for')},
     {...textGeneratorProps('charity_event_plan_maker', 'Charity Event Plan Maker', Calendar, 'Plans charity events.', 'Create a charity event plan for')},
     {...textGeneratorProps('nonprofit_mission_statement_maker', 'Nonprofit Mission Statement Maker', FileText, 'Creates mission statements for nonprofits.', 'Create a nonprofit mission statement for')},
+
+    // Environmental Utilities
     {...textGeneratorProps('sustainability_tip_generator', 'Sustainability Tip Generator', Leaf, 'Generates sustainability tips.', 'Generate sustainability tips for')},
     {...textGeneratorProps('recycling_guide', 'Recycling Guide', Recycle, 'Guides on proper recycling.', 'Create a recycling guide')},
     {...textGeneratorProps('composting_guide', 'Composting Guide', Recycle, 'Guides on composting.', 'Create a composting guide')},
@@ -842,6 +857,7 @@ export const modes: Mode[] = [
     {...textGeneratorProps('tree_planting_guide', 'Tree Planting Guide', Leaf, 'Guides on planting trees.', 'Create a tree planting guide')},
     {...textGeneratorProps('garden_wildlife_attractor', 'Garden Wildlife Attractor', Bird, 'Attracts wildlife to gardens.', 'Attract wildlife to your garden')},
     {...textGeneratorProps('renewable_energy_facts', 'Renewable Energy Facts', Sun, 'Provides facts on renewable energy.', 'Provide facts on renewable energy')},
+    {...textGeneratorProps('climate_change_explainer', 'Climate Change Explainer', Cloud, 'Explains climate change concepts.', 'Explain climate change concept')},
     {...textGeneratorProps('green_product_suggestor', 'Green Product Suggestor', Leaf, 'Suggests eco-friendly products.', 'Suggest green products for')},
   
 ];
