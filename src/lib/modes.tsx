@@ -7,6 +7,8 @@ import {
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
 import { PhotoEditor } from '@/components/modes/PhotoEditor';
+import { VideoMaker } from '@/components/modes/VideoMaker';
+import { VideoGenerator } from '@/components/modes/VideoGenerator';
 import { VideoEditor } from '@/components/modes/VideoEditor';
 import { CodeGenerator } from '@/components/modes/CodeGenerator';
 import { TextGenerator } from '@/components/modes/TextGenerator';
@@ -148,7 +150,6 @@ import { QuizQuestionGenerator } from '@/components/modes/QuizQuestionGenerator'
 import { BookGenerator } from '@/components/modes/BookGenerator';
 import { MovieReviewMaker } from '@/components/modes/MovieReviewMaker';
 import { PackingListMaker } from '@/components/modes/PackingListMaker';
-import { VideoMaker } from '@/components/modes/VideoMaker';
 import { SoloTravelGuide } from '@/components/modes/SoloTravelGuide';
 import { GroupTripPlanner } from '@/components/modes/GroupTripPlanner';
 import { RoadTripItineraryMaker } from '@/components/modes/RoadTripItineraryMaker';
@@ -395,10 +396,7 @@ import { GardenWildlifeAttractor } from '@/components/modes/GardenWildlifeAttrac
 import { RenewableEnergyFacts } from '@/components/modes/RenewableEnergyFacts';
 import { ClimateChangeExplainer } from '@/components/modes/ClimateChangeExplainer';
 import { GreenProductSuggestor } from '@/components/modes/GreenProductSuggestor';
-import { TextUtilities } from '@/components/modes/TextUtilities';
-import { CharacterGenerator } from '@/components/modes/CharacterGenerator';
-import { DreamInterpreter } from '@/components/modes/DreamInterpreter';
-import { TravelPlanner } from '@/components/modes/TravelPlanner';
+import { InterviewCoach } from '@/components/modes/InterviewCoach';
 
 export type ModeId = 
   // Core
@@ -406,490 +404,29 @@ export type ModeId =
   // Creative & Media
   | 'photo_generator' | 'logo_maker' | 'design_assistant' | 'photo_editor' | 'video_maker' | 'video_generator' | 'animation_tool' | 'three_d_modeler' | 'video_editor' | 'sound_generator' | 'story_generator' | 'song_writer' | 'poem_generator' | 'character_generator' | 'dream_interpreter'
   // Development & Tech
-  | 'code_generator' | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' 
-  | 'file_editor' | 'story_generator' | 'text_summarizer' | 'translator' | 'song_writer' 
-  | 'sound_generator' | 'document_maker' | 'ad_maker' | 'grammar_corrector' | 'homework_helper' | 'yoga_fitness' 
-  | 'games_knowledge' | 'question_giver' | 'idea_generator' | 'email_writer' | 'recipe_creator'
-  | 'travel_planner' | 'dream_interpreter' | 'speech_writer' | 'poem_generator'
-  | 'character_generator' | 'fact_checker' | 'chart_maker' | 'fact_giver' | 'fun_chat'
-  | 'logo_maker' | 'design_assistant' | 'three_d_modeler' | 'animation_tool' | 'seo_tool'
-  | 'social_media_post_maker' | 'market_research' | 'video_maker'
-  | 'text_rewriter_pro' | 'creative_content_expander' | 'conversational_flow_designer' | 'technical_document_generator'
-  | 'storyboard_idea_expander' | 'digital_persona_creator' | 'smart_prompt_optimizer' | 'context_aware_summary_maker'
-  | 'reading_comprehension_assistant' | 'knowledge_graph_builder' | 'smart_data_categorizer' | 'concept_map_generator'
-  | 'interview_question_creator' | 'job_role_analyzer' | 'industry_report_writer' | 'product_feature_brainstormer'
-  | 'meeting_notes_formatter' | 'text_complexity_adjuster' | 'idiom_and_metaphor_finder' | 'paragraph_flow_improver'
-  | 'acronym_expander' | 'real_time_definition_finder' | 'smart_keyword_highlighter' | 'tone_and_mood_adjuster'
-  | 'formality_level_converter' | 'brand_voice_enforcer' | 'multilingual_synonym_finder' | 'title_and_headline_optimizer'
-  | 'long_form_report_writer' | 'smart_question_answer_engine' | 'policy_drafting_assistant' | 'legal_clause_suggestion_tool'
-  | 'patent_abstract_generator' | 'contract_simplifier' | 'compliance_document_checker' | 'script_scene_expander'
-  | 'interview_transcript_formatter' | 'fictional_world_builder' | 'conflict_plot_generator' | 'character_dialogue_improver'
-  | 'multi_threaded_story_planner' | 'fiction_outline_maker' | 'comedy_script_punch_up_tool' | 'villain_backstory_creator'
-  | 'theme_and_motif_analyzer' | 'story_arc_evaluator' | 'mythology_based_plot_creator' | 'sci_fi_concept_designer'
-  | 'fantasy_lore_generator' | 'alternate_history_plot_writer' | 'scientific_hypothesis_suggestor' | 'experiment_design_planner'
-  | 'research_summary_maker' | 'journal_abstract_creator' | 'methodology_drafting_tool' | 'lab_report_formatter'
-  | 'academic_citation_builder' | 'equation_solver_pro' | 'graph_theory_visualizer' | 'statistical_pattern_finder'
-  | 'data_anomaly_detector' | 'predictive_model_trainer' | 'simulation_scenario_builder' | 'ai_behavior_modeler'
-  | 'ethics_risk_analyzer' | 'bias_detector_engine' | 'privacy_impact_forecaster' | 'algorithmic_explainability_tool'
-  | 'dataset_integrity_checker' | 'feature_importance_analyzer' | 'forecast_accuracy_evaluator' | 'root_cause_analysis_bot'
-  | 'data_quality_score_generator' | 'multi_variable_trend_predictor' | 'business_kpi_forecaster' | 'competitor_comparison_engine'
-  | 'market_gap_identifier' | 'customer_segmentation_mapper' | 'price_elasticity_estimator' | 'churn_risk_predictor'
+  | 'code_generator' | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' | 'file_editor'
+  // Business & Marketing
+  | 'chart_maker' | 'market_research' | 'social_media_post_maker' | 'seo_tool' | 'ad_maker' | 'email_writer' | 'fact_checker' | 'brand_finder' | 'product_finder'
+  | 'supply_chain_ai_planner' | 'inventory_auto_forecaster' | 'logistics_route_optimizer' | 'vendor_risk_scorer' | 'fraud_detection_engine' | 'transaction_pattern_finder' | 'credit_risk_analyzer' | 'investment_portfolio_optimizer' | 'financial_statement_summarizer'
+  | 'text_rewriter_pro' | 'creative_content_expander' | 'conversational_flow_designer' | 'technical_document_generator' | 'storyboard_idea_expander' | 'digital_persona_creator' | 'smart_prompt_optimizer' | 'context_aware_summary_maker'
+  | 'reading_comprehension_assistant' | 'knowledge_graph_builder' | 'smart_data_categorizer' | 'concept_map_generator' | 'interview_question_creator' | 'job_role_analyzer' | 'industry_report_writer' | 'product_feature_brainstormer'
+  | 'meeting_notes_formatter' | 'text_complexity_adjuster' | 'idiom_and_metaphor_finder' | 'paragraph_flow_improver' | 'acronym_expander' | 'real_time_definition_finder' | 'smart_keyword_highlighter' | 'tone_and_mood_adjuster'
+  | 'formality_level_converter' | 'brand_voice_enforcer' | 'multilingual_synonym_finder' | 'title_and_headline_optimizer' | 'long_form_report_writer' | 'smart_question_answer_engine' | 'policy_drafting_assistant' | 'legal_clause_suggestion_tool'
+  | 'patent_abstract_generator' | 'contract_simplifier' | 'compliance_document_checker' | 'script_scene_expander' | 'interview_transcript_formatter' | 'fictional_world_builder' | 'conflict_plot_generator' | 'character_dialogue_improver'
+  | 'multi_threaded_story_planner' | 'fiction_outline_maker' | 'comedy_script_punch_up_tool' | 'villain_backstory_creator' | 'theme_and_motif_analyzer' | 'story_arc_evaluator' | 'mythology_based_plot_creator' | 'sci_fi_concept_designer'
+  | 'fantasy_lore_generator' | 'alternate_history_plot_writer' | 'scientific_hypothesis_suggestor' | 'experiment_design_planner' | 'research_summary_maker' | 'journal_abstract_creator' | 'methodology_drafting_tool' | 'lab_report_formatter'
+  | 'academic_citation_builder' | 'equation_solver_pro' | 'graph_theory_visualizer' | 'statistical_pattern_finder' | 'data_anomaly_detector' | 'predictive_model_trainer' | 'simulation_scenario_builder' | 'ai_behavior_modeler'
+  | 'ethics_risk_analyzer' | 'bias_detector_engine' | 'privacy_impact_forecaster' | 'algorithmic_explainability_tool' | 'dataset_integrity_checker' | 'feature_importance_analyzer' | 'forecast_accuracy_evaluator' | 'root_cause_analysis_bot'
+  | 'data_quality_score_generator' | 'multi_variable_trend_predictor' | 'business_kpi_forecaster' | 'competitor_comparison_engine' | 'market_gap_identifier' | 'customer_segmentation_mapper' | 'price_elasticity_estimator' | 'churn_risk_predictor'
   | 'profit_margin_optimizer'
-  | 'supply_chain_ai_planner'
-  | 'inventory_auto_forecaster'
-  | 'logistics_route_optimizer'
-  | 'vendor_risk_scorer'
-  | 'fraud_detection_engine'
-  | 'transaction_pattern_finder'
-  | 'credit_risk_analyzer'
-  | 'investment_portfolio_optimizer'
-  | 'financial_statement_summarizer'
-  | 'brand_finder'
-  | 'product_finder'
-  | 'study_material_analyzer'
-  | 'ai_teacher'
-  | 'video_script_generator'
-  | 'event_planner'
-  | 'mind_map_maker'
-  | 'data_visualizer'
-  | 'song_lyrics_writer'
-  | 'ai_therapist'
-  | 'voice_changer'
-  | 'job_description_writer'
-  | 'legal_document_writer'
-  | 'real_estate_listing_writer'
-  | 'price_estimator'
-  | 'interview_coach'
-  | 'resume_analyzer'
-  | 'cover_letter_writer'
-  | 'survey_maker'
-  | 'poll_creator'
-  | 'customer_support_bot'
-  | 'faq_generator'
-  | 'ai_librarian'
-  | 'movie_recommendation_bot'
-  | 'playlist_creator'
-  | 'music_recommendation_engine'
-  | 'game_idea_generator'
-  | 'game_level_designer'
-  | 'puzzle_maker'
-  | 'riddle_generator'
-  | 'jokes_generator'
-  | 'horoscope_writer'
-  | 'tarot_reader_bot'
-  | 'meditation_guide'
-  | 'affirmation_generator'
-  | 'habit_tracker'
-  | 'study_planner'
-  | 'flashcard_maker'
-  | 'note_summarizer'
-  | 'research_assistant'
-  | 'citation_generator'
-  | 'plagiarism_checker'
-  | 'proofreader'
-  | 'tone_changer'
-  | 'script_formatter'
-  | 'blog_post_generator'
-  | 'newsletter_writer'
-  | 'product_review_writer'
-  | 'ad_banner_maker'
-  | 'brochure_designer'
-  | 'poster_maker'
-  | 'flyer_generator'
-  | 'infographic_maker'
-  | 'social_post_designer'
-  | 'thumbnail_creator'
-  | 'app_ui_designer'
-  | 'website_mockup_generator'
-  | 'landing_page_builder'
-  | 'ebook_creator'
-  | 'magazine_layout_designer'
-  | 'resume_template_maker'
-  | 'presentation_template_maker'
-  | 'banner_animation_tool'
-  | 'icon_maker'
-  | 'button_generator'
-  | 'emoji_creator'
-  | 'sticker_maker'
-  | 'wallpaper_generator'
-  | 'pattern_designer'
-  | 'font_designer'
-  | 'typeface_identifier'
-  | 'color_matcher'
-  | 'photo_collage_maker'
-  | 'panorama_stitcher'
-  | 'time_lapse_creator'
-  | 'slow_motion_editor'
-  | 'stop_motion_creator'
-  | 'animated_gif_editor'
-  | 'cinemagraph_maker'
-  | 'slideshow_creator'
-  | 'video_montage_maker'
-  | 'music_video_creator'
-  | 'lyric_video_generator'
-  | 'video_intro_maker'
-  | 'outro_creator'
-  | 'screen_recorder'
-  | 'live_stream_overlay_designer'
-  | 'face_cam_frame_maker'
-  | 'reaction_video_maker'
-  | 'green_screen_editor'
-  | 'chroma_key_tool'
-  | 'voice_over_recorder'
-  | 'dubbing_tool'
-  | 'audio_sync_tool'
-  | 'noise_remover'
-  | 'equalizer_tool'
-  | 'auto_tune_tool'
-  | 'audio_mixer'
-  | 'ai_math_solver'
-  | 'interior_design_planner'
-  | 'clothing_design_generator'
-  | 'social_media_scheduler'
-  | 'voice_over_script_generator'
-  | 'animated_infographic_maker'
-  | 'digital_art_generator'
-  | 'photo_slideshow_creator'
-  | 'web_banner_maker'
-  | 'book_cover_designer'
-  | 'ai_customer_support_bot'
-  | 'game_character_creator'
-  | 'song_lyric_writer'
-  | 'audio_transcription_tool'
-  | 'mood_board_creator'
-  | 'event_invitation_maker'
-  | 'digital_planner'
-  | 'whiteboard_animation_tool'
-  | 'classroom_quiz_generator'
-  | 'ai_debate_partner'
-  | 'learning_path_builder'
-  | 'cooking_timer_app'
-  | 'diet_meal_planner'
-  | 'photography_shot_list_tool'
-  | 'animated_logo_maker'
-  | 'interactive_story_builder'
-  | 'voice_emotion_analyzer'
-  | 'local_event_finder'
-  | 'music_remix_tool'
-  | 'digital_calendar_maker'
-  | 'file_compression_tool'
-  | 'auto_caption_tool'
-  | 'document_scanner_app'
-  | 'writing_style_converter'
-  | 'script_breakdown_tool'
-  | 'ai_rap_lyric_generator'
-  | 'comic_strip_maker'
-  | 'mind_map_creator'
-  | 'logo_font_matcher'
-  | '3d_animation_generator'
-  | 'classroom_attendance_tracker'
-  | 'ai_horoscope_generator'
-  | 'resume_formatter'
-  | 'podcast_name_generator'
-  | 'business_card_maker'
-  | 'ai_detective_bot'
-  | 'ebook_formatter'
-  | 'recipe_calorie_calculator'
-  | 'photo_lighting_adjuster'
-  | 'infographic_designer'
-  | 'audio_loop_maker'
-  | 'online_form_builder'
-  | 'ai_puzzle_generator'
-  | 'virtual_pet_creator'
-  | 'resume_proofreader'
-  | 'blog_seo_optimizer'
-  | 'travel_budget_calculator'
-  | 'greeting_card_designer'
-  | 'voice_dubbing_tool'
-  | 'storyboarding_tool'
-  | 'file_encryption_tool'
-  | 'image_to_pdf_converter'
-  | 'music_mood_classifier'
-  | 'slide_deck_optimizer'
-  | 'logo_shape_generator'
-  | 'classroom_resource_planner'
-  | 'song_key_detector'
-  | 'audio_speed_changer'
-  | 'text_to_emoji_converter'
-  | 'ai_novel_writer'
-  | 'photo_watermark_remover'
-  | 'online_poster_maker'
-  | 'ai_dream_interpreter'
-  | 'budget_expense_tracker'
-  | 'furniture_ar_viewer'
-  | 'ai_slogan_generator'
-  | 'interactive_map_builder'
-  | 'document_translator'
-  | 'virtual_lab_simulator'
-  | 'digital_comic_lettering_tool'
-  | 'ai_email_sorter'
-  | 'podcast_editing_tool'
-  | 'online_resume_hosting'
-  | 'ai_voice_narrator'
-  | 'content_plagiarism_checker'
-  | '3d_avatar_creator'
-  | 'ai_business_plan_writer'
-  | 'video_meme_generator'
-  | 'ai_legal_document_drafter'
-  | 'blog_post_formatter'
-  | 'ai_presentation_coach'
-  | 'ai_resume_analyzer'
-  | 'smart_invoice_generator'
-  | 'ai_tagline_generator'
-  | 'language_pronunciation_coach'
-  | 'online_signature_creator'
-  | 'podcast_episode_planner'
-  | 'ai_brand_name_finder'
-  | 'custom_calendar_generator'
-  | 'digital_scrapbook_maker'
-  | 'ai_business_email_writer'
-  | 'qr_code_designer'
-  | 'ai_greeting_generator'
-  | 'website_accessibility_checker'
-  | 'digital_invitation_maker'
-  | 'mood_based_playlist_maker'
-  | 'product_description_generator'
-  | 'ai_personal_shopper'
-  | 'resume_gap_filler'
-  | 'smart_to_do_list'
-  | 'ai_grammar_coach'
-  | 'content_tone_analyzer'
-  | 'voice_cloning_tool'
-  | 'ai_workshop_planner'
-  | 'audio_book_creator'
-  | 'travel_safety_checker'
-  | 'meme_text_overlay_tool'
-  | 'ai_comedy_script_writer'
-  | 'interactive_learning_game_maker'
-  | 'recipe_ingredient_converter'
-  | 'virtual_makeup_try_on'
-  | 'online_brochure_maker'
-  | 'ai_gift_recommendation_tool'
-  | 'custom_map_designer'
-  | 'ai_product_idea_generator'
-  | 'virtual_travel_guide'
-  | 'music_tempo_changer'
-  | 'ai_poem_writer'
-  | 'ai_tattoo_design_maker'
-  | 'interactive_quiz_maker'
-  | 'digital_flipbook_creator'
-  | 'speech_to_text_tool'
-  | 'ai_résumé_tailor'
-  | 'event_budget_planner'
-  | 'digital_greeting_animator'
-  | 'ai_marketing_strategy_builder'
-  | 'social_media_comment_responder'
-  | 'ai_puzzle_solver'
-  | 'photo_collage_maker'
-  | 'ai_writing_prompt_generator'
-  | 'ai_video_game_storyline_writer'
-  | 'ai_meme_idea_generator'
-  | 'live_poll_creator'
-  | 'ai_book_summary_tool'
-  | 'virtual_stage_designer'
-  | 'ai_resume_scanner'
-  | 'ai_conflict_mediator'
-  | 'ai_home_cleaning_planner'
-  | 'virtual_fitness_trainer'
-  | 'ai_speech_writer'
-  | 'ai_fact_checker'
-  | 'ai_book_title_generator'
-  | 'digital_business_proposal_maker'
-  | 'ai_flashcard_creator'
-  | 'audio_noise_reducer'
-  | 'digital_mood_tracker'
-  | 'ai_fundraising_campaign_planner'
-  | 'virtual_garden_planner'
-  | 'ai_story_ending_generator'
-  | 'ai_product_packaging_designer'
-  | 'ai_resume_bullet_point_writer'
-  | 'interactive_flowchart_maker'
-  | 'ai_public_speaking_coach'
-  | 'ai_debate_topic_generator'
-  | 'ai_scene_description_writer'
-  | 'digital_recipe_book_maker'
-  | 'ai_daily_planner'
-  | 'virtual_dance_choreographer'
-  | 'ai_legal_contract_analyzer'
-  | 'ai_career_path_planner'
-  | 'digital_checklists_app'
-  | 'ai_fantasy_map_maker'
-  | 'ai_ad_copy_generator'
-  | 'ai_character_personality_builder'
-  | 'ai_voiceover_localizer'
-  | 'ai_academic_citation_tool'
-  | 'ai_startup_idea_validator'
-  | 'ai_time_zone_converter'
-  | 'ai_email_tone_adjuster'
-  | 'ai_audience_targeting_tool'
-  | 'digital_story_template_library'
-  | 'ai_playlist_transition_tool'
-  | 'ai_gift_card_designer'
-  | 'ai_weather_event_predictor'
-  | 'ai_employee_feedback_tool'
-  | 'ai_speech_emotion_enhancer'
-  | 'ai_photo_style_transfer_tool'
-  | 'ai_dream_vacation_planner'
-  | 'ai_podcast_topic_generator'
-  | 'ai_digital_bill_splitter'
-  | 'ai_document_summarizer'
-  | 'ai_voice_command_creator'
-  | 'ai_music_genre_converter'
-  | 'ai_influencer_finder'
-  | 'ai_recipe_flavor_enhancer'
-  | 'ai_class_notes_organizer'
-  | 'ai_ad_headline_split_tester'
-  | 'ai_custom_font_designer'
-  | 'ai_online_community_builder'
-  | 'ai_background_noise_generator'
-  | 'ai_pet_care_planner'
-  | 'ai_grammar_quiz_maker'
-  | 'ai_digital_stamp_creator'
-  | 'ai_home_renovation_planner'
-  | 'ai_academic_paper_grader'
-  | 'ai_logo_animation_tool'
-  | 'ai_book_plot_outline_creator'
-  | 'ai_social_media_analytics_tool'
-  | 'ai_blog_comment_moderator'
-  | 'ai_image_upscaler'
-  | 'ai_conference_agenda_builder'
-  | 'ai_newsletter_content_generator'
-  | 'ai_story_character_name_generator'
-  | 'ai_music_mood_mixer'
-  | 'ai_political_speech_analyzer'
-  | 'ai_resume_infographic_maker'
-  | 'ai_voice_acting_coach'
-  | 'ai_game_mechanics_designer'
-  | 'ai_social_post_rewriter'
-  | 'ai_mood_board_organizer'
-  | 'ai_digital_comic_creator'
-  | 'ai_training_schedule_planner'
-  | 'ai_short_story_generator'
-  | 'ai_ad_campaign_tracker'
-  | 'ai_social_caption_shortener'
-  | 'ai_fictional_language_creator'
-  | 'ai_user_interface_designer'
-  | 'ai_live_chat_responder'
-  | 'ai_document_redaction_tool'
-  | 'ai_blog_image_finder'
-  | 'ai_skill_assessment_tool'
-  | 'ai_scene_transition_maker'
-  | 'ai_language_idiom_finder'
-  | 'ai_company_slogan_tester'
-  | 'ai_group_discussion_simulator'
-  | 'ai_video_highlight_reel_maker'
-  | 'ai_tag_suggestion_tool'
-  | 'ai_brand_color_finder'
-  | 'ai_music_sheet_creator'
-  | 'ai_virtual_interview_simulator'
-  | 'ai_social_media_story_maker'
-  | 'ai_content_repurposing_tool'
-  | 'ai_pet_training_assistant'
-  | 'ai_virtual_study_buddy'
-  | 'ai_song_title_generator'
-  | 'ai_custom_illustration_tool'
-  | 'ai_handwriting_font_converter'
-  | 'ai_brand_mood_analyzer'
-  | 'ai_business_risk_assessor'
-  | 'ai_social_media_hashtag_tester'
-  | 'ai_digital_greeting_card_maker'
-  | 'ai_customer_loyalty_program_builder'
-  | 'ai_classroom_seating_planner'
-  | 'ai_stock_market_trend_analyzer'
-  | 'ai_resume_design_templates'
-  | 'ai_podcast_episode_summarizer'
-  | 'ai_story_conflict_generator'
-  | 'ai_business_kpi_tracker'
-  | 'ai_slide_deck_storyboard_tool'
-  | 'ai_music_sampling_tool'
-  | 'ai_content_length_optimizer'
-  | 'ai_fashion_mood_forecaster'
-  | 'ai_study_notes_summarizer'
-  | 'ai_voice_activated_to_do_list'
-  | 'ai_livestream_script_writer'
-  | 'ai_business_slogan_shortener'
-  | 'ai_webpage_speed_tester'
-  | 'ai_song_genre_identifier'
-  | 'ai_video_script_breakdown_tool'
-  | 'ai_language_dialect_converter'
-  | 'ai_food_pairing_suggestion_tool'
-  | 'ai_brand_tagline_shortener'
-  | 'ai_youtube_title_optimizer'
-  | 'ai_job_role_description_writer'
-  | 'ai_health_symptom_checker'
-  | 'ai_hobby_suggestion_tool'
-  | 'ai_social_media_post_scheduler'
-  | 'ai_personality_quiz_creator'
-  | 'ai_resume_summary_generator'
-  | 'ai_content_calendar_planner'
-  | 'ai_ecommerce_product_tagger'
-  | 'ai_story_arc_builder'
-  | 'ai_news_headline_analyzer'
-  | 'ai_blog_outline_generator'
-  | 'ai_podcast_guest_finder'
-  | 'ai_corporate_training_planner'
-  | 'ai_language_translation_game'
-  | 'ai_team_collaboration_board'
-  | 'ai_resume_ats_checker'
-  | 'ai_art_style_identifier'
-  | 'ai_digital_mood_journal'
-  | 'ai_fiction_story_starter'
-  | 'ai_brand_value_analyzer'
-  | 'ai_interactive_resume_builder'
-  | 'ai_scene_lighting_planner'
-  | 'ai_brand_name_shortener'
-  | 'ai_video_scene_tagger'
-  | 'ai_creative_writing_coach'
-  | 'ai_virtual_museum_tour_creator'
-  | 'ai_music_chord_progression_generator'
-  | 'ai_book_genre_classifier'
-  | 'ai_social_listening_tool'
-  | 'ai_virtual_classroom_builder'
-  | 'ai_brand_personality_quiz'
-  | 'ai_website_color_scheme_tester'
-  | 'ai_marketing_budget_calculator'
-  | 'ai_digital_handwriting_analyzer'
-  | 'ai_event_ticket_designer'
-  | 'ai_voice_gender_switcher'
-  | 'ai_cooking_recipe_improver'
-  | 'ai_website_wireframe_creator'
-  | 'ai_story_dialogue_improver'
-  | 'ai_image_captioning_tool'
-  | 'ai_product_price_optimizer'
-  | 'ai_sports_match_predictor'
-  | 'ai_fashion_accessory_designer'
-  | 'ai_remote_team_icebreaker_tool'
-  | 'ai_livestream_overlay_creator'
-  | 'ai_story_villain_creator'
-  | 'ai_song_lyric_rhyme_finder'
-  | 'ai_virtual_fashion_show_creator'
-  | 'ai_resume_skill_gap_analyzer'
-  | 'ai_employee_recognition_tool'
-  | 'ai_brand_storytelling_tool'
-  | 'ai_recipe_step_visualizer'
-  | 'ai_music_vocal_remover'
-  | 'ai_blog_readability_checker'
-  | 'ai_book_character_tracker'
-  | 'ai_online_course_outline_maker'
-  | 'ai_interview_question_generator'
-  | 'ai_video_background_remover'
-  | 'ai_story_time_estimator'
-  | 'ai_business_email_formatter'
-  | 'ai_music_key_changer'
-  | 'ai_social_media_poll_maker'
-  | 'ai_conference_speaker_finder'
-  | 'ai_gaming_strategy_advisor'
-  | 'ai_character_voice_generator'
-  | 'ai_blog_post_expansion_tool'
-  | 'ai_virtual_pet_creator'
-  | 'sports_skills_trainer'
-  | 'grammar_practice_creator'
-  | 'quiz_generator' | 'book_generator'
+  // Education & Productivity
+  | 'homework_helper' | 'study_material_analyzer' | 'ai_teacher' | 'games_knowledge' | 'yoga_fitness' | 'grammar_practice_creator' | 'sports_skills_trainer' | 'quiz_generator' | 'book_generator' | 'text_summarizer' | 'question_giver' | 'idea_generator' | 'recipe_creator' | 'travel_planner' | 'grammar_corrector'
+  // Text Utilities
+  | 'text_formatter' | 'spelling_checker' | 'word_counter' | 'hashtag_generator' | 'caption_maker' | 'daily_planner' | 'note_summarizer' | 'paragraph_expander' | 'question_generator' | 'keyword_finder' | 'text_cleaner' | 'text_tone_adjuster' | 'synonym_finder' | 'antonym_finder' | 'acronym_maker' | 'emoji_replacer' | 'headline_creator' | 'title_case_converter' | 'bullet_point_maker' | 'simple_translator' | 'text_shortener' | 'email_subject_line_maker' | 'readability_checker' | 'plagiarism_checker' | 'blog_idea_generator' | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer' | 'story_idea_generator' | 'interview_coach'
   // My additions
   | 'minimalist_living_tips' | 'zero_waste_tips' | 'upcycling_project_ideas' | 'repair_guide' | 'second_hand_shopping_tips' | 'budget_travel_tips' | 'digital_nomad_tips' | 'remote_job_board_scraper' | 'work_from_home_setup_guide' | 'productivity_timer' | 'focus_music_suggestor' | 'task_completion_tracker' | 'study_break_reminder' | 'time_blocking_planner' | 'weekly_review_template' | 'monthly_reflection_template' | 'yearly_goal_planner' | 'life_bucket_list_maker' | 'travel_bucket_list_maker' | 'skill_learning_plan' | 'language_learning_plan' | 'book_reading_plan' | 'podcast_recommendation_list' | 'movie_recommendation_list' | 'series_recommendation_list' | 'game_recommendation_list' | 'music_playlist_suggestor' | 'hobby_idea_generator' | 'weekend_activity_planner' | 'family_activity_planner'
   | 'solo_travel_guide' | 'group_trip_planner' | 'road_trip_itinerary_maker' | 'festival_guide' | 'seasonal_activity_guide' | 'local_business_finder' | 'visual_story_mapper' | 'ai_daily_motivation_coach'
   ;
-
 
 export interface Mode {
     id: ModeId;
@@ -900,12 +437,26 @@ export interface Mode {
     componentProps?: Record<string, any>;
 }
 
+const textGeneratorProps = (id: ModeId, name: string, icon: React.ElementType, description: string, promptPrefix: string) => ({
+    id,
+    name,
+    icon,
+    description,
+    component: TextGenerator,
+    componentProps: {
+        promptPlaceholder: description,
+        buttonText: `Generate ${name}`,
+        generatePrompt: (p: string) => `${promptPrefix}: "${p}"`,
+        resultTitle: `Generated ${name}`,
+    },
+});
+
 const textUtilitiesProps = (id: ModeId, name: string, icon: React.ElementType, description: string, promptPrefix: string) => ({
     id,
     name,
     icon,
     description,
-    component: TextUtilities,
+    component: TextGenerator,
     componentProps: {
         promptPlaceholder: "Enter text here...",
         buttonText: `Generate ${name}`,
@@ -965,7 +516,12 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Write a compelling and descriptive video ad script for the following product/service, including scene descriptions, dialogue, and camera shots. The script should be in the same language as the prompt. Prompt: ${p}`,
         resultTitle: "Video Ad Script"
     }},
-    { id: 'email_writer', name: 'Email Writer', icon: Mail, description: 'Draft professional and personal emails.', component: EmailWriter },
+    { id: 'email_writer', name: 'Email Writer', icon: Mail, description: 'Draft professional and personal emails.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'An email to my boss requesting time off' or 'A follow-up email after a job interview'...",
+        buttonText: "Write Email",
+        generatePrompt: (p: string) => `Write a well-formatted and professional email for the following purpose. The email should be in the same language as the prompt. Purpose: ${p}`,
+        resultTitle: "Generated Email"
+    }},
     { id: 'fact_checker', name: 'Fact Checker', icon: CheckSquare, description: 'Check the accuracy of a statement.', component: TextGenerator, componentProps: {
         promptPlaceholder: "Enter a statement to fact-check, e.g., 'The sky is green.'",
         buttonText: "Fact-Check",
@@ -983,6 +539,7 @@ export const modes: Mode[] = [
     { id: 'credit_risk_analyzer', name: 'Credit Risk Analyzer', icon: Scale, description: 'Analyze credit risk for individuals or businesses.', component: CreditRiskAnalyzer },
     { id: 'investment_portfolio_optimizer', name: 'Investment Portfolio Optimizer', icon: PieChart, description: 'Suggest optimizations for an investment portfolio.', component: InvestmentPortfolioOptimizer },
     { id: 'financial_statement_summarizer', name: 'Financial Statement Summarizer', icon: FileText, description: 'Summarize complex financial statements.', component: FinancialStatementSummarizer },
+    { id: 'profit_margin_optimizer', name: 'Profit Margin Optimizer', icon: BadgePercent, description: 'Suggest strategies to optimize a product\'s profit margin.', component: ProfitMarginOptimizer },
 
     // Education & Productivity
     { id: 'homework_helper', name: 'Homework Planner', icon: School, description: 'Plan assignments and get AI help.', component: HomeworkPlanner },
@@ -1025,6 +582,7 @@ export const modes: Mode[] = [
         generatePrompt: (p: string) => `Correct the grammar and spelling of the following text, and provide the corrected version in the same language:\n\n${p}`,
         resultTitle: "Corrected Text"
     }},
+    { id: 'interview_coach', name: 'Interview Coach', icon: UserSquare, description: 'Practice and get feedback for job interviews.', component: InterviewCoach },
 
     // Text Utilities
     textUtilitiesProps('text_formatter', 'Text Formatter', Pilcrow, 'Cleans and formats messy text into a neat layout.', 'Format the following text into a clean, readable layout'),
@@ -1049,8 +607,8 @@ export const modes: Mode[] = [
     textUtilitiesProps('simple_translator', 'Text Translator (Simple)', Languages, 'Translates text into chosen languages.', 'Translate the following text to Spanish'),
     textUtilitiesProps('text_shortener', 'Text Shortener', TextIcon, 'Makes text concise without losing meaning.', 'Shorten the following text to its most concise form while keeping the core meaning'),
     textUtilitiesProps('email_subject_line_maker', 'Email Subject Line Maker', Mailbox, 'Suggests attractive subject lines.', 'Suggest 5 attractive email subject lines for an email about the following topic'),
-    {...textUtilitiesProps('readability_checker', 'Readability Checker', Glasses, 'Analyzes and scores text reading level.', 'Analyze the readability of the following text and provide a score (e.g., Flesch-Kincaid Grade Level)'), component: TextUtilities},
-    {...textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', CircleOff, 'Detects copied or duplicate content.', 'Check the following text for potential plagiarism by searching for similar phrases online and report your findings.'), component: TextUtilities},
+    {...textUtilitiesProps('readability_checker', 'Readability Checker', Glasses, 'Analyzes and scores text reading level.', 'Analyze the readability of the following text and provide a score (e.g., Flesch-Kincaid Grade Level)'), component: TextGenerator},
+    {...textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', CircleOff, 'Detects copied or duplicate content.', 'Check the following text for potential plagiarism by searching for similar phrases online and report your findings.'), component: TextGenerator},
     textUtilitiesProps('blog_idea_generator', 'Blog Idea Generator', FilePlus2, 'Suggests topics for blogs.', 'Generate 5 blog post ideas based on the following topic'),
     textUtilitiesProps('blog_outline_maker', 'Blog Outline Maker', ListTree, 'Creates a structured outline for blogs.', 'Create a structured outline with sections and sub-points for a blog post about the following topic'),
     textUtilitiesProps('blog_intro_writer', 'Blog Intro Writer', PenLine, 'Writes engaging introductions for blogs.', 'Write an engaging introductory paragraph for a blog post about the following topic'),
@@ -1058,391 +616,878 @@ export const modes: Mode[] = [
     textUtilitiesProps('story_idea_generator', 'Story Idea Generator', BookHeart, 'Suggests ideas for short stories.', 'Generate 3 unique story ideas based on the following genre or theme'),
 
     // Business/Productivity Utilities
-    { id: 'joke_finder', name: 'Joke Finder', icon: Smile, description: 'Finds or creates short jokes.', component: JokeFinder },
-    { id: 'rhyme_finder', name: 'Rhyme Finder', icon: Music, description: 'Finds rhyming words for poetry or songs.', component: RhymeFinder },
-    { id: 'idiom_explainer', name: 'Idiom Explainer', icon: BookOpen, description: 'Explains the meaning of idioms.', component: IdiomExplainer },
-    { id: 'fact_finder', name: 'Fact Finder', icon: Lightbulb, description: 'Finds quick factual answers from knowledge.', component: FactFinder },
-    { id: 'list_creator', name: 'List Creator', icon: ListOrdered, description: 'Turns ideas into organized numbered lists.', component: ListCreator },
-    { id: 'quote_finder', name: 'Quote Finder', icon: Quote, description: 'Suggests quotes for a given topic.', component: QuoteFinder },
-    { id: 'motivational_message_maker', name: 'Motivational Message Maker', icon: Heart, description: 'Creates uplifting short messages.', component: MotivationalMessageMaker },
-    { id: 'reminder_maker', name: 'Reminder Maker', icon: Bell, description: 'Sets reminders for tasks.', component: ReminderMaker },
-    { id: 'calendar_event_filler', name: 'Calendar Event Filler', icon: Calendar, description: 'Generates event details for calendars.', component: CalendarEventFiller },
-    { id: 'tagline_maker', name: 'Tagline Maker', icon: Tag, description: 'Creates catchy brand taglines.', component: TaglineMaker },
-    { id: 'brand_name_generator', name: 'Brand Name Generator', icon: Wand2, description: 'Suggests unique brand names.', component: BrandNameGenerator },
-    { id: 'slogan_maker', name: 'Slogan Maker', icon: Megaphone, description: 'Makes short marketing slogans.', component: SloganMaker },
-    { id: 'product_description_writer', name: 'Product Description Writer', icon: FileText, description: 'Writes sales descriptions.', component: ProductDescriptionWriter },
-    { id: 'ad_headline_creator', name: 'Ad Headline Creator', icon: TextIcon, description: 'Creates short ad headlines.', component: AdHeadlineCreator },
-    { id: 'poll_question_maker', name: 'Poll Question Maker', icon: ListChecks, description: 'Suggests questions for polls.', component: PollQuestionMaker },
+    { id: 'joke_finder', name: 'Joke Finder', icon: Smile, description: 'Finds or creates short jokes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A joke about computers' or 'A funny one-liner'",
+        buttonText: "Find Joke",
+        generatePrompt: (p: string) => `You are a comedian. Tell me a short, family-friendly joke based on the following topic. Topic: "${p}"`,
+        resultTitle: "Joke"
+    }},
+    { id: 'rhyme_finder', name: 'Rhyme Finder', icon: Music, description: 'Finds rhyming words for poetry or songs.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'creative' or 'song'",
+        buttonText: "Find Rhymes",
+        generatePrompt: (p: string) => `You are a poet. Provide a list of 10 words that rhyme with the following word. Word: "${p}"`,
+        resultTitle: "Rhymes"
+    }},
+    { id: 'idiom_explainer', name: 'Idiom Explainer', icon: BookOpen, description: 'Explains the meaning of idioms.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Bite the bullet' or 'Break a leg'",
+        buttonText: "Explain Idiom",
+        generatePrompt: (p: string) => `You are a linguist. Explain the meaning and origin of the following idiom. Idiom: "${p}"`,
+        resultTitle: "Idiom Explanation"
+    }},
+    { id: 'fact_finder', name: 'Fact Finder', icon: Lightbulb, description: 'Finds quick factual answers from knowledge.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'the capital of Australia' or 'the speed of light'",
+        buttonText: "Find Fact",
+        generatePrompt: (p: string) => `You are a research assistant. Provide a quick, accurate, and concise factual answer to the following question. Question: "${p}"`,
+        resultTitle: "Fact"
+    }},
+    { id: 'list_creator', name: 'List Creator', icon: ListOrdered, description: 'Turns ideas into organized numbered lists.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'grocery items: milk, bread, eggs' or 'project steps: design, develop, test, deploy'",
+        buttonText: "Create List",
+        generatePrompt: (p: string) => `You are an organizer. Turn the following ideas into an organized, numbered list. Ideas: "${p}"`,
+        resultTitle: "Organized List"
+    }},
+    { id: 'quote_finder', name: 'Quote Finder', icon: Quote, description: 'Suggests quotes for a given topic.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'quotes about creativity' or 'inspirational quotes for students'",
+        buttonText: "Find Quotes",
+        generatePrompt: (p: string) => `You are a librarian. Suggest three inspiring or relevant quotes for the given topic. Include the author for each quote. Topic: "${p}"`,
+        resultTitle: "Quotes"
+    }},
+    { id: 'motivational_message_maker', name: 'Motivational Message Maker', icon: Heart, description: 'Creates uplifting short messages.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'for a friend starting a new job' or 'for someone feeling discouraged'",
+        buttonText: "Create Message",
+        generatePrompt: (p: string) => `You are a motivational coach. Write a short, uplifting, and encouraging message for the following situation. Situation: "${p}"`,
+        resultTitle: "Motivational Message"
+    }},
+    { id: 'reminder_maker', name: 'Reminder Maker', icon: Bell, description: 'Sets reminders for tasks.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Call mom tomorrow at 5 PM' or 'Submit the report by Friday'",
+        buttonText: "Set Reminder",
+        generatePrompt: (p: string) => `You are a personal assistant. Create a simple, clear reminder for the following task. Include the task, date, and time if provided. Task: "${p}"`,
+        resultTitle: "Reminder"
+    }},
+    { id: 'calendar_event_filler', name: 'Calendar Event Filler', icon: Calendar, description: 'Generates event details for calendars.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Team meeting next Monday at 10 AM about Q3 results'",
+        buttonText: "Generate Event Details",
+        generatePrompt: (p: string) => `You are an event coordinator. Generate the details for a calendar event based on the following information. Include a title, date, time, and a brief description. Details: "${p}"`,
+        resultTitle: "Calendar Event"
+    }},
+    { id: 'tagline_maker', name: 'Tagline Maker', icon: Tag, description: 'Creates catchy brand taglines.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'a new coffee brand that is organic and sustainable'",
+        buttonText: "Create Tagline",
+        generatePrompt: (p: string) => `You are a branding expert. Create five catchy and memorable taglines for a brand with the following description. Description: "${p}"`,
+        resultTitle: "Brand Taglines"
+    }},
+    { id: 'brand_name_generator', name: 'Brand Name Generator', icon: Wand2, description: 'Suggests unique brand names.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A tech company specializing in AI' or 'a cozy bookstore'",
+        buttonText: "Generate Names",
+        generatePrompt: (p: string) => `You are a branding specialist. Suggest five unique and creative brand names for a company with the following description. Description: "${p}"`,
+        resultTitle: "Brand Names"
+    }},
+    { id: 'slogan_maker', name: 'Slogan Maker', icon: Megaphone, description: 'Makes short marketing slogans.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'for a fast food restaurant' or 'for a new fitness app'",
+        buttonText: "Make Slogan",
+        generatePrompt: (p: string) => `You are a marketing copywriter. Create three short and impactful marketing slogans for the following product or business. Description: "${p}"`,
+        resultTitle: "Marketing Slogans"
+    }},
+    { id: 'product_description_writer', name: 'Product Description Writer', icon: FileText, description: 'Writes sales descriptions.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A new wireless headphone with noise-cancelling features'",
+        buttonText: "Write Description",
+        generatePrompt: (p: string) => `You are a professional copywriter. Write a compelling and persuasive sales description for the following product. Highlight its key features and benefits. Product: "${p}"`,
+        resultTitle: "Product Description"
+    }},
+    { id: 'ad_headline_creator', name: 'Ad Headline Creator', icon: TextIcon, description: 'Creates short ad headlines.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'for a 50% off sale on summer clothing'",
+        buttonText: "Create Headlines",
+        generatePrompt: (p: string) => `You are an advertising expert. Create five short, attention-grabbing ad headlines for the following promotion. Promotion: "${p}"`,
+        resultTitle: "Ad Headlines"
+    }},
+    { id: 'poll_question_maker', name: 'Poll Question Maker', icon: ListChecks, description: 'Suggests questions for polls.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'favorite pizza topping' or 'best movie genre'",
+        buttonText: "Make Question",
+        generatePrompt: (p: string) => `You are a social media manager. Suggest a simple and engaging poll question with 2-4 options based on the following topic. Topic: "${p}"`,
+        resultTitle: "Poll Question"
+    }},
     { id: 'survey_question_generator', name: 'Survey Question Generator', icon: FileQuestion, description: 'Creates structured survey questions.', component: SurveyQuestionGenerator },
-    { id: 'resume_bullet_point_maker', name: 'Resume Bullet Point Maker', icon: ArrowBigDownDash, description: 'Generates professional CV bullet points.', component: ResumeBulletPointMaker },
-    { id: 'job_title_suggestor', name: 'Job Title Suggestor', icon: Briefcase, description: 'Suggests suitable job titles.', component: JobTitleSuggestor },
-    { id: 'skill_list_generator', name: 'Skill List Generator', icon: List, description: 'Lists skills for specific roles.', component: SkillListGenerator },
+    { id: 'resume_bullet_point_maker', name: 'Resume Bullet Point Maker', icon: ArrowBigDownDash, description: 'Generates professional CV bullet points.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Managed a team of 5 engineers to launch a new app'",
+        buttonText: "Generate Points",
+        generatePrompt: (p: string) => `You are a professional resume writer. Rewrite the following experience into three professional, action-oriented bullet points suitable for a resume. Use strong action verbs and quantify achievements where possible. Experience: "${p}"`,
+        resultTitle: "Resume Bullet Points"
+    }},
+    { id: 'job_title_suggestor', name: 'Job Title Suggestor', icon: Briefcase, description: 'Suggests suitable job titles.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A person who manages social media and creates content'",
+        buttonText: "Suggest Titles",
+        generatePrompt: (p: string) => `You are a human resources specialist. Suggest five suitable and professional job titles for a role with the following responsibilities. Responsibilities: "${p}"`,
+        resultTitle: "Job Title Suggestions"
+    }},
+    { id: 'skill_list_generator', name: 'Skill List Generator', icon: List, description: 'Lists skills for specific roles.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'for a graphic designer' or 'for a project manager'",
+        buttonText: "Generate Skills",
+        generatePrompt: (p: string) => `You are a career coach. Create a list of 10 essential skills (both technical and soft skills) for the following job role. Role: "${p}"`,
+        resultTitle: "Essential Skills"
+    }},
     { id: 'cover_letter_writer', name: 'Cover Letter Writer', icon: Mail, description: 'Generates job cover letters.', component: CoverLetterWriter },
-    { id: 'meeting_agenda_maker', name: 'Meeting Agenda Maker', icon: ListOrdered, description: 'Creates meeting agendas.', component: MeetingAgendaMaker },
-    { id: 'meeting_summary_writer', name: 'Meeting Summary Writer', icon: FileJson, description: 'Summarizes meeting notes.', component: MeetingSummaryWriter },
-    { id: 'task_priority_sorter', name: 'Task Priority Sorter', icon: Filter, description: 'Organizes tasks by priority.', component: TaskPrioritySorter },
-    { id: 'decision_helper', name: 'Decision Helper', icon: Crosshair, description: 'Suggests best choices based on criteria.', component: DecisionHelper },
-    { id: 'pro_con_list_maker', name: 'Pro/Con List Maker', icon: List, description: 'Lists pros and cons for a decision.', component: ProConListMaker },
-    { id: 'swot_analyzer', name: 'SWOT Analyzer', icon: BarChartBig, description: 'Creates Strengths, Weaknesses, Opportunities, Threats.', component: SWOTAnalyzer },
-    { id: 'business_idea_generator', name: 'Business Idea Generator', icon: Lightbulb, description: 'Suggests startup ideas.', component: BusinessIdeaGenerator },
-    { id: 'startup_pitch_writer', name: 'Startup Pitch Writer', icon: Presentation, description: 'Writes short pitch presentations.', component: StartupPitchWriter },
-    { id: 'cost_estimate_calculator', name: 'Cost Estimate Calculator', icon: Sigma, description: 'Estimates costs for projects.', component: CostEstimateCalculator },
-    { id: 'roi_calculator', name: 'ROI Calculator', icon: BadgePercent, description: 'Calculates return on investment.', component: ROICalculator },
+    { id: 'meeting_agenda_maker', name: 'Meeting Agenda Maker', icon: ListOrdered, description: 'Creates meeting agendas.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'a weekly team sync to discuss project progress'",
+        buttonText: "Make Agenda",
+        generatePrompt: (p: string) => `You are an executive assistant. Create a clear and structured agenda for the following meeting. Include topics, estimated time for each topic, and the person leading the discussion. Meeting: "${p}"`,
+        resultTitle: "Meeting Agenda"
+    }},
+    { id: 'meeting_summary_writer', name: 'Meeting Summary Writer', icon: FileJson, description: 'Summarizes meeting notes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Paste your raw meeting notes here...",
+        buttonText: "Write Summary",
+        generatePrompt: (p: string) => `You are a project manager. Summarize the following meeting notes into a concise summary. Highlight the key decisions made and the main action items. Notes: "${p}"`,
+        resultTitle: "Meeting Summary"
+    }},
+    { id: 'task_priority_sorter', name: 'Task Priority Sorter', icon: Filter, description: 'Organizes tasks by priority.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'write report, reply to emails, schedule meeting, buy groceries'",
+        buttonText: "Sort Tasks",
+        generatePrompt: (p: string) => `You are a productivity expert. Organize the following list of tasks by priority (High, Medium, Low) using a method like the Eisenhower Matrix (Urgent/Important). List: "${p}"`,
+        resultTitle: "Prioritized Tasks"
+    }},
+    { id: 'decision_helper', name: 'Decision Helper', icon: Crosshair, description: 'Suggests best choices based on criteria.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Should I take the new job offer or stay at my current company?'",
+        buttonText: "Help Decide",
+        generatePrompt: (p: string) => `You are a logical advisor. Based on the following decision, suggest the best choice by analyzing the potential outcomes and criteria. Decision: "${p}"`,
+        resultTitle: "Decision Analysis"
+    }},
+    { id: 'pro_con_list_maker', name: 'Pro/Con List Maker', icon: List, description: 'Lists pros and cons for a decision.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'buying a new car' or 'moving to a new city'",
+        buttonText: "Make Pro/Con List",
+        generatePrompt: (p: string) => `You are a critical thinker. Create a balanced list of pros and cons for the following decision. Decision: "${p}"`,
+        resultTitle: "Pros and Cons"
+    }},
+    { id: 'swot_analyzer', name: 'SWOT Analyzer', icon: BarChartBig, description: 'Creates Strengths, Weaknesses, Opportunities, Threats.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'a small online bookstore' or 'a new social media app'",
+        buttonText: "Analyze SWOT",
+        generatePrompt: (p: string) => `You are a business strategist. Conduct a SWOT analysis (Strengths, Weaknesses, Opportunities, Threats) for the following business or project. Business: "${p}"`,
+        resultTitle: "SWOT Analysis"
+    }},
+    { id: 'business_idea_generator', name: 'Business Idea Generator', icon: Lightbulb, description: 'Suggests startup ideas.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'for a small town with a large tourist population' or 'related to sustainable technology'",
+        buttonText: "Generate Ideas",
+        generatePrompt: (p: string) => `You are an entrepreneur. Suggest three unique and viable startup ideas based on the following criteria. Criteria: "${p}"`,
+        resultTitle: "Business Ideas"
+    }},
+    { id: 'startup_pitch_writer', name: 'Startup Pitch Writer', icon: Presentation, description: 'Writes short pitch presentations.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'An app that connects local farmers with consumers'",
+        buttonText: "Write Pitch",
+        generatePrompt: (p: string) => `You are a venture capitalist. Write a short, compelling startup pitch (an "elevator pitch") for the following business idea. It should clearly state the problem, solution, and market opportunity. Idea: "${p}"`,
+        resultTitle: "Startup Pitch"
+    }},
+    { id: 'cost_estimate_calculator', name: 'Cost Estimate Calculator', icon: Sigma, description: 'Estimates costs for projects.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'building a small website' or 'a 3-day marketing campaign'",
+        buttonText: "Calculate Cost",
+        generatePrompt: (p: string) => `You are a project manager. Provide a rough, text-based cost estimate for the following project. Break down the costs into major categories (e.g., labor, materials, marketing). Project: "${p}"`,
+        resultTitle: "Cost Estimate"
+    }},
+    { id: 'roi_calculator', name: 'ROI Calculator', icon: BadgePercent, description: 'Calculates return on investment.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Investment: $1000, Return: $1500' or 'Marketing spend: $500, Revenue generated: $2000'",
+        buttonText: "Calculate ROI",
+        generatePrompt: (p: string) => `You are a financial analyst. Calculate the Return on Investment (ROI) based on the following figures and present the result as a percentage. Figures: "${p}"`,
+        resultTitle: "Return on Investment (ROI)"
+    }},
 
     // Financial & Unit Conversion Utilities
-    { id: 'budget_planner', name: 'Budget Planner', icon: Banknote, description: 'Plans budgets for personal or business use.', component: BudgetPlanner },
-    { id: 'expense_tracker', name: 'Expense Tracker', icon: Receipt, description: 'Tracks daily expenses.', component: ExpenseTracker },
-    { id: 'savings_goal_calculator', name: 'Savings Goal Calculator', icon: PiggyBank, description: 'Calculates savings targets.', component: SavingsGoalCalculator },
-    { id: 'loan_calculator', name: 'Loan Calculator', icon: Landmark, description: 'Calculates loan payments.', component: LoanCalculator },
-    { id: 'interest_calculator', name: 'Interest Calculator', icon: PercentCircle, description: 'Computes interest on investments.', component: InterestCalculator },
-    { id: 'profit_calculator', name: 'Profit Calculator', icon: DollarSign, description: 'Calculates business profit.', component: ProfitCalculator },
-    { id: 'break_even_calculator', name: 'Break-even Calculator', icon: Goal, description: 'Finds break-even point for sales.', component: BreakEvenCalculator },
-    { id: 'tax_calculator', name: 'Tax Calculator', icon: Calculator, description: 'Estimates taxes owed.', component: TaxCalculator },
-    { id: 'currency_converter', name: 'Currency Converter', icon: Coins, description: 'Converts between currencies.', component: CurrencyConverter },
-    { id: 'unit_converter', name: 'Unit Converter', icon: Ruler, description: 'Converts measurement units.', component: UnitConverter },
-    { id: 'weight_converter', name: 'Weight Converter', icon: Scale, description: 'Converts weight units.', component: WeightConverter },
-    { id: 'temperature_converter', name: 'Temperature Converter', icon: ThermometerIcon, description: 'Converts Celsius, Fahrenheit, Kelvin.', component: TemperatureConverter },
-    { id: 'length_converter', name: 'Length Converter', icon: Milestone, description: 'Converts length measurements.', component: LengthConverter },
-    { id: 'area_converter', name: 'Area Converter', icon: LandPlot, description: 'Converts area measurements.', component: AreaConverter },
-    { id: 'volume_converter', name: 'Volume Converter', icon: Beaker, description: 'Converts volume measurements.', component: VolumeConverter },
-    { id: 'speed_converter', name: 'Speed Converter', icon: Car, description: 'Converts between speed units.', component: SpeedConverter },
-    { id: 'time_zone_converter', name: 'Time Zone Converter', icon: Globe, description: 'Converts time between locations.', component: TimeZoneConverter },
+    { id: 'budget_planner', name: 'Budget Planner', icon: Banknote, description: 'Plans budgets for personal or business use.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'My monthly income is $3000, and I want to save 20%. Break down my expenses for rent, food, and transport.'",
+        buttonText: "Generate Budget Plan",
+        generatePrompt: (p: string) => `You are a financial advisor. Create a simple budget plan based on the following information. Break down the expenses into categories and show the remaining amount. Details: "${p}"`,
+        resultTitle: "Budget Plan"
+    }},
+    { id: 'expense_tracker', name: 'Expense Tracker', icon: Receipt, description: 'Tracks daily expenses.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Track my expenses for this week: Coffee $5, Lunch $15, Groceries $60'",
+        buttonText: "Track Expenses",
+        generatePrompt: (p: string) => `You are an expense tracker. Summarize the following expenses and provide a total. Expenses: "${p}"`,
+        resultTitle: "Expense Summary"
+    }},
+    { id: 'savings_goal_calculator', name: 'Savings Goal Calculator', icon: PiggyBank, description: 'Calculates savings targets.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'I want to save $5000 in 12 months. How much do I need to save per month?'",
+        buttonText: "Calculate Savings",
+        generatePrompt: (p: string) => `You are a financial calculator. Based on the following savings goal, calculate the required savings per period. Goal: "${p}"`,
+        resultTitle: "Savings Goal Calculation"
+    }},
+    { id: 'loan_calculator', name: 'Loan Calculator', icon: Landmark, description: 'Calculates loan payments.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Loan of $10,000 at 5% interest over 3 years. What are the monthly payments?'",
+        buttonText: "Calculate Loan",
+        generatePrompt: (p: string) => `You are a loan calculator. Calculate the loan details (e.g., monthly payments, total interest) based on the following information. Show your work. Details: "${p}"`,
+        resultTitle: "Loan Calculation"
+    }},
+    { id: 'interest_calculator', name: 'Interest Calculator', icon: PercentCircle, description: 'Computes interest on investments.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Calculate compound interest on $1000 at 7% annually for 5 years.'",
+        buttonText: "Calculate Interest",
+        generatePrompt: (p: string) => `You are a financial calculator. Compute the interest based on the following details and show the formula used. Details: "${p}"`,
+        resultTitle: "Interest Calculation"
+    }},
+    { id: 'profit_calculator', name: 'Profit Calculator', icon: DollarSign, description: 'Calculates business profit.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Revenue is $5000 and costs are $2200. What is the profit and profit margin?'",
+        buttonText: "Calculate Profit",
+        generatePrompt: (p: string) => `You are a business calculator. Calculate the profit and profit margin from the following figures. Show your work. Figures: "${p}"`,
+        resultTitle: "Profit Calculation"
+    }},
+    { id: 'break_even_calculator', name: 'Break-even Calculator', icon: Goal, description: 'Finds break-even point for sales.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Fixed costs are $1000, variable cost per unit is $5, and selling price is $15.'",
+        buttonText: "Calculate Break-Even Point",
+        generatePrompt: (p: string) => `You are a business analyst. Calculate the break-even point in units based on the following information. Show the formula. Information: "${p}"`,
+        resultTitle: "Break-Even Analysis"
+    }},
+    { id: 'tax_calculator', name: 'Tax Calculator', icon: Calculator, description: 'Estimates taxes owed.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Estimate income tax on $50,000 with a 22% tax rate.'",
+        buttonText: "Calculate Tax",
+        generatePrompt: (p: string) => `You are a tax calculator. Provide a simple tax estimation based on the following figures. Note that this is a simplified estimate. Figures: "${p}"`,
+        resultTitle: "Tax Estimate"
+    }},
+    { id: 'currency_converter', name: 'Currency Converter', icon: Coins, description: 'Converts between currencies.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Convert 100 USD to EUR.'",
+        buttonText: "Convert Currency",
+        generatePrompt: (p: string) => `You are a currency converter. Using up-to-date exchange rates, convert the following currency. State the exchange rate you used. Conversion: "${p}"`,
+        resultTitle: "Currency Conversion"
+    }},
+    { id: 'unit_converter', name: 'Unit Converter', icon: Ruler, description: 'Converts measurement units.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Convert 10 miles to kilometers.'",
+        buttonText: "Convert Units",
+        generatePrompt: (p: string) => `You are a unit converter. Perform the following conversion. Conversion: "${p}"`,
+        resultTitle: "Unit Conversion"
+    }},
+    { id: 'weight_converter', name: 'Weight Converter', icon: Scale, description: 'Converts weight units.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Convert 150 pounds to kilograms.'",
+        buttonText: "Convert Weight",
+        generatePrompt: (p: string) => `You are a unit converter. Perform the following weight conversion. Conversion: "${p}"`,
+        resultTitle: "Weight Conversion"
+    }},
+    { id: 'temperature_converter', name: 'Temperature Converter', icon: ThermometerIcon, description: 'Converts Celsius, Fahrenheit, Kelvin.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Convert 30 degrees Celsius to Fahrenheit.'",
+        buttonText: "Convert Temperature",
+        generatePrompt: (p: string) => `You are a unit converter. Perform the following temperature conversion. Conversion: "${p}"`,
+        resultTitle: "Temperature Conversion"
+    }},
+    { id: 'length_converter', name: 'Length Converter', icon: Milestone, description: 'Converts length measurements.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Convert 5 feet 10 inches to centimeters.'",
+        buttonText: "Convert Length",
+        generatePrompt: (p: string) => `You are a unit converter. Perform the following length conversion. Conversion: "${p}"`,
+        resultTitle: "Length Conversion"
+    }},
+    { id: 'area_converter', name: 'Area Converter', icon: LandPlot, description: 'Converts area measurements.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Convert 2 square meters to square feet.'",
+        buttonText: "Convert Area",
+        generatePrompt: (p: string) => `You are a unit converter. Perform the following area conversion. Conversion: "${p}"`,
+        resultTitle: "Area Conversion"
+    }},
+    { id: 'volume_converter', name: 'Volume Converter', icon: Beaker, description: 'Converts volume measurements.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Convert 2 liters to gallons.'",
+        buttonText: "Convert Volume",
+        generatePrompt: (p: string) => `You are a unit converter. Perform the following volume conversion. Conversion: "${p}"`,
+        resultTitle: "Volume Conversion"
+    }},
+    { id: 'speed_converter', name: 'Speed Converter', icon: Car, description: 'Converts between speed units.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Convert 60 mph to km/h.'",
+        buttonText: "Convert Speed",
+        generatePrompt: (p: string) => `You are a unit converter. Perform the following speed conversion. Conversion: "${p}"`,
+        resultTitle: "Speed Conversion"
+    }},
+    { id: 'time_zone_converter', name: 'Time Zone Converter', icon: Globe, description: 'Converts time between locations.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'What is 3 PM PST in EST?'",
+        buttonText: "Convert Time Zone",
+        generatePrompt: (p: string) => `You are a time zone converter. Perform the following time zone conversion. Conversion: "${p}"`,
+        resultTitle: "Time Zone Conversion"
+    }},
     
     // Time & Randomization Utilities
-    { id: 'age_calculator', name: 'Age Calculator', icon: User, description: 'Calculates age from date of birth.', component: AgeCalculator },
-    { id: 'date_difference_finder', name: 'Date Difference Finder', icon: Calendar, description: 'Finds days between two dates.', component: DateDifferenceFinder },
-    { id: 'countdown_timer_maker', name: 'Countdown Timer Maker', icon: Clock, description: 'Creates countdown timers.', component: CountdownTimerMaker },
-    { id: 'stopwatch_tool', name: 'Stopwatch Tool', icon: Clock, description: 'Digital stopwatch.', component: StopwatchTool },
-    { id: 'random_number_picker', name: 'Random Number Picker', icon: Hash, description: 'Picks a random number.', component: RandomNumberPicker },
-    { id: 'random_name_picker', name: 'Random Name Picker', icon: Users, description: 'Picks random names from a list.', component: RandomNamePicker },
-    { id: 'dice_roller', name: 'Dice Roller', icon: Dices, description: 'Simulates dice rolling.', component: DiceRoller },
-    { id: 'coin_flip', name: 'Coin Flip', icon: CircleDollarSign, description: 'Flips a virtual coin.', component: CoinFlip },
+    { id: 'age_calculator', name: 'Age Calculator', icon: User, description: 'Calculates age from date of birth.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Date of birth: October 26, 1985'",
+        buttonText: "Calculate Age",
+        generatePrompt: (p: string) => `You are a calculator. Calculate the current age based on the following date of birth. DOB: "${p}"`,
+        resultTitle: "Age Calculation"
+    }},
+    { id: 'date_difference_finder', name: 'Date Difference Finder', icon: Calendar, description: 'Finds days between two dates.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'How many days between January 1, 2023 and December 31, 2023?'",
+        buttonText: "Calculate Difference",
+        generatePrompt: (p: string) => `You are a date calculator. Find the difference in days between the two dates provided. Dates: "${p}"`,
+        resultTitle: "Date Difference"
+    }},
+    { id: 'countdown_timer_maker', name: 'Countdown Timer Maker', icon: Clock, description: 'Creates countdown timers.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Create a 5 minute countdown timer.'",
+        buttonText: "Create Countdown",
+        generatePrompt: (p: string) => `You are a timer tool. Describe how a user could set up a countdown timer based on their request. You cannot create a real timer. Request: "${p}"`,
+        resultTitle: "Countdown Timer Plan"
+    }},
+    { id: 'stopwatch_tool', name: 'Stopwatch Tool', icon: Clock, description: 'Digital stopwatch.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Start a stopwatch.'",
+        buttonText: "Start Stopwatch",
+        generatePrompt: (p: string) => `You are a stopwatch tool. Respond by confirming that a stopwatch has started. You cannot create a real stopwatch. Request: "${p}"`,
+        resultTitle: "Stopwatch"
+    }},
+    { id: 'random_number_picker', name: 'Random Number Picker', icon: Hash, description: 'Picks a random number.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Pick a random number between 1 and 100.'",
+        buttonText: "Pick Random Number",
+        generatePrompt: (p: string) => `You are a random number generator. Pick a random number based on the following range. Range: "${p}"`,
+        resultTitle: "Random Number"
+    }},
+    { id: 'random_name_picker', name: 'Random Name Picker', icon: Users, description: 'Picks random names from a list.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Alice, Bob, Charlie, Diana'",
+        buttonText: "Pick Random Name",
+        generatePrompt: (p: string) => `You are a random name picker. Pick one random name from the following list. List: "${p}"`,
+        resultTitle: "Random Name"
+    }},
+    { id: 'dice_roller', name: 'Dice Roller', icon: Dices, description: 'Simulates dice rolling.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Roll two 6-sided dice.'",
+        buttonText: "Roll Dice",
+        generatePrompt: (p: string) => `You are a dice rolling simulator. Simulate the following dice roll and provide the result. Roll: "${p}"`,
+        resultTitle: "Dice Roll Result"
+    }},
+    { id: 'coin_flip', name: 'Coin Flip', icon: CircleDollarSign, description: 'Flips a virtual coin.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Flip a coin.'",
+        buttonText: "Flip Coin",
+        generatePrompt: (p: string) => `You are a coin flip simulator. Simulate a coin flip and provide the result (Heads or Tails).`,
+        resultTitle: "Coin Flip Result"
+    }},
     
     // Naming & Security Utilities
-    { id: 'password_generator', name: 'Password Generator', icon: Lock, description: 'Creates secure passwords.', component: PasswordGenerator },
-    { id: 'username_generator', name: 'Username Generator', icon: AtSign, description: 'Suggests usernames.', component: UsernameGenerator },
-    { id: 'nickname_maker', name: 'Nickname Maker', icon: Smile, description: 'Generates fun nicknames.', component: NicknameMaker },
-    { id: 'wifi_name_generator', name: 'Wi-Fi Name Generator', icon: Wifi, description: 'Suggests Wi-Fi SSIDs.', component: WifiNameGenerator },
-    { id: 'domain_name_generator', name: 'Domain Name Generator', icon: Globe, description: 'Suggests website domains.', component: DomainNameGenerator },
+    { id: 'password_generator', name: 'Password Generator', icon: Lock, description: 'Creates secure passwords.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Generate a secure 16-character password with numbers and symbols.'",
+        buttonText: "Generate Password",
+        generatePrompt: (p: string) => `You are a password generator. Create a secure, random password based on the following criteria. Criteria: "${p}"`,
+        resultTitle: "Generated Password"
+    }},
+    { id: 'username_generator', name: 'Username Generator', icon: AtSign, description: 'Suggests usernames.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Generate usernames for a gamer who likes dragons.'",
+        buttonText: "Generate Usernames",
+        generatePrompt: (p: string) => `You are a username generator. Suggest 5 creative usernames based on the following theme. Theme: "${p}"`,
+        resultTitle: "Username Suggestions"
+    }},
+    { id: 'nickname_maker', name: 'Nickname Maker', icon: Smile, description: 'Generates fun nicknames.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Generate a cool nickname for someone named Alex who is a fast runner.'",
+        buttonText: "Make Nickname",
+        generatePrompt: (p: string) => `You are a nickname generator. Create 5 fun nicknames based on the following description. Description: "${p}"`,
+        resultTitle: "Generated Nicknames"
+    }},
+    { id: 'wifi_name_generator', name: 'Wi-Fi Name Generator', icon: Wifi, description: 'Suggests Wi-Fi SSIDs.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Suggest funny Wi-Fi names.'",
+        buttonText: "Generate Wi-Fi Names",
+        generatePrompt: (p: string) => `You are a Wi-Fi name generator. Suggest 5 clever and funny Wi-Fi SSIDs. Request: "${p}"`,
+        resultTitle: "Wi-Fi Name Suggestions"
+    }},
+    { id: 'domain_name_generator', name: 'Domain Name Generator', icon: Globe, description: 'Suggests website domains.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A domain name for a pet-sitting business.'",
+        buttonText: "Generate Domain Names",
+        generatePrompt: (p: string) => `You are a domain name generator. Suggest 5 available-sounding domain names (using .com, .io, .ai) for the following business idea. Idea: "${p}"`,
+        resultTitle: "Domain Name Suggestions"
+    }},
     
     // Education & Creative Writing Utilities
-    { id: 'app_name_generator', name: 'App Name Generator', icon: AppWindow, description: 'Suggests mobile app names.', component: AppNameGenerator },
-    { id: 'game_name_generator', name: 'Game Name Generator', icon: Gamepad2, description: 'Suggests game titles.', component: GameNameGenerator },
-    { id: 'playlist_name_generator', name: 'Playlist Name Generator', icon: Music, description: 'Suggests music playlist names.', component: PlaylistNameGenerator },
-    { id: 'event_name_generator', name: 'Event Name Generator', icon: Calendar, description: 'Suggests names for events.', component: EventNameGenerator },
-    { id: 'book_title_generator', name: 'Book Title Generator', icon: BookOpen, description: 'Suggests book titles.', component: BookTitleGenerator },
-    { id: 'chapter_title_generator', name: 'Chapter Title Generator', icon: ListOrdered, description: 'Suggests chapter names.', component: ChapterTitleGenerator },
-    { id: 'course_title_generator', name: 'Course Title Generator', icon: GraduationCap, description: 'Suggests online course titles.', component: CourseTitleGenerator },
-    { id: 'lesson_plan_maker', name: 'Lesson Plan Maker', icon: ListChecks, description: 'Creates teaching lesson plans.', component: LessonPlanMaker },
-    { id: 'exam_question_generator', name: 'Exam Question Generator', icon: FileQuestion, description: 'Creates test questions.', component: ExamQuestionGenerator },
-    { id: 'flashcard_maker', name: 'Flashcard Maker', icon: BookCopy, description: 'Generates flashcards for study.', component: FlashcardMaker },
-    { id: 'study_guide_maker', name: 'Study Guide Maker', icon: BookHeart, description: 'Creates condensed study notes.', component: StudyGuideMaker },
-    { id: 'concept_explainer', name: 'Concept Explainer', icon: Lightbulb, description: 'Explains difficult concepts simply.', component: ConceptExplainer },
-    { id: 'historical_fact_finder', name: 'Historical Fact Finder', icon: Landmark, description: 'Gives quick historical facts.', component: HistoricalFactFinder },
-    { id: 'science_fact_finder', name: 'Science Fact Finder', icon: Beaker, description: 'Shares quick science facts.', component: ScienceFactFinder },
-    { id: 'math_problem_solver', name: 'Math Problem Solver', icon: Sigma, description: 'Solves math problems step-by-step.', component: MathProblemSolver },
-    { id: 'equation_generator', name: 'Equation Generator', icon: SquarePi, description: 'Creates math practice equations.', component: EquationGenerator },
-    { id: 'geometry_shape_drawer', name: 'Geometry Shape Drawer', icon: Ruler, description: 'Generates diagrams for shapes.', component: GeometryShapeDrawer },
-    { id: 'unit_conversion_practice_tool', name: 'Unit Conversion Practice Tool', icon: Ruler, description: 'Makes unit conversion exercises.', component: UnitConversionPracticeTool },
-    { id: 'language_practice_partner', name: 'Language Practice Partner', icon: Languages, description: 'Simulates basic conversation practice.', component: LanguagePracticePartner },
-    { id: 'vocabulary_builder', name: 'Vocabulary Builder', icon: BookCheck, description: 'Suggests new words to learn.', component: VocabularyBuilder },
-    { id: 'spelling_quiz_maker', name: 'Spelling Quiz Maker', icon: SpellCheck, description: 'Generates spelling quizzes.', component: SpellingQuizMaker },
-    { id: 'grammar_quiz_maker', name: 'Grammar Quiz Maker', icon: BookCheck, description: 'Creates grammar practice questions.', component: GrammarQuizMaker },
-    { id: 'reading_comprehension_tester', name: 'Reading Comprehension Tester', icon: BookOpen, description: 'Generates comprehension passages.', component: ReadingComprehensionTester },
-    { id: 'essay_topic_generator', name: 'Essay Topic Generator', icon: Feather, description: 'Suggests essay writing topics.', component: EssayTopicGenerator },
-    { id: 'poetry_writer', name: 'Poetry Writer', icon: Feather, description: 'Writes short poems.', component: PoetryWriter },
-    { id: 'haiku_generator', name: 'Haiku Generator', icon: Feather, description: 'Creates haiku poems.', component: HaikuGenerator },
-    { id: 'song_lyric_starter', name: 'Song Lyric Starter', icon: Music, description: 'Suggests opening lines for songs.', component: SongLyricStarter },
-    { id: 'rap_verse_maker', name: 'Rap Verse Maker', icon: MicVocal, description: 'Generates rap-style lyrics.', component: RapVerseMaker },
-    { id: 'script_dialogue_writer', name: 'Script Dialogue Writer', icon: MessageSquare, description: 'Creates short dialogues.', component: ScriptDialogueWriter },
-    { id: 'monologue_writer', name: 'Monologue Writer', icon: UserSquare, description: 'Generates monologues for scripts.', component: MonologueWriter },
-    { id: 'scene_description_writer', name: 'Scene Description Writer', icon: Clapperboard, description: 'Writes scene details for stories.', component: SceneDescriptionWriter },
+    { id: 'app_name_generator', name: 'App Name Generator', icon: AppWindow, description: 'Suggests mobile app names.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A fitness tracking app for runners'",
+        buttonText: "Generate App Names",
+        generatePrompt: (p: string) => `You are a branding expert. Suggest 10 creative and available-sounding names for a mobile app with the following description: "${p}"`,
+        resultTitle: "App Name Ideas"
+    }},
+    { id: 'game_name_generator', name: 'Game Name Generator', icon: Gamepad2, description: 'Suggests game titles.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A fantasy role-playing game about dragons'",
+        buttonText: "Generate Game Names",
+        generatePrompt: (p: string) => `You are a creative game designer. Suggest 10 unique and cool-sounding names for a video game with the following description: "${p}"`,
+        resultTitle: "Game Name Ideas"
+    }},
+    { id: 'playlist_name_generator', name: 'Playlist Name Generator', icon: Music, description: 'Suggests music playlist names.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A playlist for a late-night study session'",
+        buttonText: "Generate Playlist Names",
+        generatePrompt: (p: string) => `You are a DJ and music curator. Suggest 10 creative and catchy names for a music playlist with the following theme: "${p}"`,
+        resultTitle: "Playlist Name Ideas"
+    }},
+    { id: 'event_name_generator', name: 'Event Name Generator', icon: Calendar, description: 'Suggests names for events.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A summer music festival focused on indie bands'",
+        buttonText: "Generate Event Names",
+        generatePrompt: (p: string) => `You are a professional event planner. Suggest 10 creative and catchy names for an event with the following description: "${p}"`,
+        resultTitle: "Event Name Ideas"
+    }},
+    { id: 'book_title_generator', name: 'Book Title Generator', icon: BookOpen, description: 'Suggests book titles.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A sci-fi novel about AI taking over the world'",
+        buttonText: "Generate Book Titles",
+        generatePrompt: (p: string) => `You are a professional author and editor. Suggest 10 compelling and original titles for a book with the following premise: "${p}"`,
+        resultTitle: "Book Title Ideas"
+    }},
+    { id: 'chapter_title_generator', name: 'Chapter Title Generator', icon: ListOrdered, description: 'Suggests chapter names.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'The first chapter of a mystery novel where the detective finds the first clue'",
+        buttonText: "Generate Chapter Titles",
+        generatePrompt: (p: string) => `You are a professional editor. Suggest 5 creative and fitting titles for a chapter with the following summary: "${p}"`,
+        resultTitle: "Chapter Title Ideas"
+    }},
+    { id: 'course_title_generator', name: 'Course Title Generator', icon: GraduationCap, description: 'Suggests online course titles.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'An online course about digital marketing for beginners'",
+        buttonText: "Generate Course Titles",
+        generatePrompt: (p: string) => `You are an instructional designer. Suggest 10 engaging and descriptive titles for an online course with the following topic: "${p}"`,
+        resultTitle: "Course Title Ideas"
+    }},
+    { id: 'lesson_plan_maker', name: 'Lesson Plan Maker', icon: ListChecks, description: 'Creates teaching lesson plans.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A 45-minute lesson plan for teaching photosynthesis to middle schoolers'",
+        buttonText: "Create Lesson Plan",
+        generatePrompt: (p: string) => `You are an experienced teacher. Create a detailed lesson plan based on the following request. Include learning objectives, materials, activities, and assessment methods. Request: "${p}"`,
+        resultTitle: "Lesson Plan"
+    }},
+    { id: 'exam_question_generator', name: 'Exam Question Generator', icon: FileQuestion, description: 'Creates test questions.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Create 5 multiple-choice questions about the solar system'",
+        buttonText: "Generate Questions",
+        generatePrompt: (p: string) => `You are a teacher. Create a set of exam questions based on the user's request. Include a variety of question types (e.g., multiple-choice, short answer) and provide an answer key. Request: "${p}"`,
+        resultTitle: "Exam Questions"
+    }},
+    { id: 'flashcard_maker', name: 'Flashcard Maker', icon: BookCopy, description: 'Generates flashcards for study.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Paste a list of terms and definitions, or a topic like 'French vocabulary for beginners'",
+        buttonText: "Make Flashcards",
+        generatePrompt: (p: string) => `You are a study assistant. Create a set of flashcards from the following text or topic. Each flashcard should have a 'Term' and a 'Definition'. Format the output clearly. Request: "${p}"`,
+        resultTitle: "Generated Flashcards"
+    }},
+    { id: 'study_guide_maker', name: 'Study Guide Maker', icon: BookHeart, description: 'Creates condensed study notes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Create a study guide for a final exam on American history'",
+        buttonText: "Make Guide",
+        generatePrompt: (p: string) => `You are a tutor. Create a condensed, easy-to-read study guide for the following topic. Organize it with clear headings, key terms, and bullet points. Topic: "${p}"`,
+        resultTitle: "Generated Study Guide"
+    }},
+    { id: 'concept_explainer', name: 'Concept Explainer', icon: Lightbulb, description: 'Explains difficult concepts simply.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Explain quantum entanglement in simple terms'",
+        buttonText: "Explain Concept",
+        generatePrompt: (p: string) => `You are a master teacher. Explain the following concept in a clear, concise, and easy-to-understand way, using analogies and simple examples. Concept: "${p}"`,
+        resultTitle: "Concept Explanation"
+    }},
+    { id: 'historical_fact_finder', name: 'Historical Fact Finder', icon: Landmark, description: 'Gives quick historical facts.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Interesting facts about Ancient Egypt'",
+        buttonText: "Find Facts",
+        generatePrompt: (p: string) => `You are a historian. Provide 5 interesting and verifiable historical facts about the following topic: "${p}"`,
+        resultTitle: "Historical Facts"
+    }},
+    { id: 'science_fact_finder', name: 'Science Fact Finder', icon: Beaker, description: 'Shares quick science facts.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Interesting facts about black holes'",
+        buttonText: "Find Facts",
+        generatePrompt: (p: string) => `You are a scientist. Provide 5 interesting and verifiable scientific facts about the following topic: "${p}"`,
+        resultTitle: "Science Facts"
+    }},
+    { id: 'math_problem_solver', name: 'Math Problem Solver', icon: Sigma, description: 'Solves math problems step-by-step.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Solve for x: 3x - 7 = 11'",
+        buttonText: "Solve Problem",
+        generatePrompt: (p: string) => `You are a math tutor. Solve the following math problem, showing each step of your work clearly. Problem: "${p}"`,
+        resultTitle: "Math Problem Solution"
+    }},
+    { id: 'equation_generator', name: 'Equation Generator', icon: SquarePi, description: 'Creates math practice equations.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Generate 5 simple algebra problems for a 7th grader'",
+        buttonText: "Generate Equations",
+        generatePrompt: (p: string) => `You are a math teacher. Create a set of practice math equations based on the following request. Include the solutions separately. Request: "${p}"`,
+        resultTitle: "Generated Equations"
+    }},
+    { id: 'geometry_shape_drawer', name: 'Geometry Shape Drawer', icon: Ruler, description: 'Generates diagrams for shapes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Draw an isosceles triangle with labels'",
+        buttonText: "Generate Diagram",
+        generatePrompt: (p: string) => `You are a geometry tool. Create a text-based ASCII art diagram for the following shape. Include labels if requested. Shape: "${p}"`,
+        resultTitle: "Shape Diagram"
+    }},
+    { id: 'unit_conversion_practice_tool', name: 'Unit Conversion Practice Tool', icon: Ruler, description: 'Makes unit conversion exercises.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Practice problems for converting inches to centimeters'",
+        buttonText: "Create Practice",
+        generatePrompt: (p: string) => `You are a math tutor. Create 5 practice problems for unit conversion based on the following request. Include an answer key. Request: "${p}"`,
+        resultTitle: "Unit Conversion Practice"
+    }},
+    { id: 'language_practice_partner', name: 'Language Practice Partner', icon: Languages, description: 'Simulates basic conversation practice.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Practice ordering food in a French cafe'",
+        buttonText: "Start Practice",
+        generatePrompt: (p: string) => `You are a language practice partner. Simulate a basic conversation for the following scenario. You will play the part of the other person, and wait for the user to respond. Scenario: "${p}" Start with your first line.`,
+        resultTitle: "Conversation Practice"
+    }},
+    { id: 'vocabulary_builder', name: 'Vocabulary Builder', icon: BookCheck, description: 'Suggests new words to learn.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Advanced vocabulary for business writing'",
+        buttonText: "Build Vocabulary",
+        generatePrompt: (p: string) => `You are a lexicographer. Provide a list of 10 useful vocabulary words related to the following topic. For each word, include its definition and an example sentence. Topic: "${p}"`,
+        resultTitle: "Vocabulary List"
+    }},
+    { id: 'spelling_quiz_maker', name: 'Spelling Quiz Maker', icon: SpellCheck, description: 'Generates spelling quizzes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Create a spelling quiz with commonly misspelled words for adults'",
+        buttonText: "Make Quiz",
+        generatePrompt: (p: string) => `You are an English teacher. Create a 10-word spelling quiz based on the following request. Provide the list of words and then a separate answer key. Request: "${p}"`,
+        resultTitle: "Spelling Quiz"
+    }},
+    { id: 'grammar_quiz_maker', name: 'Grammar Quiz Maker', icon: BookCheck, description: 'Creates grammar practice questions.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Create a quiz on verb tenses'",
+        buttonText: "Make Quiz",
+        generatePrompt: (p: string) => `You are a language teacher. Create a 5-question grammar quiz on the following topic. Include multiple-choice questions and an answer key. Topic: "${p}"`,
+        resultTitle: "Grammar Quiz"
+    }},
+    { id: 'reading_comprehension_tester', name: 'Reading Comprehension Tester', icon: BookOpen, description: 'Generates comprehension passages.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A short passage about the Amazon rainforest for a 6th grade reading level'",
+        buttonText: "Generate Test",
+        generatePrompt: (p: string) => `You are an educator. Write a short reading comprehension passage on the given topic, followed by 3 questions (with an answer key) to test understanding. Topic: "${p}"`,
+        resultTitle: "Reading Comprehension Test"
+    }},
+    { id: 'essay_topic_generator', name: 'Essay Topic Generator', icon: Feather, description: 'Suggests essay writing topics.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Suggest essay topics for a high school history class on World War II'",
+        buttonText: "Generate Essay Topics",
+        generatePrompt: (p: string) => `You are a teacher. Suggest 5 thought-provoking essay topics based on the following subject or theme: "${p}"`,
+        resultTitle: "Essay Topics"
+    }},
+    { id: 'script_dialogue_writer', name: 'Script Dialogue Writer', icon: MessageSquare, description: 'Creates short dialogues.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A short, tense dialogue between a detective and a suspect'",
+        buttonText: "Write Dialogue",
+        generatePrompt: (p: string) => `You are a screenwriter. Write a short piece of dialogue between two characters based on the following scenario. Use standard script format. Scenario: "${p}"`,
+        resultTitle: "Generated Dialogue"
+    }},
+    { id: 'monologue_writer', name: 'Monologue Writer', icon: UserSquare, description: 'Generates monologues for scripts.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A villain explaining their evil plan'",
+        buttonText: "Write Monologue",
+        generatePrompt: (p: string) => `You are a playwright. Write a compelling and character-driven monologue based on the following theme or character description: "${p}"`,
+        resultTitle: "Generated Monologue"
+    }},
+    { id: 'scene_description_writer', name: 'Scene Description Writer', icon: Clapperboard, description: 'Writes scene details for stories.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Describe a bustling medieval marketplace at noon'",
+        buttonText: "Write Scene",
+        generatePrompt: (p: string) => `You are a novelist. Write a vivid and sensory-rich description of the following scene, focusing on what the character sees, hears, smells, and feels. Scene: "${p}"`,
+        resultTitle: "Scene Description"
+    }},
     
     // Latest Batch
-    { id: 'character_backstory_maker', name: 'Character Backstory Maker', icon: UserSquare, description: 'Creates fictional backstories.', component: CharacterBackstoryMaker },
-    { id: 'plot_twist_generator', name: 'Plot Twist Generator', icon: GitBranch, description: 'Suggests plot twists.', component: PlotTwistGenerator },
-    { id: 'conflict_idea_maker', name: 'Conflict Idea Maker', icon: Swords, description: 'Suggests story conflicts.', component: ConflictIdeaMaker },
-    { id: 'ending_suggestor', name: 'Ending Suggestor', icon: Milestone, description: 'Suggests story endings.', component: EndingSuggestor },
-    { id: 'book_summary_maker', name: 'Book Summary Maker', icon: BookOpen, description: 'Summarizes books.', component: BookSummaryMaker },
-    { id: 'movie_summary_maker', name: 'Movie Summary Maker', icon: Film, description: 'Summarizes films.', component: MovieSummaryMaker },
-    { id: 'episode_recap_writer', name: 'Episode Recap Writer', icon: Clapperboard, description: 'Creates TV show recaps.', component: EpisodeRecapWriter },
-    { id: 'recipe_writer', name: 'Recipe Writer', icon: CookingPot, description: 'Writes cooking recipes.', component: RecipeWriter },
-    { id: 'meal_plan_generator', name: 'Meal Plan Generator', icon: Calendar, description: 'Creates weekly meal plans.', component: MealPlanGenerator },
-    { id: 'grocery_list_maker', name: 'Grocery List Maker', icon: ListChecks, description: 'Generates shopping lists.', component: GroceryListMaker },
-    { id: 'calorie_counter', name: 'Calorie Counter', icon: Sigma, description: 'Estimates calories in meals.', component: CalorieCounter },
-    { id: 'workout_plan_generator', name: 'Workout Plan Generator', icon: Dumbbell, description: 'Creates fitness workout plans.', component: WorkoutPlanGenerator },
-    { id: 'yoga_routine_generator', name: 'Yoga Routine Generator', icon: Leaf, description: 'Suggests yoga sequences.', component: YogaRoutineGenerator },
-    { id: 'meditation_guide', name: 'Meditation Guide', icon: BrainCog, description: 'Gives meditation instructions.', component: MeditationGuide },
-    { id: 'breathing_exercise_guide', name: 'Breathing Exercise Guide', icon: Wind, description: 'Creates breathing patterns.', component: BreathingExerciseGuide },
-    { id: 'habit_tracker', name: 'Habit Tracker', icon: CheckSquare, description: 'Helps track daily habits.', component: HabitTracker },
-    { id: 'sleep_routine_planner', name: 'Sleep Routine Planner', icon: Moon, description: 'Suggests sleep improvement plans.', component: SleepRoutinePlanner },
-    { id: 'water_intake_tracker', name: 'Water Intake Tracker', icon: Droplet, description: 'Monitors water consumption.', component: WaterIntakeTracker },
-    { id: 'mood_journal_prompter', name: 'Mood Journal Prompter', icon: BookHeart, description: 'Suggests prompts for mood tracking.', component: MoodJournalPrompter },
-    { id: 'self_care_checklist_maker', name: 'Self-Care Checklist Maker', icon: ListChecks, description: 'Lists self-care activities.', component: SelfCareChecklistMaker },
-    { id: 'mind_map_creator', name: 'Mind Map Creator', icon: GitBranch, description: 'Generates simple mind maps.', component: MindMapCreator },
-    { id: 'goal_tracker', name: 'Goal Tracker', icon: Goal, description: 'Tracks progress toward goals.', component: GoalTracker },
-    { id: 'motivation_quote_sender', name: 'Motivation Quote Sender', icon: Quote, description: 'Sends daily motivational quotes.', component: MotivationQuoteSender },
-    { id: 'challenge_idea_generator', name: 'Challenge Idea Generator', icon: Trophy, description: 'Suggests 7-day or 30-day challenges.', component: ChallengeIdeaGenerator },
-    { id: 'diy_project_idea_maker', name: 'DIY Project Idea Maker', icon: Wrench, description: 'Suggests craft or home projects.', component: DIYProjectIdeaMaker },
-    { id: 'gift_idea_generator', name: 'Gift Idea Generator', icon: Gift, description: 'Suggests gifts for occasions.', component: GiftIdeaGenerator },
-    { id: 'party_theme_generator', name: 'Party Theme Generator', icon: PartyPopper, description: 'Suggests party themes.', component: PartyThemeGenerator },
-    { id: 'event_schedule_maker', name: 'Event Schedule Maker', icon: Calendar, description: 'Creates event timelines.', component: EventScheduleMaker },
-    { id: 'invitation_message_writer', name: 'Invitation Message Writer', icon: Mail, description: 'Writes short invites.', component: InvitationMessageWriter },
+    { id: 'character_backstory_maker', name: 'Character Backstory Maker', icon: UserSquare, description: 'Creates fictional backstories.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A rogue who grew up on the streets' or 'An old wizard who has seen too much war'",
+        buttonText: "Create Backstory",
+        generatePrompt: (p: string) => `You are a creative writer. Create a compelling backstory for a fictional character with the following description. Include their childhood, a defining moment, and their primary motivation. Description: "${p}"`,
+        resultTitle: "Character Backstory"
+    }},
+    { id: 'plot_twist_generator', name: 'Plot Twist Generator', icon: GitBranch, description: 'Suggests plot twists.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A detective story where the main character is hunting a killer'",
+        buttonText: "Generate Plot Twist",
+        generatePrompt: (p: string) => `You are a master storyteller. Suggest three unexpected and shocking plot twists for a story with the following premise. Premise: "${p}"`,
+        resultTitle: "Plot Twists"
+    }},
+    { id: 'conflict_idea_maker', name: 'Conflict Idea Maker', icon: Swords, description: 'Suggests story conflicts.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A sci-fi story set on Mars' or 'A romance between two rival chefs'",
+        buttonText: "Suggest Conflict",
+        generatePrompt: (p: string) => `You are a creative writer. Suggest three compelling conflicts (internal or external) for a story with the following theme or setting. Theme: "${p}"`,
+        resultTitle: "Conflict Ideas"
+    }},
+    { id: 'ending_suggestor', name: 'Ending Suggestor', icon: Milestone, description: 'Suggests story endings.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Describe your story's premise. e.g., 'A group of friends gets lost in a haunted forest...'",
+        buttonText: "Suggest Endings",
+        generatePrompt: (p: string) => `You are a storyteller. Suggest three different possible endings (a happy, a tragic, and a twist ending) for a story with the following premise. Premise: "${p}"`,
+        resultTitle: "Story Ending Ideas"
+    }},
+    { id: 'book_summary_maker', name: 'Book Summary Maker', icon: BookOpen, description: 'Summarizes books.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Enter the title and author of a book, or paste a summary of its plot.",
+        buttonText: "Summarize Book",
+        generatePrompt: (p: string) => `You are a literary analyst. Provide a concise summary of the following book's plot, including the main characters and the central conflict. Book: "${p}"`,
+        resultTitle: "Book Summary"
+    }},
+    { id: 'movie_summary_maker', name: 'Movie Summary Maker', icon: Film, description: 'Summarizes films.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Enter the title of a movie.",
+        buttonText: "Summarize Movie",
+        generatePrompt: (p: string) => `You are a film critic. Provide a concise summary of the following movie's plot, including the main characters and the central conflict. Movie: "${p}"`,
+        resultTitle: "Movie Summary"
+    }},
+    { id: 'episode_recap_writer', name: 'Episode Recap Writer', icon: Clapperboard, description: 'Creates TV show recaps.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'The latest episode of a popular fantasy TV show where a major character was revealed to be a traitor.'",
+        buttonText: "Write Recap",
+        generatePrompt: (p: string) => `You are a TV critic. Write an engaging recap of a TV show episode based on the following description. Summarize the key events and end with a cliffhanger or question for the next episode. Episode: "${p}"`,
+        resultTitle: "Episode Recap"
+    }},
+    { id: 'recipe_writer', name: 'Recipe Writer', icon: CookingPot, description: 'Writes cooking recipes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A simple recipe for chocolate chip cookies'",
+        buttonText: "Write Recipe",
+        generatePrompt: (p: string) => `You are a chef. Write a clear, step-by-step recipe for the following dish. Include an ingredient list with measurements, and instructions for preparation and cooking. Dish: "${p}"`,
+        resultTitle: "Recipe"
+    }},
+    { id: 'meal_plan_generator', name: 'Meal Plan Generator', icon: Calendar, description: 'Creates weekly meal plans.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A 3-day healthy meal plan for someone who is vegetarian.'",
+        buttonText: "Generate Plan",
+        generatePrompt: (p: string) => `You are a nutritionist. Create a simple and balanced meal plan for one day based on the following request. Include suggestions for breakfast, lunch, and dinner. Request: "${p}"`,
+        resultTitle: "Meal Plan"
+    }},
+    { id: 'grocery_list_maker', name: 'Grocery List Maker', icon: ListChecks, description: 'Generates shopping lists.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "List the meals you want to make, e.g., 'Spaghetti bolognese, chicken salad, and oatmeal for breakfast.'",
+        buttonText: "Make List",
+        generatePrompt: (p: string) => `You are a personal assistant. Create an organized grocery list based on the ingredients needed for the following meals. Categorize the items (e.g., Produce, Dairy, Meat). Meals: "${p}"`,
+        resultTitle: "Grocery List"
+    }},
+    { id: 'calorie_counter', name: 'Calorie Counter', icon: Sigma, description: 'Estimates calories in meals.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A chicken breast, a cup of rice, and a side of broccoli.'",
+        buttonText: "Count Calories",
+        generatePrompt: (p: string) => `You are a dietitian. Provide a rough estimate of the total calorie count for the following meal. Include a disclaimer that this is an estimate. Meal: "${p}"`,
+        resultTitle: "Calorie Estimate"
+    }},
+    { id: 'workout_plan_generator', name: 'Workout Plan Generator', icon: Dumbbell, description: 'Creates fitness workout plans.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A 3-day workout plan for a beginner focused on full-body strength.'",
+        buttonText: "Generate Workout",
+        generatePrompt: (p: string) => `You are a personal trainer. Create a simple workout plan based on the user's request. Include exercises, sets, and reps for each day. Request: "${p}"`,
+        resultTitle: "Workout Plan"
+    }},
+    { id: 'yoga_routine_generator', name: 'Yoga Routine Generator', icon: Leaf, description: 'Suggests yoga sequences.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A 15-minute morning yoga routine to wake up the body.'",
+        buttonText: "Generate Routine",
+        generatePrompt: (p: string) => `You are a yoga instructor. Create a sequence of yoga poses for the following routine. List the poses in order and suggest a duration for each. Routine: "${p}"`,
+        resultTitle: "Yoga Routine"
+    }},
+    { id: 'meditation_guide', name: 'Meditation Guide', icon: BrainCog, description: 'Gives meditation instructions.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A 5-minute guided meditation for stress relief.'",
+        buttonText: "Get Guide",
+        generatePrompt: (p: string) => `You are a meditation coach. Write a short, guided meditation script based on the user's request. Focus on calming language and simple instructions. Request: "${p}"`,
+        resultTitle: "Meditation Guide"
+    }},
+    { id: 'breathing_exercise_guide', name: 'Breathing Exercise Guide', icon: Wind, description: 'Creates breathing patterns.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A breathing exercise to help with anxiety.'",
+        buttonText: "Get Exercise",
+        generatePrompt: (p: string) => `You are a wellness coach. Describe a simple breathing exercise for the user's need. Provide clear, step-by-step instructions. Request: "${p}"`,
+        resultTitle: "Breathing Exercise"
+    }},
+    { id: 'habit_tracker', name: 'Habit Tracker', icon: CheckSquare, description: 'Helps track daily habits.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Help me track my goal of reading 10 pages every day.'",
+        buttonText: "Set Up Tracker",
+        generatePrompt: (p: string) => `You are a productivity coach. Create a simple text-based habit tracker plan for the following goal. Suggest how to track it daily and offer a word of encouragement. Goal: "${p}"`,
+        resultTitle: "Habit Plan"
+    }},
+    { id: 'sleep_routine_planner', name: 'Sleep Routine Planner', icon: Moon, description: 'Suggests sleep improvement plans.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'I want to create a better evening routine to improve my sleep.'",
+        buttonText: "Plan Routine",
+        generatePrompt: (p: string) => `You are a sleep consultant. Suggest a simple, relaxing evening routine to help improve sleep quality based on the user's request. Include 3-5 steps. Request: "${p}"`,
+        resultTitle: "Sleep Routine"
+    }},
+    { id: 'water_intake_tracker', name: 'Water Intake Tracker', icon: Droplet, description: 'Monitors water consumption.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'I need to drink 8 glasses of water a day.'",
+        buttonText: "Set Up Tracker",
+        generatePrompt: (p: string) => `You are a health assistant. Create a simple text-based plan to help the user track their water intake goal. Suggest reminders or a simple checklist format. Goal: "${p}"`,
+        resultTitle: "Water Intake Plan"
+    }},
+    { id: 'mood_journal_prompter', name: 'Mood Journal Prompter', icon: BookHeart, description: 'Suggests prompts for mood tracking.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'I'm feeling happy today' or 'I feel a bit anxious.'",
+        buttonText: "Get Prompt",
+        generatePrompt: (p: string) => `You are a journaling guide. Based on the user's stated mood, provide three thoughtful journal prompts to help them explore their feelings. Mood: "${p}"`,
+        resultTitle: "Journal Prompts"
+    }},
+    { id: 'self_care_checklist_maker', name: 'Self-Care Checklist Maker', icon: ListChecks, description: 'Lists self-care activities.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A simple checklist for a relaxing Sunday.'",
+        buttonText: "Make Checklist",
+        generatePrompt: (p: string) => `You are a wellness advocate. Create a simple checklist of 5-7 self-care activities based on the user's request. Request: "${p}"`,
+        resultTitle: "Self-Care Checklist"
+    }},
+    { id: 'mind_map_creator', name: 'Mind Map Creator', icon: GitBranch, description: 'Generates simple mind maps.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'The main themes of the book I'm writing.'",
+        buttonText: "Create Mind Map",
+        generatePrompt: (p: string) => `You are a brainstorming assistant. Create a simple, text-based mind map for the following central idea. Use indentation to show branches and sub-points. Idea: "${p}"`,
+        resultTitle: "Mind Map"
+    }},
+    { id: 'goal_tracker', name: 'Goal Tracker', icon: Goal, description: 'Tracks progress toward goals.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'My goal is to learn how to code in Python.'",
+        buttonText: "Set Up Goal",
+        generatePrompt: (p: string) => `You are a success coach. Break down the following user goal into 3-5 smaller, actionable steps. Goal: "${p}"`,
+        resultTitle: "Actionable Steps"
+    }},
+    { id: 'motivation_quote_sender', name: 'Motivation Quote Sender', icon: Quote, description: 'Sends daily motivational quotes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'I need some motivation for my workout.'",
+        buttonText: "Get Quote",
+        generatePrompt: (p: string) => `You are a motivational speaker. Provide one powerful and relevant motivational quote for the following situation. Include the author. Situation: "${p}"`,
+        resultTitle: "Motivational Quote"
+    }},
+    { id: 'challenge_idea_generator', name: 'Challenge Idea Generator', icon: Trophy, description: 'Suggests 7-day or 30-day challenges.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A 7-day challenge for learning a new skill.'",
+        buttonText: "Generate Challenge",
+        generatePrompt: (p: string) => `You are a creative planner. Suggest a fun and engaging challenge based on the user's idea. Outline a simple plan or daily tasks for the challenge. Idea: "${p}"`,
+        resultTitle: "Challenge Idea"
+    }},
+    { id: 'diy_project_idea_maker', name: 'DIY Project Idea Maker', icon: Wrench, description: 'Suggests craft or home projects.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Easy DIY projects for a small apartment balcony.'",
+        buttonText: "Get Ideas",
+        generatePrompt: (p: string) => `You are a crafting expert. Suggest three creative and simple DIY project ideas based on the user's request. For each idea, list the basic materials needed. Request: "${p}"`,
+        resultTitle: "DIY Project Ideas"
+    }},
+    { id: 'gift_idea_generator', name: 'Gift Idea Generator', icon: Gift, description: 'Suggests gifts for occasions.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A birthday gift for a friend who loves hiking.'",
+        buttonText: "Get Gift Ideas",
+        generatePrompt: (p: string) => `You are a personal shopper. Suggest three thoughtful gift ideas based on the following description. Description: "${p}"`,
+        resultTitle: "Gift Ideas"
+    }},
+    { id: 'party_theme_generator', name: 'Party Theme Generator', icon: PartyPopper, description: 'Suggests party themes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A 30th birthday party in the summer.'",
+        buttonText: "Suggest Themes",
+        generatePrompt: (p: string) => `You are an event planner. Suggest three creative and fun party themes for the following occasion. Occasion: "${p}"`,
+        resultTitle: "Party Themes"
+    }},
+    { id: 'event_schedule_maker', name: 'Event Schedule Maker', icon: Calendar, description: 'Creates event timelines.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A schedule for a one-day marketing conference.'",
+        buttonText: "Make Schedule",
+        generatePrompt: (p: string) => `You are an event coordinator. Create a simple, timed schedule or timeline for the following event. Include key activities and breaks. Event: "${p}"`,
+        resultTitle: "Event Schedule"
+    }},
+    { id: 'invitation_message_writer', name: 'Invitation Message Writer', icon: Mail, description: 'Writes short invites.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'An invitation for a casual backyard BBQ.'",
+        buttonText: "Write Message",
+        generatePrompt: (p: string) => `You are an event host. Write a short, friendly, and informative invitation message for the following event. Include the essential details (what, where, when). Event: "${p}"`,
+        resultTitle: "Invitation Message"
+    }},
 
     // Newest Batch
-    { id: 'toast_speech_writer', name: 'Toast Speech Writer', icon: Presentation, description: 'Creates event toast speeches.', component: ToastSpeechWriter },
-    { id: 'eulogy_writer', name: 'Eulogy Writer', icon: BookHeart, description: 'Writes memorial speeches.', component: EulogyWriter },
-    { id: 'thank_you_note_maker', name: 'Thank-You Note Maker', icon: Mail, description: 'Creates thank-you messages.', component: ThankYouNoteMaker },
-    { id: 'apology_letter_writer', name: 'Apology Letter Writer', icon: Mailbox, description: 'Writes polite apologies.', component: ApologyLetterWriter },
-    { id: 'love_letter_writer', name: 'Love Letter Writer', icon: Heart, description: 'Writes romantic letters.', component: LoveLetterWriter },
-    { id: 'compliment_generator', name: 'Compliment Generator', icon: Smile, description: 'Creates nice compliments.', component: ComplimentGenerator },
-    { id: 'roast_joke_generator', name: 'Roast Joke Generator', icon: MicVocal, description: 'Creates light-hearted roast jokes.', component: RoastJokeGenerator },
-    { id: 'greeting_card_message_maker', name: 'Greeting Card Message Maker', icon: Gift, description: 'Suggests card messages.', component: GreetingCardMessageMaker },
-    { id: 'holiday_wish_maker', name: 'Holiday Wish Maker', icon: PartyPopper, description: 'Creates festive wishes.', component: HolidayWishMaker },
-    { id: 'birthday_wish_maker', name: 'Birthday Wish Maker', icon: Gift, description: 'Writes birthday messages.', component: BirthdayWishMaker },
-    { id: 'anniversary_wish_maker', name: 'Anniversary Wish Maker', icon: Heart, description: 'Suggests anniversary greetings.', component: AnniversaryWishMaker },
-    { id: 'condolence_message_writer', name: 'Condolence Message Writer', icon: BookHeart, description: 'Writes sympathy messages.', component: CondolenceMessageWriter },
-    { id: 'congratulations_message_writer', name: 'Congratulations Message Writer', icon: Trophy, description: 'Suggests congratulatory messages.', component: CongratulationsMessageWriter },
-    { id: 'short_story_writer', name: 'Short Story Writer', icon: BookOpen, description: 'Writes short fiction.', component: ShortStoryWriter },
-    { id: 'fairy_tale_creator', name: 'Fairy Tale Creator', icon: Crown, description: 'Writes fairy tale-style stories.', component: FairyTaleCreator },
-    { id: 'fable_writer', name: 'Fable Writer', icon: PawPrint, description: 'Creates moral stories.', component: FableWriter },
-    { id: 'horror_story_maker', name: 'Horror Story Maker', icon: VenetianMask, description: 'Writes short horror tales.', component: HorrorStoryMaker },
-    { id: 'mystery_story_generator', name: 'Mystery Story Generator', icon: Search, description: 'Creates mystery plot ideas.', component: MysteryStoryGenerator },
-    { id: 'fantasy_story_builder', name: 'Fantasy Story Builder', icon: Telescope, description: 'Suggests fantasy story elements.', component: FantasyStoryBuilder },
-    { id: 'sci_fi_story_maker', name: 'Sci-Fi Story Maker', icon: Telescope, description: 'Creates science fiction plots.', component: SciFiStoryMaker },
-    { id: 'detective_case_idea_maker', name: 'Detective Case Idea Maker', icon: Search, description: 'Suggests crime investigation plots.', component: DetectiveCaseIdeaMaker },
-    { id: 'superhero_story_creator', name: 'Superhero Story Creator', icon: ShieldCheck, description: 'Builds superhero story ideas.', component: SuperheroStoryCreator },
-    { id: 'villain_profile_maker', name: 'Villain Profile Maker', icon: UserSquare, description: 'Creates fictional villain profiles.', component: VillainProfileMaker },
-    { id: 'side_character_generator', name: 'Side Character Generator', icon: Users, description: 'Suggests minor character ideas.', component: SideCharacterGenerator },
-    { id: 'dialogue_improver', name: 'Dialogue Improver', icon: MessageSquareHeart, description: 'Enhances existing dialogues.', component: DialogueImprover },
-    { id: 'scene_pacing_adjuster', name: 'Scene Pacing Adjuster', icon: Clock, description: 'Speeds up or slows down story pacing.', component: ScenePacingAdjuster },
-    { id: 'narrative_style_changer', name: 'Narrative Style Changer', icon: PenLine, description: 'Changes writing style.', component: NarrativeStyleChanger },
-    { id: 'perspective_rewriter', name: 'Perspective Rewriter', icon: Users, description: 'Changes text from 1st to 3rd person.', component: PerspectiveRewriter },
-    { id: 'article_rewriter', name: 'Article Rewriter', icon: RefreshCw, description: 'Rephrases articles.', component: ArticleRewriter },
-
-    // Latest batch
-    { id: 'plagiarism_free_rewriter', name: 'Plagiarism-Free Rewriter', icon: RefreshCw, description: 'Ensures unique wording.', component: PlagiarismFreeRewriter },
-    { id: 'product_review_writer', name: 'Product Review Writer', icon: Star, description: 'Writes product reviews.', component: ProductReviewWriter },
-    { id: 'service_review_writer', name: 'Service Review Writer', icon: Star, description: 'Writes service feedback.', component: ServiceReviewWriter },
-    { id: 'game_review_writer', name: 'Game Review Writer', icon: Gamepad2, description: 'Writes game reviews.', component: GameReviewWriter },
-    { id: 'app_review_generator', name: 'App Review Generator', icon: AppWindow, description: 'Writes app feedback.', component: AppReviewGenerator },
-    { id: 'book_review_writer', name: 'Book Review Writer', icon: BookOpen, description: 'Writes book reviews.', component: BookReviewWriter },
-    { id: 'travel_itinerary_maker', name: 'Travel Itinerary Maker', icon: Plane, description: 'Creates travel plans.', component: TravelItineraryMaker },
-    { id: 'local_attraction_finder', name: 'Local Attraction Finder', icon: Map, description: 'Suggests nearby places to visit.', component: LocalAttractionFinder },
-    { id: 'restaurant_suggestor', name: 'Restaurant Suggestor', icon: CookingPot, description: 'Recommends restaurants.', component: RestaurantSuggestor },
-    { id: 'food_pairing_suggestor', name: 'Food Pairing Suggestor', icon: Utensils, description: 'Suggests food & drink combinations.', component: FoodPairingSuggestor },
-    { id: 'cocktail_recipe_maker', name: 'Cocktail Recipe Maker', icon: Martini, description: 'Creates drink recipes.', component: CocktailRecipeMaker },
-    { id: 'smoothie_recipe_generator', name: 'Smoothie Recipe Generator', icon: TestTube, description: 'Suggests smoothie blends.', component: SmoothieRecipeGenerator },
-    { id: 'dessert_idea_generator', name: 'Dessert Idea Generator', icon: IceCream, description: 'Suggests dessert recipes.', component: DessertIdeaGenerator },
-    { id: 'meal_substitute_finder', name: 'Meal Substitute Finder', icon: Shuffle, description: 'Suggests ingredient replacements.', component: MealSubstituteFinder },
-    { id: 'cooking_tip_giver', name: 'Cooking Tip Giver', icon: ChefHat, description: 'Shares cooking advice.', component: CookingTipGiver },
-    { id: 'kitchen_measurement_converter', name: 'Kitchen Measurement Converter', icon: Ruler, description: 'Converts cooking measurements.', component: KitchenMeasurementConverter },
-    { id: 'leftover_recipe_maker', name: 'Leftover Recipe Maker', icon: Recycle, description: 'Suggests recipes using leftovers.', component: LeftoverRecipeMaker },
-    { id: 'cleaning_checklist_maker', name: 'Cleaning Checklist Maker', icon: ListChecks, description: 'Creates cleaning routines.', component: CleaningChecklistMaker },
-    { id: 'chore_scheduler', name: 'Chore Scheduler', icon: Calendar, description: 'Assigns chores to people/days.', component: ChoreScheduler },
-    { id: 'minimalist_declutter_guide', name: 'Minimalist Declutter Guide', icon: Trash, description: 'Suggests decluttering steps.', component: MinimalistDeclutterGuide },
-    { id: 'budget_friendly_home_decor_ideas', name: 'Budget Home Decor Ideas', icon: Home, description: 'Suggests cheap decor tips.', component: BudgetFriendlyHomeDecorIdeas },
-    { id: 'gardening_tip_giver', name: 'Gardening Tip Giver', icon: Leaf, description: 'Shares plant care tips.', component: GardeningTipGiver },
-    { id: 'plant_watering_reminder', name: 'Plant Watering Reminder', icon: Droplet, description: 'Sends plant watering alerts.', component: PlantWateringReminder },
-    { id: 'pet_care_guide', name: 'Pet Care Guide', icon: PawPrint, description: 'Shares pet care instructions.', component: PetCareGuide },
-    { id: 'dog_training_tip_giver', name: 'Dog Training Tip Giver', icon: Dog, description: 'Suggests dog training advice.', component: DogTrainingTipGiver },
-    { id: 'cat_behavior_explainer', name: 'Cat Behavior Explainer', icon: Cat, description: 'Explains cat behavior.', component: CatBehaviorExplainer },
-    { id: 'pet_name_generator', name: 'Pet Name Generator', icon: Tag, description: 'Suggests pet names.', component: PetNameGenerator },
-    { id: 'wildlife_fact_finder', name: 'Wildlife Fact Finder', icon: Rabbit, description: 'Shares animal facts.', component: WildlifeFactFinder },
-
-    // Newest batch
-    { id: 'bird_watching_guide', name: 'Bird Watching Guide', icon: Bird, description: 'Suggests bird identification tips.', component: BirdWatchingGuide },
-    { id: 'fishing_tip_giver', name: 'Fishing Tip Giver', icon: Anchor, description: 'Shares fishing advice.', component: FishingTipGiver },
-    { id: 'camping_checklist_maker', name: 'Camping Checklist Maker', icon: Tent, description: 'Lists camping essentials.', component: CampingChecklistMaker },
-    { id: 'hiking_route_suggestor', name: 'Hiking Route Suggestor', icon: Mountain, description: 'Suggests hiking trails.', component: HikingRouteSuggestor },
-    { id: 'workout_timer', name: 'Workout Timer', icon: Clock, description: 'Sets exercise timers.', component: WorkoutTimer },
-    { id: 'step_counter', name: 'Step Counter (Manual)', icon: Footprints, description: 'Logs walking steps.', component: StepCounter },
-    { id: 'body_mass_index_calculator', name: 'Body Mass Index Calculator', icon: User, description: 'Calculates BMI.', component: BodyMassIndexCalculator },
-    { id: 'heart_rate_zone_calculator', name: 'Heart Rate Zone Calculator', icon: HeartPulse, description: 'Finds workout heart rate zones.', component: HeartRateZoneCalculator },
-    { id: 'stretching_routine_generator', name: 'Stretching Routine Generator', icon: ArrowUp, description: 'Suggests stretching exercises.', component: StretchingRoutineGenerator },
-    { id: 'dance_move_suggestor', name: 'Dance Move Suggestor', icon: Music, description: 'Suggests dance moves.', component: DanceMoveSuggestor },
-    { id: 'music_practice_tracker', name: 'Music Practice Tracker', icon: Piano, description: 'Logs music practice sessions.', component: MusicPracticeTracker },
-    { id: 'instrument_learning_guide', name: 'Instrument Learning Guide', icon: Music, description: 'Gives basic instrument tips.', component: InstrumentLearningGuide },
-    { id: 'song_chord_finder', name: 'Song Chord Finder', icon: Music, description: 'Finds chords for songs.', component: SongChordFinder },
-    { id: 'lyric_rhyme_improver', name: 'Lyric Rhyme Improver', icon: Music, description: 'Suggests better rhymes.', component: LyricRhymeImprover },
-    { id: 'dj_playlist_organizer', name: 'DJ Playlist Organizer', icon: Music, description: 'Sorts music playlists.', component: DJPlaylistOrganizer },
-    { id: 'photography_tip_giver', name: 'Photography Tip Giver', icon: Camera, description: 'Shares photo tips.', component: PhotographyTipGiver },
-    { id: 'camera_setting_guide', name: 'Camera Setting Guide', icon: Settings, description: 'Suggests camera settings.', component: CameraSettingGuide },
-    { id: 'photo_caption_generator', name: 'Photo Caption Generator', icon: Captions, description: 'Suggests captions for images.', component: PhotoCaptionGenerator },
-    { id: 'social_media_post_scheduler', name: 'Social Media Post Scheduler', icon: Calendar, description: 'Plans post timings.', component: SocialMediaPostScheduler },
-    { id: 'content_calendar_maker', name: 'Content Calendar Maker', icon: Calendar, description: 'Creates monthly content calendars.', component: ContentCalendarMaker },
-    { id: 'hashtag_trend_finder', name: 'Hashtag Trend Finder', icon: Hash, description: 'Finds trending hashtags.', component: HashtagTrendFinder },
-    { id: 'viral_idea_generator', name: 'Viral Idea Generator', icon: Lightbulb, description: 'Suggests viral content ideas.', component: ViralIdeaGenerator },
-    { id: 'ad_copywriter', name: 'Ad Copywriter', icon: Megaphone, description: 'Writes short ads.', component: AdCopywriter },
-    { id: 'sales_script_writer', name: 'Sales Script Writer', icon: MessageSquare, description: 'Creates sales conversation scripts.', component: SalesScriptWriter },
-    { id: 'cold_email_writer', name: 'Cold Email Writer', icon: Mail, description: 'Writes outreach emails.', component: ColdEmailWriter },
-    { id: 'marketing_idea_generator', name: 'Marketing Idea Generator', icon: Lightbulb, description: 'Suggests marketing strategies.', component: MarketingIdeaGenerator },
-    { id: 'seo_keyword_suggestor', name: 'SEO Keyword Suggestor', icon: Key, description: 'Suggests keywords for SEO.', component: SEOKeywordSuggestor },
-    { id: 'meta_description_writer', name: 'Meta Description Writer', icon: FileText, description: 'Writes SEO meta descriptions.', component: MetaDescriptionWriter },
-    { id: 'blog_tag_generator', name: 'Blog Tag Generator', icon: Tag, description: 'Suggests blog post tags.', component: BlogTagGenerator },
-    { id: 'youtube_title_maker', name: 'YouTube Title Maker', icon: Video, description: 'Suggests video titles.', component: YouTubeTitleMaker },
-
-    // Final 30
-    { id: 'youtube_description_writer', name: 'YouTube Description Writer', icon: Youtube, description: 'Writes video descriptions.', component: YouTubeDescriptionWriter },
-    { id: 'youtube_tag_generator', name: 'YouTube Tag Generator', icon: Tag, description: 'Suggests video tags.', component: YouTubeTagGenerator },
-    { id: 'video_script_writer', name: 'Video Script Writer', icon: FileText, description: 'Writes short video scripts.', component: VideoScriptWriter },
-    { id: 'short_video_idea_generator', name: 'Short Video Idea Generator', icon: Lightbulb, description: 'Suggests video content ideas.', component: ShortVideoIdeaGenerator },
-    { id: 'live_stream_topic_generator', name: 'Live Stream Topic Generator', icon: Mic, description: 'Suggests live topics.', component: LiveStreamTopicGenerator },
-    { id: 'webinar_outline_maker', name: 'Webinar Outline Maker', icon: ListOrdered, description: 'Creates webinar structures.', component: WebinarOutlineMaker },
-    { id: 'online_course_outline_maker', name: 'Online Course Outline Maker', icon: ListOrdered, description: 'Designs course content lists.', component: OnlineCourseOutlineMaker },
-    { id: 'lesson_script_writer', name: 'Lesson Script Writer', icon: Feather, description: 'Writes educational lesson scripts.', component: LessonScriptWriter },
-    { id: 'test_answer_key_generator', name: 'Test Answer Key Generator', icon: Key, description: 'Creates answer keys.', component: TestAnswerKeyGenerator },
-    { id: 'poll_result_analyzer', name: 'Poll Result Analyzer', icon: BarChart3, description: 'Analyzes poll results.', component: PollResultAnalyzer },
-    { id: 'data_summarizer', name: 'Data Summarizer', icon: FileJson, description: 'Summarizes raw data.', component: DataSummarizer },
-    { id: 'csv_to_table_formatter', name: 'CSV to Table Formatter', icon: TableIcon, description: 'Formats CSV into clean tables.', component: CsvToTableFormatter },
-    { id: 'chart_idea_generator', name: 'Chart Idea Generator', icon: PieChart, description: 'Suggests chart types for data.', component: ChartIdeaGenerator },
-    { id: 'basic_data_calculator', name: 'Basic Data Calculator', icon: Calculator, description: 'Performs simple data calculations.', component: BasicDataCalculator },
-    { id: 'average_calculator', name: 'Average Calculator', icon: Sigma, description: 'Calculates averages.', component: AverageCalculator },
-    { id: 'percentage_calculator', name: 'Percentage Calculator', icon: PercentCircle, description: 'Finds percentages.', component: PercentageCalculator },
-    { id: 'ratio_calculator', name: 'Ratio Calculator', icon: Scale, description: 'Calculates ratios.', component: RatioCalculator },
-    { id: 'fraction_simplifier', name: 'Fraction Simplifier', icon: Minus, description: 'Simplifies fractions.', component: FractionSimplifier },
-    { id: 'decimal_to_fraction_converter', name: 'Decimal to Fraction Converter', icon: ArrowRightLeft, description: 'Converts decimal to fraction.', component: DecimalToFractionConverter },
-    { id: 'binary_to_decimal_converter', name: 'Binary to Decimal Converter', icon: Binary, description: 'Converts binary numbers.', component: BinaryToDecimalConverter },
-    { id: 'hex_to_decimal_converter', name: 'Hex to Decimal Converter', icon: Hash, description: 'Converts hexadecimal numbers.', component: HexToDecimalConverter },
-    { id: 'number_base_converter', name: 'Number Base Converter', icon: Sigma, description: 'Converts between number systems.', component: NumberBaseConverter },
-    { id: 'prime_number_finder', name: 'Prime Number Finder', icon: Search, description: 'Finds prime numbers.', component: PrimeNumberFinder },
-    { id: 'factor_finder', name: 'Factor Finder', icon: List, description: 'Finds factors of a number.', component: FactorFinder },
-    { id: 'multiplication_table_maker', name: 'Multiplication Table Maker', icon: X, description: 'Generates tables for a number.', component: MultiplicationTableMaker },
-    { id: 'division_step_solver', name: 'Division Step Solver', icon: Divide, description: 'Shows division steps.', component: DivisionStepSolver },
-    { id: 'square_root_finder', name: 'Square Root Finder', icon: SquareRadical, description: 'Calculates square roots.', component: SquareRootFinder },
-    { id: 'exponent_calculator', name: 'Exponent Calculator', icon: Superscript, description: 'Calculates exponents.', component: ExponentCalculator },
-    { id: 'logarithm_calculator', name: 'Logarithm Calculator', icon: Sigma, description: 'Calculates logs.', component: LogarithmCalculator },
-    { id: 'probability_calculator', name: 'Probability Calculator', icon: Dices, description: 'Finds probability values.', component: ProbabilityCalculator },
-
-    // New 30 modes batch
-    { id: 'statistics_summarizer', name: 'Statistics Summarizer', icon: BarChart3, description: 'Summarizes data stats.', component: StatisticsSummarizer },
-    { id: 'trend_finder', name: 'Trend Finder', icon: TrendingUp, description: 'Finds trends in data.', component: TrendFinder },
-    { id: 'correlation_finder', name: 'Correlation Finder', icon: Link, description: 'Finds relationships between data.', component: CorrelationFinder },
-    { id: 'basic_forecast_maker', name: 'Basic Forecast Maker', icon: LineChart, description: 'Predicts simple future values.', component: BasicForecastMaker },
-    { id: 'budget_chart_maker', name: 'Budget Chart Maker', icon: PieChart, description: 'Creates spending charts.', component: BudgetChartMaker },
-    { id: 'pie_chart_generator', name: 'Pie Chart Generator', icon: PieChart, description: 'Makes pie charts.', component: PieChartGenerator },
-    { id: 'bar_graph_generator', name: 'Bar Graph Generator', icon: BarChart3, description: 'Creates bar graphs.', component: BarGraphGenerator },
-    { id: 'line_chart_generator', name: 'Line Chart Generator', icon: LineChart, description: 'Creates line charts.', component: LineChartGenerator },
-    { id: 'timeline_maker', name: 'Timeline Maker', icon: GanttChart, description: 'Creates timelines.', component: TimelineMaker },
-    { id: 'flowchart_generator', name: 'Flowchart Generator', icon: Workflow, description: 'Creates flowcharts.', component: FlowchartGenerator },
-    { id: 'checklist_maker', name: 'Checklist Maker', icon: ListChecks, description: 'Creates interactive checklists.', component: ChecklistMaker },
-    { id: 'kanban_board_maker', name: 'Kanban Board Maker', icon: GanttChart, description: 'Creates task boards.', component: KanbanBoardMaker },
-    { id: 'mind_map_outline_maker', name: 'Mind Map Outline Maker', icon: GitBranch, description: 'Suggests mind map outlines.', component: MindMapOutlineMaker },
-    { id: 'project_deadline_tracker', name: 'Project Deadline Tracker', icon: Calendar, description: 'Tracks due dates.', component: ProjectDeadlineTracker },
-    { id: 'gantt_chart_generator', name: 'Gantt Chart Generator', icon: GanttChart, description: 'Creates project timelines.', component: GanttChartGenerator },
-    { id: 'team_role_assignor', name: 'Team Role Assignor', icon: Users, description: 'Assigns team roles.', component: TeamRoleAssignor },
-    { id: 'team_feedback_collector', name: 'Team Feedback Collector', icon: MessageSquare, description: 'Creates feedback forms.', component: TeamFeedbackCollector },
-    { id: 'idea_voting_tool', name: 'Idea Voting Tool', icon: Vote, description: 'Lets users vote on ideas.', component: IdeaVotingTool },
-    { id: 'brainstorm_topic_generator', name: 'Brainstorm Topic Generator', icon: Lightbulb, description: 'Suggests brainstorming prompts.', component: BrainstormTopicGenerator },
-    { id: 'innovation_idea_generator', name: 'Innovation Idea Generator', icon: Wand2, description: 'Suggests creative solutions.', component: InnovationIdeaGenerator },
-    { id: 'problem_statement_maker', name: 'Problem Statement Maker', icon: FileText, description: 'Frames problem statements.', component: ProblemStatementMaker },
-    { id: 'solution_proposal_writer', name: 'Solution Proposal Writer', icon: FileText, description: 'Writes problem solutions.', component: SolutionProposalWriter },
-    { id: 'how_to_guide_maker', name: 'How-To Guide Maker', icon: BookOpen, description: 'Writes instructional guides.', component: HowToGuideMaker },
-    { id: 'troubleshooting_flow_maker', name: 'Troubleshooting Flow Maker', icon: Workflow, description: 'Creates troubleshooting steps.', component: TroubleshootingFlowMaker },
-    { id: 'faq_generator', name: 'FAQ Generator', icon: HelpCircle, description: 'Makes question-answer lists.', component: FAQGenerator },
-    { id: 'glossary_creator', name: 'Glossary Creator', icon: BookOpen, description: 'Makes term definitions.', component: GlossaryCreator },
-    { id: 'tutorial_script_writer', name: 'Tutorial Script Writer', icon: Feather, description: 'Writes tutorial scripts.', component: TutorialScriptWriter },
-    { id: 'step_by_step_guide_maker', name: 'Step-by-Step Guide Maker', icon: ListOrdered, description: 'Breaks tasks into steps.', component: StepByStepGuideMaker },
-    { id: 'quick_tips_writer', name: 'Quick Tips Writer', icon: Lightbulb, description: 'Shares short helpful tips.', component: QuickTipsWriter },
-    { id: 'error_message_rewriter', name: 'Error Message Rewriter', icon: MessageSquare, description: 'Makes friendly error messages.', component: ErrorMessageRewriter },
-    
-    // Latest addition
-    { id: 'app_walkthrough_writer', name: 'App Walkthrough Writer', icon: AppWindow, description: 'Creates onboarding guides.', component: AppWalkthroughWriter },
-    { id: 'feature_list_maker', name: 'Feature List Maker', icon: ListChecks, description: 'Lists app or product features.', component: FeatureListMaker },
-    { id: 'release_note_writer', name: 'Release Note Writer', icon: FileText, description: 'Writes update notes.', component: ReleaseNoteWriter },
-    { id: 'patch_note_formatter', name: 'Patch Note Formatter', icon: FileText, description: 'Formats patch updates.', component: PatchNoteFormatter },
-    { id: 'bug_report_template_maker', name: 'Bug Report Template Maker', icon: Bug, description: 'Creates bug report templates.', component: BugReportTemplateMaker },
-    { id: 'user_feedback_form_maker', name: 'User Feedback Form Maker', icon: MessageSquare, description: 'Creates user feedback forms.', component: UserFeedbackFormMaker },
-    { id: 'customer_support_script', name: 'Customer Support Script', icon: MessageSquare, description: 'Suggests support responses.', component: CustomerSupportScript },
-    { id: 'help_article_writer', name: 'Help Article Writer', icon: BookOpen, description: 'Writes help documentation.', component: HelpArticleWriter },
-    { id: 'troubleshooting_checklist', name: 'Troubleshooting Checklist', icon: ListChecks, description: 'Creates repair checklists.', component: TroubleshootingChecklist },
-    { id: 'warranty_policy_writer', name: 'Warranty Policy Writer', icon: FileText, description: 'Writes simple warranty texts.', component: WarrantyPolicyWriter },
-    { id: 'terms_and_conditions_writer', name: 'Terms & Conditions Writer', icon: Landmark, description: 'Creates legal disclaimers.', component: TermsAndConditionsWriter },
-    { id: 'privacy_policy_writer', name: 'Privacy Policy Writer', icon: ShieldCheck, description: 'Writes privacy policies.', component: PrivacyPolicyWriter },
-    { id: 'refund_policy_writer', name: 'Refund Policy Writer', icon: DollarSign, description: 'Creates refund policies.', component: RefundPolicyWriter },
-    { id: 'safety_instruction_maker', name: 'Safety Instruction Maker', icon: AlertTriangle, description: 'Writes safety guidelines.', component: SafetyInstructionMaker },
-    { id: 'emergency_contact_list_maker', name: 'Emergency Contact List Maker', icon: List, description: 'Lists emergency numbers.', component: EmergencyContactListMaker },
-    { id: 'first_aid_guide', name: 'First Aid Guide', icon: HeartPulse, description: 'Shares basic first aid steps.', component: FirstAidGuide },
-    { id: 'disaster_preparedness_guide', name: 'Disaster Preparedness Guide', icon: Home, description: 'Suggests safety steps.', component: DisasterPreparednessGuide },
-    { id: 'travel_safety_tips', name: 'Travel Safety Tips', icon: Plane, description: 'Shares safety advice for travelers.', component: TravelSafetyTips },
-    { id: 'scam_warning_guide', name: 'Scam Warning Guide', icon: AlertTriangle, description: 'Educates on common scams.', component: ScamWarningGuide },
-    { id: 'password_safety_tips', name: 'Password Safety Tips', icon: Lock, description: 'Suggests password security rules.', component: PasswordSafetyTips },
-    { id: 'social_media_safety_guide', name: 'Social Media Safety Guide', icon: Users, description: 'Shares online safety tips.', component: SocialMediaSafetyGuide },
-    { id: 'cybersecurity_checklist', name: 'Cybersecurity Checklist', icon: ShieldCheck, description: 'Lists online security steps.', component: CybersecurityChecklist },
-    { id: 'antivirus_tip_guide', name: 'Antivirus Tip Guide', icon: ShieldCheck, description: 'Suggests antivirus best practices.', component: AntivirusTipGuide },
-    { id: 'phishing_email_identifier', name: 'Phishing Email Identifier', icon: Mail, description: 'Detects suspicious emails.', component: PhishingEmailIdentifier },
-    { id: 'fake_news_checker', name: 'Fake News Checker', icon: Search, description: 'Identifies false news.', component: FakeNewsChecker },
-    { id: 'fact_verification_tool', name: 'Fact Verification Tool', icon: CheckSquare, description: 'Verifies statements.', component: FactVerificationTool },
-    { id: 'citation_generator', name: 'Citation Generator', icon: Quote, description: 'Creates citations in various formats.', component: CitationGenerator },
-    { id: 'reference_list_maker', name: 'Reference List Maker', icon: ListOrdered, description: 'Generates reference lists.', component: ReferenceListMaker },
-    { id: 'bibliography_maker', name: 'Bibliography Maker', icon: BookOpen, description: 'Creates bibliographies.', component: BibliographyMaker },
-    { id: 'research_question_generator', name: 'Research Question Generator', icon: HelpCircle, description: 'Suggests research topics.', component: ResearchQuestionGenerator },
-    
-    // New 30 modes batch
-    { id: 'hypothesis_statement_maker', name: 'Hypothesis Statement Maker', icon: Beaker, description: 'Writes hypotheses.', component: HypothesisStatementMaker },
-    { id: 'experiment_design_generator', name: 'Experiment Design Generator', icon: FlaskConical, description: 'Creates science experiment steps.', component: ExperimentDesignGenerator },
-    { id: 'observation_log_maker', name: 'Observation Log Maker', icon: FileSearch, description: 'Creates observation sheets.', component: ObservationLogMaker },
-    { id: 'lab_report_writer', name: 'Lab Report Writer', icon: TestTube, description: 'Writes lab reports.', component: LabReportWriter },
-    { id: 'survey_result_summarizer', name: 'Survey Result Summarizer', icon: BarChart3, description: 'Summarizes survey data.', component: SurveyResultSummarizer },
-    { id: 'infographic_idea_generator', name: 'Infographic Idea Generator', icon: GanttChart, description: 'Suggests infographic designs.', component: InfographicIdeaGenerator },
-    { id: 'poster_slogan_maker', name: 'Poster Slogan Maker', icon: Megaphone, description: 'Suggests slogans for posters.', component: PosterSloganMaker },
-    { id: 'banner_text_generator', name: 'Banner Text Generator', icon: TextIcon, description: 'Suggests banner headlines.', component: BannerTextGenerator },
-    { id: 'brochure_outline_maker', name: 'Brochure Outline Maker', icon: ListOrdered, description: 'Creates brochure layouts.', component: BrochureOutlineMaker },
-    { id: 'pamphlet_content_writer', name: 'Pamphlet Content Writer', icon: FileText, description: 'Writes pamphlet text.', component: PamphletContentWriter },
-    { id: 'flyer_text_maker', name: 'Flyer Text Maker', icon: FileText, description: 'Creates short flyer messages.', component: FlyerTextMaker },
-    { id: 'announcement_writer', name: 'Announcement Writer', icon: Megaphone, description: 'Writes public announcements.', component: AnnouncementWriter },
-    { id: 'press_release_writer', name: 'Press Release Writer', icon: MessageSquare, description: 'Creates press releases.', component: PressReleaseWriter },
-    { id: 'public_notice_writer', name: 'Public Notice Writer', icon: AlertTriangle, description: 'Writes formal notices.', component: PublicNoticeWriter },
-    { id: 'news_headline_generator', name: 'News Headline Generator', icon: TextIcon, description: 'Suggests news headlines.', component: NewsHeadlineGenerator },
-    { id: 'news_summary_maker', name: 'News Summary Maker', icon: FileJson, description: 'Summarizes news articles.', component: NewsSummaryMaker },
-    { id: 'sports_update_writer', name: 'Sports Update Writer', icon: Trophy, description: 'Writes sports news updates.', component: SportsUpdateWriter },
-    { id: 'weather_report_maker', name: 'Weather Report Maker', icon: Cloud, description: 'Writes weather summaries.', component: WeatherReportMaker },
-    { id: 'traffic_update_writer', name: 'Traffic Update Writer', icon: Car, description: 'Writes traffic reports.', component: TrafficUpdateWriter },
-    { id: 'stock_price_update_writer', name: 'Stock Price Update Writer', icon: LineChart, description: 'Writes stock summaries.', component: StockPriceUpdateWriter },
-    { id: 'cryptocurrency_update_writer', name: 'Cryptocurrency Update Writer', icon: Coins, description: 'Writes crypto market updates.', component: CryptocurrencyUpdateWriter },
-    { id: 'economy_brief_maker', name: 'Economy Brief Maker', icon: Landmark, description: 'Summarizes economic trends.', component: EconomyBriefMaker },
-    { id: 'political_news_summary_maker', name: 'Political News Summary Maker', icon: Landmark, description: 'Summarizes politics news.', component: PoliticalNewsSummaryMaker },
-    { id: 'health_tip_generator', name: 'Health Tip Generator', icon: HeartPulse, description: 'Shares short health tips.', component: HealthTipGenerator },
-    { id: 'medical_term_explainer', name: 'Medical Term Explainer', icon: BookOpen, description: 'Explains medical terms.', component: MedicalTermExplainer },
-    { id: 'symptom_checker', name: 'Symptom Checker', icon: Stethoscope, description: 'Suggests possible causes for symptoms.', component: SymptomChecker },
-    { id: 'medicine_reminder', name: 'Medicine Reminder', icon: Bell, description: 'Sends medicine timing alerts.', component: MedicineReminder },
-    { id: 'nutrition_fact_finder', name: 'Nutrition Fact Finder', icon: FileSearch, description: 'Shares nutrition facts.', component: NutritionFactFinder },
-    { id: 'diet_plan_maker', name: 'Diet Plan Maker', icon: Calendar, description: 'Creates diet schedules.', component: DietPlanMaker },
-    { id: 'food_allergy_alert_guide', name: 'Food Allergy Alert Guide', icon: AlertTriangle, description: 'Lists allergy precautions.', component: FoodAllergyAlertGuide },
-
-    // Newest Batch
-    { id: 'safe_cooking_temperature_guide', name: 'Safe Cooking Temperature Guide', icon: ThermometerIcon, description: 'Suggests cooking temps.', component: SafeCookingTemperatureGuide },
-    { id: 'kitchen_safety_guide', name: 'Kitchen Safety Guide', icon: AlertTriangle, description: 'Shares kitchen safety rules.', component: KitchenSafetyGuide },
-    { id: 'school_safety_checklist', name: 'School Safety Checklist', icon: School, description: 'Lists safety steps for schools.', component: SchoolSafetyChecklist },
-    { id: 'office_safety_checklist', name: 'Office Safety Checklist', icon: Building2, description: 'Lists safety measures for offices.', component: OfficeSafetyChecklist },
-    { id: 'factory_safety_checklist', name: 'Factory Safety Checklist', icon: Factory, description: 'Lists safety rules for factories.', component: FactorySafetyChecklist },
-    { id: 'road_safety_tips', name: 'Road Safety Tips', icon: Car, description: 'Shares driving safety advice.', component: RoadSafetyTips },
-    { id: 'bicycle_safety_guide', name: 'Bicycle Safety Guide', icon: Bike, description: 'Shares cycling safety tips.', component: BicycleSafetyGuide },
-    { id: 'swimming_safety_guide', name: 'Swimming Safety Guide', icon: Droplet, description: 'Shares water safety tips.', component: SwimmingSafetyGuide },
-    { id: 'hiking_safety_guide', name: 'Hiking Safety Guide', icon: Mountain, description: 'Shares mountain safety tips.', component: HikingSafetyGuide },
-    { id: 'child_safety_tips', name: 'Child Safety Tips', icon: User, description: 'Shares child safety advice.', component: ChildSafetyTips },
-    { id: 'elderly_care_tips', name: 'Elderly Care Tips', icon: User, description: 'Shares senior care advice.', component: ElderlyCareTips },
-    { id: 'disability_support_resource_finder', name: 'Disability Support Resource Finder', icon: Search, description: 'Suggests helpful resources.', component: DisabilitySupportResourceFinder },
-    { id: 'community_event_idea_generator', name: 'Community Event Idea Generator', icon: PartyPopper, description: 'Suggests local event ideas.', component: CommunityEventIdeaGenerator },
-    { id: 'volunteer_task_list_maker', name: 'Volunteer Task List Maker', icon: ListChecks, description: 'Lists volunteer duties.', component: VolunteerTaskListMaker },
-    { id: 'fundraising_idea_generator', name: 'Fundraising Idea Generator', icon: DollarSign, description: 'Suggests fundraising methods.', component: FundraisingIdeaGenerator },
-    { id: 'donation_campaign_writer', name: 'Donation Campaign Writer', icon: PenLine, description: 'Writes donation appeals.', component: DonationCampaignWriter },
-    { id: 'charity_event_plan_maker', name: 'Charity Event Plan Maker', icon: Calendar, description: 'Creates charity event plans.', component: CharityEventPlanMaker },
-    { id: 'nonprofit_mission_statement_maker', name: 'Nonprofit Mission Statement Maker', icon: FileText, description: 'Writes mission statements.', component: NonprofitMissionStatementMaker },
-    { id: 'sustainability_tip_generator', name: 'Sustainability Tip Generator', icon: Leaf, description: 'Shares eco-friendly tips.', component: SustainabilityTipGenerator },
-    { id: 'recycling_guide', name: 'Recycling Guide', icon: Recycle, description: 'Shares recycling rules.', component: RecyclingGuide },
-    { id: 'composting_guide', name: 'Composting Guide', icon: Recycle, description: 'Explains composting steps.', component: CompostingGuide },
-    { id: 'energy_saving_tips', name: 'Energy Saving Tips', icon: Lightbulb, description: 'Shares energy reduction advice.', component: EnergySavingTips },
-    { id: 'water_saving_tips', name: 'Water Saving Tips', icon: Droplet, description: 'Shares water conservation tips.', component: WaterSavingTips },
-    { id: 'pollution_awareness_guide', name: 'Pollution Awareness Guide', icon: Wind, description: 'Educates on pollution reduction.', component: PollutionAwarenessGuide },
-    { id: 'wildlife_conservation_tips', name: 'Wildlife Conservation Tips', icon: Rabbit, description: 'Suggests wildlife protection steps.', component: WildlifeConservationTips },
-    { id: 'tree_planting_guide', name: 'Tree Planting Guide', icon: Leaf, description: 'Shares planting steps.', component: TreePlantingGuide },
-    { id: 'garden_wildlife_attractor', name: 'Garden Wildlife Attractor', icon: Bird, description: 'Suggests ways to attract animals.', component: GardenWildlifeAttractor },
-    { id: 'renewable_energy_facts', name: 'Renewable Energy Facts', icon: Wind, description: 'Shares facts on clean energy.', component: RenewableEnergyFacts },
-    { id: 'climate_change_explainer', name: 'Climate Change Explainer', icon: Globe, description: 'Explains climate science simply.', component: ClimateChangeExplainer },
-    { id: 'green_product_suggestor', name: 'Green Product Suggestor', icon: Leaf, description: 'Suggests eco-friendly items.', component: GreenProductSuggestor },
-
-    // My additions
+    { id: 'toast_speech_writer', name: 'Toast Speech Writer', icon: Presentation, description: 'Creates event toast speeches.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A toast for a wedding' or 'A toast for a retirement party.'",
+        buttonText: "Write Toast",
+        generatePrompt: (p: string) => `You are an event planner and speechwriter. Write a short, heartfelt, and appropriate toast for the following occasion. Occasion: "${p}"`,
+        resultTitle: "Generated Toast"
+    }},
+    { id: 'eulogy_writer', name: 'Eulogy Writer', icon: BookHeart, description: 'Writes memorial speeches.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A eulogy for a beloved grandparent who was kind and funny.'",
+        buttonText: "Write Eulogy",
+        generatePrompt: (p: string) => `You are a compassionate writer. Write a thoughtful and respectful eulogy based on the following description. Focus on celebrating the person's life and positive qualities. Description: "${p}"`,
+        resultTitle: "Generated Eulogy"
+    }},
+    { id: 'thank_you_note_maker', name: 'Thank-You Note Maker', icon: Mail, description: 'Creates thank-you messages.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A thank-you note for a birthday gift' or 'Thanks for a job interview.'",
+        buttonText: "Make Note",
+        generatePrompt: (p: string) => `You are a thoughtful writer. Create a short, sincere thank-you note for the following occasion. Occasion: "${p}"`,
+        resultTitle: "Thank-You Note"
+    }},
+    { id: 'apology_letter_writer', name: 'Apology Letter Writer', icon: Mailbox, description: 'Writes polite apologies.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'An apology for being late to a meeting.'",
+        buttonText: "Write Apology",
+        generatePrompt: (p: string) => `You are a professional communicator. Write a polite and sincere apology for the following situation. The apology should take responsibility and be constructive. Situation: "${p}"`,
+        resultTitle: "Apology Letter"
+    }},
+    { id: 'love_letter_writer', name: 'Love Letter Writer', icon: Heart, description: 'Writes romantic letters.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A short love letter to my partner of 5 years.'",
+        buttonText: "Write Love Letter",
+        generatePrompt: (p: string) => `You are a romantic poet. Write a short, heartfelt, and romantic letter based on the following prompt. Prompt: "${p}"`,
+        resultTitle: "Love Letter"
+    }},
+    { id: 'compliment_generator', name: 'Compliment Generator', icon: Smile, description: 'Creates nice compliments.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A compliment for a friend who is a great listener.'",
+        buttonText: "Generate Compliment",
+        generatePrompt: (p: string) => `You are a positive and encouraging friend. Generate 3 unique and sincere compliments based on the following description. Description: "${p}"`,
+        resultTitle: "Generated Compliments"
+    }},
+    { id: 'roast_joke_generator', name: 'Roast Joke Generator', icon: MicVocal, description: 'Creates light-hearted roast jokes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Roast a friend who is always late.'",
+        buttonText: "Generate Roast Joke",
+        generatePrompt: (p: string) => `You are a witty comedian. Create a short, light-hearted roast joke (not mean-spirited) about the following topic. Topic: "${p}"`,
+        resultTitle: "Roast Joke"
+    }},
+    { id: 'greeting_card_message_maker', name: 'Greeting Card Message Maker', icon: Gift, description: 'Suggests card messages.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A message for a get-well-soon card.'",
+        buttonText: "Make Message",
+        generatePrompt: (p: string) => `You are a greeting card writer. Suggest a short, appropriate message for the following type of greeting card. Card type: "${p}"`,
+        resultTitle: "Greeting Card Message"
+    }},
+    { id: 'holiday_wish_maker', name: 'Holiday Wish Maker', icon: PartyPopper, description: 'Creates festive wishes.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A cheerful Christmas wish for a family member.'",
+        buttonText: "Make Wish",
+        generatePrompt: (p: string) => `You are a festive writer. Create a warm and cheerful holiday wish for the following occasion. Occasion: "${p}"`,
+        resultTitle: "Holiday Wish"
+    }},
+    { id: 'birthday_wish_maker', name: 'Birthday Wish Maker', icon: Gift, description: 'Writes birthday messages.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A funny birthday wish for a best friend.'",
+        buttonText: "Make Wish",
+        generatePrompt: (p: string) => `You are a friendly writer. Create a short and sweet birthday wish based on the following description. Description: "${p}"`,
+        resultTitle: "Birthday Wish"
+    }},
+    { id: 'anniversary_wish_maker', name: 'Anniversary Wish Maker', icon: Heart, description: 'Suggests anniversary greetings.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A romantic anniversary wish for a partner.'",
+        buttonText: "Make Wish",
+        generatePrompt: (p: string) => `You are a romantic writer. Suggest a heartfelt anniversary wish for the following prompt. Prompt: "${p}"`,
+        resultTitle: "Anniversary Wish"
+    }},
+    { id: 'condolence_message_writer', name: 'Condolence Message Writer', icon: BookHeart, description: 'Writes sympathy messages.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A message for someone who has lost a pet.'",
+        buttonText: "Write Message",
+        generatePrompt: (p: string) => `You are a compassionate writer. Write a short, sincere message of condolence for the following situation. Situation: "${p}"`,
+        resultTitle: "Condolence Message"
+    }},
+    { id: 'congratulations_message_writer', name: 'Congratulations Message Writer', icon: Trophy, description: 'Suggests congratulatory messages.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Congratulations on a new job' or 'on a graduation.'",
+        buttonText: "Write Message",
+        generatePrompt: (p: string) => `You are an enthusiastic writer. Write a short and cheerful message of congratulations for the following achievement. Achievement: "${p}"`,
+        resultTitle: "Congratulations Message"
+    }},
+    { id: 'short_story_writer', name: 'Short Story Writer', icon: BookOpen, description: 'Writes short fiction.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A short story about a talking cat.'",
+        buttonText: "Write Story",
+        generatePrompt: (p: string) => `You are a creative writer. Write a complete short story (a few paragraphs) with a beginning, middle, and end, based on the following prompt. Prompt: "${p}"`,
+        resultTitle: "Short Story"
+    }},
+    { id: 'fairy_tale_creator', name: 'Fairy Tale Creator', icon: Crown, description: 'Writes fairy tale-style stories.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A fairy tale about a princess who saves herself.'",
+        buttonText: "Create Fairy Tale",
+        generatePrompt: (p: string) => `You are a teller of classic fairy tales. Write a short fairy tale in a traditional style, including classic elements like magic and a clear moral. Prompt: "${p}"`,
+        resultTitle: "Fairy Tale"
+    }},
+    { id: 'fable_writer', name: 'Fable Writer', icon: PawPrint, description: 'Creates moral stories.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A fable about a proud lion and a clever mouse.'",
+        buttonText: "Write Fable",
+        generatePrompt: (p: string) => `You are a writer of fables. Create a short fable with animal characters and a clear moral at the end, based on the following idea. Idea: "${p}"`,
+        resultTitle: "Generated Fable"
+    }},
+    { id: 'horror_story_maker', name: 'Horror Story Maker', icon: VenetianMask, description: 'Writes short horror tales.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A story about a mysterious noise in an old house.'",
+        buttonText: "Make Horror Story",
+        generatePrompt: (p: string) => `You are a horror writer. Write a short, scary story designed to build suspense and create a sense of dread. Prompt: "${p}"`,
+        resultTitle: "Horror Story"
+    }},
+    { id: 'mystery_story_generator', name: 'Mystery Story Generator', icon: Search, description: 'Creates mystery plot ideas.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A stolen diamond at a high-society party.'",
+        buttonText: "Generate Mystery",
+        generatePrompt: (p: string) => `You are a mystery writer. Create a short plot outline for a mystery story, including the crime, the main detective, key clues, and a surprising twist. Prompt: "${p}"`,
+        resultTitle: "Mystery Plot"
+    }},
+    { id: 'fantasy_story_builder', name: 'Fantasy Story Builder', icon: Telescope, description: 'Suggests fantasy story elements.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A young farmhand discovers they have magic powers.'",
+        buttonText: "Build Fantasy Story",
+        generatePrompt: (p: string) => `You are a fantasy author. Suggest key elements for a fantasy story based on the prompt, including a magic system, a unique world feature, and a potential quest. Prompt: "${p}"`,
+        resultTitle: "Fantasy Story Elements"
+    }},
+    { id: 'sci_fi_story_maker', name: 'Sci-Fi Story Maker', icon: Telescope, description: 'Creates science fiction plots.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A story about the first contact with an alien species.'",
+        buttonText: "Make Sci-Fi Story",
+        generatePrompt: (p: string) => `You are a sci-fi writer. Create a short story plot outline based on the prompt, including the main technology, the central conflict, and the resolution. Prompt: "${p}"`,
+        resultTitle: "Sci-Fi Story Plot"
+    }},
+    { id: 'detective_case_idea_maker', name: 'Detective Case Idea Maker', icon: Search, description: 'Suggests crime investigation plots.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A locked-room mystery in a modern setting.'",
+        buttonText: "Make Case Idea",
+        generatePrompt: (p: string) => `You are a crime fiction author. Suggest a compelling case for a detective story, including the victim, the main suspects, and a clever clue. Prompt: "${p}"`,
+        resultTitle: "Detective Case Idea"
+    }},
+    { id: 'superhero_story_creator', name: 'Superhero Story Creator', icon: ShieldCheck, description: 'Builds superhero story ideas.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A hero with the power to control plants.'",
+        buttonText: "Create Superhero Story",
+        generatePrompt: (p: string) => `You are a comic book writer. Suggest a story idea for a superhero, including a cool superhero name, a formidable villain, and a central conflict. Prompt: "${p}"`,
+        resultTitle: "Superhero Story Idea"
+    }},
+    { id: 'villain_profile_maker', name: 'Villain Profile Maker', icon: UserSquare, description: 'Creates fictional villain profiles.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'An eco-terrorist who can control the weather.'",
+        buttonText: "Make Villain Profile",
+        generatePrompt: (p: string) => `You are a character designer. Create a profile for a compelling villain, including their name, powers, motivations, and a key weakness. Prompt: "${p}"`,
+        resultTitle: "Villain Profile"
+    }},
+    { id: 'side_character_generator', name: 'Side Character Generator', icon: Users, description: 'Suggests minor character ideas.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'The wise old mentor for a fantasy hero.'",
+        buttonText: "Generate Side Character",
+        generatePrompt: (p: string) => `You are a writer. Suggest an interesting side character for a story, including their role, a unique personality trait, and how they help or hinder the protagonist. Prompt: "${p}"`,
+        resultTitle: "Side Character Idea"
+    }},
+    { id: 'dialogue_improver', name: 'Dialogue Improver', icon: MessageSquareHeart, description: 'Enhances existing dialogues.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Hello.' 'Hi.' 'How are you?' 'Fine.'",
+        buttonText: "Improve Dialogue",
+        generatePrompt: (p: string) => `You are a script doctor. Rewrite the following dull dialogue to be more engaging and reveal character. Original dialogue: "${p}"`,
+        resultTitle: "Improved Dialogue"
+    }},
+    { id: 'scene_pacing_adjuster', name: 'Scene Pacing Adjuster', icon: Clock, description: 'Speeds up or slows down story pacing.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'A chase scene that feels too slow.'",
+        buttonText: "Adjust Pacing",
+        generatePrompt: (p: string) => `You are a film editor. Suggest ways to adjust the pacing of the following scene description. For speeding up, suggest shorter sentences and more action. For slowing down, suggest more detail and introspection. Scene: "${p}"`,
+        resultTitle: "Pacing Suggestions"
+    }},
+    { id: 'narrative_style_changer', name: 'Narrative Style Changer', icon: PenLine, description: 'Changes writing style.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Rewrite this from first-person to third-person: I walked down the street.'",
+        buttonText: "Change Style",
+        generatePrompt: (p: string) => `You are an expert editor. Rewrite the following text in the specified narrative style, while keeping the core events the same. Text and Style: "${p}"`,
+        resultTitle: "Rewritten Narrative"
+    }},
+    { id: 'perspective_rewriter', name: 'Perspective Rewriter', icon: Users, description: 'Changes text from 1st to 3rd person.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "e.g., 'Rewrite this from first-person to third-person: I walked down the street.'",
+        buttonText: "Rewrite Perspective",
+        generatePrompt: (p: string) => `You are a writing instructor. Rewrite the following text, changing its narrative perspective as requested (e.g., from first-person to third-person). Request: "${p}"`,
+        resultTitle: "Rewritten Perspective"
+    }},
+    { id: 'article_rewriter', name: 'Article Rewriter', icon: RefreshCw, description: 'Rephrases articles.', component: TextGenerator, componentProps: {
+        promptPlaceholder: "Paste a short article or paragraph to rephrase.",
+        buttonText: "Rewrite Article",
+        generatePrompt: (p: string) => `You are an expert content creator. Rephrase the following article to make it unique, while preserving the original information and key points. Article: "${p}"`,
+        resultTitle: "Rewritten Article"
+    }},
     { id: 'minimalist_living_tips', name: 'Minimalist Living Tips', icon: Home, description: 'Shares simple living advice.', component: MinimalistLivingTips },
     { id: 'zero_waste_tips', name: 'Zero Waste Tips', icon: Trash, description: 'Shares waste-free lifestyle ideas.', component: ZeroWasteTips },
     { id: 'upcycling_project_ideas', name: 'Upcycling Project Ideas', icon: Recycle, description: 'Suggests reuse projects.', component: UpcyclingProjectIdeas },
@@ -1482,3 +1527,5 @@ export const modes: Mode[] = [
     { id: 'visual_story_mapper', name: 'Visual Story Mapper', icon: GitBranch, description: 'Visually maps out stories and plotlines.', component: VisualStoryMapper },
     { id: 'ai_daily_motivation_coach', name: 'AI Daily Motivation Coach', icon: Heart, description: 'Sends daily motivational messages.', component: AIDailyMotivationCoach },
 ];
+
+    
