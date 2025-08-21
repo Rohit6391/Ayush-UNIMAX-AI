@@ -373,12 +373,14 @@ import { FactorySafetyChecklist } from '@/components/modes/FactorySafetyChecklis
 import { RoadSafetyTips } from '@/components/modes/RoadSafetyTips';
 import { BicycleSafetyGuide } from '@/components/modes/BicycleSafetyGuide';
 import { SwimmingSafetyGuide } from '@/components/modes/SwimmingSafetyGuide';
+import { HikingSafetyGuide } from '@/components/modes/HikingSafetyGuide';
 import { ChildSafetyTips } from '@/components/modes/ChildSafetyTips';
 import { ElderlyCareTips } from '@/components/modes/ElderlyCareTips';
 import { DisabilitySupportResourceFinder } from '@/components/modes/DisabilitySupportResourceFinder';
 import { CommunityEventIdeaGenerator } from '@/components/modes/CommunityEventIdeaGenerator';
 import { VolunteerTaskListMaker } from '@/components/modes/VolunteerTaskListMaker';
 import { FundraisingIdeaGenerator } from '@/components/modes/FundraisingIdeaGenerator';
+import { DonationCampaignWriter } from '@/components/modes/DonationCampaignWriter';
 import { CharityEventPlanMaker } from '@/components/modes/CharityEventPlanMaker';
 import { NonprofitMissionStatementMaker } from '@/components/modes/NonprofitMissionStatementMaker';
 import { SustainabilityTipGenerator } from '@/components/modes/SustainabilityTipGenerator';
@@ -490,7 +492,6 @@ import { DetectiveCaseIdeaMaker } from '@/components/modes/DetectiveCaseIdeaMake
 import { DiagnosticSupportAssistant } from '@/components/modes/DiagnosticSupportAssistant';
 import { DialogueImprover } from '@/components/modes/DialogueImprover';
 import { DiceRoller } from '@/components/modes/DiceRoller';
-import { DonationCampaignWriter } from '@/components/modes/DonationCampaignWriter';
 import { TextUtilities } from '@/components/modes/TextUtilities';
 import { InterviewCoach } from '@/components/modes/InterviewCoach';
 
@@ -1356,6 +1357,6 @@ export const modes: Mode[] = [
     {...textUtilitiesProps('email_subject_line_maker', 'Email Subject Line Maker', Mail, 'Creates email subject lines.', 'Create a subject line for')},
     {...textUtilitiesProps('readability_checker', 'Readability Checker', BookOpen, 'Checks text readability.', 'Check the readability of')},
     {...textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', Search, 'Checks for plagiarism.', 'Check for plagiarism in')},
-];
+    {...textGeneratorProps('translator', 'Translator', Languages, 'Translate text between multiple languages.', 'Translate the following:')},
 
-    
+];
