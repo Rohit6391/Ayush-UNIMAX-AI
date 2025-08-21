@@ -373,14 +373,12 @@ import { FactorySafetyChecklist } from '@/components/modes/FactorySafetyChecklis
 import { RoadSafetyTips } from '@/components/modes/RoadSafetyTips';
 import { BicycleSafetyGuide } from '@/components/modes/BicycleSafetyGuide';
 import { SwimmingSafetyGuide } from '@/components/modes/SwimmingSafetyGuide';
-import { HikingSafetyGuide } from '@/components/modes/HikingSafetyGuide';
 import { ChildSafetyTips } from '@/components/modes/ChildSafetyTips';
 import { ElderlyCareTips } from '@/components/modes/ElderlyCareTips';
 import { DisabilitySupportResourceFinder } from '@/components/modes/DisabilitySupportResourceFinder';
 import { CommunityEventIdeaGenerator } from '@/components/modes/CommunityEventIdeaGenerator';
 import { VolunteerTaskListMaker } from '@/components/modes/VolunteerTaskListMaker';
 import { FundraisingIdeaGenerator } from '@/components/modes/FundraisingIdeaGenerator';
-import { DonationCampaignWriter } from '@/components/modes/DonationCampaignWriter';
 import { CharityEventPlanMaker } from '@/components/modes/CharityEventPlanMaker';
 import { NonprofitMissionStatementMaker } from '@/components/modes/NonprofitMissionStatementMaker';
 import { SustainabilityTipGenerator } from '@/components/modes/SustainabilityTipGenerator';
@@ -492,8 +490,315 @@ import { DetectiveCaseIdeaMaker } from '@/components/modes/DetectiveCaseIdeaMake
 import { DiagnosticSupportAssistant } from '@/components/modes/DiagnosticSupportAssistant';
 import { DialogueImprover } from '@/components/modes/DialogueImprover';
 import { DiceRoller } from '@/components/modes/DiceRoller';
-import { TextUtilities } from '@/components/modes/TextUtilities';
+import { EcommerceUpsellStrategyPlanner } from '@/components/modes/EcommerceUpsellStrategyPlanner';
+import { EditorialConsistencyChecker } from '@/components/modes/EditorialConsistencyChecker';
+import { EducationSyllabusPlanner } from '@/components/modes/EducationSyllabusPlanner';
+import { EmergencyEvacuationPlanner } from '@/components/modes/EmergencyEvacuationPlanner';
+import { EmployeeFeedbackSummarizer } from '@/components/modes/EmployeeFeedbackSummarizer';
+import { EndingSuggestor } from '@/components/modes/EndingSuggestor';
+import { EnemyBehaviorModeler } from '@/components/modes/EnemyBehaviorModeler';
+import { EnergyUsageAnalyzer } from '@/components/modes/EnergyUsageAnalyzer';
+import { EnvironmentalImpactCalculator } from '@/components/modes/EnvironmentalImpactCalculator';
+import { EpisodeRecapWriter } from '@/components/modes/EpisodeRecapWriter';
+import { EquationGenerator } from '@/components/modes/EquationGenerator';
+import { ErrorMessageClarityChecker } from '@/components/modes/ErrorMessageClarityChecker';
+import { EsportsStrategyAdvisor } from '@/components/modes/EsportsStrategyAdvisor';
+import { EssayTopicGenerator } from '@/components/modes/EssayTopicGenerator';
+import { EulogyWriter } from '@/components/modes/EulogyWriter';
+import { EventAgendaCreator } from '@/components/modes/EventAgendaCreator';
+import { EventNameGenerator } from '@/components/modes/EventNameGenerator';
+import { EventScheduleMaker } from '@/components/modes/EventScheduleMaker';
+import { EventSponsorshipRoiCalculator } from '@/components/modes/EventSponsorshipRoiCalculator';
+import { ExamPatternAnalyzer } from '@/components/modes/ExamPatternAnalyzer';
+import { ExamQuestionGenerator } from '@/components/modes/ExamQuestionGenerator';
+import { ExerciseRoutineOptimizer } from '@/components/modes/ExerciseRoutineOptimizer';
+import { ExpenseCategorizationAi } from '@/components/modes/ExpenseCategorizationAi';
+import { ExpenseTracker } from '@/components/modes/ExpenseTracker';
+import { FableWriter } from '@/components/modes/FableWriter';
+import { FabricQualityAnalyzer } from '@/components/modes/FabricQualityAnalyzer';
+import { FactFinder } from '@/components/modes/FactFinder';
+import { FactReferenceLinkGenerator } from '@/components/modes/FactReferenceLinkGenerator';
+import { FairyTaleCreator } from '@/components/modes/FairyTaleCreator';
+import { FanEngagementTracker } from '@/components/modes/FanEngagementTracker';
+import { FantasyStoryBuilder } from '@/components/modes/FantasyStoryBuilder';
+import { FaqAutoGenerator } from '@/components/modes/FaqAutoGenerator';
+import { FarmEquipmentUsageTracker } from '@/components/modes/FarmEquipmentUsageTracker';
+import { FashionTrendPredictor } from '@/components/modes/FashionTrendPredictor';
+import { FeatureAdoptionForecaster } from '@/components/modes/FeatureAdoptionForecaster';
+import { FeedbackSentimentClassifier } from '@/components/modes/FeedbackSentimentClassifier';
+import { FilmScriptCoverageAi } from '@/components/modes/FilmScriptCoverageAi';
+import { FlashcardAutoCreator } from '@/components/modes/FlashcardAutoCreator';
+import { FloodRiskPredictor } from '@/components/modes/FloodRiskPredictor';
+import { FundraisingCampaignOptimizer } from '@/components/modes/FundraisingCampaignOptimizer';
+import { GameLoreExpansionTool } from '@/components/modes/GameLoreExpansionTool';
+import { GameNameGenerator } from '@/components/modes/GameNameGenerator';
+import { GameStrategySimulator } from '@/components/modes/GameStrategySimulator';
+import { GeneticPatternDetector } from '@/components/modes/GeneticPatternDetector';
+import { GeometryShapeDrawer } from '@/components/modes/GeometryShapeDrawer';
+import { GiftIdeaGenerator } from '@/components/modes/GiftIdeaGenerator';
+import { GradingConsistencyChecker } from '@/components/modes/GradingConsistencyChecker';
+import { GrammarQuizMaker } from '@/components/modes/GrammarQuizMaker';
+import { GrantProposalGenerator } from '@/components/modes/GrantProposalGenerator';
+import { GreenhouseClimateController } from '@/components/modes/GreenhouseClimateController';
+import { GreetingCardMessageMaker } from '@/components/modes/GreetingCardMessageMaker';
+import { GuestSpeakerFinderAi } from '@/components/modes/GuestSpeakerFinderAi';
+import { HabitTracker } from '@/components/modes/HabitTracker';
+import { HabitatRestorationPlanner } from '@/components/modes/HabitatRestorationPlanner';
+import { HaikuGenerator } from '@/components/modes/HaikuGenerator';
+import { HealthRiskAssessmentAi } from '@/components/modes/HealthRiskAssessmentAi';
+import { HeartRateZoneCalculator } from '@/components/modes/HeartRateZoneCalculator';
+import { HexToDecimalConverter } from '@/components/modes/HexToDecimalConverter';
+import { HikingSafetyGuide } from '@/components/modes/HikingSafetyGuide';
+import { HistoricalFactFinder } from '@/components/modes/HistoricalFactFinder';
+import { HolidayWishMaker } from '@/components/modes/HolidayWishMaker';
+import { HorrorStoryMaker } from '@/components/modes/HorrorStoryMaker';
+import { HospitalResourceForecaster } from '@/components/modes/HospitalResourceForecaster';
+import { HyperlinkHealthChecker } from '@/components/modes/HyperlinkHealthChecker';
 import { InterviewCoach } from '@/components/modes/InterviewCoach';
+import { InvitationMessageWriter } from '@/components/modes/InvitationMessageWriter';
+import { IrrigationOptimizationPlanner } from '@/components/modes/IrrigationOptimizationPlanner';
+import { JewelryDesignSuggestor } from '@/components/modes/JewelryDesignSuggestor';
+import { JobInterviewSimulationAi } from '@/components/modes/JobInterviewSimulationAi';
+import { JobTitleSuggestor } from '@/components/modes/JobTitleSuggestor';
+import { JokeFinder } from '@/components/modes/JokeFinder';
+import { KnowledgeBaseGapFinder } from '@/components/modes/KnowledgeBaseGapFinder';
+import { KnowledgeTransferOptimizer } from '@/components/modes/KnowledgeTransferOptimizer';
+import { LanguageLearningPathOptimizer } from '@/components/modes/LanguageLearningPathOptimizer';
+import { LanguagePracticePartner } from '@/components/modes/LanguagePracticePartner';
+import { LeadScoringAi } from '@/components/modes/LeadScoringAi';
+import { LeadershipStyleAnalyzer } from '@/components/modes/LeadershipStyleAnalyzer';
+import { LearningPacePersonalizer } from '@/components/modes/LearningPacePersonalizer';
+import { LearningStyleAnalyzer } from '@/components/modes/LearningStyleAnalyzer';
+import { LengthConverter } from '@/components/modes/LengthConverter';
+import { LessonPlanEnhancer } from '@/components/modes/LessonPlanEnhancer';
+import { LessonPlanMaker } from '@/components/modes/LessonPlanMaker';
+import { LevelDesignAi } from '@/components/modes/LevelDesignAi';
+import { LifetimeValueForecastingAi } from '@/components/modes/LifetimeValueForecastingAi';
+import { LightingSetupOptimizer } from '@/components/modes/LightingSetupOptimizer';
+import { ListCreator } from '@/components/modes/ListCreator';
+import { LivestockHealthMonitor } from '@/components/modes/LivestockHealthMonitor';
+import { LoanCalculator } from '@/components/modes/LoanCalculator';
+import { LocalIssueReportGenerator } from '@/components/modes/LocalIssueReportGenerator';
+import { LogoColorImpactAnalyzer } from '@/components/modes/LogoColorImpactAnalyzer';
+import { LootDropProbabilityBalancer } from '@/components/modes/LootDropProbabilityBalancer';
+import { LoveLetterWriter } from '@/components/modes/LoveLetterWriter';
+import { LoyaltyProgramImpactAnalyzer } from '@/components/modes/LoyaltyProgramImpactAnalyzer';
+import { LoyaltyRewardPlanner } from '@/components/modes/LoyaltyRewardPlanner';
+import { LoyaltyTierUpgradePredictor } from '@/components/modes/LoyaltyTierUpgradePredictor';
+import { LuxuryGoodsMarketForecaster } from '@/components/modes/LuxuryGoodsMarketForecaster';
+import { MachineFailurePredictor } from '@/components/modes/MachineFailurePredictor';
+import { MaintenanceCostEstimator } from '@/components/modes/MaintenanceCostEstimator';
+import { ManufacturingWorkflowOptimizer } from '@/components/modes/ManufacturingWorkflowOptimizer';
+import { MarketEntryRiskForecaster } from '@/components/modes/MarketEntryRiskForecaster';
+import { MatchOutcomePredictor } from '@/components/modes/MatchOutcomePredictor';
+import { MaterialStressTesterAi } from '@/components/modes/MaterialStressTesterAi';
+import { MathProblemSolver } from '@/components/modes/MathProblemSolver';
+import { MealPlanGenerator } from '@/components/modes/MealPlanGenerator';
+import { MedicalInventoryTracker } from '@/components/modes/MedicalInventoryTracker';
+import { MedicalLiteratureSummarizer } from '@/components/modes/MedicalLiteratureSummarizer';
+import { MeditationGuide } from '@/components/modes/MeditationGuide';
+import { MeetingAgendaMaker } from '@/components/modes/MeetingAgendaMaker';
+import { MeetingAgendaOptimizer } from '@/components/modes/MeetingAgendaOptimizer';
+import { MeetingSummaryWriter } from '@/components/modes/MeetingSummaryWriter';
+import { MentalWellnessSuggestionBot } from '@/components/modes/MentalWellnessSuggestionBot';
+import { MerchandiseSalesForecaster } from '@/components/modes/MerchandiseSalesForecaster';
+import { MetaTagOptimizationTool } from '@/components/modes/MetaTagOptimizationTool';
+import { MindMapCreator } from '@/components/modes/MindMapCreator';
+import { MixingMasteringAdvisor } from '@/components/modes/MixingMasteringAdvisor';
+import { MobileUiFlowOptimizer } from '@/components/modes/MobileUiFlowOptimizer';
+import { MonologueWriter } from '@/components/modes/MonologueWriter';
+import { MoodJournalPrompter } from '@/components/modes/MoodJournalPrompter';
+import { MotivationQuoteSender } from '@/components/modes/MotivationQuoteSender';
+import { MotivationalMessageMaker } from '@/components/modes/MotivationalMessageMaker';
+import { MovieSummaryMaker } from '@/components/modes/MovieSummaryMaker';
+import { MultiplayerMatchmakingOptimizer } from '@/components/modes/MultiplayerMatchmakingOptimizer';
+import { MusicMoodClassifier } from '@/components/modes/MusicMoodClassifier';
+import { MysteryStoryGenerator } from '@/components/modes/MysteryStoryGenerator';
+import { NarrativeStyleChanger } from '@/components/modes/NarrativeStyleChanger';
+import { NavigationUsabilityAnalyzer } from '@/components/modes/NavigationUsabilityAnalyzer';
+import { NicknameMaker } from '@/components/modes/NicknameMaker';
+import { NoiseRemovalOptimizer } from '@/components/modes/NoiseRemovalOptimizer';
+import { NonprofitDonorOutreachAi } from '@/components/modes/NonprofitDonorOutreachAi';
+import { NotificationTimingOptimizer } from '@/components/modes/NotificationTimingOptimizer';
+import { NutritionalPlanGenerator } from '@/components/modes/NutritionalPlanGenerator';
+import { OnboardingExperiencePlanner } from '@/components/modes/OnboardingExperiencePlanner';
+import { OnlineCourseEnrollmentPredictor } from '@/components/modes/OnlineCourseEnrollmentPredictor';
+import { OutfitCombinationRecommender } from '@/components/modes/OutfitCombinationRecommender';
+import { PackagingDesignFeedbackAi } from '@/components/modes/PackagingDesignFeedbackAi';
+import { PageLoadImpactPredictor } from '@/components/modes/PageLoadImpactPredictor';
+import { ParkingDemandForecaster } from '@/components/modes/ParkingDemandForecaster';
+import { PartsInventoryBalancer } from '@/components/modes/PartsInventoryBalancer';
+import { PartyThemeGenerator } from '@/components/modes/PartyThemeGenerator';
+import { PasswordGenerator } from '@/components/modes/PasswordGenerator';
+import { PatentPortfolioAnalyzer } from '@/components/modes/PatentPortfolioAnalyzer';
+import { PathologyReportSummarizer } from '@/components/modes/PathologyReportSummarizer';
+import { PatientRecoveryForecaster } from '@/components/modes/PatientRecoveryForecaster';
+import { PaymentFraudProbabilityChecker } from '@/components/modes/PaymentFraudProbabilityChecker';
+import { PayrollComplianceChecker } from '@/components/modes/PayrollComplianceChecker';
+import { PeerReviewSummarizer } from '@/components/modes/PeerReviewSummarizer';
+import { PersonalizationRuleOptimizer } from '@/components/modes/PersonalizationRuleOptimizer';
+import { PerspectiveRewriter } from '@/components/modes/PerspectiveRewriter';
+import { PestInfestationPredictor } from '@/components/modes/PestInfestationPredictor';
+import { PlagiarismRiskChecker } from '@/components/modes/PlagiarismRiskChecker';
+import { PlayerInjuryRiskDetector } from '@/components/modes/PlayerInjuryRiskDetector';
+import { PlayerMotivationAnalyzer } from '@/components/modes/PlayerMotivationAnalyzer';
+import { PlaylistNameGenerator } from '@/components/modes/PlaylistNameGenerator';
+import { PlotTwistGenerator } from '@/components/modes/PlotTwistGenerator';
+import { PodcastTopicPlanner } from '@/components/modes/PodcastTopicPlanner';
+import { PoetryWriter } from '@/components/modes/PoetryWriter';
+import { PolicyImpactForecaster } from '@/components/modes/PolicyImpactForecaster';
+import { PollQuestionMaker } from '@/components/modes/PollQuestionMaker';
+import { PostProductionWorkflowPlanner } from '@/components/modes/PostProductionWorkflowPlanner';
+import { PpcCampaignRoiPredictor } from '@/components/modes/PpcCampaignRoiPredictor';
+import { PresentationFlowOptimizer } from '@/components/modes/PresentationFlowOptimizer';
+import { PriceMatchDetector } from '@/components/modes/PriceMatchDetector';
+import { ProConListMaker } from '@/components/modes/ProConListMaker';
+import { ProductDescriptionWriter } from '@/components/modes/ProductDescriptionWriter';
+import { ProductLifecycleForecaster } from '@/components/modes/ProductLifecycleForecaster';
+import { ProductPrototypeFeedbackAi } from '@/components/modes/ProductPrototypeFeedbackAi';
+import { ProductReturnRiskDetector } from '@/components/modes/ProductReturnRiskDetector';
+import { ProductionBatchOptimizer } from '@/components/modes/ProductionBatchOptimizer';
+import { ProductionSchedulingPlanner } from '@/components/modes/ProductionSchedulingPlanner';
+import { ProfessionalBioGenerator } from '@/components/modes/ProfessionalBioGenerator';
+import { ProfitCalculator } from '@/components/modes/ProfitCalculator';
+import { ProjectProgressReporter } from '@/components/modes/ProjectProgressReporter';
+import { PronunciationFeedbackAi } from '@/components/modes/PronunciationFeedbackAi';
+import { ProteinStructurePredictor } from '@/components/modes/ProteinStructurePredictor';
+import { PrototypeDesignOptimizer } from '@/components/modes/PrototypeDesignOptimizer';
+import { PublicOpinionTrendAnalyzer } from '@/components/modes/PublicOpinionTrendAnalyzer';
+import { PublicRelationsRiskDetector } from '@/components/modes/PublicRelationsRiskDetector';
+import { PublicTransitRouteOptimizer } from '@/components/modes/PublicTransitRouteOptimizer';
+import { PushNotificationCopyChecker } from '@/components/modes/PushNotificationCopyChecker';
+import { PuzzleDifficultyBalancer } from '@/components/modes/PuzzleDifficultyBalancer';
+import { QualityControlInspectorAi } from '@/components/modes/QualityControlInspectorAi';
+import { QuestionDifficultyCalibrator } from '@/components/modes/QuestionDifficultyCalibrator';
+import { QuoteFinder } from '@/components/modes/QuoteFinder';
+import { ROICalculator } from '@/components/modes/ROICalculator';
+import { RadioAdEffectivenessTracker } from '@/components/modes/RadioAdEffectivenessTracker';
+import { RadiologyImageAnalyzer } from '@/components/modes/RadiologyImageAnalyzer';
+import { RandomNamePicker } from '@/components/modes/RandomNamePicker';
+import { RandomNumberPicker } from '@/components/modes/RandomNumberPicker';
+import { RapVerseMaker } from '@/components/modes/RapVerseMaker';
+import { RdProjectFeasibilityChecker } from '@/components/modes/RdProjectFeasibilityChecker';
+import { ReadingEaseScoreAnalyzer } from '@/components/modes/ReadingEaseScoreAnalyzer';
+import { ReminderMaker } from '@/components/modes/ReminderMaker';
+import { RenewableEnergyYieldEstimator } from '@/components/modes/RenewableEnergyYieldEstimator';
+import { RenewableGridLoadBalancer } from '@/components/modes/RenewableGridLoadBalancer';
+import { ReputationScoreTracker } from '@/components/modes/ReputationScoreTracker';
+import { ResumeBulletPointMaker } from '@/components/modes/ResumeBulletPointMaker';
+import { ResumeKeywordOptimizer } from '@/components/modes/ResumeKeywordOptimizer';
+import { RhymeFinder } from '@/components/modes/RhymeFinder';
+import { RoadRepairPriorityPlanner } from '@/components/modes/RoadRepairPriorityPlanner';
+import { RoastJokeGenerator } from '@/components/modes/RoastJokeGenerator';
+import { RoboticsTaskPlanner } from '@/components/modes/RoboticsTaskPlanner';
+import { SalaryBenchmarkingTool } from '@/components/modes/SalaryBenchmarkingTool';
+import { SalesForecastingAssistant } from '@/components/modes/SalesForecastingAssistant';
+import { SavingsGoalCalculator } from '@/components/modes/SavingsGoalCalculator';
+import { SceneDescriptionWriter } from '@/components/modes/SceneDescriptionWriter';
+import { SceneLocationSuggestor } from '@/components/modes/SceneLocationSuggestor';
+import { ScenePacingAdjuster } from '@/components/modes/ScenePacingAdjuster';
+import { SciFiStoryMaker } from '@/components/modes/SciFiStoryMaker';
+import { ScienceFactFinder } from '@/components/modes/ScienceFactFinder';
+import { ScriptDialogueWriter } from '@/components/modes/ScriptDialogueWriter';
+import { SearchIntentClassifier } from '@/components/modes/SearchIntentClassifier';
+import { SeedSelectionOptimizer } from '@/components/modes/SeedSelectionOptimizer';
+import { SelfCareChecklistMaker } from '@/components/modes/SelfCareChecklistMaker';
+import { SeoKeywordGapFinder } from '@/components/modes/SeoKeywordGapFinder';
+import { ServiceLevelAgreementMonitor } from '@/components/modes/ServiceLevelAgreementMonitor';
+import { SewageNetworkMonitoringAi } from '@/components/modes/SewageNetworkMonitoringAi';
+import { ShelfPlacementImpactPredictor } from '@/components/modes/ShelfPlacementImpactPredictor';
+import { ShelfStockingSuggestionTool } from '@/components/modes/ShelfStockingSuggestionTool';
+import { ShoeSizeFitPredictor } from '@/components/modes/ShoeSizeFitPredictor';
+import { ShortStoryWriter } from '@/components/modes/ShortStoryWriter';
+import { ShotSequencePlanner } from '@/components/modes/ShotSequencePlanner';
+import { SideCharacterGenerator } from '@/components/modes/SideCharacterGenerator';
+import { SimpleTranslator } from '@/components/modes/SimpleTranslator';
+import { SkillEndorsementAnalyzer } from '@/components/modes/SkillEndorsementAnalyzer';
+import { SkillGapForecaster } from '@/components/modes/SkillGapForecaster';
+import { SleepCycleTrackerAi } from '@/components/modes/SleepCycleTrackerAi';
+import { SleepRoutinePlanner } from '@/components/modes/SleepRoutinePlanner';
+import { SlideDeckConsistencyChecker } from '@/components/modes/SlideDeckConsistencyChecker';
+import { SloganMaker } from '@/components/modes/SloganMaker';
+import { SmartFactoryProcessDesigner } from '@/components/modes/SmartFactoryProcessDesigner';
+import { SmartLightingPlanner } from '@/components/modes/SmartLightingPlanner';
+import { SocialSentimentAnalyzer } from '@/components/modes/SocialSentimentAnalyzer';
+import { SoilNutrientAnalyzer } from '@/components/modes/SoilNutrientAnalyzer';
+import { SongLyricStarter } from '@/components/modes/SongLyricStarter';
+import { SongTempoAnalyzer } from '@/components/modes/SongTempoAnalyzer';
+import { SoundQualityEnhancer } from '@/components/modes/SoundQualityEnhancer';
+import { SpecialEffectsCostEstimator } from '@/components/modes/SpecialEffectsCostEstimator';
+import { SpeechEmotionAnalyzer } from '@/components/modes/SpeechEmotionAnalyzer';
+import { SpeechTimingAnalyzer } from '@/components/modes/SpeechTimingAnalyzer';
+import { SpeedConverter } from '@/components/modes/SpeedConverter';
+import { SpeedrunPathOptimizer } from '@/components/modes/SpeedrunPathOptimizer';
+import { SpellingChecker } from '@/components/modes/SpellingChecker';
+import { SpellingQuizMaker } from '@/components/modes/SpellingQuizMaker';
+import { SponsorshipRoiAnalyzer } from '@/components/modes/SponsorshipRoiAnalyzer';
+import { SportsPerformanceAnalyzer } from '@/components/modes/SportsPerformanceAnalyzer';
+import { StartupPitchWriter } from '@/components/modes/StartupPitchWriter';
+import { StopwatchTool } from '@/components/modes/StopwatchTool';
+import { StoreLayoutOptimizationAi } from '@/components/modes/StoreLayoutOptimizationAi';
+import { StoreTrafficFlowAnalyzer } from '@/components/modes/StoreTrafficFlowAnalyzer';
+import { StoryIdeaGenerator } from '@/components/modes/StoryIdeaGenerator';
+import { StreamingAudiencePredictor } from '@/components/modes/StreamingAudiencePredictor';
+import { StyleGuideComplianceChecker } from '@/components/modes/StyleGuideComplianceChecker';
+import { SubscriptionRenewalPredictor } from '@/components/modes/SubscriptionRenewalPredictor';
+import { SuperheroStoryCreator } from '@/components/modes/SuperheroStoryCreator';
+import { SupplyShortageForecaster } from '@/components/modes/SupplyShortageForecaster';
+import { SupportTicketCategorizer } from '@/components/modes/SupportTicketCategorizer';
+import { SurgicalProcedurePlanner } from '@/components/modes/SurgicalProcedurePlanner';
+import { SurveyQuestionGenerator } from '@/components/modes/SurveyQuestionGenerator';
+import { SWOTAnalyzer } from '@/components/modes/SWOTAnalyzer';
+import { SymptomPatternAnalyzer } from '@/components/modes/SymptomPatternAnalyzer';
+import { SymptomToSpecialistRecommender } from '@/components/modes/SymptomToSpecialistRecommender';
+import { SynonymFinder } from '@/components/modes/SynonymFinder';
+import { TaglineMaker } from '@/components/modes/TaglineMaker';
+import { TaskPriorityPlanner } from '@/components/modes/TaskPriorityPlanner';
+import { TaskPrioritySorter } from '@/components/modes/TaskPrioritySorter';
+import { TaxCalculator } from '@/components/modes/TaxCalculator';
+import { TeachingMethodSuggestor } from '@/components/modes/TeachingMethodSuggestor';
+import { TeamDynamicsPredictor } from '@/components/modes/TeamDynamicsPredictor';
+import { TemperatureConverter } from '@/components/modes/TemperatureConverter';
+import { TextilePatternDesignerAi } from '@/components/modes/TextilePatternDesignerAi';
+import { ThankYouNoteMaker } from '@/components/modes/ThankYouNoteMaker';
+import { TherapySessionPlanner } from '@/components/modes/TherapySessionPlanner';
+import { TicketPriceOptimizer } from '@/components/modes/TicketPriceOptimizer';
+import { TimeZoneConverter } from '@/components/modes/TimeZoneConverter';
+import { ToastSpeechWriter } from '@/components/modes/ToastSpeechWriter';
+import { TournamentScheduleOptimizer } from '@/components/modes/TournamentScheduleOptimizer';
+import { TrailerImpactPredictor } from '@/components/modes/TrailerImpactPredictor';
+import { TrainingNeedsIdentifier } from '@/components/modes/TrainingNeedsIdentifier';
+import { TreatmentPlanPersonalizer } from '@/components/modes/TreatmentPlanPersonalizer';
+import { TrialConversionRatePredictor } from '@/components/modes/TrialConversionRatePredictor';
+import { TutoringSessionScheduler } from '@/components/modes/TutoringSessionScheduler';
+import { UnitConversionPracticeTool } from '@/components/modes/UnitConversionPracticeTool';
+import { UnitConverter } from '@/components/modes/UnitConverter';
+import { UpsellRecommendationEngine } from '@/components/modes/UpsellRecommendationEngine';
+import { UrbanTrafficFlowPredictor } from '@/components/modes/UrbanTrafficFlowPredictor';
+import { UserRetentionPatternFinder } from '@/components/modes/UserRetentionPatternFinder';
+import { UsernameGenerator } from '@/components/modes/UsernameGenerator';
+import { UtilityConsumptionTracker } from '@/components/modes/UtilityConsumptionTracker';
+import { VillainProfileMaker } from '@/components/modes/VillainProfileMaker';
+import { ViralContentPredictor } from '@/components/modes/ViralContentPredictor';
+import { VirtualLabTechnician } from '@/components/modes/VirtualLabTechnician';
+import { VisualAidSuggestor } from '@/components/modes/VisualAidSuggestor';
+import { VocabularyBuilder } from '@/components/modes/VocabularyBuilder';
+import { VocabularyExpansionTool } from '@/components/modes/VocabularyExpansionTool';
+import { VolumeConverter } from '@/components/modes/VolumeConverter';
+import { VolunteerSchedulingPlanner } from '@/components/modes/VolunteerSchedulingPlanner';
+import { WaterIntakeTracker } from '@/components/modes/WaterIntakeTracker';
+import { WaterUsageEfficiencyPlanner } from '@/components/modes/WaterUsageEfficiencyPlanner';
+import { WeatherImpactPredictor } from '@/components/modes/WeatherImpactPredictor';
+import { WebsiteAccessibilityAnalyzer } from '@/components/modes/WebsiteAccessibilityAnalyzer';
+import { WeightConverter } from '@/components/modes/WeightConverter';
+import { WifiNameGenerator } from '@/components/modes/WifiNameGenerator';
+import { WildlifePatternTracker } from '@/components/modes/WildlifePatternTracker';
+import { WorkerSafetyRiskDetector } from '@/components/modes/WorkerSafetyRiskDetector';
+import { WorkloadBalancerAi } from '@/components/modes/WorkloadBalancerAi';
+import { WorkoutPlanGenerator } from '@/components/modes/WorkoutPlanGenerator';
+import { WorkplaceCultureFitAnalyzer } from '@/components/modes/WorkplaceCultureFitAnalyzer';
+import { YogaRoutineGenerator } from '@/components/modes/YogaRoutineGenerator';
+import { TextUtilities } from '@/components/modes/TextUtilities';
 
 export type ModeId = 
   // Core
@@ -503,7 +808,7 @@ export type ModeId =
   // Development & Tech
   | 'code_generator' | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' | 'file_editor'
   // Business & Marketing
-  | 'chart_maker' | 'market_research' | 'social_media_post_maker' | 'seo_tool' | 'ad_maker' | 'email_writer' | 'fact_checker' | 'brand_finder'
+  | 'chart_maker' | 'market_research' | 'social_media_post_maker' | 'seo_tool' | 'ad_maker' | 'email_writer' | 'fact_checker' | 'brand_finder' | 'product_finder'
   | 'supply_chain_ai_planner' | 'inventory_auto_forecaster' | 'logistics_route_optimizer' | 'vendor_risk_scorer' | 'fraud_detection_engine' | 'transaction_pattern_finder' | 'credit_risk_analyzer' | 'investment_portfolio_optimizer' | 'financial_statement_summarizer'
   | 'profit_margin_optimizer' | 'shopping_assistant'
   // Education & Productivity
@@ -529,7 +834,7 @@ export type ModeId =
   // Health & Wellness Utilities
   | 'health_tip_generator' | 'medical_term_explainer' | 'symptom_checker' | 'medicine_reminder' | 'nutrition_fact_finder' | 'diet_plan_maker' | 'food_allergy_alert_guide' | 'safe_cooking_temperature_guide' | 'kitchen_safety_guide'
   // Safety & Community Utilities
-  | 'school_safety_checklist' | 'office_safety_checklist' | 'factory_safety_checklist' | 'road_safety_tips' | 'bicycle_safety_guide' | 'swimming_safety_guide' | 'hiking_safety_guide' | 'child_safety_tips' | 'elderly_care_tips' | 'disability_support_resource_finder' | 'community_event_idea_generator' | 'volunteer_task_list_maker' | 'fundraising_idea_generator' | 'charity_event_plan_maker' | 'nonprofit_mission_statement_maker'
+  | 'school_safety_checklist' | 'office_safety_checklist' | 'factory_safety_checklist' | 'road_safety_tips' | 'bicycle_safety_guide' | 'swimming_safety_guide' | 'child_safety_tips' | 'elderly_care_tips' | 'disability_support_resource_finder' | 'community_event_idea_generator' | 'volunteer_task_list_maker' | 'fundraising_idea_generator' | 'charity_event_plan_maker' | 'nonprofit_mission_statement_maker'
   // Environmental Utilities
   | 'sustainability_tip_generator' | 'recycling_guide' | 'composting_guide' | 'energy_saving_tips' | 'water_saving_tips' | 'pollution_awareness_guide' | 'wildlife_conservation_tips' | 'tree_planting_guide' | 'garden_wildlife_attractor' | 'renewable_energy_facts' | 'climate_change_explainer' | 'green_product_suggestor'
   | 'plagiarism_free_rewriter' | 'product_review_writer' | 'service_review_writer' | 'game_review_writer' | 'app_review_generator' | 'book_review_writer' | 'ab_test_result_analyzer' | 'academic_progress_forecaster' | 'accessory_style_matcher' | 'acronym_maker' | 'ad_campaign_performance_forecaster' | 'ad_headline_creator' | 'age_calculator' | 'agent_training_needs_analyzer' | 'agricultural_market_price_forecaster' | 'anniversary_wish_maker' | 'antonym_finder' | 'apology_letter_writer' | 'app_name_generator' | 'appointment_scheduling_optimizer' | 'area_converter' | 'article_rewriter' | 'assembly_line_speed_optimizer' | 'assignment_feedback_generator' | 'athlete_training_optimizer' | 'audience_engagement_predictor' | 'audience_engagement_timer' | 'audience_review_sentiment_tracker' | 'audio_scene_identifier' | 'backlink_quality_analyzer' | 'behavior_based_segmentation_tool' | 'birthday_wish_maker' | 'blog_conclusion_writer' | 'blog_idea_generator' | 'blog_intro_writer' | 'blog_outline_maker' | 'blog_topic_trend_finder' | 'blueprint_error_detector' | 'board_game_rule_optimizer' | 'book_summary_maker' | 'book_title_generator' | 'brand_loyalty_scorer' | 'brand_name_generator' | 'brand_name_idea_generator' | 'break_even_calculator' | 'breathing_exercise_guide' | 'business_idea_generator' | 'cad_design_suggestion_tool' | 'calendar_event_filler' | 'calorie_counter' | 'caption_maker' | 'carbon_footprint_forecaster' | 'career_path_predictor' | 'cash_flow_projection_tool' | 'casting_fit_analyzer' | 'challenge_idea_generator' | 'chapter_title_generator' | 'character_backstory_maker' | 'chatbot_script_enhancer' | 'checkout_time_optimizer' | 'chord_progression_generator' | 'churn_prevention_strategy_maker' | 'civic_policy_simulation_tool' | 'classroom_engagement_tracker' | 'clinical_trial_data_analyzer' | 'coin_flip' | 'color_palette_forecaster' | 'company_policy_clarity_checker' | 'competitor_ad_copy_analyzer' | 'compliment_generator' | 'concept_explainer' | 'concept_reinforcement_planner' | 'condolence_message_writer' | 'congratulations_message_writer' | 'construction_schedule_forecaster' | 'content_calendar_optimizer' | 'conversion_form_design_checker' | 'conversion_funnel_optimizer' | 'cost_estimate_calculator' | 'countdown_timer_maker' | 'course_title_generator' | 'cover_letter_personalizer' | 'cover_letter_writer' | 'crisis_communication_planner' | 'crop_yield_forecaster' | 'cross_department_communication_tracker' | 'cross_platform_engagement_tracker' | 'cross_sell_pattern_finder' | 'cultural_context_advisor' | 'currency_converter' | 'curriculum_gap_identifier' | 'customer_retention_strategy_maker' | 'customer_review_summarizer' | 'customer_service_response_analyzer' | 'diy_project_idea_maker' | 'date_difference_finder' | 'deadline_risk_detector' | 'debate_strategy_planner' | 'decision_helper' | 'design_to_manufacture_converter' | 'detective_case_idea_maker' | 'diagnostic_support_assistant' | 'dialogue_improver' | 'dice_roller' | 'ecommerce_upsell_strategy_planner' | 'editorial_consistency_checker' | 'education_syllabus_planner' | 'emergency_evacuation_planner' | 'employee_feedback_summarizer' | 'ending_suggestor' | 'enemy_behavior_modeler' | 'energy_usage_analyzer' | 'environmental_impact_calculator' | 'episode_recap_writer' | 'equation_generator' | 'error_message_clarity_checker' | 'esports_strategy_advisor' | 'essay_topic_generator' | 'eulogy_writer' | 'event_agenda_creator' | 'event_name_generator' | 'event_schedule_maker' | 'event_sponsorship_roi_calculator' | 'exam_pattern_analyzer' | 'exam_question_generator' | 'exercise_routine_optimizer' | 'expense_categorization_ai' | 'expense_tracker' | 'fable_writer' | 'fabric_quality_analyzer' | 'fact_finder' | 'fact_reference_link_generator' | 'fairy_tale_creator' | 'fan_engagement_tracker' | 'fantasy_story_builder' | 'faq_auto_generator' | 'farm_equipment_usage_tracker' | 'fashion_trend_predictor' | 'feature_adoption_forecaster' | 'feedback_sentiment_classifier' | 'film_script_coverage_ai' | 'flashcard_auto_creator' | 'flood_risk_predictor' | 'fundraising_campaign_optimizer' | 'game_lore_expansion_tool' | 'game_name_generator' | 'game_strategy_simulator' | 'genetic_pattern_detector' | 'geometry_shape_drawer' | 'gift_idea_generator' | 'grading_consistency_checker' | 'grammar_quiz_maker' | 'grant_proposal_generator' | 'greenhouse_climate_controller' | 'greeting_card_message_maker' | 'guest_speaker_finder_ai' | 'habit_tracker' | 'habitat_restoration_planner' | 'haiku_generator' | 'health_risk_assessment_ai' | 'historical_fact_finder' | 'holiday_wish_maker' | 'horror_story_maker' | 'hospital_resource_forecaster' | 'hyperlink_health_checker' | 'interview_coach' | 'invitation_message_writer' | 'irrigation_optimization_planner' | 'jewelry_design_suggestor' | 'job_interview_simulation_ai' | 'job_title_suggestor' | 'joke_finder' | 'knowledge_base_gap_finder' | 'knowledge_transfer_optimizer' | 'language_learning_path_optimizer' | 'language_practice_partner' | 'lead_scoring_ai' | 'leadership_style_analyzer' | 'learning_pace_personalizer' | 'learning_style_analyzer' | 'length_converter' | 'lesson_plan_enhancer' | 'lesson_plan_maker' | 'level_design_ai' | 'lifetime_value_forecasting_ai' | 'lighting_setup_optimizer' | 'list_creator' | 'livestock_health_monitor' | 'loan_calculator' | 'local_issue_report_generator' | 'logo_color_impact_analyzer' | 'loot_drop_probability_balancer' | 'love_letter_writer' | 'loyalty_program_impact_analyzer' | 'loyalty_reward_planner' | 'loyalty_tier_upgrade_predictor' | 'luxury_goods_market_forecaster' | 'machine_failure_predictor' | 'maintenance_cost_estimator' | 'manufacturing_workflow_optimizer' | 'market_entry_risk_forecaster' | 'match_outcome_predictor' | 'material_stress_tester_ai' | 'math_problem_solver' | 'meal_plan_generator' | 'medical_inventory_tracker' | 'medical_literature_summarizer' | 'meditation_guide' | 'meeting_agenda_maker' | 'meeting_agenda_optimizer' | 'meeting_summary_writer' | 'mental_wellness_suggestion_bot' | 'merchandise_sales_forecaster' | 'meta_tag_optimization_tool' | 'mind_map_creator' | 'mixing_mastering_advisor' | 'mobile_ui_flow_optimizer' | 'monologue_writer' | 'mood_journal_prompter' | 'motivation_quote_sender' | 'motivational_message_maker' | 'movie_summary_maker' | 'multiplayer_matchmaking_optimizer' | 'music_mood_classifier' | 'mystery_story_generator' | 'narrative_style_changer' | 'navigation_usability_analyzer' | 'nickname_maker' | 'noise_removal_optimizer' | 'nonprofit_donor_outreach_ai' | 'notification_timing_optimizer' | 'nutritional_plan_generator' | 'onboarding_experience_planner' | 'online_course_enrollment_predictor' | 'outfit_combination_recommender' | 'packaging_design_feedback_ai' | 'page_load_impact_predictor' | 'parking_demand_forecaster' | 'parts_inventory_balancer' | 'party_theme_generator' | 'password_generator' | 'patent_portfolio_analyzer' | 'pathology_report_summarizer' | 'patient_recovery_forecaster' | 'payment_fraud_probability_checker' | 'payroll_compliance_checker' | 'peer_review_summarizer' | 'personalization_rule_optimizer' | 'perspective_rewriter' | 'pest_infestation_predictor' | 'plagiarism_risk_checker' | 'player_injury_risk_detector' | 'player_motivation_analyzer' | 'playlist_name_generator' | 'plot_twist_generator' | 'podcast_topic_planner' | 'poetry_writer' | 'policy_impact_forecaster' | 'poll_question_maker' | 'post_production_workflow_planner' | 'ppc_campaign_roi_predictor' | 'presentation_flow_optimizer' | 'price_match_detector' | 'pro_con_list_maker' | 'product_description_writer' | 'product_lifecycle_forecaster' | 'product_prototype_feedback_ai' | 'product_return_risk_detector' | 'production_batch_optimizer' | 'production_scheduling_planner' | 'professional_bio_generator' | 'profit_calculator' | 'project_progress_reporter' | 'pronunciation_feedback_ai' | 'protein_structure_predictor' | 'prototype_design_optimizer' | 'public_opinion_trend_analyzer' | 'public_relations_risk_detector' | 'public_transit_route_optimizer' | 'push_notification_copy_checker' | 'puzzle_difficulty_balancer' | 'quality_control_inspector_ai' | 'question_difficulty_calibrator' | 'quote_finder' | 'roi_calculator' | 'radio_ad_effectiveness_tracker' | 'radiology_image_analyzer' | 'random_name_picker' | 'random_number_picker' | 'rap_verse_maker' | 'rd_project_feasibility_checker' | 'reading_ease_score_analyzer' | 'reminder_maker' | 'renewable_energy_yield_estimator' | 'renewable_grid_load_balancer' | 'reputation_score_tracker' | 'resume_bullet_point_maker' | 'resume_keyword_optimizer' | 'rhyme_finder' | 'road_repair_priority_planner' | 'roast_joke_generator' | 'robotics_task_planner' | 'salary_benchmarking_tool' | 'sales_forecasting_assistant' | 'savings_goal_calculator' | 'scene_description_writer' | 'scene_location_suggestor' | 'scene_pacing_adjuster' | 'sci_fi_story_maker' | 'science_fact_finder' | 'script_dialogue_writer' | 'search_intent_classifier' | 'seed_selection_optimizer' | 'self_care_checklist_maker' | 'seo_keyword_gap_finder' | 'service_level_agreement_monitor' | 'sewage_network_monitoring_ai' | 'shelf_placement_impact_predictor' | 'shelf_stocking_suggestion_tool' | 'shoe_size_fit_predictor' | 'short_story_writer' | 'shot_sequence_planner' | 'side_character_generator' | 'simple_translator' | 'skill_endorsement_analyzer' | 'skill_gap_forecaster' | 'sleep_cycle_tracker_ai' | 'sleep_routine_planner' | 'slide_deck_consistency_checker' | 'slogan_maker' | 'smart_factory_process_designer' | 'smart_lighting_planner' | 'social_sentiment_analyzer' | 'soil_nutrient_analyzer' | 'song_lyric_starter' | 'song_tempo_analyzer' | 'sound_quality_enhancer' | 'special_effects_cost_estimator' | 'speech_emotion_analyzer' | 'speech_timing_analyzer' | 'speech_writer' | 'speed_converter' | 'speedrun_path_optimizer' | 'spelling_checker' | 'spelling_quiz_maker' | 'sponsorship_roi_analyzer' | 'sports_performance_analyzer' | 'startup_pitch_writer' | 'stopwatch_tool' | 'store_layout_optimization_ai' | 'store_traffic_flow_analyzer' | 'story_idea_generator' | 'streaming_audience_predictor' | 'style_guide_compliance_checker' | 'subscription_renewal_predictor' | 'superhero_story_creator' | 'supply_shortage_forecaster' | 'support_ticket_categorizer' | 'surgical_procedure_planner' | 'survey_question_generator' | 'swot_analyzer' | 'symptom_pattern_analyzer' | 'symptom_to_specialist_recommender' | 'synonym_finder' | 'tagline_maker' | 'task_priority_planner' | 'task_priority_sorter' | 'tax_calculator' | 'teaching_method_suggestor' | 'team_dynamics_predictor' | 'temperature_converter' | 'textile_pattern_designer_ai' | 'thank_you_note_maker' | 'therapy_session_planner' | 'ticket_price_optimizer' | 'time_zone_converter' | 'toast_speech_writer' | 'tournament_schedule_optimizer' | 'trailer_impact_predictor' | 'training_needs_identifier' | 'treatment_plan_personalizer' | 'trial_conversion_rate_predictor' | 'tutoring_session_scheduler' | 'unit_conversion_practice_tool' | 'unit_converter' | 'upsell_recommendation_engine' | 'urban_traffic_flow_predictor' | 'user_retention_pattern_finder' | 'username_generator' | 'utility_consumption_tracker' | 'villain_profile_maker' | 'viral_content_predictor' | 'virtual_lab_technician' | 'visual_aid_suggestor' | 'vocabulary_builder' | 'vocabulary_expansion_tool' | 'volume_converter' | 'volunteer_scheduling_planner' | 'water_intake_tracker' | 'water_usage_efficiency_planner' | 'weather_impact_predictor' | 'website_accessibility_analyzer' | 'weight_converter' | 'wifi_name_generator' | 'wildlife_pattern_tracker' | 'worker_safety_risk_detector' | 'workload_balancer_ai' | 'workout_plan_generator' | 'workplace_culture_fit_analyzer' | 'yoga_routine_generator' | 'text_formatter' | 'word_counter' | 'title_case_converter' | 'bullet_point_maker' | 'text_shortener' | 'email_subject_line_maker' | 'readability_checker' | 'plagiarism_checker';
@@ -920,14 +1225,14 @@ export const modes: Mode[] = [
     {...textGeneratorProps('road_safety_tips', 'Road Safety Tips', Car, 'Provides road safety tips.', 'Provide road safety tips for')},
     {...textGeneratorProps('bicycle_safety_guide', 'Bicycle Safety Guide', Bike, 'Guides on bicycle safety.', 'Create a bicycle safety guide')},
     {...textGeneratorProps('swimming_safety_guide', 'Swimming Safety Guide', Droplet, 'Guides on swimming safety.', 'Create a swimming safety guide')},
-    {...textGeneratorProps('hiking_safety_guide', 'Hiking Safety Guide', Mountain, 'Guides on hiking safety.', 'Create a hiking safety guide')},
+    {...textGeneratorProps('hiking_safety_guide_2', 'Hiking Safety Guide', Mountain, 'Guides on hiking safety.', 'Create a hiking safety guide')},
     {...textGeneratorProps('child_safety_tips', 'Child Safety Tips', User, 'Provides safety tips for children.', 'Provide child safety tips for')},
     {...textGeneratorProps('elderly_care_tips', 'Elderly Care Tips', User, 'Provides tips for elderly care.', 'Provide elderly care tips for')},
     {...textGeneratorProps('disability_support_resource_finder', 'Disability Support Resource Finder', HelpCircle, 'Finds resources for disability support.', 'Find disability support resources for')},
     {...textGeneratorProps('community_event_idea_generator', 'Community Event Idea Generator', Users, 'Generates ideas for community events.', 'Generate community event ideas for')},
     {...textGeneratorProps('volunteer_task_list_maker', 'Volunteer Task List Maker', ListChecks, 'Creates task lists for volunteers.', 'Create a volunteer task list for')},
     {...textGeneratorProps('fundraising_idea_generator', 'Fundraising Idea Generator', Lightbulb, 'Generates fundraising ideas.', 'Generate fundraising ideas for')},
-    {...textGeneratorProps('donation_campaign_writer', 'Donation Campaign Writer', PenLine, 'Writes for donation campaigns.', 'Write a donation campaign for')},
+    {...textGeneratorProps('donation_campaign_writer_2', 'Donation Campaign Writer', PenLine, 'Writes for donation campaigns.', 'Write a donation campaign for')},
     {...textGeneratorProps('charity_event_plan_maker', 'Charity Event Plan Maker', Calendar, 'Plans charity events.', 'Create a charity event plan for')},
     {...textGeneratorProps('nonprofit_mission_statement_maker', 'Nonprofit Mission Statement Maker', FileText, 'Creates mission statements for nonprofits.', 'Create a nonprofit mission statement for')},
     // Environmental Utilities
@@ -942,421 +1247,7 @@ export const modes: Mode[] = [
     {...textGeneratorProps('garden_wildlife_attractor', 'Garden Wildlife Attractor', Bird, 'Attracts wildlife to gardens.', 'Attract wildlife to your garden')},
     {...textGeneratorProps('renewable_energy_facts', 'Renewable Energy Facts', Sun, 'Provides facts on renewable energy.', 'Provide facts on renewable energy')},
     {...textGeneratorProps('green_product_suggestor', 'Green Product Suggestor', Leaf, 'Suggests eco-friendly products.', 'Suggest green products for')},
-    {...textGeneratorProps('ab_test_result_analyzer', 'A/B Test Result Analyzer', TestTube, 'Analyzes A/B test results.', 'Analyze A/B test results')},
-    {...textGeneratorProps('academic_progress_forecaster', 'Academic Progress Forecaster', GraduationCap, 'Forecasts academic progress.', 'Forecast academic progress for')},
-    {...textGeneratorProps('accessory_style_matcher', 'Accessory Style Matcher', Glasses, 'Matches accessories to styles.', 'Match accessories to style')},
-    {...textGeneratorProps('acronym_maker', 'Acronym Maker', CaseUpper, 'Creates acronyms from phrases.', 'Create an acronym for')},
-    {...textGeneratorProps('ad_campaign_performance_forecaster', 'Ad Campaign Forecaster', TrendingUp, 'Forecasts ad campaign performance.', 'Forecast the ad campaign')},
-    {...textGeneratorProps('ad_headline_creator', 'Ad Headline Creator', Megaphone, 'Creates ad headlines.', 'Create an ad headline for')},
-    {...textGeneratorProps('age_calculator', 'Age Calculator', Calculator, 'Calculates age from birthdate.', 'Calculate age for')},
-    {...textGeneratorProps('agent_training_needs_analyzer', 'Agent Training Needs Analyzer', User, 'Analyzes agent training needs.', 'Analyze training needs for')},
-    {...textGeneratorProps('agricultural_market_price_forecaster', 'Agri-Market Forecaster', Tractor, 'Forecasts agricultural prices.', 'Forecast agricultural prices for')},
-    {...textGeneratorProps('anniversary_wish_maker', 'Anniversary Wish Maker', Gift, 'Creates anniversary wishes.', 'Create an anniversary wish for')},
-    {...textGeneratorProps('antonym_finder', 'Antonym Finder', PilcrowRight, 'Finds antonyms for words.', 'Find antonyms for')},
-    {...textGeneratorProps('apology_letter_writer', 'Apology Letter Writer', Mail, 'Writes apology letters.', 'Write an apology letter for')},
-    {...textGeneratorProps('app_name_generator', 'App Name Generator', AppWindow, 'Generates mobile app names.', 'Generate a name for an app')},
-    {...textGeneratorProps('appointment_scheduling_optimizer', 'Appointment Optimizer', Calendar, 'Optimizes appointment schedules.', 'Optimize the schedule for')},
-    {...textGeneratorProps('area_converter', 'Area Converter', Ruler, 'Converts area units.', 'Convert the area')},
-    {...textGeneratorProps('article_rewriter', 'Article Rewriter', RefreshCw, 'Rewrites articles.', 'Rewrite the article')},
-    {...textGeneratorProps('assembly_line_speed_optimizer', 'Assembly Line Optimizer', Factory, 'Optimizes assembly line speeds.', 'Optimize the assembly line')},
-    {...textGeneratorProps('assignment_feedback_generator', 'Assignment Feedback Generator', GraduationCap, 'Generates feedback for assignments.', 'Generate feedback for the assignment')},
-    {...textGeneratorProps('athlete_training_optimizer', 'Athlete Training Optimizer', Trophy, 'Optimizes athlete training plans.', 'Optimize the training for')},
-    {...textGeneratorProps('audience_engagement_predictor', 'Audience Engagement Predictor', Users, 'Predicts audience engagement.', 'Predict engagement for')},
-    {...textGeneratorProps('audience_engagement_timer', 'Audience Engagement Timer', Clock, 'Times audience engagement.', 'Time engagement for')},
-    {...textGeneratorProps('audience_review_sentiment_tracker', 'Audience Sentiment Tracker', Smile, 'Tracks audience review sentiment.', 'Track sentiment for')},
-    {...textGeneratorProps('audio_scene_identifier', 'Audio Scene Identifier', AudioLines, 'Identifies scenes from audio.', 'Identify the scene from the audio')},
-    {...textGeneratorProps('backlink_quality_analyzer', 'Backlink Quality Analyzer', Link, 'Analyzes backlink quality.', 'Analyze backlinks for')},
-    {...textGeneratorProps('behavior_based_segmentation_tool', 'Behavior Segmentation Tool', Users, 'Segments users by behavior.', 'Segment users by behavior')},
-    {...textGeneratorProps('birthday_wish_maker', 'Birthday Wish Maker', Gift, 'Creates birthday wishes.', 'Create a birthday wish for')},
-    {...textGeneratorProps('blog_conclusion_writer', 'Blog Conclusion Writer', Pilcrow, 'Writes blog post conclusions.', 'Write a conclusion for')},
-    {...textGeneratorProps('blog_idea_generator', 'Blog Idea Generator', Lightbulb, 'Generates blog post ideas.', 'Generate blog ideas for')},
-    {...textGeneratorProps('blog_intro_writer', 'Blog Intro Writer', Pilcrow, 'Writes blog post intros.', 'Write an intro for')},
-    {...textGeneratorProps('blog_outline_maker', 'Blog Outline Maker', ListOrdered, 'Creates blog post outlines.', 'Create an outline for')},
-    {...textGeneratorProps('blog_topic_trend_finder', 'Blog Topic Trend Finder', TrendingUp, 'Finds trending blog topics.', 'Find trending topics for')},
-    {...textGeneratorProps('blueprint_error_detector', 'Blueprint Error Detector', Ruler, 'Detects errors in blueprints.', 'Detect errors in the blueprint')},
-    {...textGeneratorProps('board_game_rule_optimizer', 'Board Game Rule Optimizer', Gamepad2, 'Optimizes board game rules.', 'Optimize rules for')},
-    {...textGeneratorProps('book_summary_maker', 'Book Summary Maker', BookOpen, 'Summarizes books.', 'Summarize the book')},
-    {...textGeneratorProps('book_title_generator', 'Book Title Generator', BookOpen, 'Generates book titles.', 'Generate a title for a book')},
-    {...textGeneratorProps('brand_loyalty_scorer', 'Brand Loyalty Scorer', Star, 'Scores brand loyalty.', 'Score loyalty for the brand')},
-    {...textGeneratorProps('brand_name_generator', 'Brand Name Generator', Megaphone, 'Generates brand names.', 'Generate a name for a brand')},
-    {...textGeneratorProps('brand_name_idea_generator', 'Brand Name Idea Generator', Lightbulb, 'Generates brand name ideas.', 'Generate ideas for a brand name')},
-    {...textGeneratorProps('break_even_calculator', 'Break-Even Calculator', Calculator, 'Calculates break-even points.', 'Calculate the break-even point for')},
-    {...textGeneratorProps('breathing_exercise_guide', 'Breathing Exercise Guide', Wind, 'Guides breathing exercises.', 'Create a breathing exercise for')},
-    {...textGeneratorProps('business_idea_generator', 'Business Idea Generator', Lightbulb, 'Generates business ideas.', 'Generate business ideas for')},
-    {...textGeneratorProps('cad_design_suggestion_tool', 'CAD Design Suggestion Tool', Component, 'Suggests CAD designs.', 'Suggest a CAD design for')},
-    {...textGeneratorProps('calendar_event_filler', 'Calendar Event Filler', Calendar, 'Fills in calendar events.', 'Fill in a calendar event for')},
-    {...textGeneratorProps('calorie_counter', 'Calorie Counter', Utensils, 'Counts calories in meals.', 'Count calories for')},
-    {...textGeneratorProps('caption_maker', 'Caption Maker', Captions, 'Creates captions for images.', 'Create a caption for')},
-    {...textGeneratorProps('carbon_footprint_forecaster', 'Carbon Footprint Forecaster', Footprints, 'Forecasts carbon footprints.', 'Forecast the carbon footprint of')},
-    {...textGeneratorProps('career_path_predictor', 'Career Path Predictor', Briefcase, 'Predicts career paths.', 'Predict a career path for')},
-    {...textGeneratorProps('cash_flow_projection_tool', 'Cash Flow Projection Tool', DollarSign, 'Projects cash flow.', 'Project cash flow for')},
-    {...textGeneratorProps('casting_fit_analyzer', 'Casting Fit Analyzer', User, 'Analyzes casting fit for roles.', 'Analyze casting fit for')},
-    {...textGeneratorProps('challenge_idea_generator', 'Challenge Idea Generator', Lightbulb, 'Generates challenge ideas.', 'Generate challenge ideas for')},
-    {...textGeneratorProps('chapter_title_generator', 'Chapter Title Generator', BookOpen, 'Generates chapter titles.', 'Generate a chapter title for')},
-    {...textGeneratorProps('character_backstory_maker', 'Character Backstory Maker', UserSquare, 'Creates character backstories.', 'Create a backstory for')},
-    {...textGeneratorProps('chatbot_script_enhancer', 'Chatbot Script Enhancer', MessageSquare, 'Enhances chatbot scripts.', 'Enhance the chatbot script')},
-    {...textGeneratorProps('checkout_time_optimizer', 'Checkout Time Optimizer', Clock, 'Optimizes checkout times.', 'Optimize checkout time for')},
-    {...textGeneratorProps('chord_progression_generator', 'Chord Progression Generator', Music, 'Generates chord progressions.', 'Generate a chord progression for')},
-    {...textGeneratorProps('churn_prevention_strategy_maker', 'Churn Prevention Strategy Maker', ShieldCheck, 'Creates churn prevention strategies.', 'Create a churn prevention strategy for')},
-    {...textGeneratorProps('civic_policy_simulation_tool', 'Civic Policy Simulation Tool', Landmark, 'Simulates civic policies.', 'Simulate the policy')},
-    {...textGeneratorProps('classroom_engagement_tracker', 'Classroom Engagement Tracker', School, 'Tracks classroom engagement.', 'Track engagement in the classroom')},
-    {...textGeneratorProps('clinical_trial_data_analyzer', 'Clinical Trial Data Analyzer', Stethoscope, 'Analyzes clinical trial data.', 'Analyze clinical trial data for')},
-    {...textGeneratorProps('coin_flip', 'Coin Flip', Coins, 'Simulates a coin flip.', 'Flip a coin')},
-    {...textGeneratorProps('color_palette_forecaster', 'Color Palette Forecaster', PaletteIcon, 'Forecasts color palette trends.', 'Forecast color palettes for')},
-    {...textGeneratorProps('company_policy_clarity_checker', 'Company Policy Clarity Checker', Landmark, 'Checks company policy clarity.', 'Check the clarity of the policy')},
-    {...textGeneratorProps('competitor_ad_copy_analyzer', 'Competitor Ad Copy Analyzer', Search, 'Analyzes competitor ad copy.', 'Analyze ad copy for')},
-    {...textGeneratorProps('compliment_generator', 'Compliment Generator', Smile, 'Generates compliments.', 'Generate a compliment for')},
-    {...textGeneratorProps('concept_explainer', 'Concept Explainer', Lightbulb, 'Explains complex concepts.', 'Explain the concept of')},
-    {...textGeneratorProps('concept_reinforcement_planner', 'Concept Reinforcement Planner', School, 'Plans concept reinforcement.', 'Plan reinforcement for the concept')},
-    {...textGeneratorProps('condolence_message_writer', 'Condolence Message Writer', Mail, 'Writes condolence messages.', 'Write a condolence message for')},
-    {...textGeneratorProps('congratulations_message_writer', 'Congratulations Message Writer', Gift, 'Writes congratulations messages.', 'Write a congratulations message for')},
-    {...textGeneratorProps('construction_schedule_forecaster', 'Construction Schedule Forecaster', Building2, 'Forecasts construction schedules.', 'Forecast the construction schedule for')},
-    {...textGeneratorProps('content_calendar_optimizer', 'Content Calendar Optimizer', Calendar, 'Optimizes content calendars.', 'Optimize the content calendar for')},
-    {...textGeneratorProps('conversion_form_design_checker', 'Conversion Form Design Checker', CheckSquare, 'Checks conversion form designs.', 'Check the design of the form')},
-    {...textGeneratorProps('conversion_funnel_optimizer', 'Conversion Funnel Optimizer', Filter, 'Optimizes conversion funnels.', 'Optimize the conversion funnel for')},
-    {...textGeneratorProps('cost_estimate_calculator', 'Cost Estimate Calculator', Calculator, 'Calculates cost estimates.', 'Calculate the cost estimate for')},
-    {...textGeneratorProps('countdown_timer_maker', 'Countdown Timer Maker', Clock, 'Creates countdown timers.', 'Create a countdown timer for')},
-    {...textGeneratorProps('course_title_generator', 'Course Title Generator', GraduationCap, 'Generates course titles.', 'Generate a title for a course on')},
-    {...textGeneratorProps('cover_letter_personalizer', 'Cover Letter Personalizer', Mail, 'Personalizes cover letters.', 'Personalize a cover letter for')},
-    {...textGeneratorProps('cover_letter_writer', 'Cover Letter Writer', Mail, 'Writes professional cover letters.', 'Write a cover letter for')},
-    {...textGeneratorProps('crisis_communication_planner', 'Crisis Communication Planner', Megaphone, 'Plans crisis communications.', 'Plan crisis communications for')},
-    {...textGeneratorProps('crop_yield_forecaster', 'Crop Yield Forecaster', Tractor, 'Forecasts crop yields.', 'Forecast the crop yield for')},
-    {...textGeneratorProps('cross_department_communication_tracker', 'Cross-Dept Comm. Tracker', Users, 'Tracks cross-department comms.', 'Track communication for')},
-    {...textGeneratorProps('cross_platform_engagement_tracker', 'Cross-Platform Engagement Tracker', TrendingUp, 'Tracks cross-platform engagement.', 'Track engagement across platforms')},
-    {...textGeneratorProps('cross_sell_pattern_finder', 'Cross-Sell Pattern Finder', ShoppingCart, 'Finds cross-sell patterns.', 'Find cross-sell patterns for')},
-    {...textGeneratorProps('cultural_context_advisor', 'Cultural Context Advisor', Globe, 'Advises on cultural context.', 'Advise on cultural context for')},
-    {...textGeneratorProps('currency_converter', 'Currency Converter', CircleDollarSign, 'Converts currencies.', 'Convert currency for')},
-    {...textGeneratorProps('curriculum_gap_identifier', 'Curriculum Gap Identifier', Search, 'Identifies curriculum gaps.', 'Identify gaps in the curriculum')},
-    {...textGeneratorProps('customer_retention_strategy_maker', 'Customer Retention Strategy Maker', Heart, 'Creates customer retention strategies.', 'Create a retention strategy for')},
-    {...textGeneratorProps('customer_review_summarizer', 'Customer Review Summarizer', FileSearch, 'Summarizes customer reviews.', 'Summarize reviews for')},
-    {...textGeneratorProps('customer_service_response_analyzer', 'Customer Service Response Analyzer', MessageSquareHeart, 'Analyzes customer service responses.', 'Analyze the response for')},
-    {...textGeneratorProps('diy_project_idea_maker', 'DIY Project Idea Maker', Wrench, 'Generates DIY project ideas.', 'Generate DIY project ideas for')},
-    {...textGeneratorProps('date_difference_finder', 'Date Difference Finder', Calendar, 'Finds the difference between dates.', 'Find the difference between dates')},
-    {...textGeneratorProps('deadline_risk_detector', 'Deadline Risk Detector', Clock, 'Detects risks to deadlines.', 'Detect deadline risks for')},
-    {...textGeneratorProps('debate_strategy_planner', 'Debate Strategy Planner', MicVocal, 'Plans debate strategies.', 'Plan a debate strategy for')},
-    {...textGeneratorProps('decision_helper', 'Decision Helper', Crosshair, 'Helps in making decisions.', 'Help me decide on')},
-    {...textGeneratorProps('design_to_manufacture_converter', 'Design to Manufacture Converter', Factory, 'Converts designs for manufacturing.', 'Convert the design for manufacturing')},
-    {...textGeneratorProps('detective_case_idea_maker', 'Detective Case Idea Maker', Search, 'Creates detective case ideas.', 'Create a detective case for')},
-    {...textGeneratorProps('diagnostic_support_assistant', 'Diagnostic Support Assistant', Stethoscope, 'Assists with diagnostics.', 'Provide diagnostic support for')},
-    {...textGeneratorProps('dialogue_improver', 'Dialogue Improver', MessageSquare, 'Improves written dialogue.', 'Improve the dialogue')},
-    {...textGeneratorProps('dice_roller', 'Dice Roller', Dices, 'Simulates rolling dice.', 'Roll the dice')},
-    {...textGeneratorProps('ecommerce_upsell_strategy_planner', 'eCommerce Upsell Strategy Planner', ShoppingCart, 'Plans eCommerce upsell strategies.', 'Plan an upsell strategy for')},
-    {...textGeneratorProps('editorial_consistency_checker', 'Editorial Consistency Checker', BookCheck, 'Checks for editorial consistency.', 'Check consistency for')},
-    {...textGeneratorProps('education_syllabus_planner', 'Education Syllabus Planner', GraduationCap, 'Plans education syllabi.', 'Plan a syllabus for')},
-    {...textGeneratorProps('emergency_evacuation_planner', 'Emergency Evacuation Planner', Bus, 'Plans emergency evacuations.', 'Plan an evacuation for')},
-    {...textGeneratorProps('employee_feedback_summarizer', 'Employee Feedback Summarizer', FileSearch, 'Summarizes employee feedback.', 'Summarize feedback from')},
-    {...textGeneratorProps('ending_suggestor', 'Ending Suggestor', Lightbulb, 'Suggests story endings.', 'Suggest an ending for')},
-    {...textGeneratorProps('enemy_behavior_modeler', 'Enemy Behavior Modeler', Bot, 'Models enemy AI behavior.', 'Model behavior for an enemy')},
-    {...textGeneratorProps('energy_usage_analyzer', 'Energy Usage Analyzer', FileSearch, 'Analyzes energy usage.', 'Analyze energy usage for')},
-    {...textGeneratorProps('environmental_impact_calculator', 'Environmental Impact Calculator', Leaf, 'Calculates environmental impact.', 'Calculate the environmental impact of')},
-    {...textGeneratorProps('episode_recap_writer', 'Episode Recap Writer', Clapperboard, 'Writes episode recaps.', 'Write a recap for')},
-    {...textGeneratorProps('equation_generator', 'Equation Generator', Sigma, 'Generates mathematical equations.', 'Generate an equation for')},
-    {...textGeneratorProps('error_message_clarity_checker', 'Error Message Clarity Checker', AlertTriangle, 'Checks clarity of error messages.', 'Check the clarity of the error message')},
-    {...textGeneratorProps('esports_strategy_advisor', 'eSports Strategy Advisor', Gamepad2, 'Advises on eSports strategies.', 'Advise on strategy for')},
-    {...textGeneratorProps('essay_topic_generator', 'Essay Topic Generator', BookOpen, 'Generates essay topics.', 'Generate an essay topic for')},
-    {...textGeneratorProps('eulogy_writer', 'Eulogy Writer', Feather, 'Writes eulogies.', 'Write a eulogy for')},
-    {...textGeneratorProps('event_agenda_creator', 'Event Agenda Creator', Calendar, 'Creates event agendas.', 'Create an agenda for')},
-    {...textGeneratorProps('event_name_generator', 'Event Name Generator', Megaphone, 'Generates names for events.', 'Generate a name for an event')},
-    {...textGeneratorProps('event_schedule_maker', 'Event Schedule Maker', Calendar, 'Creates event schedules.', 'Create a schedule for')},
-    {...textGeneratorProps('event_sponsorship_roi_calculator', 'Event Sponsorship ROI Calculator', CircleDollarSign, 'Calculates ROI for event sponsorships.', 'Calculate sponsorship ROI for')},
-    {...textGeneratorProps('exam_pattern_analyzer', 'Exam Pattern Analyzer', FileSearch, 'Analyzes exam patterns.', 'Analyze the pattern of the exam')},
-    {...textGeneratorProps('exam_question_generator', 'Exam Question Generator', HelpCircle, 'Generates exam questions.', 'Generate exam questions for')},
-    {...textGeneratorProps('exercise_routine_optimizer', 'Exercise Routine Optimizer', Dumbbell, 'Optimizes exercise routines.', 'Optimize the exercise routine for')},
-    {...textGeneratorProps('expense_categorization_ai', 'Expense Categorization AI', Tags, 'Categorizes expenses using AI.', 'Categorize the expenses')},
-    {...textGeneratorProps('expense_tracker', 'Expense Tracker', Receipt, 'Tracks personal expenses.', 'Track expenses for')},
-    {...textGeneratorProps('fable_writer', 'Fable Writer', Feather, 'Writes fables.', 'Write a fable about')},
-    {...textGeneratorProps('fabric_quality_analyzer', 'Fabric Quality Analyzer', Shirt, 'Analyzes fabric quality.', 'Analyze the quality of the fabric')},
-    {...textGeneratorProps('fact_finder', 'Fact Finder', Search, 'Finds interesting facts.', 'Find a fact about')},
-    {...textGeneratorProps('fact_reference_link_generator', 'Fact Reference Link Generator', Link, 'Generates reference links for facts.', 'Generate a reference for the fact')},
-    {...textGeneratorProps('fairy_tale_creator', 'Fairy Tale Creator', Crown, 'Creates original fairy tales.', 'Create a fairy tale about')},
-    {...textGeneratorProps('fan_engagement_tracker', 'Fan Engagement Tracker', Users, 'Tracks fan engagement.', 'Track fan engagement for')},
-    {...textGeneratorProps('fantasy_story_builder', 'Fantasy Story Builder', VenetianMask, 'Builds fantasy stories.', 'Build a fantasy story about')},
-    {...textGeneratorProps('faq_auto_generator', 'FAQ Auto-Generator', HelpCircle, 'Auto-generates FAQs.', 'Generate FAQs for')},
-    {...textGeneratorProps('farm_equipment_usage_tracker', 'Farm Equipment Usage Tracker', Tractor, 'Tracks farm equipment usage.', 'Track usage of')},
-    {...textGeneratorProps('fashion_trend_predictor', 'Fashion Trend Predictor', Shirt, 'Predicts fashion trends.', 'Predict fashion trends for')},
-    {...textGeneratorProps('feature_adoption_forecaster', 'Feature Adoption Forecaster', TrendingUp, 'Forecasts feature adoption rates.', 'Forecast adoption of the feature')},
-    {...textGeneratorProps('feedback_sentiment_classifier', 'Feedback Sentiment Classifier', Smile, 'Classifies feedback sentiment.', 'Classify the sentiment of the feedback')},
-    {...textGeneratorProps('film_script_coverage_ai', 'Film Script Coverage AI', Film, 'Provides film script coverage.', 'Provide coverage for the script')},
-    {...textGeneratorProps('flashcard_auto_creator', 'Flashcard Auto-Creator', BookCopy, 'Auto-creates flashcards.', 'Create flashcards for')},
-    {...textGeneratorProps('flood_risk_predictor', 'Flood Risk Predictor', Cloud, 'Predicts flood risks.', 'Predict flood risk for')},
-    {...textGeneratorProps('fundraising_campaign_optimizer', 'Fundraising Campaign Optimizer', CircleDollarSign, 'Optimizes fundraising campaigns.', 'Optimize the fundraising campaign for')},
-    {...textGeneratorProps('game_lore_expansion_tool', 'Game Lore Expansion Tool', BookOpen, 'Expands game lore.', 'Expand the lore for the game')},
-    {...textGeneratorProps('game_name_generator', 'Game Name Generator', Gamepad2, 'Generates video game names.', 'Generate a name for a game')},
-    {...textGeneratorProps('game_strategy_simulator', 'Game Strategy Simulator', Dices, 'Simulates game strategies.', 'Simulate a strategy for')},
-    {...textGeneratorProps('genetic_pattern_detector', 'Genetic Pattern Detector', GitBranch, 'Detects genetic patterns.', 'Detect genetic patterns in')},
-    {...textGeneratorProps('geometry_shape_drawer', 'Geometry Shape Drawer', SquarePi, 'Draws geometric shapes.', 'Draw the shape')},
-    {...textGeneratorProps('gift_idea_generator', 'Gift Idea Generator', Gift, 'Generates gift ideas.', 'Generate gift ideas for')},
-    {...textGeneratorProps('grading_consistency_checker', 'Grading Consistency Checker', CheckSquare, 'Checks grading consistency.', 'Check consistency in grading for')},
-    {...textGeneratorProps('grammar_quiz_maker', 'Grammar Quiz Maker', HelpCircle, 'Creates grammar quizzes.', 'Create a grammar quiz on')},
-    {...textGeneratorProps('grant_proposal_generator', 'Grant Proposal Generator', FileText, 'Generates grant proposals.', 'Generate a grant proposal for')},
-    {...textGeneratorProps('greenhouse_climate_controller', 'Greenhouse Climate Controller', Cloud, 'Controls greenhouse climates.', 'Control the climate for')},
-    {...textGeneratorProps('greeting_card_message_maker', 'Greeting Card Message Maker', Mail, 'Creates greeting card messages.', 'Create a message for a greeting card')},
-    {...textGeneratorProps('guest_speaker_finder_ai', 'Guest Speaker Finder AI', User, 'Finds guest speakers.', 'Find a guest speaker for')},
-    {...textGeneratorProps('habit_tracker', 'Habit Tracker', CheckSquare, 'Tracks personal habits.', 'Track the habit of')},
-    {...textGeneratorProps('habitat_restoration_planner', 'Habitat Restoration Planner', Leaf, 'Plans habitat restoration.', 'Plan restoration for the habitat')},
-    {...textGeneratorProps('haiku_generator', 'Haiku Generator', Feather, 'Generates haikus.', 'Generate a haiku about')},
-    {...textGeneratorProps('health_risk_assessment_ai', 'Health Risk Assessment AI', Stethoscope, 'Assesses health risks.', 'Assess health risks for')},
-    {...textGeneratorProps('hiking_safety_guide', 'Hiking Safety Guide', Mountain, 'Guides on hiking safety.', 'Create a hiking safety guide for')},
-    {...textGeneratorProps('historical_fact_finder', 'Historical Fact Finder', Landmark, 'Finds historical facts.', 'Find a historical fact about')},
-    {...textGeneratorProps('holiday_wish_maker', 'Holiday Wish Maker', Gift, 'Creates holiday wishes.', 'Create a holiday wish for')},
-    {...textGeneratorProps('horror_story_maker', 'Horror Story Maker', VenetianMask, 'Creates horror stories.', 'Create a horror story about')},
-    {...textGeneratorProps('hospital_resource_forecaster', 'Hospital Resource Forecaster', Stethoscope, 'Forecasts hospital resources.', 'Forecast resources for the hospital')},
-    {...textGeneratorProps('hyperlink_health_checker', 'Hyperlink Health Checker', Link, 'Checks hyperlink health.', 'Check the links in')},
-    {...textGeneratorProps('interview_coach', 'Interview Coach', UserSquare, 'Coaches for job interviews.', 'Coach me for an interview for')},
-    {...textGeneratorProps('invitation_message_writer', 'Invitation Message Writer', Mail, 'Writes invitation messages.', 'Write an invitation for')},
-    {...textGeneratorProps('irrigation_optimization_planner', 'Irrigation Optimization Planner', Droplet, 'Plans irrigation optimization.', 'Plan irrigation optimization for')},
-    {...textGeneratorProps('jewelry_design_suggestor', 'Jewelry Design Suggestor', Gem, 'Suggests jewelry designs.', 'Suggest a jewelry design for')},
-    {...textGeneratorProps('job_interview_simulation_ai', 'Job Interview Simulation AI', User, 'Simulates job interviews.', 'Simulate an interview for')},
-    {...textGeneratorProps('job_title_suggestor', 'Job Title Suggestor', Briefcase, 'Suggests job titles.', 'Suggest a job title for')},
-    {...textGeneratorProps('joke_finder', 'Joke Finder', Smile, 'Finds jokes.', 'Find a joke about')},
-    {...textGeneratorProps('knowledge_base_gap_finder', 'Knowledge Base Gap Finder', Search, 'Finds gaps in knowledge bases.', 'Find gaps in the knowledge base')},
-    {...textGeneratorProps('knowledge_transfer_optimizer', 'Knowledge Transfer Optimizer', BrainCog, 'Optimizes knowledge transfer.', 'Optimize knowledge transfer for')},
-    {...textGeneratorProps('language_learning_path_optimizer', 'Language Learning Path Optimizer', Languages, 'Optimizes language learning paths.', 'Optimize a learning path for')},
-    {...textGeneratorProps('language_practice_partner', 'Language Practice Partner', MessageSquare, 'Partners for language practice.', 'Practice language with me')},
-    {...textGeneratorProps('lead_scoring_ai', 'Lead Scoring AI', Star, 'Scores leads using AI.', 'Score the lead')},
-    {...textGeneratorProps('leadership_style_analyzer', 'Leadership Style Analyzer', UserSquare, 'Analyzes leadership styles.', 'Analyze the leadership style')},
-    {...textGeneratorProps('learning_pace_personalizer', 'Learning Pace Personalizer', GraduationCap, 'Personalizes learning pace.', 'Personalize the learning pace for')},
-    {...textGeneratorProps('learning_style_analyzer', 'Learning Style Analyzer', User, 'Analyzes learning styles.', 'Analyze the learning style')},
-    {...textGeneratorProps('length_converter', 'Length Converter', Ruler, 'Converts length units.', 'Convert the length')},
-    {...textGeneratorProps('lesson_plan_enhancer', 'Lesson Plan Enhancer', GraduationCap, 'Enhances lesson plans.', 'Enhance the lesson plan for')},
-    {...textGeneratorProps('lesson_plan_maker', 'Lesson Plan Maker', BookOpen, 'Creates lesson plans.', 'Create a lesson plan for')},
-    {...textGeneratorProps('level_design_ai', 'Level Design AI', Gamepad2, 'Assists with game level design.', 'Design a level for')},
-    {...textGeneratorProps('lifetime_value_forecasting_ai', 'Lifetime Value Forecasting AI', CircleDollarSign, 'Forecasts customer lifetime value.', 'Forecast LTV for')},
-    {...textGeneratorProps('lighting_setup_optimizer', 'Lighting Setup Optimizer', Lightbulb, 'Optimizes lighting setups.', 'Optimize the lighting for')},
-    {...textGeneratorProps('list_creator', 'List Creator', ListOrdered, 'Creates organized lists.', 'Create a list of')},
-    {...textGeneratorProps('livestock_health_monitor', 'Livestock Health Monitor', HeartPulse, 'Monitors livestock health.', 'Monitor the health of')},
-    {...textGeneratorProps('loan_calculator', 'Loan Calculator', Banknote, 'Calculates loan payments.', 'Calculate the loan for')},
-    {...textGeneratorProps('local_issue_report_generator', 'Local Issue Report Generator', FileText, 'Generates reports on local issues.', 'Generate a report on')},
-    {...textGeneratorProps('logo_color_impact_analyzer', 'Logo Color Impact Analyzer', PaletteIcon, 'Analyzes logo color impact.', 'Analyze the color impact of the logo')},
-    {...textGeneratorProps('loot_drop_probability_balancer', 'Loot Drop Probability Balancer', Dices, 'Balances loot drop probabilities.', 'Balance loot drops for')},
-    {...textGeneratorProps('love_letter_writer', 'Love Letter Writer', BookHeart, 'Writes love letters.', 'Write a love letter to')},
-    {...textGeneratorProps('loyalty_program_impact_analyzer', 'Loyalty Program Impact Analyzer', Star, 'Analyzes loyalty program impact.', 'Analyze the impact of the loyalty program')},
-    {...textGeneratorProps('loyalty_reward_planner', 'Loyalty Reward Planner', Gift, 'Plans loyalty rewards.', 'Plan rewards for')},
-    {...textGeneratorProps('loyalty_tier_upgrade_predictor', 'Loyalty Tier Upgrade Predictor', Star, 'Predicts loyalty tier upgrades.', 'Predict tier upgrades for')},
-    {...textGeneratorProps('luxury_goods_market_forecaster', 'Luxury Goods Market Forecaster', Gem, 'Forecasts the luxury goods market.', 'Forecast the luxury market for')},
-    {...textGeneratorProps('machine_failure_predictor', 'Machine Failure Predictor', Bug, 'Predicts machine failures.', 'Predict failures for the machine')},
-    {...textGeneratorProps('maintenance_cost_estimator', 'Maintenance Cost Estimator', Wrench, 'Estimates maintenance costs.', 'Estimate maintenance cost for')},
-    {...textGeneratorProps('manufacturing_workflow_optimizer', 'Manufacturing Workflow Optimizer', Factory, 'Optimizes manufacturing workflows.', 'Optimize the workflow for')},
-    {...textGeneratorProps('market_entry_risk_forecaster', 'Market Entry Risk Forecaster', AlertTriangle, 'Forecasts market entry risks.', 'Forecast market entry risk for')},
-    {...textGeneratorProps('match_outcome_predictor', 'Match Outcome Predictor', Trophy, 'Predicts match outcomes.', 'Predict the outcome of the match')},
-    {...textGeneratorProps('material_stress_tester_ai', 'Material Stress Tester AI', TestTube, 'Simulates material stress tests.', 'Stress test the material')},
-    {...textGeneratorProps('math_problem_solver', 'Math Problem Solver', Sigma, 'Solves math problems.', 'Solve the math problem')},
-    {...textGeneratorProps('meal_plan_generator', 'Meal Plan Generator', Utensils, 'Generates weekly meal plans.', 'Generate a meal plan for')},
-    {...textGeneratorProps('medical_inventory_tracker', 'Medical Inventory Tracker', Package, 'Tracks medical inventory.', 'Track inventory for')},
-    {...textGeneratorProps('medical_literature_summarizer', 'Medical Literature Summarizer', BookOpen, 'Summarizes medical literature.', 'Summarize the medical literature')},
-    {...textGeneratorProps('meditation_guide', 'Meditation Guide', Smile, 'Guides meditation sessions.', 'Guide a meditation for')},
-    {...textGeneratorProps('meeting_agenda_maker', 'Meeting Agenda Maker', Calendar, 'Creates meeting agendas.', 'Create an agenda for')},
-    {...textGeneratorProps('meeting_agenda_optimizer', 'Meeting Agenda Optimizer', Calendar, 'Optimizes meeting agendas.', 'Optimize the agenda for')},
-    {...textGeneratorProps('meeting_summary_writer', 'Meeting Summary Writer', FileText, 'Writes meeting summaries.', 'Write a summary for the meeting')},
-    {...textGeneratorProps('mental_wellness_suggestion_bot', 'Mental Wellness Suggestion Bot', HeartPulse, 'Suggests mental wellness activities.', 'Suggest a wellness activity for')},
-    {...textGeneratorProps('merchandise_sales_forecaster', 'Merchandise Sales Forecaster', Shirt, 'Forecasts merchandise sales.', 'Forecast sales for')},
-    {...textGeneratorProps('meta_tag_optimization_tool', 'Meta Tag Optimization Tool', Tags, 'Optimizes meta tags.', 'Optimize meta tags for')},
-    {...textGeneratorProps('mind_map_creator', 'Mind Map Creator', GitBranch, 'Creates mind maps.', 'Create a mind map for')},
-    {...textGeneratorProps('mixing_mastering_advisor', 'Mixing/Mastering Advisor', SlidersHorizontal, 'Advises on audio mixing/mastering.', 'Advise on mixing for')},
-    {...textGeneratorProps('mobile_ui_flow_optimizer', 'Mobile UI Flow Optimizer', AppWindow, 'Optimizes mobile UI flows.', 'Optimize the UI flow for')},
-    {...textGeneratorProps('monologue_writer', 'Monologue Writer', MicVocal, 'Writes monologues.', 'Write a monologue for')},
-    {...textGeneratorProps('mood_journal_prompter', 'Mood Journal Prompter', BookHeart, 'Prompts for mood journaling.', 'Give me a journal prompt for')},
-    {...textGeneratorProps('motivation_quote_sender', 'Motivation Quote Sender', Quote, 'Sends motivational quotes.', 'Send a motivational quote for')},
-    {...textGeneratorProps('motivational_message_maker', 'Motivational Message Maker', MessageSquareHeart, 'Creates motivational messages.', 'Create a motivational message for')},
-    {...textGeneratorProps('movie_summary_maker', 'Movie Summary Maker', Film, 'Summarizes movies.', 'Summarize the movie')},
-    {...textGeneratorProps('multiplayer_matchmaking_optimizer', 'Multiplayer Matchmaking Optimizer', Users, 'Optimizes multiplayer matchmaking.', 'Optimize matchmaking for')},
-    {...textGeneratorProps('music_mood_classifier', 'Music Mood Classifier', Smile, 'Classifies music mood.', 'Classify the mood of the song')},
-    {...textGeneratorProps('mystery_story_generator', 'Mystery Story Generator', Search, 'Generates mystery stories.', 'Generate a mystery story about')},
-    {...textGeneratorProps('narrative_style_changer', 'Narrative Style Changer', RefreshCw, 'Changes narrative style.', 'Change the narrative style of')},
-    {...textGeneratorProps('navigation_usability_analyzer', 'Navigation Usability Analyzer', Waypoints, 'Analyzes navigation usability.', 'Analyze the usability of the navigation')},
-    {...textGeneratorProps('nickname_maker', 'Nickname Maker', User, 'Creates nicknames.', 'Create a nickname for')},
-    {...textGeneratorProps('noise_removal_optimizer', 'Noise Removal Optimizer', AudioLines, 'Optimizes audio noise removal.', 'Remove noise from the audio')},
-    {...textGeneratorProps('nonprofit_donor_outreach_ai', 'Nonprofit Donor Outreach AI', Mail, 'Assists with nonprofit donor outreach.', 'Draft an outreach for')},
-    {...textGeneratorProps('notification_timing_optimizer', 'Notification Timing Optimizer', Clock, 'Optimizes notification timing.', 'Optimize notification timing for')},
-    {...textGeneratorProps('nutritional_plan_generator', 'Nutritional Plan Generator', Leaf, 'Generates nutritional plans.', 'Generate a nutritional plan for')},
-    {...textGeneratorProps('onboarding_experience_planner', 'Onboarding Experience Planner', Users, 'Plans onboarding experiences.', 'Plan the onboarding for')},
-    {...textGeneratorProps('online_course_enrollment_predictor', 'Online Course Enrollment Predictor', GraduationCap, 'Predicts online course enrollment.', 'Predict enrollment for the course')},
-    {...textGeneratorProps('outfit_combination_recommender', 'Outfit Combination Recommender', Shirt, 'Recommends outfit combinations.', 'Recommend an outfit for')},
-    {...textGeneratorProps('packaging_design_feedback_ai', 'Packaging Design Feedback AI', Package, 'Provides feedback on packaging designs.', 'Give feedback on the packaging design')},
-    {...textGeneratorProps('page_load_impact_predictor', 'Page Load Impact Predictor', Clock, 'Predicts page load impact.', 'Predict the page load impact of')},
-    {...textGeneratorProps('parking_demand_forecaster', 'Parking Demand Forecaster', Car, 'Forecasts parking demand.', 'Forecast parking demand for')},
-    {...textGeneratorProps('parts_inventory_balancer', 'Parts Inventory Balancer', Wrench, 'Balances parts inventory.', 'Balance the inventory for')},
-    {...textGeneratorProps('party_theme_generator', 'Party Theme Generator', PartyPopper, 'Generates party themes.', 'Generate a theme for a party')},
-    {...textGeneratorProps('password_generator', 'Password Generator', Lock, 'Generates secure passwords.', 'Generate a password')},
-    {...textGeneratorProps('patent_portfolio_analyzer', 'Patent Portfolio Analyzer', BookCopy, 'Analyzes patent portfolios.', 'Analyze the patent portfolio')},
-    {...textGeneratorProps('pathology_report_summarizer', 'Pathology Report Summarizer', FileSearch, 'Summarizes pathology reports.', 'Summarize the pathology report')},
-    {...textGeneratorProps('patient_recovery_forecaster', 'Patient Recovery Forecaster', HeartPulse, 'Forecasts patient recovery.', 'Forecast recovery for the patient')},
-    {...textGeneratorProps('payment_fraud_probability_checker', 'Payment Fraud Probability Checker', AlertTriangle, 'Checks payment fraud probability.', 'Check fraud probability for the payment')},
-    {...textGeneratorProps('payroll_compliance_checker', 'Payroll Compliance Checker', Landmark, 'Checks payroll compliance.', 'Check compliance for payroll')},
-    {...textGeneratorProps('peer_review_summarizer', 'Peer Review Summarizer', FileSearch, 'Summarizes peer reviews.', 'Summarize the peer review')},
-    {...textGeneratorProps('personalization_rule_optimizer', 'Personalization Rule Optimizer', User, 'Optimizes personalization rules.', 'Optimize personalization rules for')},
-    {...textGeneratorProps('perspective_rewriter', 'Perspective Rewriter', RefreshCw, 'Rewrites text from a different perspective.', 'Rewrite from the perspective of')},
-    {...textGeneratorProps('pest_infestation_predictor', 'Pest Infestation Predictor', Bug, 'Predicts pest infestations.', 'Predict pest infestation for')},
-    {...textGeneratorProps('plagiarism_risk_checker', 'Plagiarism Risk Checker', Search, 'Checks for plagiarism risks.', 'Check plagiarism risk for')},
-    {...textGeneratorProps('player_injury_risk_detector', 'Player Injury Risk Detector', HeartPulse, 'Detects player injury risks.', 'Detect injury risk for the player')},
-    {...textGeneratorProps('player_motivation_analyzer', 'Player Motivation Analyzer', Trophy, 'Analyzes player motivations.', 'Analyze motivation for the player')},
-    {...textGeneratorProps('playlist_name_generator', 'Playlist Name Generator', Music, 'Generates playlist names.', 'Generate a name for a playlist')},
-    {...textGeneratorProps('plot_twist_generator', 'Plot Twist Generator', Drama, 'Generates plot twists.', 'Generate a plot twist for')},
-    {...textGeneratorProps('podcast_topic_planner', 'Podcast Topic Planner', Mic, 'Plans podcast topics.', 'Plan topics for the podcast')},
-    {...textGeneratorProps('poetry_writer', 'Poetry Writer', Feather, 'Writes original poetry.', 'Write a poem about')},
-    {...textGeneratorProps('policy_impact_forecaster', 'Policy Impact Forecaster', Landmark, 'Forecasts policy impacts.', 'Forecast the impact of the policy')},
-    {...textGeneratorProps('poll_question_maker', 'Poll Question Maker', HelpCircle, 'Creates poll questions.', 'Create a poll question about')},
-    {...textGeneratorProps('post_production_workflow_planner', 'Post-Production Workflow Planner', Film, 'Plans post-production workflows.', 'Plan the post-production workflow for')},
-    {...textGeneratorProps('ppc_campaign_roi_predictor', 'PPC Campaign ROI Predictor', CircleDollarSign, 'Predicts PPC campaign ROI.', 'Predict ROI for the PPC campaign')},
-    {...textGeneratorProps('presentation_flow_optimizer', 'Presentation Flow Optimizer', Presentation, 'Optimizes presentation flows.', 'Optimize the flow of the presentation')},
-    {...textGeneratorProps('price_match_detector', 'Price Match Detector', Tags, 'Detects price matching opportunities.', 'Detect a price match for')},
-    {...textGeneratorProps('pro_con_list_maker', 'Pro/Con List Maker', List, 'Creates pro/con lists.', 'Create a pro/con list for')},
-    {...textGeneratorProps('product_description_writer', 'Product Description Writer', PenLine, 'Writes product descriptions.', 'Write a description for the product')},
-    {...textGeneratorProps('product_lifecycle_forecaster', 'Product Lifecycle Forecaster', TrendingUp, 'Forecasts product lifecycles.', 'Forecast the lifecycle for the product')},
-    {...textGeneratorProps('product_prototype_feedback_ai', 'Product Prototype Feedback AI', Lightbulb, 'Provides feedback on product prototypes.', 'Give feedback on the prototype')},
-    {...textGeneratorProps('product_return_risk_detector', 'Product Return Risk Detector', AlertTriangle, 'Detects product return risks.', 'Detect return risk for the product')},
-    {...textGeneratorProps('production_batch_optimizer', 'Production Batch Optimizer', Factory, 'Optimizes production batch sizes.', 'Optimize the production batch for')},
-    {...textGeneratorProps('production_scheduling_planner', 'Production Scheduling Planner', Calendar, 'Plans production schedules.', 'Plan the production schedule for')},
-    {...textGeneratorProps('professional_bio_generator', 'Professional Bio Generator', UserSquare, 'Generates professional bios.', 'Generate a bio for')},
-    {...textGeneratorProps('profit_calculator', 'Profit Calculator', Calculator, 'Calculates profit.', 'Calculate the profit for')},
-    {...textGeneratorProps('project_progress_reporter', 'Project Progress Reporter', GanttChart, 'Reports on project progress.', 'Report progress for the project')},
-    {...textGeneratorProps('pronunciation_feedback_ai', 'Pronunciation Feedback AI', MicVocal, 'Provides pronunciation feedback.', 'Give feedback on my pronunciation of')},
-    {...textGeneratorProps('protein_structure_predictor', 'Protein Structure Predictor', GitBranch, 'Predicts protein structures.', 'Predict the structure of the protein')},
-    {...textGeneratorProps('prototype_design_optimizer', 'Prototype Design Optimizer', Component, 'Optimizes prototype designs.', 'Optimize the design of the prototype')},
-    {...textGeneratorProps('public_opinion_trend_analyzer', 'Public Opinion Trend Analyzer', Users, 'Analyzes public opinion trends.', 'Analyze trends in public opinion on')},
-    {...textGeneratorProps('public_relations_risk_detector', 'Public Relations Risk Detector', AlertTriangle, 'Detects public relations risks.', 'Detect PR risks for')},
-    {...textGeneratorProps('public_transit_route_optimizer', 'Public Transit Route Optimizer', Bus, 'Optimizes public transit routes.', 'Optimize the transit route for')},
-    {...textGeneratorProps('push_notification_copy_checker', 'Push Notification Copy Checker', Bell, 'Checks push notification copy.', 'Check the copy for the push notification')},
-    {...textGeneratorProps('puzzle_difficulty_balancer', 'Puzzle Difficulty Balancer', Puzzle, 'Balances puzzle difficulty.', 'Balance the difficulty of the puzzle')},
-    {...textGeneratorProps('quality_control_inspector_ai', 'Quality Control Inspector AI', CheckSquare, 'Inspects quality control.', 'Inspect quality for')},
-    {...textGeneratorProps('question_difficulty_calibrator', 'Question Difficulty Calibrator', SlidersHorizontal, 'Calibrates question difficulty.', 'Calibrate the difficulty of the question')},
-    {...textGeneratorProps('quote_finder', 'Quote Finder', Quote, 'Finds famous quotes.', 'Find a quote about')},
-    {...textGeneratorProps('roi_calculator', 'ROI Calculator', CircleDollarSign, 'Calculates Return on Investment.', 'Calculate ROI for')},
-    {...textGeneratorProps('radio_ad_effectiveness_tracker', 'Radio Ad Effectiveness Tracker', AudioLines, 'Tracks radio ad effectiveness.', 'Track the effectiveness of the radio ad')},
-    {...textGeneratorProps('radiology_image_analyzer', 'Radiology Image Analyzer', FileSearch, 'Analyzes radiology images.', 'Analyze the radiology image')},
-    {...textGeneratorProps('random_name_picker', 'Random Name Picker', Dices, 'Picks a random name from a list.', 'Pick a random name from')},
-    {...textGeneratorProps('random_number_picker', 'Random Number Picker', Dices, 'Picks a random number.', 'Pick a random number between')},
-    {...textGeneratorProps('rap_verse_maker', 'Rap Verse Maker', MicVocal, 'Creates rap verses.', 'Make a rap verse about')},
-    {...textGeneratorProps('rd_project_feasibility_checker', 'R&D Project Feasibility Checker', Beaker, 'Checks R&D project feasibility.', 'Check the feasibility of the R&D project')},
-    {...textGeneratorProps('reading_ease_score_analyzer', 'Reading Ease Score Analyzer', BookOpen, 'Analyzes reading ease scores.', 'Analyze the reading ease of')},
-    {...textGeneratorProps('reminder_maker', 'Reminder Maker', Bell, 'Creates reminders.', 'Create a reminder for')},
-    {...textGeneratorProps('renewable_energy_yield_estimator', 'Renewable Energy Yield Estimator', Sun, 'Estimates renewable energy yield.', 'Estimate the yield for')},
-    {...textGeneratorProps('renewable_grid_load_balancer', 'Renewable Grid Load Balancer', Sun, 'Balances renewable grid loads.', 'Balance the load for the grid')},
-    {...textGeneratorProps('reputation_score_tracker', 'Reputation Score Tracker', Star, 'Tracks reputation scores.', 'Track the reputation score of')},
-    {...textGeneratorProps('resume_bullet_point_maker', 'Resume Bullet Point Maker', ListOrdered, 'Creates resume bullet points.', 'Create bullet points for my resume')},
-    {...textGeneratorProps('resume_keyword_optimizer', 'Resume Keyword Optimizer', Search, 'Optimizes resume keywords.', 'Optimize keywords for my resume')},
-    {...textGeneratorProps('rhyme_finder', 'Rhyme Finder', Music, 'Finds rhyming words.', 'Find rhymes for')},
-    {...textGeneratorProps('road_repair_priority_planner', 'Road Repair Priority Planner', Car, 'Plans road repair priorities.', 'Plan repair priorities for')},
-    {...textGeneratorProps('roast_joke_generator', 'Roast Joke Generator', Smile, 'Generates roast jokes.', 'Generate a roast joke about')},
-    {...textGeneratorProps('robotics_task_planner', 'Robotics Task Planner', Bot, 'Plans tasks for robots.', 'Plan tasks for the robot')},
-    {...textGeneratorProps('salary_benchmarking_tool', 'Salary Benchmarking Tool', CircleDollarSign, 'Benchmarks salaries.', 'Benchmark the salary for')},
-    {...textGeneratorProps('sales_forecasting_assistant', 'Sales Forecasting Assistant', TrendingUp, 'Assists with sales forecasting.', 'Forecast sales for')},
-    {...textGeneratorProps('savings_goal_calculator', 'Savings Goal Calculator', PiggyBank, 'Calculates savings goals.', 'Calculate my savings goal for')},
-    {...textGeneratorProps('scene_description_writer', 'Scene Description Writer', Clapperboard, 'Writes scene descriptions.', 'Write a description for the scene')},
-    {...textGeneratorProps('scene_location_suggestor', 'Scene Location Suggestor', Map, 'Suggests scene locations.', 'Suggest a location for the scene')},
-    {...textGeneratorProps('scene_pacing_adjuster', 'Scene Pacing Adjuster', Clock, 'Adjusts scene pacing.', 'Adjust the pacing of the scene')},
-    {...textGeneratorProps('sci_fi_story_maker', 'Sci-Fi Story Maker', Telescope, 'Creates sci-fi stories.', 'Create a sci-fi story about')},
-    {...textGeneratorProps('science_fact_finder', 'Science Fact Finder', Beaker, 'Finds science facts.', 'Find a science fact about')},
-    {...textGeneratorProps('script_dialogue_writer', 'Script Dialogue Writer', MessageSquare, 'Writes script dialogue.', 'Write dialogue for')},
-    {...textGeneratorProps('search_intent_classifier', 'Search Intent Classifier', Search, 'Classifies search intent.', 'Classify the intent of the search')},
-    {...textGeneratorProps('seed_selection_optimizer', 'Seed Selection Optimizer', Leaf, 'Optimizes seed selections.', 'Optimize seed selection for')},
-    {...textGeneratorProps('self_care_checklist_maker', 'Self-Care Checklist Maker', Heart, 'Creates self-care checklists.', 'Create a self-care checklist for')},
-    {...textGeneratorProps('seo_keyword_gap_finder', 'SEO Keyword Gap Finder', Search, 'Finds SEO keyword gaps.', 'Find keyword gaps for')},
-    {...textGeneratorProps('service_level_agreement_monitor', 'SLA Monitor', FileText, 'Monitors Service Level Agreements.', 'Monitor the SLA for')},
-    {...textGeneratorProps('sewage_network_monitoring_ai', 'Sewage Network Monitoring AI', Waypoints, 'Monitors sewage networks.', 'Monitor the sewage network')},
-    {...textGeneratorProps('shelf_placement_impact_predictor', 'Shelf Placement Impact Predictor', Package, 'Predicts shelf placement impact.', 'Predict the impact of shelf placement for')},
-    {...textGeneratorProps('shelf_stocking_suggestion_tool', 'Shelf Stocking Suggestion Tool', Package, 'Suggests shelf stocking strategies.', 'Suggest a stocking strategy for')},
-    {...textGeneratorProps('shoe_size_fit_predictor', 'Shoe Size Fit Predictor', Footprints, 'Predicts shoe size fit.', 'Predict shoe size for')},
-    {...textGeneratorProps('short_story_writer', 'Short Story Writer', BookOpen, 'Writes short stories.', 'Write a short story about')},
-    {...textGeneratorProps('shot_sequence_planner', 'Shot Sequence Planner', Film, 'Plans shot sequences.', 'Plan the shot sequence for')},
-    {...textGeneratorProps('side_character_generator', 'Side Character Generator', User, 'Generates side characters.', 'Generate a side character for')},
-    {...textGeneratorProps('simple_translator', 'Simple Translator', Languages, 'Provides simple translations.', 'Translate')},
-    {...textGeneratorProps('skill_endorsement_analyzer', 'Skill Endorsement Analyzer', Star, 'Analyzes skill endorsements.', 'Analyze skill endorsements for')},
-    {...textGeneratorProps('skill_gap_forecaster', 'Skill Gap Forecaster', Users, 'Forecasts skill gaps.', 'Forecast skill gaps for')},
-    {...textGeneratorProps('sleep_cycle_tracker_ai', 'Sleep Cycle Tracker AI', Moon, 'Tracks sleep cycles.', 'Track my sleep cycle')},
-    {...textGeneratorProps('sleep_routine_planner', 'Sleep Routine Planner', Bed, 'Plans sleep routines.', 'Plan a sleep routine for')},
-    {...textGeneratorProps('slide_deck_consistency_checker', 'Slide Deck Consistency Checker', Presentation, 'Checks slide deck consistency.', 'Check consistency for the slide deck')},
-    {...textGeneratorProps('slogan_maker', 'Slogan Maker', Megaphone, 'Creates slogans.', 'Create a slogan for')},
-    {...textGeneratorProps('smart_factory_process_designer', 'Smart Factory Process Designer', Factory, 'Designs smart factory processes.', 'Design a process for the smart factory')},
-    {...textGeneratorProps('smart_lighting_planner', 'Smart Lighting Planner', Lightbulb, 'Plans smart lighting systems.', 'Plan a smart lighting system for')},
-    {...textGeneratorProps('social_sentiment_analyzer', 'Social Sentiment Analyzer', Smile, 'Analyzes social media sentiment.', 'Analyze sentiment for')},
-    {...textGeneratorProps('soil_nutrient_analyzer', 'Soil Nutrient Analyzer', Leaf, 'Analyzes soil nutrients.', 'Analyze nutrients in the soil')},
-    {...textGeneratorProps('song_lyric_starter', 'Song Lyric Starter', Music, 'Creates starting song lyrics.', 'Start a song lyric about')},
-    {...textGeneratorProps('song_tempo_analyzer', 'Song Tempo Analyzer', Music, 'Analyzes song tempo.', 'Analyze the tempo of the song')},
-    {...textGeneratorProps('sound_quality_enhancer', 'Sound Quality Enhancer', AudioLines, 'Enhances sound quality.', 'Enhance the sound quality of')},
-    {...textGeneratorProps('special_effects_cost_estimator', 'SFX Cost Estimator', CircleDollarSign, 'Estimates special effects costs.', 'Estimate the cost of SFX for')},
-    {...textGeneratorProps('speech_emotion_analyzer', 'Speech Emotion Analyzer', MicVocal, 'Analyzes emotion in speech.', 'Analyze the emotion in the speech')},
-    {...textGeneratorProps('speech_timing_analyzer', 'Speech Timing Analyzer', Clock, 'Analyzes speech timing.', 'Analyze the timing of the speech')},
-    {...textGeneratorProps('speech_writer', 'Speech Writer', Presentation, 'Writes speeches.', 'Write a speech about')},
-    {...textGeneratorProps('speed_converter', 'Speed Converter', Car, 'Converts speed units.', 'Convert the speed')},
-    {...textGeneratorProps('speedrun_path_optimizer', 'Speedrun Path Optimizer', Gamepad2, 'Optimizes speedrun paths.', 'Optimize the speedrun path for')},
-    {...textGeneratorProps('spelling_checker', 'Spelling Checker', SpellCheck, 'Checks spelling.', 'Check spelling for')},
-    {...textGeneratorProps('spelling_quiz_maker', 'Spelling Quiz Maker', HelpCircle, 'Creates spelling quizzes.', 'Create a spelling quiz')},
-    {...textGeneratorProps('sponsorship_roi_analyzer', 'Sponsorship ROI Analyzer', CircleDollarSign, 'Analyzes sponsorship ROI.', 'Analyze ROI for the sponsorship')},
-    {...textGeneratorProps('sports_performance_analyzer', 'Sports Performance Analyzer', Trophy, 'Analyzes sports performance.', 'Analyze the performance of')},
-    {...textGeneratorProps('startup_pitch_writer', 'Startup Pitch Writer', Lightbulb, 'Writes startup pitches.', 'Write a startup pitch for')},
-    {...textGeneratorProps('stopwatch_tool', 'Stopwatch Tool', Clock, 'Functions as a stopwatch.', 'Start a stopwatch')},
-    {...textGeneratorProps('store_layout_optimization_ai', 'Store Layout Optimization AI', Waypoints, 'Optimizes store layouts.', 'Optimize the store layout')},
-    {...textGeneratorProps('store_traffic_flow_analyzer', 'Store Traffic Flow Analyzer', Waypoints, 'Analyzes store traffic flow.', 'Analyze traffic flow for the store')},
-    {...textGeneratorProps('story_idea_generator', 'Story Idea Generator', Lightbulb, 'Generates story ideas.', 'Generate a story idea about')},
-    {...textGeneratorProps('streaming_audience_predictor', 'Streaming Audience Predictor', Users, 'Predicts streaming audience sizes.', 'Predict the audience for the stream')},
-    {...textGeneratorProps('style_guide_compliance_checker', 'Style Guide Compliance Checker', BookCheck, 'Checks style guide compliance.', 'Check compliance with the style guide')},
-    {...textGeneratorProps('subscription_renewal_predictor', 'Subscription Renewal Predictor', RefreshCw, 'Predicts subscription renewals.', 'Predict renewals for')},
-    {...textGeneratorProps('superhero_story_creator', 'Superhero Story Creator', ShieldCheck, 'Creates superhero stories.', 'Create a superhero story about')},
-    {...textGeneratorProps('supply_shortage_forecaster', 'Supply Shortage Forecaster', AlertTriangle, 'Forecasts supply shortages.', 'Forecast supply shortages for')},
-    {...textGeneratorProps('support_ticket_categorizer', 'Support Ticket Categorizer', Tags, 'Categorizes support tickets.', 'Categorize the support ticket')},
-    {...textGeneratorProps('surgical_procedure_planner', 'Surgical Procedure Planner', Stethoscope, 'Plans surgical procedures.', 'Plan the surgical procedure for')},
-    {...textGeneratorProps('survey_question_generator', 'Survey Question Generator', HelpCircle, 'Generates survey questions.', 'Generate survey questions for')},
-    {...textGeneratorProps('swot_analyzer', 'SWOT Analyzer', Search, 'Performs SWOT analysis.', 'Perform a SWOT analysis for')},
-    {...textGeneratorProps('symptom_pattern_analyzer', 'Symptom Pattern Analyzer', FileSearch, 'Analyzes symptom patterns.', 'Analyze patterns in the symptoms')},
-    {...textGeneratorProps('symptom_to_specialist_recommender', 'Symptom to Specialist Recommender', Stethoscope, 'Recommends specialists based on symptoms.', 'Recommend a specialist for the symptoms')},
-    {...textGeneratorProps('synonym_finder', 'Synonym Finder', Pilcrow, 'Finds synonyms for words.', 'Find synonyms for')},
-    {...textGeneratorProps('tagline_maker', 'Tagline Maker', Megaphone, 'Creates taglines.', 'Create a tagline for')},
-    {...textGeneratorProps('task_priority_planner', 'Task Priority Planner', ListChecks, 'Plans task priorities.', 'Plan priorities for the tasks')},
-    {...textGeneratorProps('task_priority_sorter', 'Task Priority Sorter', ArrowDownUp, 'Sorts tasks by priority.', 'Sort the tasks by priority')},
-    {...textGeneratorProps('tax_calculator', 'Tax Calculator', CircleDollarSign, 'Calculates taxes.', 'Calculate tax for')},
-    {...textGeneratorProps('teaching_method_suggestor', 'Teaching Method Suggestor', School, 'Suggests teaching methods.', 'Suggest a teaching method for')},
-    {...textGeneratorProps('team_dynamics_predictor', 'Team Dynamics Predictor', Users, 'Predicts team dynamics.', 'Predict the dynamics for the team')},
-    {...textGeneratorProps('temperature_converter', 'Temperature Converter', ThermometerIcon, 'Converts temperatures.', 'Convert the temperature')},
-    {...textGeneratorProps('textile_pattern_designer_ai', 'Textile Pattern Designer AI', PaletteIcon, 'Designs textile patterns.', 'Design a textile pattern for')},
-    {...textGeneratorProps('thank_you_note_maker', 'Thank-You Note Maker', Mail, 'Creates thank-you notes.', 'Create a thank-you note for')},
-    {...textGeneratorProps('therapy_session_planner', 'Therapy Session Planner', HeartPulse, 'Plans therapy sessions.', 'Plan a therapy session for')},
-    {...textGeneratorProps('ticket_price_optimizer', 'Ticket Price Optimizer', CircleDollarSign, 'Optimizes ticket prices.', 'Optimize the ticket price for')},
-    {...textGeneratorProps('time_zone_converter', 'Time Zone Converter', Globe, 'Converts time zones.', 'Convert the time zone')},
-    {...textGeneratorProps('toast_speech_writer', 'Toast Speech Writer', Martini, 'Writes toasts for speeches.', 'Write a toast for')},
-    {...textGeneratorProps('tournament_schedule_optimizer', 'Tournament Schedule Optimizer', Trophy, 'Optimizes tournament schedules.', 'Optimize the tournament schedule for')},
-    {...textGeneratorProps('trailer_impact_predictor', 'Trailer Impact Predictor', Film, 'Predicts movie trailer impact.', 'Predict the impact of the trailer')},
-    {...textGeneratorProps('training_needs_identifier', 'Training Needs Identifier', GraduationCap, 'Identifies training needs.', 'Identify training needs for')},
-    {...textGeneratorProps('treatment_plan_personalizer', 'Treatment Plan Personalizer', Stethoscope, 'Personalizes treatment plans.', 'Personalize the treatment plan for')},
-    {...textGeneratorProps('trial_conversion_rate_predictor', 'Trial Conversion Rate Predictor', PercentCircle, 'Predicts trial conversion rates.', 'Predict the conversion rate for')},
-    {...textGeneratorProps('tutoring_session_scheduler', 'Tutoring Session Scheduler', Calendar, 'Schedules tutoring sessions.', 'Schedule a tutoring session for')},
-    {...textGeneratorProps('unit_conversion_practice_tool', 'Unit Conversion Practice Tool', Ruler, 'Creates unit conversion practice problems.', 'Create unit conversion problems for')},
-    {...textGeneratorProps('unit_converter', 'Unit Converter', Ruler, 'Converts various units.', 'Convert')},
-    {...textGeneratorProps('upsell_recommendation_engine', 'Upsell Recommendation Engine', ArrowUp, 'Recommends upsells.', 'Recommend an upsell for')},
-    {...textGeneratorProps('urban_traffic_flow_predictor', 'Urban Traffic Flow Predictor', Car, 'Predicts urban traffic flow.', 'Predict traffic flow for')},
-    {...textGeneratorProps('user_retention_pattern_finder', 'User Retention Pattern Finder', Users, 'Finds user retention patterns.', 'Find retention patterns for')},
-    {...textGeneratorProps('username_generator', 'Username Generator', AtSign, 'Generates usernames.', 'Generate a username for')},
-    {...textGeneratorProps('utility_consumption_tracker', 'Utility Consumption Tracker', FileSearch, 'Tracks utility consumption.', 'Track utility consumption for')},
-    {...textGeneratorProps('villain_profile_maker', 'Villain Profile Maker', UserSquare, 'Creates villain profiles.', 'Create a profile for the villain')},
-    {...textGeneratorProps('viral_content_predictor', 'Viral Content Predictor', TrendingUp, 'Predicts viral content.', 'Predict if the content will go viral')},
-    {...textGeneratorProps('virtual_lab_technician', 'Virtual Lab Technician', Beaker, 'Acts as a virtual lab technician.', 'Act as a virtual lab tech for')},
-    {...textGeneratorProps('visual_aid_suggestor', 'Visual Aid Suggestor', Image, 'Suggests visual aids.', 'Suggest a visual aid for')},
-    {...textGeneratorProps('vocabulary_builder', 'Vocabulary Builder', BookOpen, 'Helps build vocabulary.', 'Help me build my vocabulary for')},
-    {...textGeneratorProps('vocabulary_expansion_tool', 'Vocabulary Expansion Tool', ZoomIn, 'Expands vocabulary on topics.', 'Expand my vocabulary on')},
-    {...textGeneratorProps('volume_converter', 'Volume Converter', Beaker, 'Converts volume units.', 'Convert the volume')},
-    {...textGeneratorProps('volunteer_scheduling_planner', 'Volunteer Scheduling Planner', Calendar, 'Plans volunteer schedules.', 'Plan the schedule for volunteers')},
-    {...textGeneratorProps('water_intake_tracker', 'Water Intake Tracker', Droplet, 'Tracks water intake.', 'Track my water intake')},
-    {...textGeneratorProps('water_usage_efficiency_planner', 'Water Usage Efficiency Planner', Droplet, 'Plans water usage efficiency.', 'Plan water efficiency for')},
-    {...textGeneratorProps('weather_impact_predictor', 'Weather Impact Predictor', Cloud, 'Predicts weather impact.', 'Predict the impact of the weather on')},
-    {...textGeneratorProps('website_accessibility_analyzer', 'Website Accessibility Analyzer', Search, 'Analyzes website accessibility.', 'Analyze accessibility for the website')},
-    {...textGeneratorProps('weight_converter', 'Weight Converter', Scale, 'Converts weight units.', 'Convert the weight')},
-    {...textGeneratorProps('wifi_name_generator', 'WiFi Name Generator', Wifi, 'Generates WiFi names.', 'Generate a WiFi name')},
-    {...textGeneratorProps('wildlife_pattern_tracker', 'Wildlife Pattern Tracker', PawPrint, 'Tracks wildlife patterns.', 'Track patterns for')},
-    {...textGeneratorProps('worker_safety_risk_detector', 'Worker Safety Risk Detector', AlertTriangle, 'Detects worker safety risks.', 'Detect safety risks for workers')},
-    {...textGeneratorProps('workload_balancer_ai', 'Workload Balancer AI', Users, 'Balances workloads.', 'Balance the workload for')},
-    {...textGeneratorProps('workout_plan_generator', 'Workout Plan Generator', Dumbbell, 'Generates workout plans.', 'Generate a workout plan for')},
-    {...textGeneratorProps('workplace_culture_fit_analyzer', 'Workplace Culture Fit Analyzer', Building2, 'Analyzes workplace culture fit.', 'Analyze culture fit for')},
-    {...textGeneratorProps('yoga_routine_generator', 'Yoga Routine Generator', Dumbbell, 'Generates yoga routines.', 'Generate a yoga routine for')},
-    
-    // Text Utilities
-    {...textUtilitiesProps('text_formatter', 'Text Formatter', TextIcon, 'Formats text.', 'Format the text')},
-    {...textUtilitiesProps('word_counter', 'Word Counter', CaseSensitive, 'Counts words in text.', 'Count the words in')},
-    {...textUtilitiesProps('title_case_converter', 'Title Case Converter', CaseUpper, 'Converts text to title case.', 'Convert to title case')},
-    {...textUtilitiesProps('bullet_point_maker', 'Bullet Point Maker', ListOrdered, 'Converts text to bullet points.', 'Create bullet points from')},
-    {...textUtilitiesProps('text_shortener', 'Text Shortener', WrapTextIcon, 'Shortens text.', 'Shorten the text')},
-    {...textUtilitiesProps('email_subject_line_maker', 'Email Subject Line Maker', Mail, 'Creates email subject lines.', 'Create a subject line for')},
-    {...textUtilitiesProps('readability_checker', 'Readability Checker', BookOpen, 'Checks text readability.', 'Check the readability of')},
-    {...textUtilitiesProps('plagiarism_checker', 'Plagiarism Checker', Search, 'Checks for plagiarism.', 'Check for plagiarism in')},
-    {...textGeneratorProps('translator', 'Translator', Languages, 'Translate text between multiple languages.', 'Translate the following:')},
-
+  
 ];
+
+    
