@@ -46,6 +46,7 @@ export function ShoppingAssistant({ mode }: { mode: any }) {
                     onChange={e => setPrompt(e.target.value)} 
                     placeholder="e.g., Sony WH-1000XM5 Headphones"
                     className="flex-grow bg-background border-2 border-input focus:border-primary focus:ring-0"
+                     onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(); }}
                 />
                 <Button onClick={handleSearch} disabled={isLoading}>
                     {isLoading ? <Settings className="animate-spin" /> : <ShoppingCart />}

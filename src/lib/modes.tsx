@@ -1,8 +1,7 @@
-
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcroRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript, Vote, Bike, ArrowRightLeft, Sun, Phone, Newspaper, Layout, AlertTriangle
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript, Vote, Bike, ArrowRightLeft, Sun, Phone, Newspaper, Layout, AlertTriangle
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
@@ -11,6 +10,7 @@ import { VideoGenerator } from '@/components/modes/VideoGenerator';
 import { VideoEditor } from '@/components/modes/VideoEditor';
 import { CodeGenerator } from '@/components/modes/CodeGenerator';
 import { TextGenerator } from '@/components/modes/TextGenerator';
+import { TextUtilities } from '@/components/modes/TextUtilities';
 import { WebsiteMaker } from '@/components/modes/WebsiteMaker';
 import { AppMaker } from '@/components/modes/AppMaker';
 import { GameMaker } from '@/components/modes/GameMaker';
@@ -397,6 +397,8 @@ import { GardenWildlifeAttractor } from '@/components/modes/GardenWildlifeAttrac
 import { RenewableEnergyFacts } from '@/components/modes/RenewableEnergyFacts';
 import { ClimateChangeExplainer } from '@/components/modes/ClimateChangeExplainer';
 import { GreenProductSuggestor } from '@/components/modes/GreenProductSuggestor';
+import { ShoppingAssistant } from '@/components/modes/ShoppingAssistant';
+import { VideoMaker } from '@/components/modes/VideoMaker';
 
 export type ModeId = 
   // Core
@@ -408,7 +410,7 @@ export type ModeId =
   // Business & Marketing
   | 'chart_maker' | 'market_research' | 'social_media_post_maker' | 'seo_tool' | 'ad_maker' | 'email_writer' | 'fact_checker' | 'brand_finder'
   | 'supply_chain_ai_planner' | 'inventory_auto_forecaster' | 'logistics_route_optimizer' | 'vendor_risk_scorer' | 'fraud_detection_engine' | 'transaction_pattern_finder' | 'credit_risk_analyzer' | 'investment_portfolio_optimizer' | 'financial_statement_summarizer'
-  | 'profit_margin_optimizer'
+  | 'profit_margin_optimizer' | 'shopping_assistant'
   // Education & Productivity
   | 'homework_helper' | 'study_material_analyzer' | 'ai_teacher' | 'games_knowledge' | 'yoga_fitness' | 'grammar_practice_creator' | 'sports_skills_trainer' | 'quiz_generator' | 'book_generator' | 'text_summarizer' | 'question_giver' | 'idea_generator' | 'recipe_creator' | 'travel_planner' | 'grammar_corrector'
   // Text Utilities
@@ -436,7 +438,8 @@ export type ModeId =
   // Safety & Community Utilities
   | 'school_safety_checklist' | 'office_safety_checklist' | 'factory_safety_checklist' | 'road_safety_tips' | 'bicycle_safety_guide' | 'swimming_safety_guide' | 'hiking_safety_guide' | 'child_safety_tips' | 'elderly_care_tips' | 'disability_support_resource_finder' | 'community_event_idea_generator' | 'volunteer_task_list_maker' | 'fundraising_idea_generator' | 'donation_campaign_writer' | 'charity_event_plan_maker' | 'nonprofit_mission_statement_maker'
   // Environmental Utilities
-  | 'sustainability_tip_generator' | 'recycling_guide' | 'composting_guide' | 'energy_saving_tips' | 'water_saving_tips' | 'pollution_awareness_guide' | 'wildlife_conservation_tips' | 'tree_planting_guide' | 'garden_wildlife_attractor' | 'renewable_energy_facts' | 'climate_change_explainer' | 'green_product_suggestor';
+  | 'sustainability_tip_generator' | 'recycling_guide' | 'composting_guide' | 'energy_saving_tips' | 'water_saving_tips' | 'pollution_awareness_guide' | 'wildlife_conservation_tips' | 'tree_planting_guide' | 'garden_wildlife_attractor' | 'renewable_energy_facts' | 'climate_change_explainer' | 'green_product_suggestor'
+  | 'plagiarism_free_rewriter' | 'product_review_writer' | 'service_review_writer' | 'game_review_writer' | 'app_review_generator' | 'book_review_writer' | 'video_maker';
 
 export interface Mode {
     id: ModeId;
@@ -466,7 +469,7 @@ const textUtilitiesProps = (id: ModeId, name: string, icon: React.ElementType, d
     name,
     icon,
     description,
-    component: TextGenerator, // Re-using for simplicity, ideally a more specialized component
+    component: TextUtilities,
     componentProps: {
         promptPlaceholder: "Enter text here...",
         buttonText: `Generate ${name}`,
@@ -484,6 +487,7 @@ export const modes: Mode[] = [
     { id: 'logo_maker', name: 'Logo Maker', icon: Paintbrush, description: 'Generate creative logos for your business or brand.', component: LogoMaker },
     { id: 'design_assistant', name: 'Design Assistant', icon: Star, description: 'Get design suggestions and guidance.', component: DesignAssistant },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
+    { id: 'video_maker', name: 'Video Maker', icon: Video, description: 'Generate a video from a text prompt or animate an image.', component: VideoMaker },
     { id: 'video_generator', name: 'Video Storyboard', icon: VideoIcon, description: 'Generate a video storyboard with narration.', component: VideoGenerator },
     { id: 'animation_tool', name: 'Animation Planner', icon: GanttChart, description: 'Plan animations and motion graphics.', component: AnimationTool },
     { id: 'three_d_modeler', name: '3D Model Planner', icon: PieChart, description: 'Create plans for 3D models.', component: ThreeDModeler },
@@ -538,6 +542,7 @@ export const modes: Mode[] = [
         resultTitle: "Fact-Check Result"
     }},
     { id: 'brand_finder', name: 'Brand Finder', icon: Crown, description: 'Find top brands for any product.', component: BrandFinder },
+    { id: 'shopping_assistant', name: 'Shopping Assistant', icon: ShoppingCart, description: 'Find where to buy products online.', component: ShoppingAssistant },
     { id: 'supply_chain_ai_planner', name: 'Supply Chain AI Planner', icon: Workflow, description: 'Plan and optimize supply chain logistics.', component: SupplyChainAiPlanner },
     { id: 'inventory_auto_forecaster', name: 'Inventory Auto-Forecaster', icon: Package, description: 'Forecast inventory needs based on historical data.', component: InventoryAutoForecaster },
     { id: 'logistics_route_optimizer', name: 'Logistics Route Optimizer', icon: Route, description: 'Find the most efficient logistics routes.', component: LogisticsRouteOptimizer },
@@ -856,5 +861,10 @@ export const modes: Mode[] = [
     {...textGeneratorProps('renewable_energy_facts', 'Renewable Energy Facts', Sun, 'Provides facts on renewable energy.', 'Provide facts on renewable energy')},
     {...textGeneratorProps('climate_change_explainer', 'Climate Change Explainer', Cloud, 'Explains climate change concepts.', 'Explain climate change concept')},
     {...textGeneratorProps('green_product_suggestor', 'Green Product Suggestor', Leaf, 'Suggests eco-friendly products.', 'Suggest green products for')},
-  
+    {...textGeneratorProps('plagiarism_free_rewriter', 'Plagiarism-Free Rewriter', RefreshCw, 'Rewrites text for originality.', 'Rewrite the following text to be plagiarism-free')},
+    {...textGeneratorProps('product_review_writer', 'Product Review Writer', PenLine, 'Writes authentic product reviews.', 'Write a review for the product')},
+    {...textGeneratorProps('service_review_writer', 'Service Review Writer', PenLine, 'Writes helpful service reviews.', 'Write a review for the service')},
+    {...textGeneratorProps('game_review_writer', 'Game Review Writer', Gamepad2, 'Writes detailed game reviews.', 'Write a review for the game')},
+    {...textGeneratorProps('app_review_generator', 'App Review Generator', AppWindow, 'Generates reviews for mobile apps.', 'Generate a review for the app')},
+    {...textGeneratorProps('book_review_writer', 'Book Review Writer', BookOpen, 'Writes insightful book reviews.', 'Write a review for the book')},
 ];
