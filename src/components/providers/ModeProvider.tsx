@@ -35,6 +35,15 @@ interface ModeContextType {
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
+// Modes that generate large data URIs that shouldn't be stored in localStorage
+const mediaGeneratingModes: ModeId[] = [
+    'photo_generator', 
+    'photo_editor', 
+    'video_generator',
+    'sound_generator',
+    'video_maker'
+];
+
 export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
   const [activeMode, setActiveMode] = useState<ModeId>('chat');
@@ -70,18 +79,35 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   
 
   const addHistoryItem = async (type: ModeId, prompt: string, data: any, fullConversation?: any[]) => {
-    const newHistoryItem: HistoryItem = { id: Date.now(), type, prompt, data, date: new Date(), fullConversation };
+    let storableData = data;
     
-    const updatedHistory = [newHistoryItem, ...history];
-    setHistory(updatedHistory);
+    // If the mode is one that generates large data, replace it with a placeholder for storage.
+    if (mediaGeneratingModes.includes(type)) {
+        if (typeof data === 'string' && data.startsWith('data:')) {
+            storableData = `[Media data not stored for mode: ${type}]`;
+        } else if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
+            // Handle complex objects that might contain data URIs, like video storyboards
+            storableData = `[Complex media object not stored for mode: ${type}]`;
+        }
+    }
+
+    const newHistoryItem: HistoryItem = { id: Date.now(), type, prompt, data: storableData, date: new Date(), fullConversation };
+    
+    // The state can hold the full data for the current session, but we'll save the pruned version.
+    const updatedHistoryForState = [{...newHistoryItem, data: data}, ...history];
+    setHistory(updatedHistoryForState);
+    
+    const updatedHistoryForStorage = [newHistoryItem, ...history];
 
     try {
-        localStorage.setItem(historyKey, JSON.stringify(updatedHistory));
+        localStorage.setItem(historyKey, JSON.stringify(updatedHistoryForStorage));
     } catch (e: any) {
         console.error("Failed to save history:", e);
         if (e.name === 'QuotaExceededError') {
-            const prunedHistory = updatedHistory.slice(0, 50);
+            // If still over quota, prune the history log to the most recent 20 items.
+            const prunedHistory = updatedHistoryForStorage.slice(0, 20);
             localStorage.setItem(historyKey, JSON.stringify(prunedHistory));
+            setHistory(prunedHistory);
         }
     }
   };
