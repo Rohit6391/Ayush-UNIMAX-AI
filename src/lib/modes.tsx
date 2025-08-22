@@ -2,11 +2,12 @@
 import {
     BrainCircuit, Image, Palette, Video, Code, Search, Globe, AppWindow, Gamepad2, FilePlus, FileEdit, BookOpen,
     FileQuestion, FileText, Megaphone, BookCheck, School, Wind, Mic, Film, HelpCircle, Lightbulb, Mail, CookingPot,
-    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript, Vote, Bike, ArrowRightLeft, Sun, Phone, Newspaper, Layout, AlertTriangle, Gem, Bed
+    Plane, Moon, Presentation, Feather, UserSquare, Scale, Stethoscope, Landmark, CheckSquare, Music, BarChart3, Bot, Clapperboard, AudioLines, Paintbrush, Star, GanttChart, PieChart, TrendingUp, MessageSquare, Briefcase, Wand2, BookCopy, Target, Building2, RefreshCw, Users, LineChart, Shuffle, FileSearch, Tags, Route, BrainCog, SlidersHorizontal, ArrowDownAZ, ArrowDownUp, Languages, BadgePercent, TestTube, FlaskConical, Beaker, Drama, Smile, MicVocal, GitBranch, Binary, Puzzle, ShieldCheck, HeartPulse, Leaf, Factory, Tractor, Trophy, Shirt, CircleDollarSign, Library, Home, Settings, Component, Workflow, Key, Anchor, Telescope, Swords, VenetianMask, MessageCircle as MessageCircleIcon, Map, Milestone, Minus, Bug, Footprints, Car, Clock, Link, User, GraduationCap, PawPrint, Thermometer as ThermometerIcon, Cloud, Dumbbell, Package, Bus, Calendar, Heart, ArrowUp, Filter, ShoppingCart, Crown, Piano, MoonStar, Video as VideoIcon, CaseSensitive, Pilcrow, Type as TextIcon, Hash, Captions, ListOrdered, FileJson, MessageSquareHeart, PilcrowRight, ZoomIn, SearchSlash, WrapText, Palette as PaletteIcon, CaseUpper, List, Mailbox, Sigma, SpellCheck, Glasses, CircleOff, FilePlus2, ListTree, PenLine, WrapText as WrapTextIcon, BookHeart, Quote, Bell, Tag, ListChecks, ArrowBigDownDash, Crosshair, BarChartBig, Banknote, Calculator, PiggyBank, Receipt, DollarSign, PercentCircle, Goal, Coins, LandPlot, Ruler, Waypoints, Dices, RotateCcw, Lock, AtSign, Wifi, SquarePi, Droplet, Wrench, Gift, PartyPopper, Utensils, Martini, IceCream, Recycle, ChefHat, Dog, Cat, Rabbit, Tent, Mountain, Bird, Camera, Trash, Youtube, Table as TableIcon, Divide, SquareRadical, Superscript, Vote, Bike, ArrowRightLeft, Sun, Phone, Newspaper, Layout, AlertTriangle, Gem, Bed, Album, Zap, Anchor as AnchorIcon, Rocket, Hourglass, Database
 } from 'lucide-react';
 import { ChatInterface } from '@/components/modes/ChatInterface';
 import { PhotoGenerator } from '@/components/modes/PhotoGenerator';
 import { PhotoEditor } from '@/components/modes/PhotoEditor';
+import { VideoMaker } from '@/components/modes/VideoMaker';
 import { VideoGenerator } from '@/components/modes/VideoGenerator';
 import { VideoEditor } from '@/components/modes/VideoEditor';
 import { CodeGenerator } from '@/components/modes/CodeGenerator';
@@ -22,12 +23,6 @@ import { ChartMaker } from '@/components/modes/ChartMaker';
 import { VoiceInterface } from '@/components/modes/VoiceInterface';
 import { HomeworkPlanner } from '@/components/modes/HomeworkPlanner';
 import { CodeAnalyzer } from '@/components/modes/CodeAnalyzer';
-import { YogaFitness } from '@/components/modes/YogaFitness';
-import { GrammarPracticeCreator } from '@/components/modes/GrammarPracticeCreator';
-import { SportsSkillsTrainer } from '@/components/modes/SportsSkillsTrainer';
-import { QuizQuestionGenerator } from '@/components/modes/QuizQuestionGenerator';
-import { BookGenerator } from '@/components/modes/BookGenerator';
-import { GamesKnowledge } from '@/components/modes/GamesKnowledge';
 import { SoundGenerator } from '@/components/modes/SoundGenerator';
 import { LogoMaker } from '@/components/modes/LogoMaker';
 import { DesignAssistant } from '@/components/modes/DesignAssistant';
@@ -45,6 +40,7 @@ import { TextRewriterPro } from '@/components/modes/TextRewriterPro';
 import { DigitalPersonaCreator } from '@/components/modes/DigitalPersonaCreator';
 import { JobRoleAnalyzer } from '@/components/modes/JobRoleAnalyzer';
 import { StudyMaterialAnalyzer } from '@/components/modes/StudyMaterialAnalyzer';
+import { ProductFinder } from '@/components/modes/ProductFinder';
 import { BrandFinder } from '@/components/modes/BrandFinder';
 import { ConflictPlotGenerator } from '@/components/modes/ConflictPlotGenerator';
 import { ConversationalFlowDesigner } from '@/components/modes/ConversationalFlowDesigner';
@@ -146,6 +142,12 @@ import { AIBusinessPlanWriter } from '@/components/modes/AIBusinessPlanWriter';
 import { AIGameLevelDesigner } from '@/components/modes/AIGameLevelDesigner';
 import { AIJokeWriter } from '@/components/modes/AIJokeWriter';
 import { AITeacher } from '@/components/modes/AITeacher';
+import { GamesKnowledge } from '@/components/modes/GamesKnowledge';
+import { YogaFitness } from '@/components/modes/YogaFitness';
+import { GrammarPracticeCreator } from '@/components/modes/GrammarPracticeCreator';
+import { SportsSkillsTrainer } from '@/components/modes/SportsSkillsTrainer';
+import { QuizQuestionGenerator } from '@/components/modes/QuizQuestionGenerator';
+import { BookGenerator } from '@/components/modes/BookGenerator';
 import { CharacterGenerator } from '@/components/modes/CharacterGenerator';
 import { DreamInterpreter } from '@/components/modes/DreamInterpreter';
 import { TravelPlanner } from '@/components/modes/TravelPlanner';
@@ -373,6 +375,7 @@ import { FactorySafetyChecklist } from '@/components/modes/FactorySafetyChecklis
 import { RoadSafetyTips } from '@/components/modes/RoadSafetyTips';
 import { BicycleSafetyGuide } from '@/components/modes/BicycleSafetyGuide';
 import { SwimmingSafetyGuide } from '@/components/modes/SwimmingSafetyGuide';
+import { HikingSafetyGuide } from '@/components/modes/HikingSafetyGuide';
 import { ChildSafetyTips } from '@/components/modes/ChildSafetyTips';
 import { ElderlyCareTips } from '@/components/modes/ElderlyCareTips';
 import { DisabilitySupportResourceFinder } from '@/components/modes/DisabilitySupportResourceFinder';
@@ -392,419 +395,15 @@ import { TreePlantingGuide } from '@/components/modes/TreePlantingGuide';
 import { GardenWildlifeAttractor } from '@/components/modes/GardenWildlifeAttractor';
 import { RenewableEnergyFacts } from '@/components/modes/RenewableEnergyFacts';
 import { GreenProductSuggestor } from '@/components/modes/GreenProductSuggestor';
-import { AbTestResultAnalyzer } from '@/components/modes/AbTestResultAnalyzer';
-import { AcademicProgressForecaster } from '@/components/modes/AcademicProgressForecaster';
-import { AccessoryStyleMatcher } from '@/components/modes/AccessoryStyleMatcher';
-import { AcronymMaker } from '@/components/modes/AcronymMaker';
-import { AdCampaignPerformanceForecaster } from '@/components/modes/AdCampaignPerformanceForecaster';
-import { AdHeadlineCreator } from '@/components/modes/AdHeadlineCreator';
-import { AgeCalculator } from '@/components/modes/AgeCalculator';
-import { AgentTrainingNeedsAnalyzer } from '@/components/modes/AgentTrainingNeedsAnalyzer';
-import { AgriculturalMarketPriceForecaster } from '@/components/modes/AgriculturalMarketPriceForecaster';
-import { AnniversaryWishMaker } from '@/components/modes/AnniversaryWishMaker';
-import { AntonymFinder } from '@/components/modes/AntonymFinder';
-import { ApologyLetterWriter } from '@/components/modes/ApologyLetterWriter';
-import { AppNameGenerator } from '@/components/modes/AppNameGenerator';
-import { AppointmentSchedulingOptimizer } from '@/components/modes/AppointmentSchedulingOptimizer';
-import { AreaConverter } from '@/components/modes/AreaConverter';
-import { ArticleRewriter } from '@/components/modes/ArticleRewriter';
-import { AssemblyLineSpeedOptimizer } from '@/components/modes/AssemblyLineSpeedOptimizer';
-import { AssignmentFeedbackGenerator } from '@/components/modes/AssignmentFeedbackGenerator';
-import { AthleteTrainingOptimizer } from '@/components/modes/AthleteTrainingOptimizer';
-import { AudienceEngagementPredictor } from '@/components/modes/AudienceEngagementPredictor';
-import { AudienceEngagementTimer } from '@/components/modes/AudienceEngagementTimer';
-import { AudienceReviewSentimentTracker } from '@/components/modes/AudienceReviewSentimentTracker';
-import { AudioSceneIdentifier } from '@/components/modes/AudioSceneIdentifier';
-import { BacklinkQualityAnalyzer } from '@/components/modes/BacklinkQualityAnalyzer';
-import { BehaviorBasedSegmentationTool } from '@/components/modes/BehaviorBasedSegmentationTool';
-import { BirthdayWishMaker } from '@/components/modes/BirthdayWishMaker';
-import { BlogConclusionWriter } from '@/components/modes/BlogConclusionWriter';
-import { BlogIdeaGenerator } from '@/components/modes/BlogIdeaGenerator';
-import { BlogIntroWriter } from '@/components/modes/BlogIntroWriter';
-import { BlogOutlineMaker } from '@/components/modes/BlogOutlineMaker';
-import { BlogTopicTrendFinder } from '@/components/modes/BlogTopicTrendFinder';
-import { BlueprintErrorDetector } from '@/components/modes/BlueprintErrorDetector';
-import { BoardGameRuleOptimizer } from '@/components/modes/BoardGameRuleOptimizer';
-import { BookSummaryMaker } from '@/components/modes/BookSummaryMaker';
-import { BookTitleGenerator } from '@/components/modes/BookTitleGenerator';
-import { BrandLoyaltyScorer } from '@/components/modes/BrandLoyaltyScorer';
-import { BrandNameGenerator } from '@/components/modes/BrandNameGenerator';
-import { BrandNameIdeaGenerator } from '@/components/modes/BrandNameIdeaGenerator';
-import { BreakEvenCalculator } from '@/components/modes/BreakEvenCalculator';
-import { BreathingExerciseGuide } from '@/components/modes/BreathingExerciseGuide';
-import { BusinessIdeaGenerator } from '@/components/modes/BusinessIdeaGenerator';
-import { CadDesignSuggestionTool } from '@/components/modes/CadDesignSuggestionTool';
-import { CalendarEventFiller } from '@/components/modes/CalendarEventFiller';
-import { CalorieCounter } from '@/components/modes/CalorieCounter';
-import { CaptionMaker } from '@/components/modes/CaptionMaker';
-import { CarbonFootprintForecaster } from '@/components/modes/CarbonFootprintForecaster';
-import { CareerPathPredictor } from '@/components/modes/CareerPathPredictor';
-import { CashFlowProjectionTool } from '@/components/modes/CashFlowProjectionTool';
-import { CastingFitAnalyzer } from '@/components/modes/CastingFitAnalyzer';
-import { ChallengeIdeaGenerator } from '@/components/modes/ChallengeIdeaGenerator';
-import { ChapterTitleGenerator } from '@/components/modes/ChapterTitleGenerator';
-import { CharacterBackstoryMaker } from '@/components/modes/CharacterBackstoryMaker';
-import { ChatbotScriptEnhancer } from '@/components/modes/ChatbotScriptEnhancer';
-import { CheckoutTimeOptimizer } from '@/components/modes/CheckoutTimeOptimizer';
-import { ChordProgressionGenerator } from '@/components/modes/ChordProgressionGenerator';
-import { ChurnPreventionStrategyMaker } from '@/components/modes/ChurnPreventionStrategyMaker';
-import { CivicPolicySimulationTool } from '@/components/modes/CivicPolicySimulationTool';
-import { ClassroomEngagementTracker } from '@/components/modes/ClassroomEngagementTracker';
-import { ClinicalTrialDataAnalyzer } from '@/components/modes/ClinicalTrialDataAnalyzer';
-import { CoinFlip } from '@/components/modes/CoinFlip';
-import { ColorPaletteForecaster } from '@/components/modes/ColorPaletteForecaster';
-import { CompanyPolicyClarityChecker } from '@/components/modes/CompanyPolicyClarityChecker';
-import { CompetitorAdCopyAnalyzer } from '@/components/modes/CompetitorAdCopyAnalyzer';
-import { ComplimentGenerator } from '@/components/modes/ComplimentGenerator';
-import { ConceptExplainer } from '@/components/modes/ConceptExplainer';
-import { ConceptReinforcementPlanner } from '@/components/modes/ConceptReinforcementPlanner';
-import { CondolenceMessageWriter } from '@/components/modes/CondolenceMessageWriter';
-import { CongratulationsMessageWriter } from '@/components/modes/CongratulationsMessageWriter';
-import { ConstructionScheduleForecaster } from '@/components/modes/ConstructionScheduleForecaster';
-import { ContentCalendarOptimizer } from '@/components/modes/ContentCalendarOptimizer';
-import { ConversionFormDesignChecker } from '@/components/modes/ConversionFormDesignChecker';
-import { ConversionFunnelOptimizer } from '@/components/modes/ConversionFunnelOptimizer';
-import { CostEstimateCalculator } from '@/components/modes/CostEstimateCalculator';
-import { CountdownTimerMaker } from '@/components/modes/CountdownTimerMaker';
-import { CourseTitleGenerator } from '@/components/modes/CourseTitleGenerator';
-import { CoverLetterPersonalizer } from '@/components/modes/CoverLetterPersonalizer';
-import { CoverLetterWriter } from '@/components/modes/CoverLetterWriter';
-import { CrisisCommunicationPlanner } from '@/components/modes/CrisisCommunicationPlanner';
-import { CropYieldForecaster } from '@/components/modes/CropYieldForecaster';
-import { CrossDepartmentCommunicationTracker } from '@/components/modes/CrossDepartmentCommunicationTracker';
-import { CrossPlatformEngagementTracker } from '@/components/modes/CrossPlatformEngagementTracker';
-import { CrossSellPatternFinder } from '@/components/modes/CrossSellPatternFinder';
-import { CulturalContextAdvisor } from '@/components/modes/CulturalContextAdvisor';
-import { CurrencyConverter } from '@/components/modes/CurrencyConverter';
-import { CurriculumGapIdentifier } from '@/components/modes/CurriculumGapIdentifier';
-import { CustomerRetentionStrategyMaker } from '@/components/modes/CustomerRetentionStrategyMaker';
-import { CustomerReviewSummarizer } from '@/components/modes/CustomerReviewSummarizer';
-import { CustomerServiceResponseAnalyzer } from '@/components/modes/CustomerServiceResponseAnalyzer';
-import { DIYProjectIdeaMaker } from '@/components/modes/DIYProjectIdeaMaker';
-import { DateDifferenceFinder } from '@/components/modes/DateDifferenceFinder';
-import { DeadlineRiskDetector } from '@/components/modes/DeadlineRiskDetector';
-import { DebateStrategyPlanner } from '@/components/modes/DebateStrategyPlanner';
-import { DecisionHelper } from '@/components/modes/DecisionHelper';
-import { DesignToManufactureConverter } from '@/components/modes/DesignToManufactureConverter';
-import { DetectiveCaseIdeaMaker } from '@/components/modes/DetectiveCaseIdeaMaker';
-import { DiagnosticSupportAssistant } from '@/components/modes/DiagnosticSupportAssistant';
-import { DialogueImprover } from '@/components/modes/DialogueImprover';
-import { DiceRoller } from '@/components/modes/DiceRoller';
-import { EcommerceUpsellStrategyPlanner } from '@/components/modes/EcommerceUpsellStrategyPlanner';
-import { EditorialConsistencyChecker } from '@/components/modes/EditorialConsistencyChecker';
-import { EducationSyllabusPlanner } from '@/components/modes/EducationSyllabusPlanner';
-import { EmergencyEvacuationPlanner } from '@/components/modes/EmergencyEvacuationPlanner';
-import { EmployeeFeedbackSummarizer } from '@/components/modes/EmployeeFeedbackSummarizer';
-import { EndingSuggestor } from '@/components/modes/EndingSuggestor';
-import { EnemyBehaviorModeler } from '@/components/modes/EnemyBehaviorModeler';
-import { EnergyUsageAnalyzer } from '@/components/modes/EnergyUsageAnalyzer';
-import { EnvironmentalImpactCalculator } from '@/components/modes/EnvironmentalImpactCalculator';
-import { EpisodeRecapWriter } from '@/components/modes/EpisodeRecapWriter';
-import { EquationGenerator } from '@/components/modes/EquationGenerator';
-import { ErrorMessageClarityChecker } from '@/components/modes/ErrorMessageClarityChecker';
-import { EsportsStrategyAdvisor } from '@/components/modes/EsportsStrategyAdvisor';
-import { EssayTopicGenerator } from '@/components/modes/EssayTopicGenerator';
-import { EulogyWriter } from '@/components/modes/EulogyWriter';
-import { EventAgendaCreator } from '@/components/modes/EventAgendaCreator';
-import { EventNameGenerator } from '@/components/modes/EventNameGenerator';
-import { EventScheduleMaker } from '@/components/modes/EventScheduleMaker';
-import { EventSponsorshipRoiCalculator } from '@/components/modes/EventSponsorshipRoiCalculator';
-import { ExamPatternAnalyzer } from '@/components/modes/ExamPatternAnalyzer';
-import { ExamQuestionGenerator } from '@/components/modes/ExamQuestionGenerator';
-import { ExerciseRoutineOptimizer } from '@/components/modes/ExerciseRoutineOptimizer';
-import { ExpenseCategorizationAi } from '@/components/modes/ExpenseCategorizationAi';
-import { ExpenseTracker } from '@/components/modes/ExpenseTracker';
-import { FableWriter } from '@/components/modes/FableWriter';
-import { FabricQualityAnalyzer } from '@/components/modes/FabricQualityAnalyzer';
-import { FactFinder } from '@/components/modes/FactFinder';
-import { FactReferenceLinkGenerator } from '@/components/modes/FactReferenceLinkGenerator';
-import { FairyTaleCreator } from '@/components/modes/FairyTaleCreator';
-import { FanEngagementTracker } from '@/components/modes/FanEngagementTracker';
-import { FantasyStoryBuilder } from '@/components/modes/FantasyStoryBuilder';
-import { FaqAutoGenerator } from '@/components/modes/FaqAutoGenerator';
-import { FarmEquipmentUsageTracker } from '@/components/modes/FarmEquipmentUsageTracker';
-import { FashionTrendPredictor } from '@/components/modes/FashionTrendPredictor';
-import { FeatureAdoptionForecaster } from '@/components/modes/FeatureAdoptionForecaster';
-import { FeedbackSentimentClassifier } from '@/components/modes/FeedbackSentimentClassifier';
-import { FilmScriptCoverageAi } from '@/components/modes/FilmScriptCoverageAi';
-import { FlashcardAutoCreator } from '@/components/modes/FlashcardAutoCreator';
-import { FloodRiskPredictor } from '@/components/modes/FloodRiskPredictor';
-import { FundraisingCampaignOptimizer } from '@/components/modes/FundraisingCampaignOptimizer';
-import { GameLoreExpansionTool } from '@/components/modes/GameLoreExpansionTool';
-import { GameNameGenerator } from '@/components/modes/GameNameGenerator';
-import { GameStrategySimulator } from '@/components/modes/GameStrategySimulator';
-import { GeneticPatternDetector } from '@/components/modes/GeneticPatternDetector';
-import { GeometryShapeDrawer } from '@/components/modes/GeometryShapeDrawer';
-import { GiftIdeaGenerator } from '@/components/modes/GiftIdeaGenerator';
-import { GradingConsistencyChecker } from '@/components/modes/GradingConsistencyChecker';
-import { GrammarQuizMaker } from '@/components/modes/GrammarQuizMaker';
-import { GrantProposalGenerator } from '@/components/modes/GrantProposalGenerator';
-import { GreenhouseClimateController } from '@/components/modes/GreenhouseClimateController';
-import { GreetingCardMessageMaker } from '@/components/modes/GreetingCardMessageMaker';
-import { GuestSpeakerFinderAi } from '@/components/modes/GuestSpeakerFinderAi';
-import { HabitTracker } from '@/components/modes/HabitTracker';
-import { HabitatRestorationPlanner } from '@/components/modes/HabitatRestorationPlanner';
-import { HaikuGenerator } from '@/components/modes/HaikuGenerator';
-import { HealthRiskAssessmentAi } from '@/components/modes/HealthRiskAssessmentAi';
-import { HeartRateZoneCalculator } from '@/components/modes/HeartRateZoneCalculator';
-import { HexToDecimalConverter } from '@/components/modes/HexToDecimalConverter';
-import { HikingSafetyGuide } from '@/components/modes/HikingSafetyGuide';
-import { HistoricalFactFinder } from '@/components/modes/HistoricalFactFinder';
-import { HolidayWishMaker } from '@/components/modes/HolidayWishMaker';
-import { HorrorStoryMaker } from '@/components/modes/HorrorStoryMaker';
-import { HospitalResourceForecaster } from '@/components/modes/HospitalResourceForecaster';
-import { HyperlinkHealthChecker } from '@/components/modes/HyperlinkHealthChecker';
-import { InterviewCoach } from '@/components/modes/InterviewCoach';
-import { InvitationMessageWriter } from '@/components/modes/InvitationMessageWriter';
-import { IrrigationOptimizationPlanner } from '@/components/modes/IrrigationOptimizationPlanner';
-import { JewelryDesignSuggestor } from '@/components/modes/JewelryDesignSuggestor';
-import { JobInterviewSimulationAi } from '@/components/modes/JobInterviewSimulationAi';
-import { JobTitleSuggestor } from '@/components/modes/JobTitleSuggestor';
-import { JokeFinder } from '@/components/modes/JokeFinder';
-import { KnowledgeBaseGapFinder } from '@/components/modes/KnowledgeBaseGapFinder';
-import { KnowledgeTransferOptimizer } from '@/components/modes/KnowledgeTransferOptimizer';
-import { LanguageLearningPathOptimizer } from '@/components/modes/LanguageLearningPathOptimizer';
-import { LanguagePracticePartner } from '@/components/modes/LanguagePracticePartner';
-import { LeadScoringAi } from '@/components/modes/LeadScoringAi';
-import { LeadershipStyleAnalyzer } from '@/components/modes/LeadershipStyleAnalyzer';
-import { LearningPacePersonalizer } from '@/components/modes/LearningPacePersonalizer';
-import { LearningStyleAnalyzer } from '@/components/modes/LearningStyleAnalyzer';
-import { LengthConverter } from '@/components/modes/LengthConverter';
-import { LessonPlanEnhancer } from '@/components/modes/LessonPlanEnhancer';
-import { LessonPlanMaker } from '@/components/modes/LessonPlanMaker';
-import { LevelDesignAi } from '@/components/modes/LevelDesignAi';
-import { LifetimeValueForecastingAi } from '@/components/modes/LifetimeValueForecastingAi';
-import { LightingSetupOptimizer } from '@/components/modes/LightingSetupOptimizer';
-import { ListCreator } from '@/components/modes/ListCreator';
-import { LivestockHealthMonitor } from '@/components/modes/LivestockHealthMonitor';
-import { LoanCalculator } from '@/components/modes/LoanCalculator';
-import { LocalIssueReportGenerator } from '@/components/modes/LocalIssueReportGenerator';
-import { LogoColorImpactAnalyzer } from '@/components/modes/LogoColorImpactAnalyzer';
-import { LootDropProbabilityBalancer } from '@/components/modes/LootDropProbabilityBalancer';
-import { LoveLetterWriter } from '@/components/modes/LoveLetterWriter';
-import { LoyaltyProgramImpactAnalyzer } from '@/components/modes/LoyaltyProgramImpactAnalyzer';
-import { LoyaltyRewardPlanner } from '@/components/modes/LoyaltyRewardPlanner';
-import { LoyaltyTierUpgradePredictor } from '@/components/modes/LoyaltyTierUpgradePredictor';
-import { LuxuryGoodsMarketForecaster } from '@/components/modes/LuxuryGoodsMarketForecaster';
-import { MachineFailurePredictor } from '@/components/modes/MachineFailurePredictor';
-import { MaintenanceCostEstimator } from '@/components/modes/MaintenanceCostEstimator';
-import { ManufacturingWorkflowOptimizer } from '@/components/modes/ManufacturingWorkflowOptimizer';
-import { MarketEntryRiskForecaster } from '@/components/modes/MarketEntryRiskForecaster';
-import { MatchOutcomePredictor } from '@/components/modes/MatchOutcomePredictor';
-import { MaterialStressTesterAi } from '@/components/modes/MaterialStressTesterAi';
-import { MathProblemSolver } from '@/components/modes/MathProblemSolver';
-import { MealPlanGenerator } from '@/components/modes/MealPlanGenerator';
-import { MedicalInventoryTracker } from '@/components/modes/MedicalInventoryTracker';
-import { MedicalLiteratureSummarizer } from '@/components/modes/MedicalLiteratureSummarizer';
-import { MeditationGuide } from '@/components/modes/MeditationGuide';
-import { MeetingAgendaMaker } from '@/components/modes/MeetingAgendaMaker';
-import { MeetingAgendaOptimizer } from '@/components/modes/MeetingAgendaOptimizer';
-import { MeetingSummaryWriter } from '@/components/modes/MeetingSummaryWriter';
-import { MentalWellnessSuggestionBot } from '@/components/modes/MentalWellnessSuggestionBot';
-import { MerchandiseSalesForecaster } from '@/components/modes/MerchandiseSalesForecaster';
-import { MetaTagOptimizationTool } from '@/components/modes/MetaTagOptimizationTool';
-import { MindMapCreator } from '@/components/modes/MindMapCreator';
-import { MixingMasteringAdvisor } from '@/components/modes/MixingMasteringAdvisor';
-import { MobileUiFlowOptimizer } from '@/components/modes/MobileUiFlowOptimizer';
-import { MonologueWriter } from '@/components/modes/MonologueWriter';
-import { MoodJournalPrompter } from '@/components/modes/MoodJournalPrompter';
-import { MotivationQuoteSender } from '@/components/modes/MotivationQuoteSender';
-import { MotivationalMessageMaker } from '@/components/modes/MotivationalMessageMaker';
-import { MovieSummaryMaker } from '@/components/modes/MovieSummaryMaker';
-import { MultiplayerMatchmakingOptimizer } from '@/components/modes/MultiplayerMatchmakingOptimizer';
-import { MusicMoodClassifier } from '@/components/modes/MusicMoodClassifier';
-import { MysteryStoryGenerator } from '@/components/modes/MysteryStoryGenerator';
-import { NarrativeStyleChanger } from '@/components/modes/NarrativeStyleChanger';
-import { NavigationUsabilityAnalyzer } from '@/components/modes/NavigationUsabilityAnalyzer';
-import { NicknameMaker } from '@/components/modes/NicknameMaker';
-import { NoiseRemovalOptimizer } from '@/components/modes/NoiseRemovalOptimizer';
-import { NonprofitDonorOutreachAi } from '@/components/modes/NonprofitDonorOutreachAi';
-import { NotificationTimingOptimizer } from '@/components/modes/NotificationTimingOptimizer';
-import { NutritionalPlanGenerator } from '@/components/modes/NutritionalPlanGenerator';
-import { OnboardingExperiencePlanner } from '@/components/modes/OnboardingExperiencePlanner';
-import { OnlineCourseEnrollmentPredictor } from '@/components/modes/OnlineCourseEnrollmentPredictor';
-import { OutfitCombinationRecommender } from '@/components/modes/OutfitCombinationRecommender';
-import { PackagingDesignFeedbackAi } from '@/components/modes/PackagingDesignFeedbackAi';
-import { PageLoadImpactPredictor } from '@/components/modes/PageLoadImpactPredictor';
-import { ParkingDemandForecaster } from '@/components/modes/ParkingDemandForecaster';
-import { PartsInventoryBalancer } from '@/components/modes/PartsInventoryBalancer';
-import { PartyThemeGenerator } from '@/components/modes/PartyThemeGenerator';
-import { PasswordGenerator } from '@/components/modes/PasswordGenerator';
-import { PatentPortfolioAnalyzer } from '@/components/modes/PatentPortfolioAnalyzer';
-import { PathologyReportSummarizer } from '@/components/modes/PathologyReportSummarizer';
-import { PatientRecoveryForecaster } from '@/components/modes/PatientRecoveryForecaster';
-import { PaymentFraudProbabilityChecker } from '@/components/modes/PaymentFraudProbabilityChecker';
-import { PayrollComplianceChecker } from '@/components/modes/PayrollComplianceChecker';
-import { PeerReviewSummarizer } from '@/components/modes/PeerReviewSummarizer';
-import { PersonalizationRuleOptimizer } from '@/components/modes/PersonalizationRuleOptimizer';
-import { PerspectiveRewriter } from '@/components/modes/PerspectiveRewriter';
-import { PestInfestationPredictor } from '@/components/modes/PestInfestationPredictor';
-import { PlagiarismRiskChecker } from '@/components/modes/PlagiarismRiskChecker';
-import { PlayerInjuryRiskDetector } from '@/components/modes/PlayerInjuryRiskDetector';
-import { PlayerMotivationAnalyzer } from '@/components/modes/PlayerMotivationAnalyzer';
-import { PlaylistNameGenerator } from '@/components/modes/PlaylistNameGenerator';
-import { PlotTwistGenerator } from '@/components/modes/PlotTwistGenerator';
-import { PodcastTopicPlanner } from '@/components/modes/PodcastTopicPlanner';
-import { PoetryWriter } from '@/components/modes/PoetryWriter';
-import { PolicyImpactForecaster } from '@/components/modes/PolicyImpactForecaster';
-import { PollQuestionMaker } from '@/components/modes/PollQuestionMaker';
-import { PostProductionWorkflowPlanner } from '@/components/modes/PostProductionWorkflowPlanner';
-import { PpcCampaignRoiPredictor } from '@/components/modes/PpcCampaignRoiPredictor';
-import { PresentationFlowOptimizer } from '@/components/modes/PresentationFlowOptimizer';
-import { PriceMatchDetector } from '@/components/modes/PriceMatchDetector';
-import { ProConListMaker } from '@/components/modes/ProConListMaker';
-import { ProductDescriptionWriter } from '@/components/modes/ProductDescriptionWriter';
-import { ProductLifecycleForecaster } from '@/components/modes/ProductLifecycleForecaster';
-import { ProductPrototypeFeedbackAi } from '@/components/modes/ProductPrototypeFeedbackAi';
-import { ProductReturnRiskDetector } from '@/components/modes/ProductReturnRiskDetector';
-import { ProductionBatchOptimizer } from '@/components/modes/ProductionBatchOptimizer';
-import { ProductionSchedulingPlanner } from '@/components/modes/ProductionSchedulingPlanner';
-import { ProfessionalBioGenerator } from '@/components/modes/ProfessionalBioGenerator';
-import { ProfitCalculator } from '@/components/modes/ProfitCalculator';
-import { ProjectProgressReporter } from '@/components/modes/ProjectProgressReporter';
-import { PronunciationFeedbackAi } from '@/components/modes/PronunciationFeedbackAi';
-import { ProteinStructurePredictor } from '@/components/modes/ProteinStructurePredictor';
-import { PrototypeDesignOptimizer } from '@/components/modes/PrototypeDesignOptimizer';
-import { PublicOpinionTrendAnalyzer } from '@/components/modes/PublicOpinionTrendAnalyzer';
-import { PublicRelationsRiskDetector } from '@/components/modes/PublicRelationsRiskDetector';
-import { PublicTransitRouteOptimizer } from '@/components/modes/PublicTransitRouteOptimizer';
-import { PushNotificationCopyChecker } from '@/components/modes/PushNotificationCopyChecker';
-import { PuzzleDifficultyBalancer } from '@/components/modes/PuzzleDifficultyBalancer';
-import { QualityControlInspectorAi } from '@/components/modes/QualityControlInspectorAi';
-import { QuestionDifficultyCalibrator } from '@/components/modes/QuestionDifficultyCalibrator';
-import { QuoteFinder } from '@/components/modes/QuoteFinder';
-import { ROICalculator } from '@/components/modes/ROICalculator';
-import { RadioAdEffectivenessTracker } from '@/components/modes/RadioAdEffectivenessTracker';
-import { RadiologyImageAnalyzer } from '@/components/modes/RadiologyImageAnalyzer';
-import { RandomNamePicker } from '@/components/modes/RandomNamePicker';
-import { RandomNumberPicker } from '@/components/modes/RandomNumberPicker';
-import { RapVerseMaker } from '@/components/modes/RapVerseMaker';
-import { RdProjectFeasibilityChecker } from '@/components/modes/RdProjectFeasibilityChecker';
-import { ReadingEaseScoreAnalyzer } from '@/components/modes/ReadingEaseScoreAnalyzer';
-import { ReminderMaker } from '@/components/modes/ReminderMaker';
-import { RenewableEnergyYieldEstimator } from '@/components/modes/RenewableEnergyYieldEstimator';
-import { RenewableGridLoadBalancer } from '@/components/modes/RenewableGridLoadBalancer';
-import { ReputationScoreTracker } from '@/components/modes/ReputationScoreTracker';
-import { ResumeBulletPointMaker } from '@/components/modes/ResumeBulletPointMaker';
-import { ResumeKeywordOptimizer } from '@/components/modes/ResumeKeywordOptimizer';
-import { RhymeFinder } from '@/components/modes/RhymeFinder';
-import { RoadRepairPriorityPlanner } from '@/components/modes/RoadRepairPriorityPlanner';
-import { RoastJokeGenerator } from '@/components/modes/RoastJokeGenerator';
-import { RoboticsTaskPlanner } from '@/components/modes/RoboticsTaskPlanner';
-import { SalaryBenchmarkingTool } from '@/components/modes/SalaryBenchmarkingTool';
-import { SalesForecastingAssistant } from '@/components/modes/SalesForecastingAssistant';
-import { SavingsGoalCalculator } from '@/components/modes/SavingsGoalCalculator';
-import { SceneDescriptionWriter } from '@/components/modes/SceneDescriptionWriter';
-import { SceneLocationSuggestor } from '@/components/modes/SceneLocationSuggestor';
-import { ScenePacingAdjuster } from '@/components/modes/ScenePacingAdjuster';
-import { SciFiStoryMaker } from '@/components/modes/SciFiStoryMaker';
-import { ScienceFactFinder } from '@/components/modes/ScienceFactFinder';
-import { ScriptDialogueWriter } from '@/components/modes/ScriptDialogueWriter';
-import { SearchIntentClassifier } from '@/components/modes/SearchIntentClassifier';
-import { SeedSelectionOptimizer } from '@/components/modes/SeedSelectionOptimizer';
-import { SelfCareChecklistMaker } from '@/components/modes/SelfCareChecklistMaker';
-import { SeoKeywordGapFinder } from '@/components/modes/SeoKeywordGapFinder';
-import { ServiceLevelAgreementMonitor } from '@/components/modes/ServiceLevelAgreementMonitor';
-import { SewageNetworkMonitoringAi } from '@/components/modes/SewageNetworkMonitoringAi';
-import { ShelfPlacementImpactPredictor } from '@/components/modes/ShelfPlacementImpactPredictor';
-import { ShelfStockingSuggestionTool } from '@/components/modes/ShelfStockingSuggestionTool';
-import { ShoeSizeFitPredictor } from '@/components/modes/ShoeSizeFitPredictor';
-import { ShortStoryWriter } from '@/components/modes/ShortStoryWriter';
-import { ShotSequencePlanner } from '@/components/modes/ShotSequencePlanner';
-import { SideCharacterGenerator } from '@/components/modes/SideCharacterGenerator';
-import { SimpleTranslator } from '@/components/modes/SimpleTranslator';
-import { SkillEndorsementAnalyzer } from '@/components/modes/SkillEndorsementAnalyzer';
-import { SkillGapForecaster } from '@/components/modes/SkillGapForecaster';
-import { SleepCycleTrackerAi } from '@/components/modes/SleepCycleTrackerAi';
-import { SleepRoutinePlanner } from '@/components/modes/SleepRoutinePlanner';
-import { SlideDeckConsistencyChecker } from '@/components/modes/SlideDeckConsistencyChecker';
-import { SloganMaker } from '@/components/modes/SloganMaker';
-import { SmartFactoryProcessDesigner } from '@/components/modes/SmartFactoryProcessDesigner';
-import { SmartLightingPlanner } from '@/components/modes/SmartLightingPlanner';
-import { SocialSentimentAnalyzer } from '@/components/modes/SocialSentimentAnalyzer';
-import { SoilNutrientAnalyzer } from '@/components/modes/SoilNutrientAnalyzer';
-import { SongLyricStarter } from '@/components/modes/SongLyricStarter';
-import { SongTempoAnalyzer } from '@/components/modes/SongTempoAnalyzer';
-import { SoundQualityEnhancer } from '@/components/modes/SoundQualityEnhancer';
-import { SpecialEffectsCostEstimator } from '@/components/modes/SpecialEffectsCostEstimator';
-import { SpeechEmotionAnalyzer } from '@/components/modes/SpeechEmotionAnalyzer';
-import { SpeechTimingAnalyzer } from '@/components/modes/SpeechTimingAnalyzer';
-import { SpeedConverter } from '@/components/modes/SpeedConverter';
-import { SpeedrunPathOptimizer } from '@/components/modes/SpeedrunPathOptimizer';
-import { SpellingChecker } from '@/components/modes/SpellingChecker';
-import { SpellingQuizMaker } from '@/components/modes/SpellingQuizMaker';
-import { SponsorshipRoiAnalyzer } from '@/components/modes/SponsorshipRoiAnalyzer';
-import { SportsPerformanceAnalyzer } from '@/components/modes/SportsPerformanceAnalyzer';
-import { StartupPitchWriter } from '@/components/modes/StartupPitchWriter';
-import { StopwatchTool } from '@/components/modes/StopwatchTool';
-import { StoreLayoutOptimizationAi } from '@/components/modes/StoreLayoutOptimizationAi';
-import { StoreTrafficFlowAnalyzer } from '@/components/modes/StoreTrafficFlowAnalyzer';
-import { StoryIdeaGenerator } from '@/components/modes/StoryIdeaGenerator';
-import { StreamingAudiencePredictor } from '@/components/modes/StreamingAudiencePredictor';
-import { StyleGuideComplianceChecker } from '@/components/modes/StyleGuideComplianceChecker';
-import { SubscriptionRenewalPredictor } from '@/components/modes/SubscriptionRenewalPredictor';
-import { SuperheroStoryCreator } from '@/components/modes/SuperheroStoryCreator';
-import { SupplyShortageForecaster } from '@/components/modes/SupplyShortageForecaster';
-import { SupportTicketCategorizer } from '@/components/modes/SupportTicketCategorizer';
-import { SurgicalProcedurePlanner } from '@/components/modes/SurgicalProcedurePlanner';
-import { SurveyQuestionGenerator } from '@/components/modes/SurveyQuestionGenerator';
-import { SWOTAnalyzer } from '@/components/modes/SWOTAnalyzer';
-import { SymptomPatternAnalyzer } from '@/components/modes/SymptomPatternAnalyzer';
-import { SymptomToSpecialistRecommender } from '@/components/modes/SymptomToSpecialistRecommender';
-import { SynonymFinder } from '@/components/modes/SynonymFinder';
-import { TaglineMaker } from '@/components/modes/TaglineMaker';
-import { TaskPriorityPlanner } from '@/components/modes/TaskPriorityPlanner';
-import { TaskPrioritySorter } from '@/components/modes/TaskPrioritySorter';
-import { TaxCalculator } from '@/components/modes/TaxCalculator';
-import { TeachingMethodSuggestor } from '@/components/modes/TeachingMethodSuggestor';
-import { TeamDynamicsPredictor } from '@/components/modes/TeamDynamicsPredictor';
-import { TemperatureConverter } from '@/components/modes/TemperatureConverter';
-import { TextilePatternDesignerAi } from '@/components/modes/TextilePatternDesignerAi';
-import { ThankYouNoteMaker } from '@/components/modes/ThankYouNoteMaker';
-import { TherapySessionPlanner } from '@/components/modes/TherapySessionPlanner';
-import { TicketPriceOptimizer } from '@/components/modes/TicketPriceOptimizer';
-import { TimeZoneConverter } from '@/components/modes/TimeZoneConverter';
-import { ToastSpeechWriter } from '@/components/modes/ToastSpeechWriter';
-import { TournamentScheduleOptimizer } from '@/components/modes/TournamentScheduleOptimizer';
-import { TrailerImpactPredictor } from '@/components/modes/TrailerImpactPredictor';
-import { TrainingNeedsIdentifier } from '@/components/modes/TrainingNeedsIdentifier';
-import { TreatmentPlanPersonalizer } from '@/components/modes/TreatmentPlanPersonalizer';
-import { TrialConversionRatePredictor } from '@/components/modes/TrialConversionRatePredictor';
-import { TutoringSessionScheduler } from '@/components/modes/TutoringSessionScheduler';
-import { UnitConversionPracticeTool } from '@/components/modes/UnitConversionPracticeTool';
-import { UnitConverter } from '@/components/modes/UnitConverter';
-import { UpsellRecommendationEngine } from '@/components/modes/UpsellRecommendationEngine';
-import { UrbanTrafficFlowPredictor } from '@/components/modes/UrbanTrafficFlowPredictor';
-import { UserRetentionPatternFinder } from '@/components/modes/UserRetentionPatternFinder';
-import { UsernameGenerator } from '@/components/modes/UsernameGenerator';
-import { UtilityConsumptionTracker } from '@/components/modes/UtilityConsumptionTracker';
-import { VillainProfileMaker } from '@/components/modes/VillainProfileMaker';
-import { ViralContentPredictor } from '@/components/modes/ViralContentPredictor';
-import { VirtualLabTechnician } from '@/components/modes/VirtualLabTechnician';
-import { VisualAidSuggestor } from '@/components/modes/VisualAidSuggestor';
-import { VocabularyBuilder } from '@/components/modes/VocabularyBuilder';
-import { VocabularyExpansionTool } from '@/components/modes/VocabularyExpansionTool';
-import { VolumeConverter } from '@/components/modes/VolumeConverter';
-import { VolunteerSchedulingPlanner } from '@/components/modes/VolunteerSchedulingPlanner';
-import { WaterIntakeTracker } from '@/components/modes/WaterIntakeTracker';
-import { WaterUsageEfficiencyPlanner } from '@/components/modes/WaterUsageEfficiencyPlanner';
-import { WeatherImpactPredictor } from '@/components/modes/WeatherImpactPredictor';
-import { WebsiteAccessibilityAnalyzer } from '@/components/modes/WebsiteAccessibilityAnalyzer';
-import { WeightConverter } from '@/components/modes/WeightConverter';
-import { WifiNameGenerator } from '@/components/modes/WifiNameGenerator';
-import { WildlifePatternTracker } from '@/components/modes/WildlifePatternTracker';
-import { WorkerSafetyRiskDetector } from '@/components/modes/WorkerSafetyRiskDetector';
-import { WorkloadBalancerAi } from '@/components/modes/WorkloadBalancerAi';
-import { WorkoutPlanGenerator } from '@/components/modes/WorkoutPlanGenerator';
-import { WorkplaceCultureFitAnalyzer } from '@/components/modes/WorkplaceCultureFitAnalyzer';
-import { YogaRoutineGenerator } from '@/components/modes/YogaRoutineGenerator';
 import { TextUtilities } from '@/components/modes/TextUtilities';
+import { DonationCampaignWriter as DonationCampaignWriter2 } from '@/components/modes/DonationCampaignWriter';
+import { HikingSafetyGuide as HikingSafetyGuide2 } from '@/components/modes/HikingSafetyGuide';
 
 export type ModeId = 
   // Core
   | 'chat' | 'fun_chat' | 'voice_chat'
   // Creative & Media
-  | 'photo_generator' | 'logo_maker' | 'design_assistant' | 'photo_editor' | 'video_generator' | 'animation_tool' | 'three_d_modeler' | 'video_editor' | 'sound_generator' | 'story_generator' | 'song_writer' | 'poem_generator' | 'character_generator' | 'dream_interpreter'
+  | 'photo_generator' | 'logo_maker' | 'design_assistant' | 'photo_editor' | 'video_maker' | 'video_generator' | 'animation_tool' | 'three_d_modeler' | 'video_editor' | 'sound_generator' | 'story_generator' | 'song_writer' | 'poem_generator' | 'character_generator' | 'dream_interpreter'
   // Development & Tech
   | 'code_generator' | 'code_analyzer' | 'website_maker' | 'app_maker' | 'game_maker' | 'file_maker' | 'file_editor'
   // Business & Marketing
@@ -813,31 +412,18 @@ export type ModeId =
   | 'profit_margin_optimizer' | 'shopping_assistant'
   // Education & Productivity
   | 'homework_helper' | 'study_material_analyzer' | 'ai_teacher' | 'games_knowledge' | 'yoga_fitness' | 'grammar_practice_creator' | 'sports_skills_trainer' | 'quiz_generator' | 'book_generator' | 'text_summarizer' | 'question_giver' | 'idea_generator' | 'recipe_creator' | 'travel_planner' | 'grammar_corrector'
-  // Lifestyle & Hobbies
-  | 'movie_review_maker' | 'packing_list_maker' | 'solo_travel_guide' | 'group_trip_planner' | 'road_trip_itinerary_maker' | 'festival_guide' | 'seasonal_activity_guide' | 'local_business_finder' | 'visual_story_mapper' | 'ai_daily_motivation_coach' | 'minimalist_living_tips' | 'zero_waste_tips' | 'upcycling_project_ideas' | 'repair_guide' | 'second_hand_shopping_tips' | 'budget_travel_tips' | 'digital_nomad_tips' | 'remote_job_board_scraper' | 'work_from_home_setup_guide' | 'productivity_timer' | 'focus_music_suggestor' | 'task_completion_tracker' | 'study_break_reminder' | 'time_blocking_planner' | 'weekly_review_template' | 'monthly_reflection_template' | 'yearly_goal_planner' | 'life_bucket_list_maker' | 'travel_bucket_list_maker' | 'skill_learning_plan' | 'language_learning_plan' | 'book_reading_plan' | 'podcast_recommendation_list' | 'movie_recommendation_list' | 'series_recommendation_list' | 'game_recommendation_list' | 'music_playlist_suggestor' | 'hobby_idea_generator' | 'weekend_activity_planner' | 'family_activity_planner' | 'travel_itinerary_maker' | 'local_attraction_finder' | 'restaurant_suggestor' | 'food_pairing_suggestor' | 'cocktail_recipe_maker' | 'smoothie_recipe_generator' | 'dessert_idea_generator' | 'meal_substitute_finder' | 'cooking_tip_giver' | 'kitchen_measurement_converter' | 'leftover_recipe_maker' | 'cleaning_checklist_maker' | 'chore_scheduler' | 'minimalist_declutter_guide' | 'budget_friendly_home_decor_ideas' | 'gardening_tip_giver' | 'plant_watering_reminder' | 'pet_care_guide' | 'dog_training_tip_giver' | 'cat_behavior_explainer' | 'pet_name_generator' | 'wildlife_fact_finder' | 'bird_watching_guide' | 'fishing_tip_giver' | 'camping_checklist_maker' | 'hiking_route_suggestor' | 'workout_timer' | 'step_counter' | 'body_mass_index_calculator' | 'heart_rate_zone_calculator' | 'stretching_routine_generator' | 'dance_move_suggestor' | 'music_practice_tracker' | 'instrument_learning_guide' | 'song_chord_finder' | 'lyric_rhyme_improver' | 'dj_playlist_organizer' | 'photography_tip_giver' | 'camera_setting_guide' | 'photo_caption_generator'
-  // Social Media & Marketing Utilities
-  | 'social_media_post_scheduler' | 'content_calendar_maker' | 'hashtag_trend_finder' | 'viral_idea_generator' | 'ad_copywriter' | 'sales_script_writer' | 'cold_email_writer' | 'marketing_idea_generator' | 'seo_keyword_suggestor' | 'meta_description_writer' | 'blog_tag_generator' | 'youtube_title_maker' | 'youtube_description_writer' | 'youtube_tag_generator' | 'video_script_writer' | 'short_video_idea_generator' | 'live_stream_topic_generator' | 'webinar_outline_maker' | 'online_course_outline_maker' | 'lesson_script_writer'
-  // Data & Math Utilities
-  | 'test_answer_key_generator' | 'poll_result_analyzer' | 'data_summarizer' | 'csv_to_table_formatter' | 'chart_idea_generator' | 'basic_data_calculator' | 'average_calculator' | 'percentage_calculator' | 'ratio_calculator' | 'fraction_simplifier' | 'decimal_to_fraction_converter' | 'binary_to_decimal_converter' | 'hex_to_decimal_converter' | 'number_base_converter' | 'prime_number_finder' | 'factor_finder' | 'multiplication_table_maker' | 'division_step_solver' | 'square_root_finder' | 'exponent_calculator' | 'logarithm_calculator' | 'probability_calculator' | 'statistics_summarizer' | 'trend_finder' | 'correlation_finder' | 'basic_forecast_maker' | 'budget_chart_maker' | 'pie_chart_generator' | 'bar_graph_generator' | 'line_chart_generator'
-  // Project & Task Management Utilities
-  | 'timeline_maker' | 'flowchart_generator' | 'checklist_maker' | 'kanban_board_maker' | 'mind_map_outline_maker' | 'project_deadline_tracker' | 'gantt_chart_generator' | 'team_role_assignor' | 'team_feedback_collector' | 'idea_voting_tool' | 'brainstorm_topic_generator' | 'innovation_idea_generator' | 'problem_statement_maker' | 'solution_proposal_writer'
-  // Writing & Documentation Utilities
-  | 'how_to_guide_maker' | 'troubleshooting_flow_maker' | 'faq_generator' | 'glossary_creator' | 'tutorial_script_writer' | 'step_by_step_guide_maker' | 'quick_tips_writer' | 'error_message_rewriter' | 'app_walkthrough_writer' | 'feature_list_maker' | 'release_note_writer' | 'patch_note_formatter' | 'bug_report_template_maker' | 'user_feedback_form_maker' | 'customer_support_script' | 'help_article_writer' | 'troubleshooting_checklist'
-  // Legal & Safety Utilities
-  | 'warranty_policy_writer' | 'terms_and_conditions_writer' | 'privacy_policy_writer' | 'refund_policy_writer' | 'safety_instruction_maker' | 'emergency_contact_list_maker' | 'first_aid_guide' | 'disaster_preparedness_guide' | 'travel_safety_tips' | 'scam_warning_guide' | 'password_safety_tips' | 'social_media_safety_guide' | 'cybersecurity_checklist' | 'antivirus_tip_guide' | 'phishing_email_identifier' | 'fake_news_checker' | 'fact_verification_tool'
-  // Academic Utilities
-  | 'citation_generator' | 'reference_list_maker' | 'bibliography_maker' | 'research_question_generator' | 'hypothesis_statement_maker' | 'experiment_design_generator' | 'observation_log_maker' | 'lab_report_writer' | 'survey_result_summarizer'
-  // Design & Media Utilities
-  | 'infographic_idea_generator' | 'poster_slogan_maker' | 'banner_text_generator' | 'brochure_outline_maker' | 'pamphlet_content_writer' | 'flyer_text_maker'
-  // News & Information Utilities
-  | 'announcement_writer' | 'press_release_writer' | 'public_notice_writer' | 'news_headline_generator' | 'news_summary_maker' | 'sports_update_writer' | 'weather_report_maker' | 'traffic_update_writer' | 'stock_price_update_writer' | 'cryptocurrency_update_writer' | 'economy_brief_maker' | 'political_news_summary_maker'
-  // Health & Wellness Utilities
-  | 'health_tip_generator' | 'medical_term_explainer' | 'symptom_checker' | 'medicine_reminder' | 'nutrition_fact_finder' | 'diet_plan_maker' | 'food_allergy_alert_guide' | 'safe_cooking_temperature_guide' | 'kitchen_safety_guide'
-  // Safety & Community Utilities
-  | 'school_safety_checklist' | 'office_safety_checklist' | 'factory_safety_checklist' | 'road_safety_tips' | 'bicycle_safety_guide' | 'swimming_safety_guide' | 'child_safety_tips' | 'elderly_care_tips' | 'disability_support_resource_finder' | 'community_event_idea_generator' | 'volunteer_task_list_maker' | 'fundraising_idea_generator' | 'charity_event_plan_maker' | 'nonprofit_mission_statement_maker'
-  // Environmental Utilities
-  | 'sustainability_tip_generator' | 'recycling_guide' | 'composting_guide' | 'energy_saving_tips' | 'water_saving_tips' | 'pollution_awareness_guide' | 'wildlife_conservation_tips' | 'tree_planting_guide' | 'garden_wildlife_attractor' | 'renewable_energy_facts' | 'climate_change_explainer' | 'green_product_suggestor'
-  | 'plagiarism_free_rewriter' | 'product_review_writer' | 'service_review_writer' | 'game_review_writer' | 'app_review_generator' | 'book_review_writer' | 'ab_test_result_analyzer' | 'academic_progress_forecaster' | 'accessory_style_matcher' | 'acronym_maker' | 'ad_campaign_performance_forecaster' | 'ad_headline_creator' | 'age_calculator' | 'agent_training_needs_analyzer' | 'agricultural_market_price_forecaster' | 'anniversary_wish_maker' | 'antonym_finder' | 'apology_letter_writer' | 'app_name_generator' | 'appointment_scheduling_optimizer' | 'area_converter' | 'article_rewriter' | 'assembly_line_speed_optimizer' | 'assignment_feedback_generator' | 'athlete_training_optimizer' | 'audience_engagement_predictor' | 'audience_engagement_timer' | 'audience_review_sentiment_tracker' | 'audio_scene_identifier' | 'backlink_quality_analyzer' | 'behavior_based_segmentation_tool' | 'birthday_wish_maker' | 'blog_conclusion_writer' | 'blog_idea_generator' | 'blog_intro_writer' | 'blog_outline_maker' | 'blog_topic_trend_finder' | 'blueprint_error_detector' | 'board_game_rule_optimizer' | 'book_summary_maker' | 'book_title_generator' | 'brand_loyalty_scorer' | 'brand_name_generator' | 'brand_name_idea_generator' | 'break_even_calculator' | 'breathing_exercise_guide' | 'business_idea_generator' | 'cad_design_suggestion_tool' | 'calendar_event_filler' | 'calorie_counter' | 'caption_maker' | 'carbon_footprint_forecaster' | 'career_path_predictor' | 'cash_flow_projection_tool' | 'casting_fit_analyzer' | 'challenge_idea_generator' | 'chapter_title_generator' | 'character_backstory_maker' | 'chatbot_script_enhancer' | 'checkout_time_optimizer' | 'chord_progression_generator' | 'churn_prevention_strategy_maker' | 'civic_policy_simulation_tool' | 'classroom_engagement_tracker' | 'clinical_trial_data_analyzer' | 'coin_flip' | 'color_palette_forecaster' | 'company_policy_clarity_checker' | 'competitor_ad_copy_analyzer' | 'compliment_generator' | 'concept_explainer' | 'concept_reinforcement_planner' | 'condolence_message_writer' | 'congratulations_message_writer' | 'construction_schedule_forecaster' | 'content_calendar_optimizer' | 'conversion_form_design_checker' | 'conversion_funnel_optimizer' | 'cost_estimate_calculator' | 'countdown_timer_maker' | 'course_title_generator' | 'cover_letter_personalizer' | 'cover_letter_writer' | 'crisis_communication_planner' | 'crop_yield_forecaster' | 'cross_department_communication_tracker' | 'cross_platform_engagement_tracker' | 'cross_sell_pattern_finder' | 'cultural_context_advisor' | 'currency_converter' | 'curriculum_gap_identifier' | 'customer_retention_strategy_maker' | 'customer_review_summarizer' | 'customer_service_response_analyzer' | 'diy_project_idea_maker' | 'date_difference_finder' | 'deadline_risk_detector' | 'debate_strategy_planner' | 'decision_helper' | 'design_to_manufacture_converter' | 'detective_case_idea_maker' | 'diagnostic_support_assistant' | 'dialogue_improver' | 'dice_roller' | 'ecommerce_upsell_strategy_planner' | 'editorial_consistency_checker' | 'education_syllabus_planner' | 'emergency_evacuation_planner' | 'employee_feedback_summarizer' | 'ending_suggestor' | 'enemy_behavior_modeler' | 'energy_usage_analyzer' | 'environmental_impact_calculator' | 'episode_recap_writer' | 'equation_generator' | 'error_message_clarity_checker' | 'esports_strategy_advisor' | 'essay_topic_generator' | 'eulogy_writer' | 'event_agenda_creator' | 'event_name_generator' | 'event_schedule_maker' | 'event_sponsorship_roi_calculator' | 'exam_pattern_analyzer' | 'exam_question_generator' | 'exercise_routine_optimizer' | 'expense_categorization_ai' | 'expense_tracker' | 'fable_writer' | 'fabric_quality_analyzer' | 'fact_finder' | 'fact_reference_link_generator' | 'fairy_tale_creator' | 'fan_engagement_tracker' | 'fantasy_story_builder' | 'faq_auto_generator' | 'farm_equipment_usage_tracker' | 'fashion_trend_predictor' | 'feature_adoption_forecaster' | 'feedback_sentiment_classifier' | 'film_script_coverage_ai' | 'flashcard_auto_creator' | 'flood_risk_predictor' | 'fundraising_campaign_optimizer' | 'game_lore_expansion_tool' | 'game_name_generator' | 'game_strategy_simulator' | 'genetic_pattern_detector' | 'geometry_shape_drawer' | 'gift_idea_generator' | 'grading_consistency_checker' | 'grammar_quiz_maker' | 'grant_proposal_generator' | 'greenhouse_climate_controller' | 'greeting_card_message_maker' | 'guest_speaker_finder_ai' | 'habit_tracker' | 'habitat_restoration_planner' | 'haiku_generator' | 'health_risk_assessment_ai' | 'historical_fact_finder' | 'holiday_wish_maker' | 'horror_story_maker' | 'hospital_resource_forecaster' | 'hyperlink_health_checker' | 'interview_coach' | 'invitation_message_writer' | 'irrigation_optimization_planner' | 'jewelry_design_suggestor' | 'job_interview_simulation_ai' | 'job_title_suggestor' | 'joke_finder' | 'knowledge_base_gap_finder' | 'knowledge_transfer_optimizer' | 'language_learning_path_optimizer' | 'language_practice_partner' | 'lead_scoring_ai' | 'leadership_style_analyzer' | 'learning_pace_personalizer' | 'learning_style_analyzer' | 'length_converter' | 'lesson_plan_enhancer' | 'lesson_plan_maker' | 'level_design_ai' | 'lifetime_value_forecasting_ai' | 'lighting_setup_optimizer' | 'list_creator' | 'livestock_health_monitor' | 'loan_calculator' | 'local_issue_report_generator' | 'logo_color_impact_analyzer' | 'loot_drop_probability_balancer' | 'love_letter_writer' | 'loyalty_program_impact_analyzer' | 'loyalty_reward_planner' | 'loyalty_tier_upgrade_predictor' | 'luxury_goods_market_forecaster' | 'machine_failure_predictor' | 'maintenance_cost_estimator' | 'manufacturing_workflow_optimizer' | 'market_entry_risk_forecaster' | 'match_outcome_predictor' | 'material_stress_tester_ai' | 'math_problem_solver' | 'meal_plan_generator' | 'medical_inventory_tracker' | 'medical_literature_summarizer' | 'meditation_guide' | 'meeting_agenda_maker' | 'meeting_agenda_optimizer' | 'meeting_summary_writer' | 'mental_wellness_suggestion_bot' | 'merchandise_sales_forecaster' | 'meta_tag_optimization_tool' | 'mind_map_creator' | 'mixing_mastering_advisor' | 'mobile_ui_flow_optimizer' | 'monologue_writer' | 'mood_journal_prompter' | 'motivation_quote_sender' | 'motivational_message_maker' | 'movie_summary_maker' | 'multiplayer_matchmaking_optimizer' | 'music_mood_classifier' | 'mystery_story_generator' | 'narrative_style_changer' | 'navigation_usability_analyzer' | 'nickname_maker' | 'noise_removal_optimizer' | 'nonprofit_donor_outreach_ai' | 'notification_timing_optimizer' | 'nutritional_plan_generator' | 'onboarding_experience_planner' | 'online_course_enrollment_predictor' | 'outfit_combination_recommender' | 'packaging_design_feedback_ai' | 'page_load_impact_predictor' | 'parking_demand_forecaster' | 'parts_inventory_balancer' | 'party_theme_generator' | 'password_generator' | 'patent_portfolio_analyzer' | 'pathology_report_summarizer' | 'patient_recovery_forecaster' | 'payment_fraud_probability_checker' | 'payroll_compliance_checker' | 'peer_review_summarizer' | 'personalization_rule_optimizer' | 'perspective_rewriter' | 'pest_infestation_predictor' | 'plagiarism_risk_checker' | 'player_injury_risk_detector' | 'player_motivation_analyzer' | 'playlist_name_generator' | 'plot_twist_generator' | 'podcast_topic_planner' | 'poetry_writer' | 'policy_impact_forecaster' | 'poll_question_maker' | 'post_production_workflow_planner' | 'ppc_campaign_roi_predictor' | 'presentation_flow_optimizer' | 'price_match_detector' | 'pro_con_list_maker' | 'product_description_writer' | 'product_lifecycle_forecaster' | 'product_prototype_feedback_ai' | 'product_return_risk_detector' | 'production_batch_optimizer' | 'production_scheduling_planner' | 'professional_bio_generator' | 'profit_calculator' | 'project_progress_reporter' | 'pronunciation_feedback_ai' | 'protein_structure_predictor' | 'prototype_design_optimizer' | 'public_opinion_trend_analyzer' | 'public_relations_risk_detector' | 'public_transit_route_optimizer' | 'push_notification_copy_checker' | 'puzzle_difficulty_balancer' | 'quality_control_inspector_ai' | 'question_difficulty_calibrator' | 'quote_finder' | 'roi_calculator' | 'radio_ad_effectiveness_tracker' | 'radiology_image_analyzer' | 'random_name_picker' | 'random_number_picker' | 'rap_verse_maker' | 'rd_project_feasibility_checker' | 'reading_ease_score_analyzer' | 'reminder_maker' | 'renewable_energy_yield_estimator' | 'renewable_grid_load_balancer' | 'reputation_score_tracker' | 'resume_bullet_point_maker' | 'resume_keyword_optimizer' | 'rhyme_finder' | 'road_repair_priority_planner' | 'roast_joke_generator' | 'robotics_task_planner' | 'salary_benchmarking_tool' | 'sales_forecasting_assistant' | 'savings_goal_calculator' | 'scene_description_writer' | 'scene_location_suggestor' | 'scene_pacing_adjuster' | 'sci_fi_story_maker' | 'science_fact_finder' | 'script_dialogue_writer' | 'search_intent_classifier' | 'seed_selection_optimizer' | 'self_care_checklist_maker' | 'seo_keyword_gap_finder' | 'service_level_agreement_monitor' | 'sewage_network_monitoring_ai' | 'shelf_placement_impact_predictor' | 'shelf_stocking_suggestion_tool' | 'shoe_size_fit_predictor' | 'short_story_writer' | 'shot_sequence_planner' | 'side_character_generator' | 'simple_translator' | 'skill_endorsement_analyzer' | 'skill_gap_forecaster' | 'sleep_cycle_tracker_ai' | 'sleep_routine_planner' | 'slide_deck_consistency_checker' | 'slogan_maker' | 'smart_factory_process_designer' | 'smart_lighting_planner' | 'social_sentiment_analyzer' | 'soil_nutrient_analyzer' | 'song_lyric_starter' | 'song_tempo_analyzer' | 'sound_quality_enhancer' | 'special_effects_cost_estimator' | 'speech_emotion_analyzer' | 'speech_timing_analyzer' | 'speech_writer' | 'speed_converter' | 'speedrun_path_optimizer' | 'spelling_checker' | 'spelling_quiz_maker' | 'sponsorship_roi_analyzer' | 'sports_performance_analyzer' | 'startup_pitch_writer' | 'stopwatch_tool' | 'store_layout_optimization_ai' | 'store_traffic_flow_analyzer' | 'story_idea_generator' | 'streaming_audience_predictor' | 'style_guide_compliance_checker' | 'subscription_renewal_predictor' | 'superhero_story_creator' | 'supply_shortage_forecaster' | 'support_ticket_categorizer' | 'surgical_procedure_planner' | 'survey_question_generator' | 'swot_analyzer' | 'symptom_pattern_analyzer' | 'symptom_to_specialist_recommender' | 'synonym_finder' | 'tagline_maker' | 'task_priority_planner' | 'task_priority_sorter' | 'tax_calculator' | 'teaching_method_suggestor' | 'team_dynamics_predictor' | 'temperature_converter' | 'textile_pattern_designer_ai' | 'thank_you_note_maker' | 'therapy_session_planner' | 'ticket_price_optimizer' | 'time_zone_converter' | 'toast_speech_writer' | 'tournament_schedule_optimizer' | 'trailer_impact_predictor' | 'training_needs_identifier' | 'treatment_plan_personalizer' | 'trial_conversion_rate_predictor' | 'tutoring_session_scheduler' | 'unit_conversion_practice_tool' | 'unit_converter' | 'upsell_recommendation_engine' | 'urban_traffic_flow_predictor' | 'user_retention_pattern_finder' | 'username_generator' | 'utility_consumption_tracker' | 'villain_profile_maker' | 'viral_content_predictor' | 'virtual_lab_technician' | 'visual_aid_suggestor' | 'vocabulary_builder' | 'vocabulary_expansion_tool' | 'volume_converter' | 'volunteer_scheduling_planner' | 'water_intake_tracker' | 'water_usage_efficiency_planner' | 'weather_impact_predictor' | 'website_accessibility_analyzer' | 'weight_converter' | 'wifi_name_generator' | 'wildlife_pattern_tracker' | 'worker_safety_risk_detector' | 'workload_balancer_ai' | 'workout_plan_generator' | 'workplace_culture_fit_analyzer' | 'yoga_routine_generator' | 'text_formatter' | 'word_counter' | 'title_case_converter' | 'bullet_point_maker' | 'text_shortener' | 'email_subject_line_maker' | 'readability_checker' | 'plagiarism_checker';
+  // Text Utilities
+  | 'text_formatter' | 'spelling_checker' | 'word_counter' | 'hashtag_generator' | 'caption_maker' | 'daily_planner' | 'note_summarizer' | 'paragraph_expander' | 'question_generator' | 'keyword_finder' | 'text_cleaner' | 'text_tone_adjuster' | 'synonym_finder' | 'antonym_finder' | 'acronym_maker' | 'emoji_replacer' | 'headline_creator' | 'title_case_converter' | 'bullet_point_maker' | 'simple_translator' | 'text_shortener' | 'email_subject_line_maker' | 'readability_checker' | 'plagiarism_checker' | 'blog_idea_generator' | 'blog_outline_maker' | 'blog_intro_writer' | 'blog_conclusion_writer' | 'story_idea_generator'
+  // New Modes
+  | 'ai_virtual_interior_designer' | 'home_renovation_planner' | 'meal_prep_plan_generator' | 'custom_workout_generator'
+  | 'personal_finance_advisor' | 'diy_gift_idea_generator' | 'event_seating_chart_planner' | 'wedding_vow_writer'
+  | 'cover_song_suggestion_tool' | 'music_album_art_creator' | 'podcast_show_notes_generator' | 'stand_up_comedy_set_writer'
+  | 'flash_fiction_generator' | 'historical_event_explainer' | 'ancient_civilization_guide' | 'startup_launch_checklist'
+  | 'brand_story_creator' | 'product_launch_timeline_planner' | 'team_building_activity_generator' | 'executive_summary_writer'
+  | 'career_change_planner' | 'job_application_tracker' | 'interview_thank_you_note_writer' | 'code_snippet_explainer'
+  | 'api_integration_planner' | 'database_schema_designer' | 'software_testing_plan_creator'
+  | 'donation_campaign_writer_2' | 'hiking_safety_guide_2'
+  ;
 
 
 export interface Mode {
@@ -868,7 +454,7 @@ const textUtilitiesProps = (id: ModeId, name: string, icon: React.ElementType, d
     name,
     icon,
     description,
-    component: TextGenerator, // Re-using for simplicity, ideally a more specialized component
+    component: TextUtilities,
     componentProps: {
         promptPlaceholder: "Enter text here...",
         buttonText: `Generate ${name}`,
@@ -886,6 +472,7 @@ export const modes: Mode[] = [
     { id: 'logo_maker', name: 'Logo Maker', icon: Paintbrush, description: 'Generate creative logos for your business or brand.', component: LogoMaker },
     { id: 'design_assistant', name: 'Design Assistant', icon: Star, description: 'Get design suggestions and guidance.', component: DesignAssistant },
     { id: 'photo_editor', name: 'Photo Editor', icon: Palette, description: 'Upload a photo and edit it with an AI prompt.', component: PhotoEditor },
+    { id: 'video_maker', name: 'Video Maker', icon: Video, description: 'Generate a video from a text prompt or animate an image.', component: VideoMaker },
     { id: 'video_generator', name: 'Video Storyboard', icon: VideoIcon, description: 'Generate a video storyboard with narration.', component: VideoGenerator },
     { id: 'animation_tool', name: 'Animation Planner', icon: GanttChart, description: 'Plan animations and motion graphics.', component: AnimationTool },
     { id: 'three_d_modeler', name: '3D Model Planner', icon: PieChart, description: 'Create plans for 3D models.', component: ThreeDModeler },
@@ -940,6 +527,7 @@ export const modes: Mode[] = [
         resultTitle: "Fact-Check Result"
     }},
     { id: 'brand_finder', name: 'Brand Finder', icon: Crown, description: 'Find top brands for any product.', component: BrandFinder },
+    { id: 'product_finder', name: 'Product Finder', icon: ShoppingCart, description: 'Find where to buy products online.', component: ProductFinder },
     { id: 'supply_chain_ai_planner', name: 'Supply Chain AI Planner', icon: Workflow, description: 'Plan and optimize supply chain logistics.', component: SupplyChainAiPlanner },
     { id: 'inventory_auto_forecaster', name: 'Inventory Auto-Forecaster', icon: Package, description: 'Forecast inventory needs based on historical data.', component: InventoryAutoForecaster },
     { id: 'logistics_route_optimizer', name: 'Logistics Route Optimizer', icon: Route, description: 'Find the most efficient logistics routes.', component: LogisticsRouteOptimizer },
@@ -1247,7 +835,32 @@ export const modes: Mode[] = [
     {...textGeneratorProps('garden_wildlife_attractor', 'Garden Wildlife Attractor', Bird, 'Attracts wildlife to gardens.', 'Attract wildlife to your garden')},
     {...textGeneratorProps('renewable_energy_facts', 'Renewable Energy Facts', Sun, 'Provides facts on renewable energy.', 'Provide facts on renewable energy')},
     {...textGeneratorProps('green_product_suggestor', 'Green Product Suggestor', Leaf, 'Suggests eco-friendly products.', 'Suggest green products for')},
-  
+    // 28 New Modes
+    {...textGeneratorProps('ai_virtual_interior_designer', 'AI Virtual Interior Designer', Bed, 'Get AI-powered interior design ideas.', 'Provide interior design ideas for')},
+    {...textGeneratorProps('home_renovation_planner', 'Home Renovation Planner', Home, 'Plan your next home renovation project.', 'Create a renovation plan for')},
+    {...textGeneratorProps('meal_prep_plan_generator', 'Meal-Prep Plan Generator', Utensils, 'Generate a meal-prep plan for the week.', 'Generate a meal-prep plan for')},
+    {...textGeneratorProps('custom_workout_generator', 'Custom Workout Generator', Dumbbell, 'Create a personalized workout plan.', 'Create a workout plan for')},
+    {...textGeneratorProps('personal_finance_advisor', 'Personal Finance Advisor', PiggyBank, 'Get tips on budgeting and saving money.', 'Provide personal finance advice for')},
+    {...textGeneratorProps('diy_gift_idea_generator', 'DIY Gift Idea Generator', Gift, 'Brainstorm creative DIY gift ideas.', 'Brainstorm DIY gift ideas for')},
+    {...textGeneratorProps('event_seating_chart_planner', 'Event Seating Chart Planner', Users, 'Plan the seating arrangement for an event.', 'Create a seating chart for')},
+    {...textGeneratorProps('wedding_vow_writer', 'Wedding Vow Writer', Heart, 'Write heartfelt wedding vows.', 'Write wedding vows for')},
+    {...textGeneratorProps('cover_song_suggestion_tool', 'Cover Song Suggestion Tool', Music, 'Get suggestions for cover songs to perform.', 'Suggest cover songs for')},
+    {...textGeneratorProps('music_album_art_creator', 'Music Album Art Creator', Album, 'Generate ideas for album art.', 'Create album art concepts for')},
+    {...textGeneratorProps('podcast_show_notes_generator', 'Podcast Show Notes Generator', Mic, 'Generate show notes for your podcast episodes.', 'Generate podcast show notes for')},
+    {...textGeneratorProps('stand_up_comedy_set_writer', 'Stand-up Comedy Set Writer', Smile, 'Write a stand-up comedy routine.', 'Write a comedy set about')},
+    {...textGeneratorProps('flash_fiction_generator', 'Flash Fiction Generator', Zap, 'Generate very short stories (under 500 words).', 'Write a flash fiction story about')},
+    {...textGeneratorProps('historical_event_explainer', 'Historical Event Explainer', Landmark, 'Get a simple explanation of a historical event.', 'Explain the historical event of')},
+    {...textGeneratorProps('ancient_civilization_guide', 'Ancient Civilization Guide', AnchorIcon, 'Get a summary of an ancient civilization.', 'Provide a guide on')},
+    {...textGeneratorProps('startup_launch_checklist', 'Startup Launch Checklist', Rocket, 'Generate a checklist for launching a startup.', 'Create a launch checklist for')},
+    {...textGeneratorProps('brand_story_creator', 'Brand Story Creator', BookHeart, 'Create a compelling story for your brand.', 'Create a brand story for')},
+    {...textGeneratorProps('product_launch_timeline_planner', 'Product Launch Timeline Planner', Milestone, 'Plan the timeline for a product launch.', 'Plan a product launch timeline for')},
+    {...textGeneratorProps('team_building_activity_generator', 'Team Building Activity Generator', Users, 'Get ideas for team building activities.', 'Suggest team building activities for')},
+    {...textGeneratorProps('executive_summary_writer', 'Executive Summary Writer', Briefcase, 'Write a concise summary of a long document.', 'Write an executive summary for')},
+    {...textGeneratorProps('career_change_planner', 'Career Change Planner', RefreshCw, 'Plan a successful career change.', 'Create a career change plan for')},
+    {...textGeneratorProps('job_application_tracker', 'Job Application Tracker', ListChecks, 'Create a template to track job applications.', 'Create a job application tracker for')},
+    {...textGeneratorProps('interview_thank_you_note_writer', 'Interview Thank-You Note Writer', Mail, 'Write a professional thank-you note after an interview.', 'Write a thank-you note for an interview for')},
+    {...textGeneratorProps('code_snippet_explainer', 'Code Snippet Explainer', Code, 'Get a simple explanation of a code snippet.', 'Explain the following code snippet')},
+    {...textGeneratorProps('api_integration_planner', 'API Integration Planner', Workflow, 'Plan the steps to integrate an API.', 'Plan an API integration for')},
+    {...textGeneratorProps('database_schema_designer', 'Database Schema Designer', Database, 'Design a database schema for an application.', 'Design a database schema for')},
+    {...textGeneratorProps('software_testing_plan_creator', 'Software Testing Plan Creator', TestTube, 'Create a testing plan for a software project.', 'Create a software testing plan for')},
 ];
-
-    
