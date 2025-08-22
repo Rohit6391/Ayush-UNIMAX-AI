@@ -16,12 +16,10 @@ import '@/ai/flows/video-editor.ts';
 import '@/ai/flows/generate-chart-from-prompt.ts';
 import '@/ai/flows/prompt-enhancer.ts';
 import '@/ai/flows/brand-finder.ts';
-import '@/ai/flows/product-finder.ts';
 import '@/ai/flows/shopping-assistant.ts';
 import '@/ai/flows/study-material-analyzer.ts';
 import '@/ai/flows/find-lyrics-from-url.ts';
 import '@/ai/flows/sound-generator.ts';
-import '@/ai/flows/generate-video-from-prompt.ts';
 import '@/ai/flows/supply-chain-ai-planner.ts';
 import '@/ai/flows/inventory-auto-forecaster.ts';
 import '@/ai/flows/logistics-route-optimizer.ts';
@@ -31,3 +29,5 @@ import '@/ai/flows/transaction-pattern-finder.ts';
 import '@/ai/flows/credit-risk-analyzer.ts';
 import '@/ai/flows/investment-portfolio-optimizer.ts';
 import '@/ai/flows/financial-statement-summarizer.ts';
+
+    
