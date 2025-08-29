@@ -14,33 +14,35 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
-## Deployment Guide
+## Deployment Guide (Free, No Credit Card Required)
 
-Deploying your Ayush Unimax AI Studio app to a live URL is a straightforward process using Firebase App Hosting.
+Deploying your Ayush Unimax AI Studio app to a live URL is a straightforward process using **Vercel**, the creators of Next.js. Their hobby plan is completely free and does not require billing information.
 
-### **Step 1: One-Time Setup**
+### **Step 1: Get Your Code**
 
-You only need to do this part once for your project. If you've done it before, you can skip to Step 2.
+First, you'll need to get your project's code onto your local machine. You can do this by downloading it as a ZIP file from your workspace.
 
-1.  **Install Firebase Tools:** If you don't have it, open your terminal and run:
+### **Step 2: Set Up Your Code with GitHub**
+
+1.  Unzip the downloaded file.
+2.  Create a new, empty repository on your [GitHub](https://github.com/) account.
+3.  Open a terminal, navigate into your unzipped project folder, and run the following commands to link your code to your new GitHub repository:
+
     ```bash
-    npm install -g firebase-tools
+    git init
+    git add .
+    git commit -m "Initial commit"
+    git branch -M main
+    git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git
+    git push -u origin main
     ```
-2.  **Log In to Firebase:**
-    ```bash
-    firebase login
-    ```
-3.  **Connect Your Project:** Run this command from your project's root folder and follow the prompts to select the Firebase project you created.
-    ```bash
-    firebase init apphosting
-    ```
+    (Remember to replace `YOUR_USERNAME` and `YOUR_REPOSITORY_NAME` with your actual GitHub details.)
 
-### **Step 2: Deploy Your Website**
+### **Step 3: Deploy with Vercel**
 
-Whenever you want to publish your changes, just run this single command from your project's terminal:
+1.  Go to [Vercel.com](https://vercel.com/) and sign up for a free "Hobby" account using your GitHub account.
+2.  Click the "**Add New...**" button and select "**Project**".
+3.  Import the GitHub repository you just created.
+4.  Vercel will automatically detect that it's a Next.js project. You just need to click the "**Deploy**" button.
 
-```bash
-npm run deploy
-```
-
-This one command handles everything: it builds your app for production and deploys it to Firebase. Once it's finished, the terminal will give you your live website URL. That's it!
+That's it! Vercel will build and deploy your site. Once it's finished, it will give you your live website URL. Any time you push new changes to your GitHub repository's `main` branch, Vercel will automatically redeploy them for you.
