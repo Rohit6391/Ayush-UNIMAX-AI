@@ -14,6 +14,7 @@ import { BrainCircuit, LogIn, Search } from 'lucide-react';
 import { useAuth } from './providers/AuthProvider';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import Image from 'next/image';
 
 export function Dashboard() {
   const { activeMode, setActiveMode, activeChat, setActiveChat } = useModes();
@@ -43,7 +44,7 @@ export function Dashboard() {
         <Sidebar collapsible="icon">
           <SidebarHeader>
             <div className="flex items-center gap-2">
-                <BrainCircuit className="h-8 w-8 text-primary" />
+                <Image src="/logo.png" alt="Ayush Unimax AI Logo" width={32} height={32} />
                 <span className="font-bold font-headline text-xl">Ayush Unimax AI</span>
             </div>
           </SidebarHeader>
