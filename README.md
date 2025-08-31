@@ -43,6 +43,17 @@ First, you'll need to get your project's code onto your local machine. You can d
 1.  Go to [Vercel.com](https://vercel.com/) and sign up for a free "Hobby" account using your GitHub account.
 2.  Click the "**Add New...**" button and select "**Project**".
 3.  Import the GitHub repository you just created.
-4.  Vercel will automatically detect that it's a Next.js project. You just need to click the "**Deploy**" button.
 
-That's it! Vercel will build and deploy your site. Once it's finished, it will give you your live website URL. Any time you push new changes to your GitHub repository's `main` branch, Vercel will automatically redeploy them for you.
+### **Step 4: Add Environment Variables**
+
+This is a critical step for your deployed app to work correctly.
+
+1.  In the "Configure Project" screen on Vercel, expand the "**Environment Variables**" section.
+2.  You will need to add your Gemini API Key. In the **Name** field, enter `GEMINI_API_KEY`.
+3.  In the **Value** field, paste the key from your local `.env` file. It looks like this: `AIza...`
+4.  Click the "**Add**" button.
+
+### **Step 5: Deploy!**
+
+1.  With the environment variable added, simply click the main "**Deploy**" button.
+2.  Vercel will build and deploy your site. Once it's finished, it will give you your live website URL. Any time you push new changes to your GitHub repository's `main` branch, Vercel will automatically redeploy them for you.
