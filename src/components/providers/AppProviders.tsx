@@ -1,18 +1,24 @@
+
 "use client";
 
 import { ThemeProvider } from "./ThemeProvider";
 import { AuthProvider } from "./AuthProvider";
 import { ModeProvider } from "./ModeProvider";
 import { ScriptLoader } from "../ScriptLoader";
+import { MemoryProvider } from "@/hooks/use-memory";
+import { Toaster } from "../ui/toaster";
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <AuthProvider>
-        <ModeProvider>
-          {children}
-          <ScriptLoader />
-        </ModeProvider>
+        <MemoryProvider>
+            <ModeProvider>
+                {children}
+                <ScriptLoader />
+                <Toaster />
+            </ModeProvider>
+        </MemoryProvider>
       </AuthProvider>
     </ThemeProvider>
   );

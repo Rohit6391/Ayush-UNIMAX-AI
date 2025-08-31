@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
@@ -15,6 +15,7 @@ import { useAuth } from '../providers/AuthProvider';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { useMemory } from '@/hooks/use-memory';
 
 interface Message {
     role: 'user' | 'model';
@@ -25,6 +26,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
     const { user } = useAuth();
     const { toast } = useToast();
+    const { memories, addMemory } = useMemory();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +54,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat]);
+    }, [isFunChat, activeChat, setActiveChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -176,6 +178,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 }
                 return m;
             });
+            
+            const memoryToUse = memories.map(m => m.text);
 
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
@@ -183,7 +187,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
-                model
+                model,
+                memory: memoryToUse
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
@@ -229,6 +234,11 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             recognitionRef.current.start();
         }
     };
+    
+    const handleSaveToMemory = (text: string) => {
+        addMemory(text);
+        toast({ title: "Saved to Memory", description: "The AI will now remember this information." });
+    }
 
     const UserAvatar = () => (
         <Avatar className="h-10 w-10">
@@ -252,15 +262,26 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
               ref={fileInputRef} 
               onChange={handleFileChange} 
               className="hidden" 
-              accept="image/png, image/jpeg, image/webp, image/gif, text/plain, application/pdf"
+              accept="image/*,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg, index) => (
-                        <div key={index} className={`flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div key={index} className={`group flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.role === 'model' && <ModelAvatar />}
-                            <div className={`max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
+                            <div className={`relative max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}</p>
+                                {msg.role === 'model' && msg.text.length > 10 && (
+                                     <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        title="Save to Memory"
+                                        onClick={() => handleSaveToMemory(msg.text)}
+                                     >
+                                        <Save size={16} />
+                                     </Button>
+                                )}
                             </div>
                             {msg.role === 'user' && <UserAvatar />}
                         </div>
@@ -325,7 +346,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         >
                             {isListening ? <Waves size={20} /> : <Mic size={20} />}
                         </Button>
-                        <Button onClick={() => handleSend()} disabled={isLoading || isHandsFree || !input.trim()} size="icon">
+                        <Button onClick={() => handleSend()} disabled={isLoading || isHandsFree || (!input.trim() && !uploadedFile)} size="icon">
                             <Send size={20} />
                         </Button>
                     </div>
