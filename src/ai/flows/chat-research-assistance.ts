@@ -52,61 +52,48 @@ const chatResearchAssistanceFlow = ai.defineFlow(
 
     const model = input.model ? googleAI.model(input.model) : undefined;
     
-    const prompt = `{{#if isFunChat}}
-    You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.
-    {{else}}
-    You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked "who made you" or "who is your founder". Otherwise, do not mention your creator.
-    {{/if}}
-    
-    **Core Instructions:**
-    - **Context is Key:** This is your most important instruction. You MUST pay close attention to the entire conversation history to understand the full context of the user's query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices.
-    - **Unwavering Accuracy:** Your most critical instruction is to be accurate. Before providing an answer, internally verify the information from multiple reliable sources. If you are not 100% certain about an answer, you MUST state that you are unable to confirm the information. Do not invent facts or speculate. It is better to say you don't know than to provide an incorrect answer.
-    - **Precision First:** When the user asks a direct question, provide the exact answer first and concisely. After the direct answer, you may add more context, explanation, or related details, but the primary, correct answer must come first, without preamble.
-    - **Logical Reasoning:** For complex questions, break down your reasoning into a step-by-step process. This helps the user understand how you arrived at the answer.
-    - **Structured and Clear:** Use formatting like **bolding**, *italics*, and lists to make your answers well-structured and easy to read.
+    let promptLines = [];
 
-    {{#if memory}}
-    **User's Saved Memories & Facts:**
-    You have access to the user's saved memories. You MUST consult this information to provide more personalized and context-aware responses. Do not mention the act of looking up the memory unless the user explicitly asks about it.
-    {{#each memory}}
-    - {{{this}}}
-    {{/each}}
-    {{/if}}
+    // Personality and Core Instructions
+    if (input.isFunChat) {
+        promptLines.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
+    } else {
+        promptLines.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
+    }
 
-    {{#if contextualText}}
-    **Contextual Information from File:**
-    The user has provided a file. Use the following extracted text as the primary context for your response.
-    ---
-    {{{contextualText}}}
-    ---
-    {{/if}}
+    promptLines.push(`
+**Core Instructions:**
+- **Context is Key:** You MUST pay close attention to the entire conversation history to understand the full context of the user's query.
+- **Unwavering Accuracy:** Your most critical instruction is to be accurate. If you are not 100% certain, state that you are unable to confirm the information. Do not invent facts.
+- **Precision First:** Provide the exact answer first and concisely, then add details if needed.
+- **Structured and Clear:** Use formatting like bolding, italics, and lists to make answers easy to read.
+`);
 
-    {{#if history}}
-    **Conversation History:**
-    {{#each history}}
-    - {{this.role}}: {{#if this.text}}{{this.text}}{{else}}...{{/if}}
-    {{/each}}
-    {{/if}}
-    
-    {{#if isDeepResearch}}
-      You are in **Deep Research mode**. Your response must be exceptionally detailed, well-structured, and comprehensive. Explore multiple facets of the query, provide supporting details, present a thorough analysis, and cite sources where appropriate.
-      **User Query:** {{{prompt}}}
-    {{else}}
-      **User Query:** {{{prompt}}}
-    {{/if}}`;
-    
+    // Add memories if they exist
+    if (input.memory && input.memory.length > 0) {
+        promptLines.push("**User's Saved Memories & Facts:**\nYou MUST consult this information to provide more personalized and context-aware responses.");
+        input.memory.forEach(mem => promptLines.push(`- ${mem}`));
+    }
+
+    // Add file context if it exists
+    if (contextualText) {
+        promptLines.push(`**Contextual Information from File:**\nUse the following extracted text as the primary context for your response.\n---\n${contextualText}\n---`);
+    }
+
+    // Add the user's current prompt
+    if (input.isDeepResearch) {
+        promptLines.push(`You are in **Deep Research mode**. Your response must be exceptionally detailed, well-structured, and comprehensive. **User Query:** ${input.prompt}`);
+    } else {
+        promptLines.push(`**User Query:** ${input.prompt}`);
+    }
+
+    const finalPrompt = promptLines.join('\n\n');
+
     const {output} = await ai.generate({
-      prompt: prompt,
+      prompt: finalPrompt,
       model,
       history: input.history,
       output: { schema: ChatResearchAssistanceOutputSchema },
-      context: {
-        isFunChat: input.isFunChat,
-        prompt: input.prompt,
-        memory: input.memory,
-        isDeepResearch: input.isDeepResearch,
-        contextualText: contextualText
-      }
     });
 
     return output!;
