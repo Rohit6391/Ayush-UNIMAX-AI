@@ -15,7 +15,7 @@ import { useAuth } from '../providers/AuthProvider';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { useMemory } from '@/hooks/use-memory';
+import { languageToCode, languages } from '@/lib/languages';
 
 interface Message {
     role: 'user' | 'model';
@@ -23,10 +23,9 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat, model, memories, addMemory } = useModes();
     const { user } = useAuth();
     const { toast } = useToast();
-    const { memories, addMemory } = useMemory();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -72,6 +71,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 } else {
                     setInput(prev => prev ? `${prev} ${transcript}` : transcript);
                 }
+                setIsListening(false);
             };
 
             recognitionRef.current.onerror = (event: any) => {
