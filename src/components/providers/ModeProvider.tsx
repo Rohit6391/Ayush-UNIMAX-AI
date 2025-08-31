@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
 import { type ModeId } from '@/lib/modes';
 import { useAuth } from './AuthProvider';
 import { ModelId, availableModels } from '@/lib/models';
@@ -14,6 +14,13 @@ export interface HistoryItem {
   date: Date;
   fullConversation?: any[];
 }
+
+export interface Memory {
+  id: string;
+  text: string;
+  timestamp: number;
+}
+
 
 interface ModeContextType {
   activeMode: ModeId;
@@ -31,6 +38,9 @@ interface ModeContextType {
   activeChat: any[];
   setActiveChat: (chat: any[]) => void;
   model: ModelId;
+  memories: Memory[];
+  addMemory: (text: string) => void;
+  deleteMemory: (id: string) => void;
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
@@ -41,7 +51,6 @@ const mediaGeneratingModes: ModeId[] = [
     'photo_editor', 
     'video_generator',
     'sound_generator',
-    'video_maker'
 ];
 
 export const ModeProvider = ({ children }: { children: ReactNode }) => {
@@ -54,7 +63,59 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const [activeChat, setActiveChat] = useState<any[]>([]);
   const model = availableModels[0];
 
+  // Memory State
+  const [memories, setMemories] = useState<Memory[]>([]);
+  const memoryKey = user ? `memory_${user.uid}` : 'memory_guest';
   const historyKey = user ? `history_${user.uid}` : 'history_guest';
+
+  // Load Memories
+  useEffect(() => {
+    const loadMemories = () => {
+      try {
+        const localMemories = localStorage.getItem(memoryKey);
+        if (localMemories) {
+          const parsedMemories: Memory[] = JSON.parse(localMemories);
+          setMemories(parsedMemories.sort((a, b) => b.timestamp - a.timestamp));
+        } else {
+          setMemories([]);
+        }
+      } catch (e) {
+        console.error("Failed to load memories from localStorage", e);
+        setMemories([]);
+      }
+    };
+    loadMemories();
+  }, [user, memoryKey]);
+
+  const saveMemories = useCallback((updatedMemories: Memory[]) => {
+      try {
+          localStorage.setItem(memoryKey, JSON.stringify(updatedMemories));
+      } catch (e) {
+          console.error("Failed to save memories to localStorage", e);
+      }
+  }, [memoryKey]);
+
+  const addMemory = useCallback((text: string) => {
+    const newMemory: Memory = {
+      id: `${Date.now()}-${Math.random()}`,
+      text,
+      timestamp: Date.now(),
+    };
+    setMemories(prev => {
+        const updated = [newMemory, ...prev];
+        saveMemories(updated);
+        return updated;
+    });
+  }, [saveMemories]);
+
+  const deleteMemory = useCallback((id: string) => {
+    setMemories(prev => {
+        const updated = prev.filter(m => m.id !== id);
+        saveMemories(updated);
+        return updated;
+    });
+  }, [saveMemories]);
+
 
   useEffect(() => {
     const loadHistory = () => {
@@ -81,19 +142,16 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const addHistoryItem = async (type: ModeId, prompt: string, data: any, fullConversation?: any[]) => {
     let storableData = data;
     
-    // If the mode is one that generates large data, replace it with a placeholder for storage.
     if (mediaGeneratingModes.includes(type)) {
         if (typeof data === 'string' && data.startsWith('data:')) {
             storableData = `[Media data not stored for mode: ${type}]`;
         } else if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
-            // Handle complex objects that might contain data URIs, like video storyboards
             storableData = `[Complex media object not stored for mode: ${type}]`;
         }
     }
 
     const newHistoryItem: HistoryItem = { id: Date.now(), type, prompt, data: storableData, date: new Date(), fullConversation };
     
-    // The state can hold the full data for the current session, but we'll save the pruned version.
     const updatedHistoryForState = [{...newHistoryItem, data: data}, ...history];
     setHistory(updatedHistoryForState);
     
@@ -104,7 +162,6 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     } catch (e: any) {
         console.error("Failed to save history:", e);
         if (e.name === 'QuotaExceededError') {
-            // If still over quota, prune the history log to the most recent 20 items.
             const prunedHistory = updatedHistoryForStorage.slice(0, 20);
             localStorage.setItem(historyKey, JSON.stringify(prunedHistory));
             setHistory(prunedHistory);
@@ -129,7 +186,6 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   };
   
   const handleSetActiveMode = (modeId: ModeId) => {
-    // Reset chat history when switching between chat modes or to other modes
     if (activeMode !== modeId && (activeMode === 'chat' || activeMode === 'fun_chat' || modeId === 'chat' || modeId === 'fun_chat')) {
         setActiveChat([]);
     }
@@ -152,6 +208,9 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     activeChat,
     setActiveChat,
     model,
+    memories,
+    addMemory,
+    deleteMemory,
   };
 
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;

@@ -10,11 +10,9 @@ import { useTheme } from "next-themes";
 import { modes } from "@/lib/modes";
 import { ScrollArea } from "../ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
-import { useMemory, Memory } from "@/providers/MemoryProvider";
 import { formatDistanceToNow } from 'date-fns';
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
-import { Input } from "../ui/input";
 
 const getIconForType = (type: HistoryItem['type']) => {
     const mode = modes.find(m => m.id === type);
@@ -56,7 +54,7 @@ const HistoryCard = ({ item }: { item: HistoryItem }) => {
 };
 
 const MemoryManager = () => {
-    const { memories, addMemory, deleteMemory } = useMemory();
+    const { memories, addMemory, deleteMemory } = useModes();
     const [newMemory, setNewMemory] = useState("");
 
     const handleAddMemory = () => {
