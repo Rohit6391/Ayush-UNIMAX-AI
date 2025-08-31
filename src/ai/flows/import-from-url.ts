@@ -10,7 +10,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import fetch from 'node-fetch';
 
 const ImportFromUrlInputSchema = z.object({
   url: z.string().url({ message: "Invalid URL provided. Please ensure it includes http:// or https://." }).describe('The URL to fetch content from.'),
