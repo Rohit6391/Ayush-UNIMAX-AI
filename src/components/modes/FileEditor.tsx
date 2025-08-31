@@ -12,7 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { editFilesFromPrompt } from '@/ai/flows/edit-files-from-prompt';
 
 export function FileEditor({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [file, setFile] = useState<File | null>(null);
     const [fileContent, setFileContent] = useState('');
     const [editedContent, setEditedContent] = useState('');
@@ -39,7 +39,7 @@ export function FileEditor({ mode }: { mode: any }) {
         setIsLoading(true); setEditedContent(''); setError('');
         
         try {
-            const result = await editFilesFromPrompt({ fileContent, prompt });
+            const result = await editFilesFromPrompt({ fileContent, prompt, model });
             setEditedContent(result.fileContent);
             addHistoryItem('file_editor', `${prompt} on ${file?.name}`, result.fileContent);
         } catch (err: any) {
@@ -68,7 +68,13 @@ export function FileEditor({ mode }: { mode: any }) {
                 onClick={() => fileInputRef.current?.click()} 
                 className="w-full h-32 bg-background border-2 border-dashed border-input rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-muted/50 transition-colors"
             >
-                <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept=".txt,.md,.json,.csv,.html,.css,.js,.py,.java,.c,.cpp" />
+                <input 
+                    type="file" 
+                    ref={fileInputRef} 
+                    onChange={handleFileChange} 
+                    className="hidden" 
+                    accept=".txt,.md,.json,.csv,.html,.css,.js,.py,.java,.c,.cpp,application/pdf" 
+                />
                 {file ? (
                     <div className="text-center">
                         <FileText className="h-8 w-8 mx-auto text-primary" />

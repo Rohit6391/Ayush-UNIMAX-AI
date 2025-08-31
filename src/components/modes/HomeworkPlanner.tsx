@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef } from 'react';
@@ -29,7 +30,7 @@ interface Task {
 }
 
 export function HomeworkPlanner({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [tasks, setTasks] = useState<Task[]>([]);
     const [newTask, setNewTask] = useState('');
     const [attachment, setAttachment] = useState<{ file: File, preview: string } | null>(null);
@@ -87,7 +88,8 @@ export function HomeworkPlanner({ mode }: { mode: any }) {
         try {
             const result = await createDocumentFromPrompt({ 
                 prompt,
-                fileDataUri: task.filePreview
+                fileDataUri: task.filePreview,
+                model
             });
             setAiHelp(result.document);
             addHistoryItem('homework_helper', task.text, result.document);
@@ -100,7 +102,13 @@ export function HomeworkPlanner({ mode }: { mode: any }) {
 
     return (
         <ModeWrapper mode={mode}>
-             <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+             <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleFileChange} 
+                className="hidden" 
+                accept="image/png, image/jpeg, image/webp, image/gif, text/plain, application/pdf"
+            />
             <div className="flex gap-2">
                 <Input
                     value={newTask}

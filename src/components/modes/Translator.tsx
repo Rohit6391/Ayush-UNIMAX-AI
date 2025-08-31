@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -223,7 +224,13 @@ export function Translator({ mode }: { mode: any }) {
                                     onClick={() => fileInputRef.current?.click()} 
                                     className="w-full h-full border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-muted/50"
                                 >
-                                    <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept=".txt,.pdf,.png,.jpeg,.jpg,.webp" />
+                                    <input 
+                                        type="file" 
+                                        ref={fileInputRef} 
+                                        onChange={handleFileChange} 
+                                        className="hidden" 
+                                        accept="image/png, image/jpeg, image/webp, text/plain, application/pdf"
+                                    />
                                     {previewUrl && file?.type.startsWith('image/') ? (
                                         <img src={previewUrl} alt="Upload preview" className="max-h-full max-w-full p-2 object-contain" />
                                     ) : (

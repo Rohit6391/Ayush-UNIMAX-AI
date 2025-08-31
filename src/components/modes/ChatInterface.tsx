@@ -124,7 +124,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         if (!input.trim() || isLoading) return;
         setIsLoading(true);
         try {
-            const { enhancedPrompt } = await enhancePrompt({ prompt: input });
+            const { enhancedPrompt } = await enhancePrompt({ prompt: input, model });
             setInput(enhancedPrompt);
             toast({ title: "Prompt Enhanced", description: "Your prompt has been improved." });
         } catch (error: any) {
@@ -146,7 +146,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         // Enhance prompt if in hands-free mode
         if (isHandsFree) {
             try {
-                const { enhancedPrompt } = await enhancePrompt({ prompt: currentInput });
+                const { enhancedPrompt } = await enhancePrompt({ prompt: currentInput, model });
                 currentInput = enhancedPrompt;
             } catch (error) {
                 console.error("Failed to enhance prompt in hands-free mode, using original.", error);
@@ -247,7 +247,13 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
 
     return (
         <div className="flex flex-col h-full max-w-4xl mx-auto">
-            <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              onChange={handleFileChange} 
+              className="hidden" 
+              accept="image/png, image/jpeg, image/webp, image/gif, text/plain, application/pdf"
+            />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg, index) => (
