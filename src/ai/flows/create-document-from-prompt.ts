@@ -57,7 +57,8 @@ const createDocumentFromPromptFlow = ai.defineFlow(
     outputSchema: CreateDocumentFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const model = input.model ? googleAI.model(input.model) : undefined;
+    const {output} = await prompt(input, { model });
     return output!;
   }
 );

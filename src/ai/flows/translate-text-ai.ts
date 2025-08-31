@@ -71,7 +71,8 @@ const translateTextAIFlow = ai.defineFlow(
     if (!input.text && !input.fileDataUri) {
       throw new Error("Either text or a file must be provided for translation.");
     }
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const model = input.model ? googleAI.model(input.model) : undefined;
+    const {output} = await prompt(input, { model });
     return output!;
   }
 );

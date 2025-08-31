@@ -49,7 +49,8 @@ const editFilesFromPromptFlow = ai.defineFlow(
     outputSchema: EditFilesFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const model = input.model ? googleAI.model(input.model) : undefined;
+    const {output} = await prompt(input, { model });
     if (!output) {
         throw new Error("The AI failed to generate a response.");
     }

@@ -62,7 +62,8 @@ const generateChartFromPromptFlow = ai.defineFlow(
     outputSchema: GenerateChartFromPromptOutputSchema,
   },
   async (input) => {
-    const { output } = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    const model = input.model ? googleAI.model(input.model) : undefined;
+    const { output } = await prompt(input, { model });
     if (!output) {
       throw new Error('Failed to generate chart data from prompt.');
     }

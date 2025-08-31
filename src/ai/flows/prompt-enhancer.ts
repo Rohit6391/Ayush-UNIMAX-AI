@@ -47,7 +47,8 @@ const enhancePromptFlow = ai.defineFlow(
     outputSchema: EnhancePromptOutputSchema,
   },
   async (input) => {
-    const { output } = await prompt(input, { model: input.model ? googleAI.model(input.model) : undefined });
+    const model = input.model ? googleAI.model(input.model) : undefined;
+    const { output } = await prompt(input, { model });
     if (!output) {
       throw new Error('Failed to enhance prompt.');
     }
