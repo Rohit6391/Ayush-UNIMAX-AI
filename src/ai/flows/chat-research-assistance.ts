@@ -40,6 +40,8 @@ const ChatResearchAssistanceInputSchema = z.object({
   memory: z.array(z.string()).optional().describe('A list of memories or facts the user has saved.'),
   isStudyMode: z.boolean().optional().describe('Whether to act as a tutor and explain things simply.'),
   isWebSearch: z.boolean().optional().describe('Whether to use web search to get up-to-date information.'),
+  isTranslatorMode: z.boolean().optional().describe('Whether to translate the user\'s prompt.'),
+  targetLanguage: z.string().optional().describe('The target language for translation.'),
 });
 export type ChatResearchAssistanceInput = z.infer<typeof ChatResearchAssistanceInputSchema>;
 
@@ -71,29 +73,34 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     
     let promptPreamble = [];
 
-    // Personality and Core Instructions
-    if (input.isFunChat) {
-        promptPreamble.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
+    // Translator Mode takes precedence
+    if (input.isTranslatorMode) {
+        promptPreamble.push(`You are a highly skilled translator. Your task is to translate the user's text into ${input.targetLanguage || 'the specified language'}. Auto-detect the source language if it is not obvious. Provide only the translated text as your response, without any additional commentary or explanation.`);
     } else {
-        promptPreamble.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
-    }
+        // Personality and Core Instructions
+        if (input.isFunChat) {
+            promptPreamble.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
+        } else {
+            promptPreamble.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
+        }
 
-    promptPreamble.push(`
+        promptPreamble.push(`
 **Core Instructions:**
 - **Context is Key:** You MUST pay close attention to the entire conversation history to understand the full context of the user's query.
 - **Unwavering Accuracy:** Your most critical instruction is to be accurate. If you are not 100% certain, state that you are unable to confirm the information. Do not invent facts.
 - **Precision First:** Provide the exact answer first and concisely, then add details if needed.
 - **Structured and Clear:** Use formatting like bolding, italics, and lists to make answers easy to read.
 `);
-    
-    if (input.isStudyMode) {
-        promptPreamble.push("**Study and Learn Mode:** You are currently in 'Study and Learn' mode. Act as a patient and encouraging tutor. Break down complex topics into simple, easy-to-understand concepts. Use analogies and ask clarifying questions to ensure the user is understanding.")
+        
+        if (input.isStudyMode) {
+            promptPreamble.push("**Study and Learn Mode:** You are currently in 'Study and Learn' mode. Act as a patient and encouraging tutor. Break down complex topics into simple, easy-to-understand concepts. Use analogies and ask clarifying questions to ensure the user is understanding.")
+        }
+        
+        if (input.isWebSearch) {
+            promptPreamble.push("**Web Search Mode:** You MUST use the 'searchWeb' tool to find the most current and relevant information for the user's query, especially for recent events or topics where up-to-date data is critical.")
+        }
     }
     
-    if (input.isWebSearch) {
-        promptPreamble.push("**Web Search Mode:** You MUST use the 'searchWeb' tool to find the most current and relevant information for the user's query, especially for recent events or topics where up-to-date data is critical.")
-    }
-
     // Add memories if they exist
     if (input.memory && input.memory.length > 0) {
         promptPreamble.push("**User's Saved Memories & Facts:**\nYou MUST consult this information to provide more personalized and context-aware responses.");
