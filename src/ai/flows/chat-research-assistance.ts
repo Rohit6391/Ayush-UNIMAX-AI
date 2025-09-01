@@ -32,7 +32,7 @@ const searchWeb = ai.defineTool(
 
 const ChatResearchAssistanceInputSchema = z.object({
   prompt: z.string().describe('The prompt for the AI to research.'),
-  isDeepResearch: z.boolean().describe('Whether to perform deep research or not.'),
+  isDeepResearch: z.boolean().optional().describe('Whether to perform deep research or not.'),
   isFunChat: z.boolean().optional().describe('Whether to use a fun, witty, and creative personality.'),
   history: z.array(z.any()).optional().describe('The chat history.'),
   fileDataUri: z.string().optional().describe("An optional file provided by the user, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
@@ -107,7 +107,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
 
     let userPrompt = input.prompt;
     if (input.isDeepResearch) {
-        userPrompt = `(Think Longer mode is ON. Your response must be exceptionally detailed, well-structured, and comprehensive) ${input.prompt}`;
+        userPrompt = `(Deep Research mode is ON. Your response must be exceptionally detailed, well-structured, and comprehensive. Explore multiple facets of the query, provide supporting details, present a thorough analysis, and cite sources where appropriate.) ${input.prompt}`;
     }
 
     const {output} = await ai.generate({
@@ -122,3 +122,5 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     return output!;
   }
 );
+
+    

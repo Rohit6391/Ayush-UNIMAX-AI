@@ -2,9 +2,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save, SlidersHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save, SlidersHorizontal, BookOpen, Search } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
@@ -12,8 +12,6 @@ import { enhancePrompt } from '@/ai/flows/prompt-enhancer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
-import { Switch } from '../ui/switch';
-import { Label } from '../ui/label';
 import { useToast } from '@/hooks/use-toast';
 import {
   DropdownMenu,
@@ -39,6 +37,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isDeepResearch, setIsDeepResearch] = useState(false);
+    const [isStudyMode, setIsStudyMode] = useState(false);
+    const [isWebSearch, setIsWebSearch] = useState(false);
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -154,16 +154,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         setIsLoading(true);
         setInput(''); // Clear input immediately
         
-        // Enhance prompt if in hands-free mode
-        if (isHandsFree) {
-            try {
-                const { enhancedPrompt } = await enhancePrompt({ prompt: currentInput, model });
-                currentInput = enhancedPrompt;
-            } catch (error) {
-                console.error("Failed to enhance prompt in hands-free mode, using original.", error);
-            }
-        }
-
         const userMessageText = currentInput;
         const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
@@ -197,7 +187,9 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 fileDataUri: fileDataUri, 
                 isFunChat,
                 model,
-                memory: memoryToUse
+                memory: memoryToUse,
+                isStudyMode,
+                isWebSearch,
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
@@ -337,7 +329,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         placeholder={isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI...")}
                         className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1}
-                        disabled={isHandsFree || isLoading}
+                        disabled={isLoading}
                     />
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
                         <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading}>
@@ -355,7 +347,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         >
                             {isListening ? <Waves size={20} /> : <Mic size={20} />}
                         </Button>
-                        <Button onClick={() => handleSend()} disabled={isLoading || isHandsFree || (!input.trim() && !uploadedFile)} size="icon">
+                        <Button onClick={() => handleSend()} disabled={isLoading || (!input.trim() && !uploadedFile)} size="icon">
                             <Send size={20} />
                         </Button>
                     </div>
@@ -379,6 +371,20 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                                 Deep Research
                             </DropdownMenuCheckboxItem>
                          )}
+                         <DropdownMenuCheckboxItem
+                            checked={isStudyMode}
+                            onCheckedChange={setIsStudyMode}
+                        >
+                            <BookOpen className="mr-2 h-4 w-4" />
+                            Study and Learn
+                        </DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                            checked={isWebSearch}
+                            onCheckedChange={setIsWebSearch}
+                        >
+                            <Search className="mr-2 h-4 w-4" />
+                            Web Search
+                        </DropdownMenuCheckboxItem>
                          <DropdownMenuItem onSelect={handleEnhancePrompt} disabled={!input || isLoading}>
                            <Sparkles className="mr-2 h-4 w-4" />
                            Enhance Prompt
@@ -397,3 +403,5 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         </div>
     );
 }
+
+    
