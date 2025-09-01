@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save, SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
@@ -15,7 +15,16 @@ import { useAuth } from '../providers/AuthProvider';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { languageToCode, languages } from '@/lib/languages';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu"
+
 
 interface Message {
     role: 'user' | 'model';
@@ -351,24 +360,38 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         </Button>
                     </div>
                 </div>
-                 <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-4">
-                         {!isFunChat && (
-                         <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
-                            <Switch id="deep-research" checked={isDeepResearch} onCheckedChange={setIsDeepResearch} />
-                            <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
-                            <Label htmlFor="deep-research">Deep Research</Label>
-                        </label>
-                        )}
-                         <Button variant="ghost" onClick={handleEnhancePrompt} className="flex items-center gap-2 cursor-pointer hover:text-foreground p-0 h-auto text-sm" disabled={!input || isLoading || isHandsFree}>
-                            <Sparkles size={16} />
-                            Enhance Prompt
+                 <div className="flex items-center mt-2">
+                     <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm">
+                          <SlidersHorizontal className="mr-2 h-4 w-4" /> Tools
                         </Button>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Label htmlFor="hands-free-mode" className="cursor-pointer">Hands-Free</Label>
-                        <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />
-                    </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuLabel>AI Tools</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                         {!isFunChat && (
+                            <DropdownMenuCheckboxItem
+                                checked={isDeepResearch}
+                                onCheckedChange={setIsDeepResearch}
+                            >
+                                <Sparkles className="mr-2 h-4 w-4" />
+                                Deep Research
+                            </DropdownMenuCheckboxItem>
+                         )}
+                         <DropdownMenuItem onSelect={handleEnhancePrompt} disabled={!input || isLoading || isHandsFree}>
+                           <Sparkles className="mr-2 h-4 w-4" />
+                           Enhance Prompt
+                         </DropdownMenuItem>
+                         <DropdownMenuCheckboxItem
+                            checked={isHandsFree}
+                            onCheckedChange={setIsHandsFree}
+                         >
+                            <Mic className="mr-2 h-4 w-4" />
+                            Hands-Free Mode
+                         </DropdownMenuCheckboxItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </div>
         </div>
