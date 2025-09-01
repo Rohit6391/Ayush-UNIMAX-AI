@@ -69,7 +69,11 @@ export function SongWriter({ mode }: { mode: any }) {
             setComposition(result.composition);
             addHistoryItem('song_writer', prompt, `Generated a song with lyrics and a ${result.composition.length}-note melody.`);
         } catch (err: any) {
-            setError(`Song creation failed: ${err.message}.`);
+            let errorMessage = `Song creation failed: ${err.message}.`;
+            if (err.message && err.message.includes('429')) {
+                errorMessage = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
+            }
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }

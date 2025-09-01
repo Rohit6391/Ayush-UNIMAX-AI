@@ -15,12 +15,13 @@ interface TextGeneratorProps {
   mode: any;
   promptPlaceholder: string;
   buttonText: string;
-  generatePrompt: (prompt: string) => string;
+  generatePrompt?: (prompt: string) => string;
   resultTitle: string;
+  flow?: (input: { prompt: string } | any) => Promise<{ [key: string]: any }>;
 }
 
-export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePrompt, resultTitle }: TextGeneratorProps) {
-  const { addHistoryItem } = useModes();
+export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePrompt, resultTitle, flow }: TextGeneratorProps) {
+  const { addHistoryItem, model } = useModes();
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [resultText, setResultText] = useState('');
@@ -34,18 +35,31 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
     setIsLoading(true);
     setResultText('');
     setError('');
-    const fullPrompt = generatePrompt(prompt);
+    
     try {
-      const result = await createDocumentFromPrompt({ prompt: fullPrompt });
-      const generatedText = result.document;
-      setResultText(generatedText);
-      addHistoryItem(mode.id, prompt, generatedText);
-    } catch (err: any) {
-      let errorMessageText = `Failed to generate: ${err.message}`;
-      if (err.message && (err.message.includes('503') || err.message.toLowerCase().includes('overloaded'))) {
-          errorMessageText = "The AI model is currently busy. Please try again in a few moments.";
+      let result;
+      if (flow) {
+        result = await flow({ prompt });
+        const resultKey = Object.keys(result)[0];
+        setResultText(result[resultKey]);
+      } else if (generatePrompt) {
+        const fullPrompt = generatePrompt(prompt);
+        result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
+        setResultText(result.document);
+      } else {
+        throw new Error("No generation logic provided.");
       }
-      setError(errorMessageText);
+      
+      addHistoryItem(mode.id, prompt, resultText);
+
+    } catch (err: any) {
+        let errorMessageText = `Failed to generate: ${err.message}`;
+        if (err.message && err.message.includes('429')) {
+            errorMessageText = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
+        } else if (err.message && (err.message.includes('503') || err.message.toLowerCase().includes('overloaded'))) {
+            errorMessageText = "The AI model is currently busy. Please try again in a few moments.";
+        }
+        setError(errorMessageText);
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +94,7 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
         {resultText && !isLoading && (
           <Card className="text-left">
             <CardHeader>
-              <CardTitle>Canvas</CardTitle>
+              <CardTitle>{resultTitle}</CardTitle>
             </CardHeader>
             <CardContent>
               <pre className="whitespace-pre-wrap leading-relaxed font-sans">{resultText}</pre>

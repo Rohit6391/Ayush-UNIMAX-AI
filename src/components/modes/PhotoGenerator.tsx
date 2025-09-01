@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -11,7 +12,7 @@ import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export function PhotoGenerator({ mode }: { mode: any }) {
-  const { addHistoryItem } = useModes();
+  const { addHistoryItem, model } = useModes();
   const [prompt, setPrompt] = useState('');
   const [editPrompt, setEditPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +37,11 @@ export function PhotoGenerator({ mode }: { mode: any }) {
         throw new Error("No image data received from AI.");
       }
     } catch (err: any) {
-      setError(err.message || 'Failed to generate image. Please try again.');
+        let errorMessage = `Failed to generate image: ${err.message}`;
+        if (err.message && err.message.includes('429')) {
+            errorMessage = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
+        }
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -75,7 +80,7 @@ export function PhotoGenerator({ mode }: { mode: any }) {
         </Button>
       
         {error && (
-            <Alert variant="destructive" className="mt-6">
+            <Alert variant="destructive" className="mt-6 text-left">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertTitle>Error</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>

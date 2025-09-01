@@ -56,11 +56,9 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         setIsLoading(true); setResult(''); setError(''); setExplanation('');
         
         try {
-            // Step 1: Enhance the user's prompt
             toast({ title: "Thinking...", description: "Enhancing your idea into a detailed prompt..." });
             const { enhancedPrompt } = await enhancePrompt({ prompt });
 
-            // Step 2: Generate the final result using the enhanced prompt
             toast({ title: "Building...", description: "The AI is now creating your project." });
             const fullPrompt = generatePrompt(enhancedPrompt);
             const apiResult = await createDocumentFromPrompt({ prompt: fullPrompt, model });
@@ -84,7 +82,11 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
             if (generatedExplanation) setExplanation(generatedExplanation);
             addHistoryItem(mode.id, prompt, generatedResult);
         } catch (err: any) {
-            setError(`Failed to generate: ${err.message}`);
+            let errorMessage = `Failed to generate: ${err.message}`;
+            if (err.message && err.message.includes('429')) {
+                errorMessage = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
+            }
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -123,7 +125,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `index.${fileExtension}`; // Changed to index.html for web deployment
+        a.download = `index.${fileExtension}`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -132,7 +134,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
     
     const handlePastedCode = (code: string) => {
         setResult(code);
-        setActiveTab('prompt'); // Switch back to the main view
+        setActiveTab('prompt');
         setError('');
         setExplanation("Previewing your pasted code. You can now use the 'Refine with AI' feature to modify it.");
         addHistoryItem(mode.id, "Pasted Code", code);
@@ -148,7 +150,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
                 finalResult = finalResult.replace(/^```html\n?/, '').replace(/```$/, '').trim();
             }
             setResult(finalResult);
-            setActiveTab('prompt'); // Switch back to main view
+            setActiveTab('prompt');
             setExplanation(`Successfully imported content from ${url}. You can now use the 'Refine with AI' feature.`);
             addHistoryItem(mode.id, `Import from ${url}`, finalResult);
         } catch(err: any) {

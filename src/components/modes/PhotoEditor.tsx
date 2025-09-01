@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Palette, Settings, AlertTriangle, UploadCloud, Image as ImageIcon, Download } from 'lucide-react';
+import { Palette, Settings, AlertTriangle, UploadCloud, Download } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { generateImageFromStoryboard } from '@/ai/flows/generate-image-from-storyboard';
 
 export function PhotoEditor({ mode }: { mode: any }) {
-    const { addHistoryItem } = useModes();
+    const { addHistoryItem, model } = useModes();
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] =useState<string | null>(null);
     const [editedImageUrl, setEditedImageUrl] = useState('');
@@ -47,7 +47,11 @@ export function PhotoEditor({ mode }: { mode: any }) {
                 throw new Error("No image data received from AI.")
             }
         } catch (err: any) {
-            setError(`Failed to edit image: ${err.message}`);
+            let errorMessage = `Failed to edit image: ${err.message}`;
+            if (err.message && err.message.includes('429')) {
+                errorMessage = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
+            }
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }
