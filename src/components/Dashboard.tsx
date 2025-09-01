@@ -9,7 +9,7 @@ import { AboutPanel } from "@/components/panels/AboutPanel";
 import { SignInModal } from "@/components/dialogs/SignInModal";
 import { useModes } from '@/components/providers/ModeProvider';
 import { modes } from '@/lib/modes';
-import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider } from './ui/sidebar';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger } from './ui/sidebar';
 import { BrainCircuit, LogIn, Search } from 'lucide-react';
 import { useAuth } from './providers/AuthProvider';
 import { Button } from './ui/button';
@@ -36,25 +36,27 @@ export function Dashboard() {
   );
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <div className="flex h-screen w-full bg-secondary dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
         {isSignInModalOpen && <SignInModal isOpen={isSignInModalOpen} setIsOpen={setIsSignInModalOpen} />}
         
         <Sidebar collapsible="icon">
           <SidebarHeader>
-            <div className="flex items-center gap-2">
-                <BrainCircuit className="h-8 w-8 text-primary" />
-                <span className="font-bold font-headline text-xl">Ayush Unimax AI</span>
-            </div>
+              <div className="flex items-center gap-2 [&>span]:opacity-100 group-data-[collapsible=icon]:[&>span]:opacity-0">
+                  <BrainCircuit className="h-8 w-8 text-primary" />
+                  <span className="font-bold font-headline text-xl">Ayush Unimax AI</span>
+              </div>
           </SidebarHeader>
           <SidebarContent>
-            <div className="p-2">
+            <div className="p-2 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:pt-2">
                 <div className="relative">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <div className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground group-data-[collapsible=icon]:left-1/2 group-data-[collapsible=icon]:-translate-x-1/2">
+                        <Search/>
+                    </div>
                     <Input
                         type="search"
                         placeholder="Search modes..."
-                        className="w-full rounded-lg bg-background pl-8"
+                        className="w-full rounded-lg bg-background pl-8 group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:pl-8"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
