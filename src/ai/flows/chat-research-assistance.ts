@@ -63,69 +63,76 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     outputSchema: ChatResearchAssistanceOutputSchema,
   },
   async (input) => {
-    let contextualText: string | undefined = undefined;
-    if (input.fileDataUri) {
-      const { text } = await extractTextFromFile({ fileDataUri: input.fileDataUri });
-      contextualText = text;
-    }
+    try {
+        let contextualText: string | undefined = undefined;
+        if (input.fileDataUri) {
+          const { text } = await extractTextFromFile({ fileDataUri: input.fileDataUri });
+          contextualText = text;
+        }
 
-    const model = input.model ? googleAI.model(input.model) : undefined;
-    
-    let promptPreamble = [];
+        const model = input.model ? googleAI.model(input.model) : undefined;
+        
+        let promptPreamble = [];
 
-    // Translator Mode takes precedence
-    if (input.isTranslatorMode) {
-        promptPreamble.push(`You are a highly skilled translator. Your task is to translate the user's text into ${input.targetLanguage || 'the specified language'}. Auto-detect the source language if it is not obvious. Provide only the translated text as your response, without any additional commentary or explanation.`);
-    } else {
-        // Personality and Core Instructions
-        if (input.isFunChat) {
-            promptPreamble.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
+        // Translator Mode takes precedence
+        if (input.isTranslatorMode) {
+            promptPreamble.push(`You are a highly skilled translator. Your task is to translate the user's text into ${input.targetLanguage || 'the specified language'}. Auto-detect the source language if it is not obvious. Provide only the translated text as your response, without any additional commentary or explanation.`);
         } else {
-            promptPreamble.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
-        }
+            // Personality and Core Instructions
+            if (input.isFunChat) {
+                promptPreamble.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
+            } else {
+                promptPreamble.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
+            }
 
-        promptPreamble.push(`
-**Core Instructions:**
-- **Context is Key:** You MUST pay close attention to the entire conversation history to understand the full context of the user's query.
-- **Unwavering Accuracy:** Your most critical instruction is to be accurate. If you are not 100% certain, state that you are unable to confirm the information. Do not invent facts.
-- **Precision First:** Provide the exact answer first and concisely, then add details if needed.
-- **Structured and Clear:** Use formatting like bolding, italics, and lists to make answers easy to read.
-`);
+            promptPreamble.push(`
+    **Core Instructions:**
+    - **Context is Key:** You MUST pay close attention to the entire conversation history to understand the full context of the user's query.
+    - **Unwavering Accuracy:** Your most critical instruction is to be accurate. If you are not 100% certain, state that you are unable to confirm the information. Do not invent facts.
+    - **Precision First:** Provide the exact answer first and concisely, then add details if needed.
+    - **Structured and Clear:** Use formatting like bolding, italics, and lists to make answers easy to read.
+    `);
+            
+            if (input.isStudyMode) {
+                promptPreamble.push("**Study and Learn Mode:** You are currently in 'Study and Learn' mode. Act as a patient and encouraging tutor. Break down complex topics into simple, easy-to-understand concepts. Use analogies and ask clarifying questions to ensure the user is understanding.")
+            }
+            
+            if (input.isWebSearch) {
+                promptPreamble.push("**Web Search Mode:** You MUST use the 'searchWeb' tool to find the most current and relevant information for the user's query, especially for recent events or topics where up-to-date data is critical.")
+            }
+        }
         
-        if (input.isStudyMode) {
-            promptPreamble.push("**Study and Learn Mode:** You are currently in 'Study and Learn' mode. Act as a patient and encouraging tutor. Break down complex topics into simple, easy-to-understand concepts. Use analogies and ask clarifying questions to ensure the user is understanding.")
+        // Add memories if they exist
+        if (input.memory && input.memory.length > 0) {
+            promptPreamble.push("**User's Saved Memories & Facts:**\nYou MUST consult this information to provide more personalized and context-aware responses.");
+            input.memory.forEach(mem => promptPreamble.push(`- ${mem}`));
         }
-        
-        if (input.isWebSearch) {
-            promptPreamble.push("**Web Search Mode:** You MUST use the 'searchWeb' tool to find the most current and relevant information for the user's query, especially for recent events or topics where up-to-date data is critical.")
+
+        // Add file context if it exists
+        if (contextualText) {
+            promptPreamble.push(`**Contextual Information from File:**\nUse the following extracted text as the primary context for your response.\n---\n${contextualText}\n---`);
         }
-    }
-    
-    // Add memories if they exist
-    if (input.memory && input.memory.length > 0) {
-        promptPreamble.push("**User's Saved Memories & Facts:**\nYou MUST consult this information to provide more personalized and context-aware responses.");
-        input.memory.forEach(mem => promptPreamble.push(`- ${mem}`));
-    }
 
-    // Add file context if it exists
-    if (contextualText) {
-        promptPreamble.push(`**Contextual Information from File:**\nUse the following extracted text as the primary context for your response.\n---\n${contextualText}\n---`);
+        let userPrompt = input.prompt;
+        if (input.isDeepResearch) {
+            userPrompt = `(Deep Research mode is ON. Your response must be exceptionally detailed, well-structured, and comprehensive. Explore multiple facets of the query, provide supporting details, present a thorough analysis, and cite sources where appropriate.) ${input.prompt}`;
+        }
+
+        const {output} = await ai.generate({
+          prompt: userPrompt,
+          model,
+          system: promptPreamble.join('\n\n'),
+          history: input.history,
+          tools: input.isWebSearch ? [searchWeb] : [],
+          output: { schema: ChatResearchAssistanceOutputSchema },
+        });
+
+        return output!;
+    } catch (err: any) {
+        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
+            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
+        }
+        throw err;
     }
-
-    let userPrompt = input.prompt;
-    if (input.isDeepResearch) {
-        userPrompt = `(Deep Research mode is ON. Your response must be exceptionally detailed, well-structured, and comprehensive. Explore multiple facets of the query, provide supporting details, present a thorough analysis, and cite sources where appropriate.) ${input.prompt}`;
-    }
-
-    const {output} = await ai.generate({
-      prompt: userPrompt,
-      model,
-      system: promptPreamble.join('\n\n'),
-      history: input.history,
-      tools: input.isWebSearch ? [searchWeb] : [],
-      output: { schema: ChatResearchAssistanceOutputSchema },
-    });
-
-    return output!;
   }
 );

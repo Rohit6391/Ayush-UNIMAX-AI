@@ -57,8 +57,15 @@ const createDocumentFromPromptFlow = ai.defineFlow(
     outputSchema: CreateDocumentFromPromptOutputSchema,
   },
   async input => {
-    const model = input.model ? googleAI.model(input.model) : undefined;
-    const {output} = await prompt(input, { model });
-    return output!;
+    try {
+      const model = input.model ? googleAI.model(input.model) : undefined;
+      const {output} = await prompt(input, { model });
+      return output!;
+    } catch(err: any) {
+        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
+            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
+        }
+        throw err;
+    }
   }
 );

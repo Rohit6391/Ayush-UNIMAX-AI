@@ -82,11 +82,7 @@ export function Maker({ mode, generatePrompt, resultTitle, resultType, codeLangu
             if (generatedExplanation) setExplanation(generatedExplanation);
             addHistoryItem(mode.id, prompt, generatedResult);
         } catch (err: any) {
-            let errorMessage = `Failed to generate: ${err.message}`;
-            if (err.message && err.message.includes('429')) {
-                errorMessage = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
-            }
-            setError(errorMessage);
+            setError(err.message || `Failed to generate: An unknown error occurred.`);
         } finally {
             setIsLoading(false);
         }

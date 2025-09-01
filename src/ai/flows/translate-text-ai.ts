@@ -68,11 +68,18 @@ const translateTextAIFlow = ai.defineFlow(
     outputSchema: TranslateTextAIOutputSchema,
   },
   async input => {
-    if (!input.text && !input.fileDataUri) {
-      throw new Error("Either text or a file must be provided for translation.");
+    try {
+        if (!input.text && !input.fileDataUri) {
+          throw new Error("Either text or a file must be provided for translation.");
+        }
+        const model = input.model ? googleAI.model(input.model) : undefined;
+        const {output} = await prompt(input, { model });
+        return output!;
+    } catch (err: any) {
+        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
+            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
+        }
+        throw err;
     }
-    const model = input.model ? googleAI.model(input.model) : undefined;
-    const {output} = await prompt(input, { model });
-    return output!;
   }
 );

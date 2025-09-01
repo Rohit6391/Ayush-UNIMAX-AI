@@ -53,11 +53,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
             setExplanation(parsedResult.explanation);
             addHistoryItem('code_generator', prompt, result.document);
         } catch (err: any) {
-            let errorMessage = `Failed to generate code: ${err.message}`;
-            if (err.message && err.message.includes('429')) {
-                errorMessage = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
-            }
-            setError(errorMessage);
+            setError(err.message || `Failed to generate code: An unknown error occurred.`);
         } finally {
             setIsLoading(false);
         }
@@ -72,7 +68,7 @@ export function CodeGenerator({ mode }: { mode: any }) {
             setEditPrompt('');
              addHistoryItem('code_generator', `Edit: ${editPrompt}`, result.fileContent);
         } catch (err:any) {
-            setError(`Failed to edit code: ${err.message}`);
+            setError(err.message || `Failed to edit code: An unknown error occurred.`);
         } finally {
             setIsEditing(false);
         }
