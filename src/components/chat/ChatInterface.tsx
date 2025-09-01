@@ -321,23 +321,65 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         </Button>
                     </div>
                 )}
-                <div className="relative">
+                <div className="flex items-center gap-2">
                     <Textarea 
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder={isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI...")}
-                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
+                        placeholder={isListening ? "Listening..." : (isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI..."))}
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors min-h-[52px]" 
                         rows={1}
-                        disabled={isLoading}
+                        disabled={isHandsFree || isLoading}
                     />
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                    <div className="flex items-center gap-1">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" title="Tools">
+                              <SlidersHorizontal />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuLabel>AI Tools</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                             <DropdownMenuCheckboxItem
+                                checked={isDeepResearch}
+                                onCheckedChange={setIsDeepResearch}
+                            >
+                                <Sparkles className="mr-2 h-4 w-4" />
+                                Deep Research
+                            </DropdownMenuCheckboxItem>
+                             <DropdownMenuCheckboxItem
+                                checked={isStudyMode}
+                                onCheckedChange={setIsStudyMode}
+                            >
+                                <BookOpen className="mr-2 h-4 w-4" />
+                                Study and Learn
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                                checked={isWebSearch}
+                                onCheckedChange={setIsWebSearch}
+                            >
+                                <Search className="mr-2 h-4 w-4" />
+                                Web Search
+                            </DropdownMenuCheckboxItem>
+                             <DropdownMenuItem onSelect={handleEnhancePrompt} disabled={!input || isLoading}>
+                               <Sparkles className="mr-2 h-4 w-4" />
+                               Enhance Prompt
+                             </DropdownMenuItem>
+                             <DropdownMenuCheckboxItem
+                                checked={isHandsFree}
+                                onCheckedChange={setIsHandsFree}
+                             >
+                                <Mic className="mr-2 h-4 w-4" />
+                                Hands-Free Mode
+                             </DropdownMenuCheckboxItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+
                         <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading}>
-                            <Plus size={20} />
+                            <Plus />
                         </Button>
-                    </div>
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                         <Button 
+                        <Button 
                             onClick={handleListen} 
                             variant="ghost" 
                             size="icon" 
@@ -345,63 +387,14 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                             className={isListening ? 'text-destructive' : ''}
                             disabled={isLoading}
                         >
-                            {isListening ? <Waves size={20} /> : <Mic size={20} />}
+                            {isListening ? <Waves /> : <Mic />}
                         </Button>
-                        <Button onClick={() => handleSend()} disabled={isLoading || (!input.trim() && !uploadedFile)} size="icon">
-                            <Send size={20} />
+                        <Button onClick={() => handleSend()} disabled={isHandsFree || isLoading || (!input.trim() && !uploadedFile)} size="icon">
+                            <Send />
                         </Button>
                     </div>
-                </div>
-                 <div className="flex items-center mt-2">
-                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          <SlidersHorizontal className="mr-2 h-4 w-4" /> Tools
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuLabel>AI Tools</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                         {!isFunChat && (
-                            <DropdownMenuCheckboxItem
-                                checked={isDeepResearch}
-                                onCheckedChange={setIsDeepResearch}
-                            >
-                                <Sparkles className="mr-2 h-4 w-4" />
-                                Deep Research
-                            </DropdownMenuCheckboxItem>
-                         )}
-                         <DropdownMenuCheckboxItem
-                            checked={isStudyMode}
-                            onCheckedChange={setIsStudyMode}
-                        >
-                            <BookOpen className="mr-2 h-4 w-4" />
-                            Study and Learn
-                        </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                            checked={isWebSearch}
-                            onCheckedChange={setIsWebSearch}
-                        >
-                            <Search className="mr-2 h-4 w-4" />
-                            Web Search
-                        </DropdownMenuCheckboxItem>
-                         <DropdownMenuItem onSelect={handleEnhancePrompt} disabled={!input || isLoading}>
-                           <Sparkles className="mr-2 h-4 w-4" />
-                           Enhance Prompt
-                         </DropdownMenuItem>
-                         <DropdownMenuCheckboxItem
-                            checked={isHandsFree}
-                            onCheckedChange={setIsHandsFree}
-                         >
-                            <Mic className="mr-2 h-4 w-4" />
-                            Hands-Free Mode
-                         </DropdownMenuCheckboxItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
                 </div>
             </div>
         </div>
     );
 }
-
-    
