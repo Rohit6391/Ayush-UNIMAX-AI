@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save, SlidersHorizontal, BookOpen, Search } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save, SlidersHorizontal, BookOpen, Search, Languages } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu"
+import { Input } from '../ui/input';
 
 
 interface Message {
@@ -36,9 +37,15 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    
+    // Tools State
     const [isDeepResearch, setIsDeepResearch] = useState(false);
     const [isStudyMode, setIsStudyMode] = useState(false);
     const [isWebSearch, setIsWebSearch] = useState(false);
+    const [isTranslatorMode, setIsTranslatorMode] = useState(false);
+    const [targetLanguage, setTargetLanguage] = useState('English');
+
+
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -190,6 +197,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 memory: memoryToUse,
                 isStudyMode,
                 isWebSearch,
+                isTranslatorMode,
+                targetLanguage,
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
@@ -263,7 +272,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
               ref={fileInputRef} 
               onChange={handleFileChange} 
               className="hidden" 
-              accept="image/*,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              accept="image/*,text/plain,application/pdf"
             />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
@@ -323,34 +332,48 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 )}
                 <div className="flex items-center w-full bg-background border-2 border-input focus-within:border-primary focus-within:ring-0 rounded-lg transition-colors p-1 gap-1">
                     <div className="flex items-center">
-                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading}>
+                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File">
                             <Plus />
                         </Button>
                         <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" title="Tools">
-                                    <SlidersHorizontal />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuLabel>AI Tools</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                 <DropdownMenuCheckboxItem checked={isDeepResearch} onCheckedChange={setIsDeepResearch}>
-                                    <Sparkles className="mr-2 h-4 w-4" /> Deep Research
-                                </DropdownMenuCheckboxItem>
-                                 <DropdownMenuCheckboxItem checked={isStudyMode} onCheckedChange={setIsStudyMode}>
-                                    <BookOpen className="mr-2 h-4 w-4" /> Study and Learn
-                                </DropdownMenuCheckboxItem>
-                                <DropdownMenuCheckboxItem checked={isWebSearch} onCheckedChange={setIsWebSearch}>
-                                    <Search className="mr-2 h-4 w-4" /> Web Search
-                                </DropdownMenuCheckboxItem>
-                                 <DropdownMenuItem onSelect={handleEnhancePrompt} disabled={!input || isLoading}>
-                                   <Sparkles className="mr-2 h-4 w-4" /> Enhance Prompt
-                                 </DropdownMenuItem>
-                                 <DropdownMenuCheckboxItem checked={isHandsFree} onCheckedChange={setIsHandsFree}>
-                                    <Mic className="mr-2 h-4 w-4" /> Hands-Free Mode
-                                 </DropdownMenuCheckboxItem>
-                            </DropdownMenuContent>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" title="Tools">
+                              <SlidersHorizontal />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuLabel>AI Tools</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                             <DropdownMenuCheckboxItem checked={isDeepResearch} onCheckedChange={setIsDeepResearch}>
+                                <Sparkles className="mr-2 h-4 w-4" /> Deep Research
+                            </DropdownMenuCheckboxItem>
+                             <DropdownMenuCheckboxItem checked={isStudyMode} onCheckedChange={setIsStudyMode}>
+                                <BookOpen className="mr-2 h-4 w-4" /> Study and Learn
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem checked={isWebSearch} onCheckedChange={setIsWebSearch}>
+                                <Search className="mr-2 h-4 w-4" /> Web Search
+                            </DropdownMenuCheckboxItem>
+                             <DropdownMenuCheckboxItem checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode}>
+                                <Languages className="mr-2 h-4 w-4" /> Translator
+                             </DropdownMenuCheckboxItem>
+                             {isTranslatorMode && (
+                                <div className="p-2">
+                                    <Input 
+                                        placeholder="Target Language..." 
+                                        value={targetLanguage} 
+                                        onChange={(e) => setTargetLanguage(e.target.value)}
+                                        className="h-8"
+                                    />
+                                </div>
+                             )}
+                             <DropdownMenuSeparator />
+                             <DropdownMenuItem onSelect={handleEnhancePrompt} disabled={!input || isLoading}>
+                               <Sparkles className="mr-2 h-4 w-4" /> Enhance Prompt
+                             </DropdownMenuItem>
+                             <DropdownMenuCheckboxItem checked={isHandsFree} onCheckedChange={setIsHandsFree}>
+                                <Mic className="mr-2 h-4 w-4" /> Hands-Free Mode
+                             </DropdownMenuCheckboxItem>
+                          </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
                     <Textarea 
@@ -363,7 +386,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         disabled={isHandsFree || isLoading}
                     />
                     <div className="flex items-center">
-                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''} disabled={isLoading}>
+                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''}>
                             {isListening ? <Waves /> : <Mic />}
                         </Button>
                         <Button onClick={() => handleSend()} disabled={isHandsFree || isLoading || (!input.trim() && !uploadedFile)} size="icon">
