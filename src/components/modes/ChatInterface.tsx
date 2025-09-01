@@ -38,6 +38,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isDeepResearch, setIsDeepResearch] = useState(false);
     const [isThinkLonger, setIsThinkLonger] = useState(false);
     const [isStudyMode, setIsStudyMode] = useState(false);
     const [isWebSearch, setIsWebSearch] = useState(false);
@@ -184,7 +185,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
 
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
-                isDeepResearch: isThinkLonger, 
+                isDeepResearch: isDeepResearch, 
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
@@ -328,10 +329,10 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder={isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI...")}
+                        placeholder={isListening ? "Listening..." : (isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI..."))}
                         className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1}
-                        disabled={isLoading}
+                        disabled={isLoading || isListening}
                     />
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
                         <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading}>
@@ -366,11 +367,11 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         <DropdownMenuSeparator />
                          {!isFunChat && (
                             <DropdownMenuCheckboxItem
-                                checked={isThinkLonger}
-                                onCheckedChange={setIsThinkLonger}
+                                checked={isDeepResearch}
+                                onCheckedChange={setIsDeepResearch}
                             >
                                 <Sparkles className="mr-2 h-4 w-4" />
-                                Think Longer
+                                Deep Research
                             </DropdownMenuCheckboxItem>
                          )}
                          <DropdownMenuCheckboxItem
@@ -405,4 +406,3 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         </div>
     );
 }
-
