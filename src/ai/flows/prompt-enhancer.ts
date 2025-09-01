@@ -47,11 +47,19 @@ const enhancePromptFlow = ai.defineFlow(
     outputSchema: EnhancePromptOutputSchema,
   },
   async (input) => {
-    const model = input.model ? googleAI.model(input.model) : undefined;
-    const { output } = await prompt(input, { model });
-    if (!output) {
-      throw new Error('Failed to enhance prompt.');
+    try {
+        const model = input.model ? googleAI.model(input.model) : undefined;
+        const { output } = await prompt(input, { model });
+        if (!output) {
+          throw new Error('Failed to enhance prompt.');
+        }
+        return output;
+    } catch(err: any) {
+        if (err.message && err.message.includes('429')) {
+            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
+        }
+        // Re-throw other errors
+        throw err;
     }
-    return output;
   }
 );
