@@ -12,8 +12,6 @@ import { enhancePrompt } from '@/ai/flows/prompt-enhancer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
-import { Switch } from '../ui/switch';
-import { Label } from '../ui/label';
 import { useToast } from '@/hooks/use-toast';
 import {
   DropdownMenu,
@@ -39,7 +37,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isDeepResearch, setIsDeepResearch] = useState(false);
-    const [isThinkLonger, setIsThinkLonger] = useState(false);
     const [isStudyMode, setIsStudyMode] = useState(false);
     const [isWebSearch, setIsWebSearch] = useState(false);
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -185,7 +182,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
 
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
-                isDeepResearch: isDeepResearch, 
+                isDeepResearch, 
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
@@ -332,7 +329,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         placeholder={isListening ? "Listening..." : (isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI..."))}
                         className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1}
-                        disabled={isLoading || isListening}
+                        disabled={isHandsFree || isLoading}
                     />
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
                         <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading}>
@@ -350,7 +347,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         >
                             {isListening ? <Waves size={20} /> : <Mic size={20} />}
                         </Button>
-                        <Button onClick={() => handleSend()} disabled={isLoading || (!input.trim() && !uploadedFile)} size="icon">
+                        <Button onClick={() => handleSend()} disabled={isHandsFree || isLoading || (!input.trim() && !uploadedFile)} size="icon">
                             <Send size={20} />
                         </Button>
                     </div>
@@ -365,15 +362,13 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                       <DropdownMenuContent>
                         <DropdownMenuLabel>AI Tools</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                         {!isFunChat && (
-                            <DropdownMenuCheckboxItem
-                                checked={isDeepResearch}
-                                onCheckedChange={setIsDeepResearch}
-                            >
-                                <Sparkles className="mr-2 h-4 w-4" />
-                                Deep Research
-                            </DropdownMenuCheckboxItem>
-                         )}
+                         <DropdownMenuCheckboxItem
+                            checked={isDeepResearch}
+                            onCheckedChange={setIsDeepResearch}
+                        >
+                            <Sparkles className="mr-2 h-4 w-4" />
+                            Deep Research
+                        </DropdownMenuCheckboxItem>
                          <DropdownMenuCheckboxItem
                             checked={isStudyMode}
                             onCheckedChange={setIsStudyMode}
