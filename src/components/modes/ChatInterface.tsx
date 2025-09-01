@@ -31,7 +31,7 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat, model, memories, addMemory } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
     const { user } = useAuth();
     const { toast } = useToast();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -69,7 +69,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat, activeChat, setActiveChat]);
+    }, [isFunChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -185,8 +185,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 return m;
             });
             
-            const memoryToUse = memories.map(m => m.text);
-
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
                 isDeepResearch, 
@@ -194,7 +192,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 fileDataUri: fileDataUri, 
                 isFunChat,
                 model,
-                memory: memoryToUse,
                 isStudyMode,
                 isWebSearch,
                 isTranslatorMode,
@@ -244,11 +241,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             recognitionRef.current.start();
         }
     };
-    
-    const handleSaveToMemory = (text: string) => {
-        addMemory(text);
-        toast({ title: "Saved to Memory", description: "The AI will now remember this information." });
-    }
 
     const UserAvatar = () => (
         <Avatar className="h-10 w-10">
@@ -266,7 +258,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     )
 
     return (
-        <div className="flex flex-col h-full max-w-4xl mx-auto">
+        <div className="flex flex-col h-full max-w-7xl mx-auto w-full">
             <input 
               type="file" 
               ref={fileInputRef} 
@@ -281,17 +273,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                             {msg.role === 'model' && <ModelAvatar />}
                             <div className={`relative max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}</p>
-                                {msg.role === 'model' && msg.text.length > 10 && (
-                                     <Button 
-                                        variant="ghost" 
-                                        size="icon" 
-                                        className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        title="Save to Memory"
-                                        onClick={() => handleSaveToMemory(msg.text)}
-                                     >
-                                        <Save size={16} />
-                                     </Button>
-                                )}
                             </div>
                             {msg.role === 'user' && <UserAvatar />}
                         </div>
@@ -332,7 +313,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 )}
                 <div className="flex items-center w-full bg-background border-2 border-input focus-within:border-primary focus-within:ring-0 rounded-lg transition-colors p-1 gap-1">
                     <div className="flex items-center">
-                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File">
+                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isHandsFree || isLoading}>
                             <Plus />
                         </Button>
                         <DropdownMenu>
@@ -386,7 +367,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         disabled={isHandsFree || isLoading}
                     />
                     <div className="flex items-center">
-                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''}>
+                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''} disabled={isHandsFree || isLoading}>
                             {isListening ? <Waves /> : <Mic />}
                         </Button>
                         <Button onClick={() => handleSend()} disabled={isHandsFree || isLoading || (!input.trim() && !uploadedFile)} size="icon">
