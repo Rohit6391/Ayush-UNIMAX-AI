@@ -15,6 +15,21 @@ import { ModelId, availableModels } from '@/lib/models';
 import { googleAI } from '@genkit-ai/googleai';
 import { extractTextFromFile } from './extract-text-from-file';
 
+const searchWeb = ai.defineTool(
+    {
+        name: 'searchWeb',
+        description: 'Searches the web for the given query. Use this for recent events or to get up-to-date information.',
+        inputSchema: z.object({ query: z.string() }),
+        outputSchema: z.string(),
+    },
+    async ({ query }) => {
+        console.log(`Simulating web search for: ${query}`);
+        // In a real implementation, you would use a search API like Google Search API.
+        // For this demo, we'll return a simulated result.
+        return `Simulated search results for "${query}": The web indicates this is a popular and recent topic. Key points include A, B, and C.`;
+    }
+);
+
 const ChatResearchAssistanceInputSchema = z.object({
   prompt: z.string().describe('The prompt for the AI to research.'),
   isDeepResearch: z.boolean().describe('Whether to perform deep research or not.'),
@@ -23,6 +38,8 @@ const ChatResearchAssistanceInputSchema = z.object({
   fileDataUri: z.string().optional().describe("An optional file provided by the user, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
   model: z.enum(availableModels).optional().describe('The model to use for generation.'),
   memory: z.array(z.string()).optional().describe('A list of memories or facts the user has saved.'),
+  isStudyMode: z.boolean().optional().describe('Whether to act as a tutor and explain things simply.'),
+  isWebSearch: z.boolean().optional().describe('Whether to use web search to get up-to-date information.'),
 });
 export type ChatResearchAssistanceInput = z.infer<typeof ChatResearchAssistanceInputSchema>;
 
@@ -52,47 +69,53 @@ const chatResearchAssistanceFlow = ai.defineFlow(
 
     const model = input.model ? googleAI.model(input.model) : undefined;
     
-    let promptLines = [];
+    let promptPreamble = [];
 
     // Personality and Core Instructions
     if (input.isFunChat) {
-        promptLines.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
+        promptPreamble.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
     } else {
-        promptLines.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
+        promptPreamble.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
     }
 
-    promptLines.push(`
+    promptPreamble.push(`
 **Core Instructions:**
 - **Context is Key:** You MUST pay close attention to the entire conversation history to understand the full context of the user's query.
 - **Unwavering Accuracy:** Your most critical instruction is to be accurate. If you are not 100% certain, state that you are unable to confirm the information. Do not invent facts.
 - **Precision First:** Provide the exact answer first and concisely, then add details if needed.
 - **Structured and Clear:** Use formatting like bolding, italics, and lists to make answers easy to read.
 `);
+    
+    if (input.isStudyMode) {
+        promptPreamble.push("**Study and Learn Mode:** You are currently in 'Study and Learn' mode. Act as a patient and encouraging tutor. Break down complex topics into simple, easy-to-understand concepts. Use analogies and ask clarifying questions to ensure the user is understanding.")
+    }
+    
+    if (input.isWebSearch) {
+        promptPreamble.push("**Web Search Mode:** You MUST use the 'searchWeb' tool to find the most current and relevant information for the user's query, especially for recent events or topics where up-to-date data is critical.")
+    }
 
     // Add memories if they exist
     if (input.memory && input.memory.length > 0) {
-        promptLines.push("**User's Saved Memories & Facts:**\nYou MUST consult this information to provide more personalized and context-aware responses.");
-        input.memory.forEach(mem => promptLines.push(`- ${mem}`));
+        promptPreamble.push("**User's Saved Memories & Facts:**\nYou MUST consult this information to provide more personalized and context-aware responses.");
+        input.memory.forEach(mem => promptPreamble.push(`- ${mem}`));
     }
 
     // Add file context if it exists
     if (contextualText) {
-        promptLines.push(`**Contextual Information from File:**\nUse the following extracted text as the primary context for your response.\n---\n${contextualText}\n---`);
+        promptPreamble.push(`**Contextual Information from File:**\nUse the following extracted text as the primary context for your response.\n---\n${contextualText}\n---`);
     }
 
-    // Add the user's current prompt
+    let userPrompt = input.prompt;
     if (input.isDeepResearch) {
-        promptLines.push(`You are in **Deep Research mode**. Your response must be exceptionally detailed, well-structured, and comprehensive. **User Query:** ${input.prompt}`);
-    } else {
-        promptLines.push(`**User Query:** ${input.prompt}`);
+        userPrompt = `(Think Longer mode is ON. Your response must be exceptionally detailed, well-structured, and comprehensive) ${input.prompt}`;
     }
-
-    const finalPrompt = promptLines.join('\n\n');
 
     const {output} = await ai.generate({
-      prompt: finalPrompt,
+      prompt: userPrompt,
       model,
+      system: promptPreamble.join('\n\n'),
       history: input.history,
+      tools: input.isWebSearch ? [searchWeb] : [],
       output: { schema: ChatResearchAssistanceOutputSchema },
     });
 
