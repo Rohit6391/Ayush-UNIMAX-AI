@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI agent that generates images for each scene of a video storyboard based on the AI-generated 'image_prompt'.
@@ -48,7 +49,7 @@ const generateImageFromStoryboardFlow = ai.defineFlow(
     });
     
     if (!media?.url) {
-      throw new Error("The AI failed to generate an image from the provided prompt.");
+      throw new Error("The AI failed to generate an image from the provided prompt. The model may be unavailable or the prompt may have been blocked.");
     }
 
     return {imageUrl: media.url};

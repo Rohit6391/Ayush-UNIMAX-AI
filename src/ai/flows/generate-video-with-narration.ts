@@ -59,13 +59,29 @@ const storyboardPrompt = ai.definePrompt({
     name: 'storyboardGenerator',
     input: { schema: GenerateVideoWithNarrationInputSchema },
     output: { schema: StoryboardSchema },
-    prompt: `You are a creative storyteller and scriptwriter. Based on the user's prompt, create a short storyboard with 3 to 5 scenes. 
+    prompt: `You are a creative storyteller and scriptwriter. Your task is to create a short storyboard based on the user's prompt. Your entire response MUST be a single, valid JSON object.
+
+    **JSON Output Structure:**
+    {
+      "scenes": [
+        {
+          "narration": "The narration for the first scene.",
+          "image_prompt": "A detailed, visually-rich prompt for the first scene's image."
+        },
+        {
+          "narration": "The narration for the second scene.",
+          "image_prompt": "A detailed, visually-rich prompt for the second scene's image."
+        }
+      ]
+    }
     
     **Instructions:**
-    1.  **Narration Language**: Write the 'narration' for each scene in the requested language: **{{#if language}}{{language}}{{else}}English{{/if}}**.
-    2.  **Image Prompt Language**: The 'image_prompt' for each scene MUST be written in **English** to ensure the best results from the image generation model.
-    3.  For each scene, write a brief narration and a detailed, visually-rich prompt for an image generation model to create a corresponding picture.
-    4.  **If an image is provided**, the first scene's image_prompt should instruct the AI to use the provided image as a base and animate it according to the user's main prompt. Subsequent scenes should continue the story from there.
+    1.  **JSON Only**: Ensure your entire response is ONLY the JSON object, with no extra text or markdown.
+    2.  **Number of Scenes**: Create a storyboard with 3 to 5 scenes.
+    3.  **Narration Language**: Write the 'narration' for each scene in the requested language: **{{#if language}}{{language}}{{else}}English{{/if}}**.
+    4.  **Image Prompt Language**: The 'image_prompt' for each scene MUST be written in **English** to ensure the best results from the image generation model.
+    5.  **Image Prompts**: For each scene, write a brief narration and a detailed, visually-rich prompt for an image generation model to create a corresponding picture.
+    6.  **If an image is provided**, the first scene's image_prompt should instruct the AI to use the provided image as a base and animate it according to the user's main prompt. Subsequent scenes should continue the story from there.
 
     {{#if photoDataUri}}
     The user has provided an image to start the story.
@@ -87,8 +103,8 @@ const generateVideoWithNarrationFlow = ai.defineFlow(
   async (input) => {
     // Step 1: Generate the storyboard structure
     const { output: storyboard } = await storyboardPrompt(input);
-    if (!storyboard) {
-        throw new Error('Failed to generate storyboard structure.');
+    if (!storyboard || !storyboard.scenes || storyboard.scenes.length === 0) {
+        throw new Error('The AI failed to generate a valid storyboard structure. Please try a different prompt.');
     }
 
     // Step 2: Generate an image for each scene in parallel
