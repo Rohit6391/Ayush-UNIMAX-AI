@@ -54,7 +54,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
           contextualText = text;
         }
 
-        const model = input.model ? googleAI.model(input.model) : undefined;
+        const model = input.model ? googleAI.model(input.model) : 'googleai/gemini-1.5-flash-latest';
         
         let promptPreamble = [];
 
@@ -71,6 +71,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
 
             promptPreamble.push(`
   **Core Instructions:**
+  - **Prioritize Speed:** You MUST respond as quickly as possible. Be concise and to the point.
   - **Context is Key:** This is your most important instruction. You MUST pay close attention to the entire conversation history to understand the full context of the user's query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices.
   - **Unwavering Accuracy:** Your most critical instruction is to be accurate. Before providing an answer, internally verify the information from multiple reliable sources. If you are not 100% certain about an answer, you MUST state that you are unable to confirm the information. Do not invent facts or speculate. It is better to say you don't know than to provide an incorrect answer.
   - **Precision First:** When the user asks a direct question, provide the exact answer first and concisely. After the direct answer, you may add more context, explanation, or related details, but the primary, correct answer must come first, without preamble.
