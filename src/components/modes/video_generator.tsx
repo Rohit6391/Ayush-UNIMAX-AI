@@ -14,6 +14,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import Autoplay from "embla-carousel-autoplay"
 
 export function VideoGenerator({ mode }: { mode: any }) {
     const { addHistoryItem } = useModes();
