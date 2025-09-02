@@ -313,7 +313,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 )}
                 <div className="flex items-center w-full bg-background border-2 border-input focus-within:border-primary focus-within:ring-0 rounded-lg transition-colors p-1 gap-1">
                     <div className="flex items-center">
-                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isHandsFree || isLoading}>
+                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading}>
                             <Plus />
                         </Button>
                         <DropdownMenu>
