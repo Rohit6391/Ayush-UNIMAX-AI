@@ -56,45 +56,38 @@ const chatResearchAssistanceFlow = ai.defineFlow(
 
         const model = input.model ? googleAI.model(input.model) : 'googleai/gemini-1.5-flash-latest';
         
-        let promptPreamble = [];
+        let systemPromptParts = [];
 
-        // Translator Mode takes precedence
-        if (input.isTranslatorMode) {
-            promptPreamble.push(`You are a highly skilled translator. Your task is to translate the user's text into ${input.targetLanguage || 'the specified language'}. Auto-detect the source language if it is not obvious. Provide only the translated text as your response, without any additional commentary or explanation.`);
+        // Personality and Core Instructions
+        if (input.isFunChat) {
+            systemPromptParts.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
         } else {
-            // Personality and Core Instructions
-            if (input.isFunChat) {
-                promptPreamble.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
-            } else {
-                promptPreamble.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
-            }
-
-            promptPreamble.push(`
-  **Core Instructions:**
-  - **Prioritize Speed:** You MUST respond as quickly as possible. Be concise and to the point.
-  - **Context is Key:** This is your most important instruction. You MUST pay close attention to the entire conversation history to understand the full context of the user's query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices.
-  - **Unwavering Accuracy:** Your most critical instruction is to be accurate. Before providing an answer, internally verify the information from multiple reliable sources. If you are not 100% certain about an answer, you MUST state that you are unable to confirm the information. Do not invent facts or speculate. It is better to say you don't know than to provide an incorrect answer.
-  - **Precision First:** When the user asks a direct question, provide the exact answer first and concisely. After the direct answer, you may add more context, explanation, or related details, but the primary, correct answer must come first, without preamble.
-  - **Logical Reasoning:** For complex questions, break down your reasoning into a step-by-step process. This helps the user understand how you arrived at the answer.
-  - **Structured and Clear:** Use formatting like **bolding**, *italics*, and lists to make your answers well-structured and easy to read.
-  - **File Analysis:** If a file's content is provided in the context, analyze it thoroughly and use its content to inform your response. Refer to it as "the document you provided" or "the image you uploaded."
-  - **In-Depth Information**: Always aim to provide comprehensive and in-depth information. Go beyond a surface-level answer. Explore multiple facets of the query, provide supporting details, and present a thorough analysis.
-    `);
-            
-            if (input.isStudyMode) {
-                promptPreamble.push("**Study and Learn Mode:** You are currently in 'Study and Learn' mode. Act as a patient and encouraging tutor. Break down complex topics into simple, easy-to-understand concepts. Use analogies and ask clarifying questions to ensure the user is understanding.")
-            }
+            systemPromptParts.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
         }
+
+        // Add core instructions, context, and speed are most important
+        systemPromptParts.push(`
+**HIGHEST PRIORITY INSTRUCTIONS:**
+1.  **ANALYZE FULL CONTEXT**: This is your most important instruction. You MUST pay close attention to the ENTIRE conversation history to understand the full context of the user's current query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices. Failure to do this correctly is a critical error.
+2.  **PRIORITIZE SPEED**: You MUST respond as quickly as possible. Be concise and to the point first, then you can add more detail if needed.
+
+**OTHER CORE INSTRUCTIONS:**
+- **Unwavering Accuracy:** Your most critical instruction is to be accurate. Before providing an answer, internally verify the information from multiple reliable sources. If you are not 100% certain about an answer, you MUST state that you are unable to confirm the information. Do not invent facts or speculate. It is better to say you don't know than to provide an incorrect answer.
+- **Precision First:** When the user asks a direct question, provide the exact answer first and concisely. After the direct answer, you may add more context, explanation, or related details, but the primary, correct answer must come first, without preamble.
+- **Logical Reasoning:** For complex questions, break down your reasoning into a step-by-step process. This helps the user understand how you arrived at the answer.
+- **Structured and Clear:** Use formatting like **bolding**, *italics*, and lists to make your answers well-structured and easy to read.
+- **File Analysis:** If a file's content is provided in the context, analyze it thoroughly and use its content to inform your response. Refer to it as "the document you provided" or "the image you uploaded."
+`);
         
         // Add memories if they exist
         if (input.memory && input.memory.length > 0) {
-            promptPreamble.push("**User's Saved Memories & Facts:**\nYou MUST consult this information to provide more personalized and context-aware responses.");
-            input.memory.forEach(mem => promptPreamble.push(`- ${mem}`));
+            systemPromptParts.push("**User's Saved Memories & Facts:**\nYou MUST consult this information to provide more personalized and context-aware responses.");
+            input.memory.forEach(mem => systemPromptParts.push(`- ${mem}`));
         }
 
         // Add file context if it exists
         if (contextualText) {
-            promptPreamble.push(`**Contextual Information from File:**\nUse the following extracted text as the primary context for your response.\n---\n${contextualText}\n---`);
+            systemPromptParts.push(`**Contextual Information from File:**\nUse the following extracted text as the primary context for your response.\n---\n${contextualText}\n---`);
         }
 
         let userPrompt = input.prompt;
@@ -105,7 +98,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
         const {output} = await ai.generate({
           prompt: userPrompt,
           model,
-          system: promptPreamble.join('\n\n'),
+          system: systemPromptParts.join('\n\n'),
           history: input.history,
           output: { schema: ChatResearchAssistanceOutputSchema },
         });
@@ -119,3 +112,5 @@ const chatResearchAssistanceFlow = ai.defineFlow(
     }
   }
 );
+
+    
