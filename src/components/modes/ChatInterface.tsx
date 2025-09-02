@@ -318,7 +318,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         </Button>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" title="Tools" disabled={isHandsFree || isLoading}>
+                            <Button variant="ghost" size="icon" title="Tools" disabled={isLoading}>
                               <SlidersHorizontal />
                             </Button>
                           </DropdownMenuTrigger>
@@ -367,7 +367,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         disabled={isHandsFree || isLoading}
                     />
                     <div className="flex items-center">
-                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''}>
+                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''} disabled={isLoading}>
                             {isListening ? <Waves /> : <Mic />}
                         </Button>
                         <Button onClick={() => handleSend()} disabled={isHandsFree || isLoading || (!input.trim() && !uploadedFile)} size="icon">
