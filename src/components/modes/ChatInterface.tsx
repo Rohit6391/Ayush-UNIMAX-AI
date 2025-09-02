@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Search, Languages } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -31,7 +31,7 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat, model, memories, addMemory } = useModes();
     const { user } = useAuth();
     const { toast } = useToast();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -41,7 +41,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     // Tools State
     const [isDeepResearch, setIsDeepResearch] = useState(false);
     const [isStudyMode, setIsStudyMode] = useState(false);
-    const [isWebSearch, setIsWebSearch] = useState(false);
     const [isTranslatorMode, setIsTranslatorMode] = useState(false);
     const [targetLanguage, setTargetLanguage] = useState('English');
 
@@ -185,6 +184,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 return m;
             });
             
+            const memoryToUse = memories.map(m => m.text);
+
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
                 isDeepResearch, 
@@ -192,8 +193,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 fileDataUri: fileDataUri, 
                 isFunChat,
                 model,
+                memory: memoryToUse,
                 isStudyMode,
-                isWebSearch,
                 isTranslatorMode,
                 targetLanguage,
              });
@@ -241,6 +242,11 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             recognitionRef.current.start();
         }
     };
+    
+    const handleSaveToMemory = (text: string) => {
+        addMemory(text);
+        toast({ title: "Saved to Memory", description: "The AI will now remember this information." });
+    }
 
     const UserAvatar = () => (
         <Avatar className="h-10 w-10">
@@ -273,6 +279,17 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                             {msg.role === 'model' && <ModelAvatar />}
                             <div className={`relative max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}</p>
+                                {msg.role === 'model' && msg.text.length > 10 && (
+                                     <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        title="Save to Memory"
+                                        onClick={() => handleSaveToMemory(msg.text)}
+                                     >
+                                        <Save size={16} />
+                                     </Button>
+                                )}
                             </div>
                             {msg.role === 'user' && <UserAvatar />}
                         </div>
@@ -313,7 +330,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 )}
                 <div className="flex items-center w-full bg-background border-2 border-input focus-within:border-primary focus-within:ring-0 rounded-lg transition-colors p-1 gap-1">
                     <div className="flex items-center">
-                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading}>
+                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading || isHandsFree}>
                             <Plus />
                         </Button>
                         <DropdownMenu>
@@ -330,9 +347,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                             </DropdownMenuCheckboxItem>
                              <DropdownMenuCheckboxItem checked={isStudyMode} onCheckedChange={setIsStudyMode}>
                                 <BookOpen className="mr-2 h-4 w-4" /> Study and Learn
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem checked={isWebSearch} onCheckedChange={setIsWebSearch}>
-                                <Search className="mr-2 h-4 w-4" /> Web Search
                             </DropdownMenuCheckboxItem>
                              <DropdownMenuCheckboxItem checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode}>
                                 <Languages className="mr-2 h-4 w-4" /> Translator

@@ -15,21 +15,6 @@ import { ModelId, availableModels } from '@/lib/models';
 import { googleAI } from '@genkit-ai/googleai';
 import { extractTextFromFile } from './extract-text-from-file';
 
-const searchWeb = ai.defineTool(
-    {
-        name: 'searchWeb',
-        description: 'Searches the web for the given query. Use this for recent events or to get up-to-date information.',
-        inputSchema: z.object({ query: z.string() }),
-        outputSchema: z.string(),
-    },
-    async ({ query }) => {
-        console.log(`Simulating web search for: ${query}`);
-        // In a real implementation, you would use a search API like Google Search API.
-        // For this demo, we'll return a simulated result.
-        return `Simulated search results for "${query}": The web indicates this is a popular and recent topic. Key points include A, B, and C.`;
-    }
-);
-
 const ChatResearchAssistanceInputSchema = z.object({
   prompt: z.string().describe('The prompt for the AI to research.'),
   isDeepResearch: z.boolean().optional().describe('Whether to perform deep research or not.'),
@@ -39,7 +24,6 @@ const ChatResearchAssistanceInputSchema = z.object({
   model: z.enum(availableModels).optional().describe('The model to use for generation.'),
   memory: z.array(z.string()).optional().describe('A list of memories or facts the user has saved.'),
   isStudyMode: z.boolean().optional().describe('Whether to act as a tutor and explain things simply.'),
-  isWebSearch: z.boolean().optional().describe('Whether to use web search to get up-to-date information.'),
   isTranslatorMode: z.boolean().optional().describe('Whether to translate the user\'s prompt.'),
   targetLanguage: z.string().optional().describe('The target language for translation.'),
 });
@@ -96,10 +80,6 @@ const chatResearchAssistanceFlow = ai.defineFlow(
             if (input.isStudyMode) {
                 promptPreamble.push("**Study and Learn Mode:** You are currently in 'Study and Learn' mode. Act as a patient and encouraging tutor. Break down complex topics into simple, easy-to-understand concepts. Use analogies and ask clarifying questions to ensure the user is understanding.")
             }
-            
-            if (input.isWebSearch) {
-                promptPreamble.push("**Web Search Mode:** You MUST use the 'searchWeb' tool to find the most current and relevant information for the user's query, especially for recent events or topics where up-to-date data is critical.")
-            }
         }
         
         // Add memories if they exist
@@ -123,7 +103,6 @@ const chatResearchAssistanceFlow = ai.defineFlow(
           model,
           system: promptPreamble.join('\n\n'),
           history: input.history,
-          tools: input.isWebSearch ? [searchWeb] : [],
           output: { schema: ChatResearchAssistanceOutputSchema },
         });
 
