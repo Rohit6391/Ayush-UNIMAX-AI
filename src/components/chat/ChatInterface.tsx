@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save, SlidersHorizontal, BookOpen, Languages } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -141,7 +141,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         if (!input.trim() || isLoading) return;
         setIsLoading(true);
         try {
-            const { enhancedPrompt } = await enhancePrompt({ prompt: input, model });
+            const { enhancedPrompt } = await enhancePrompt({ prompt: input });
             setInput(enhancedPrompt);
             toast({ title: "Prompt Enhanced", description: "Your prompt has been improved." });
         } catch (error: any) {
@@ -192,7 +192,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
-                model,
                 memory: memoryToUse,
                 isStudyMode,
                 isTranslatorMode,

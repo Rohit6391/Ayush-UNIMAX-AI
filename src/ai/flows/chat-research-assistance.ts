@@ -35,18 +35,35 @@ export type ChatResearchAssistanceOutput = z.infer<typeof ChatResearchAssistance
 const creatorInfo = "I am Ayush Unimax AI, an advanced AI assistant created by Ayush Sharma of Ayush Webstor Studio. My purpose is to be a universal AI assistant, providing a comprehensive suite of powerful and easy-to-use tools for a wide range of users, including developers, writers, designers, students, and professionals.";
 
 const generalKnowledge: Record<string, string> = {
+    // Identity & Creator
     "who are you": creatorInfo,
     "who created you": creatorInfo,
     "who made you": creatorInfo,
+    "what is your purpose": creatorInfo,
     "what can you do": "I can answer your questions on a wide variety of topics, generate content, analyze text and code, write stories, create recipes, and much more, all completely offline. You can ask me to perform tasks from any of my specialized 'modes' directly in this chat.",
+
+    // General Science
     "what is photosynthesis": "Photosynthesis is the process used by plants, algae, and certain bacteria to convert light energy into chemical energy. This process transforms carbon dioxide and water into glucose (sugar) for energy and releases oxygen as a byproduct.",
     "explain gravity": "Gravity is the natural force that attracts any two objects with mass. The more mass an object has, the stronger its gravitational pull. It's what keeps planets in orbit around the sun and what keeps you on the ground.",
     "what is dna": "DNA, or deoxyribonucleic acid, is a molecule that carries the genetic instructions for the development, functioning, growth, and reproduction of all known organisms and many viruses. It's the blueprint of life.",
-    "what was the renaissance": "The Renaissance was a period of intense artistic, cultural, and scientific rebirth in Europe, following the Middle Ages, from the 14th to the 17th century. It's famous for artists like Leonardo da Vinci and Michelangelo and for a renewed interest in classical knowledge.",
+    "water cycle": "The water cycle describes how water evaporates from the Earth's surface, rises into the atmosphere, cools and condenses into clouds, and falls back to the surface as precipitation (rain, snow, etc.).",
+
+    // Technology
     "how does a computer work": "A computer works by processing data. It takes in information through input devices (like a keyboard), processes it using its Central Processing Unit (CPU) and memory (RAM), and then shows the result through output devices (like a monitor).",
     "what is artificial intelligence": "Artificial intelligence (AI) is a branch of computer science focused on building smart machines capable of performing tasks that typically require human intelligence. This includes learning, reasoning, problem-solving, perception, and language understanding.",
+    "what is the internet": "The internet is a global network of interconnected computers that allows people to share information and communicate with each other. It uses standardized communication protocols to link billions of devices worldwide.",
+    
+    // History
+    "what was the renaissance": "The Renaissance was a period of intense artistic, cultural, and scientific rebirth in Europe, following the Middle Ages, from the 14th to the 17th century. It's famous for artists like Leonardo da Vinci and Michelangelo and for a renewed interest in classical knowledge.",
+    "who was cleopatra": "Cleopatra was the last active ruler of the Ptolemaic Kingdom of Egypt. She was a skilled diplomat, naval commander, and linguist, known for her relationships with Roman leaders Julius Caesar and Mark Antony.",
+    "what was the industrial revolution": "The Industrial Revolution was a period of major industrialization and technological advancement that took place during the late 18th and early 19th centuries. It began in Great Britain and saw the transition from hand production methods to machines, new chemical manufacturing, and the rise of the factory system.",
+
+    // Geography
     "capital of france": "The capital of France is Paris.",
+    "capital of japan": "The capital of Japan is Tokyo.",
     "what is the largest ocean": "The Pacific Ocean is the largest and deepest of the world's oceans.",
+    "what is the longest river": "The Nile River is traditionally considered the longest river in the world, flowing for about 6,650 kilometers (4,132 miles) through northeastern Africa.",
+    "what is the highest mountain": "Mount Everest, located in the Himalayas on the border of Nepal and China, is the highest mountain on Earth, with its peak at 8,848.86 meters (29,031.7 feet) above sea level."
 };
 
 const functionalityKnowledge: Record<string, (prompt: string) => string> = {
