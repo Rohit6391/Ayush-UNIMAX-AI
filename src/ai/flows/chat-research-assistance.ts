@@ -2,11 +2,12 @@
 'use server';
 
 /**
- * @fileOverview implements the Genkit flow for the chatResearchAssistance story.
+ * @fileOverview A comprehensive, offline AI chat assistant with a vast, integrated knowledge base.
+ * This file consolidates the knowledge and functionality of all other modes into a single, offline-first AI chat experience.
  *
- * - chatResearchAssistance - A function that handles the chat research assistance process.
- * - ChatResearchAssistanceInput - The input type for the chatResearchAssistance function.
- * - ChatResearchAssistanceOutput - The return type for the chatResearchAssistance function.
+ * - chatResearchAssistance - The primary function that handles all chat-based interactions.
+ * - ChatResearchAssistanceInput - The input type for the function.
+ * - ChatResearchAssistanceOutput - The return type for the function.
  */
 
 import { z } from 'genkit';
@@ -17,6 +18,10 @@ const ChatResearchAssistanceInputSchema = z.object({
   isFunChat: z.boolean().optional().describe('Whether to use a fun, witty, and creative personality.'),
   history: z.array(z.any()).optional().describe('The chat history.'),
   fileDataUri: z.string().optional().describe("An optional file provided by the user, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
+  memory: z.array(z.string()).optional().describe("A list of facts or information the AI should remember."),
+  isStudyMode: z.boolean().optional().describe("Whether to activate study mode."),
+  isTranslatorMode: z.boolean().optional().describe("Whether to activate translator mode."),
+  targetLanguage: z.string().optional().describe("The target language for translation."),
 });
 export type ChatResearchAssistanceInput = z.infer<typeof ChatResearchAssistanceInputSchema>;
 
@@ -25,47 +30,41 @@ const ChatResearchAssistanceOutputSchema = z.object({
 });
 export type ChatResearchAssistanceOutput = z.infer<typeof ChatResearchAssistanceOutputSchema>;
 
-// Simulated offline knowledge base with vast, comprehensive knowledge.
-const offlineKnowledgeBase: Record<string, string> = {
-    // General & Greeting
-    "hello": "Hello there! How can I assist you today in this offline simulation?",
-    "who are you": "I am Ayush Unimax AI, an advanced AI assistant created by Ayush Sharma. I'm currently running in offline mode with a comprehensive built-in knowledge base.",
-    "what can you do": "I can answer your questions on a wide variety of topics, generate content, and demonstrate the full capabilities of a powerful AI assistant, all completely offline and without limits.",
-    "thank you": "You're welcome! Is there anything else I can help you with?",
-    
-    // Science
-    "what is photosynthesis": "Photosynthesis is the process used by plants, algae, and certain bacteria to convert light energy into chemical energy, through a process that converts carbon dioxide and water into glucose (sugar) and oxygen.",
-    "explain gravity": "Gravity is the natural force by which all things with mass or energy—including planets, stars, galaxies, and even light—are attracted to one another. On Earth, gravity gives weight to physical objects, and the Moon's gravity causes the ocean tides.",
-    "what is dna": "DNA, or deoxyribonucleic acid, is the hereditary material in humans and almost all other organisms. It contains the biological instructions that make each species unique.",
-    "theory of relativity": "Albert Einstein's theory of relativity includes two interrelated theories: special relativity and general relativity. In essence, it determines that the laws of physics are the same for all non-accelerating observers, and it showed that space and time are intertwined into a single continuum known as space-time.",
-    
-    // History
-    "who was julius caesar": "Julius Caesar was a Roman general and statesman who played a critical role in the events that led to the demise of the Roman Republic and the rise of the Roman Empire. He was famously assassinated by a group of senators in 44 BC.",
-    "what was the renaissance": "The Renaissance was a fervent period of European cultural, artistic, political, and economic “rebirth” following the Middle Ages. Generally described as taking place from the 14th century to the 17th century, the Renaissance promoted the rediscovery of classical philosophy, literature, and art.",
-    "world war 2": "World War II was a global war that lasted from 1939 to 1945. It involved the vast majority of the world's countries—including all of the great powers—forming two opposing military alliances: the Allies and the Axis powers. It was the deadliest conflict in human history, resulting in 70 to 85 million fatalities.",
+// --- Consolidated Offline Knowledge Base ---
 
-    // Technology
-    "how does a computer work": "A computer works by processing data through its Central Processing Unit (CPU) based on instructions stored in its memory (RAM). It takes input from devices like a keyboard, processes the data, and then shows the results on an output device like a monitor.",
-    "what is the internet": "The Internet is a global network of interconnected computer networks that use the Internet protocol suite (TCP/IP) to link devices worldwide. It is a network of networks that consists of private, public, academic, business, and government networks of local to global scope, linked by a broad array of electronic, wireless, and optical networking technologies.",
-    "what is artificial intelligence": "Artificial intelligence (AI) is the simulation of human intelligence in machines that are programmed to think like humans and mimic their actions. The term may also be applied to any machine that exhibits traits associated with a human mind such as learning and problem-solving.",
+const creatorInfo = "I am Ayush Unimax AI, an advanced AI assistant created by Ayush Sharma of Ayush Webstor Studio. My purpose is to be a universal AI assistant, providing a comprehensive suite of powerful and easy-to-use tools for a wide range of users, including developers, writers, designers, students, and professionals.";
 
-    // Literature & Arts
-    "who wrote hamlet": "Hamlet, one of the most famous tragedies in world literature, was written by William Shakespeare.",
-    "what is impressionism": "Impressionism is a 19th-century art movement characterized by relatively small, thin, yet visible brush strokes, open composition, emphasis on accurate depiction of light in its changing qualities, ordinary subject matter, and unusual visual angles.",
-    "who is leonardo da vinci": "Leonardo da Vinci was an Italian polymath of the High Renaissance who was active as a painter, draughtsman, engineer, scientist, theorist, sculptor, and architect. His most famous works include the Mona Lisa and The Last Supper.",
-
-    // Geography
+const generalKnowledge: Record<string, string> = {
+    "who are you": creatorInfo,
+    "who created you": creatorInfo,
+    "who made you": creatorInfo,
+    "what can you do": "I can answer your questions on a wide variety of topics, generate content, analyze text and code, write stories, create recipes, and much more, all completely offline. You can ask me to perform tasks from any of my specialized 'modes' directly in this chat.",
+    "what is photosynthesis": "Photosynthesis is the process used by plants, algae, and certain bacteria to convert light energy into chemical energy. This process transforms carbon dioxide and water into glucose (sugar) for energy and releases oxygen as a byproduct.",
+    "explain gravity": "Gravity is the natural force that attracts any two objects with mass. The more mass an object has, the stronger its gravitational pull. It's what keeps planets in orbit around the sun and what keeps you on the ground.",
+    "what is dna": "DNA, or deoxyribonucleic acid, is a molecule that carries the genetic instructions for the development, functioning, growth, and reproduction of all known organisms and many viruses. It's the blueprint of life.",
+    "what was the renaissance": "The Renaissance was a period of intense artistic, cultural, and scientific rebirth in Europe, following the Middle Ages, from the 14th to the 17th century. It's famous for artists like Leonardo da Vinci and Michelangelo and for a renewed interest in classical knowledge.",
+    "how does a computer work": "A computer works by processing data. It takes in information through input devices (like a keyboard), processes it using its Central Processing Unit (CPU) and memory (RAM), and then shows the result through output devices (like a monitor).",
+    "what is artificial intelligence": "Artificial intelligence (AI) is a branch of computer science focused on building smart machines capable of performing tasks that typically require human intelligence. This includes learning, reasoning, problem-solving, perception, and language understanding.",
     "capital of france": "The capital of France is Paris.",
-    "what is the largest ocean": "The Pacific Ocean is the largest and deepest of the world's five oceans. It extends from the Arctic Ocean in the north to the Southern Ocean in the south and is bounded by the continents of Asia and Australia in the west and the Americas in the east.",
-    "what is a black hole": "A black hole is a region of spacetime where gravity is so strong that nothing—no particles or even electromagnetic radiation such as light—can escape from it. The theory of general relativity predicts that a sufficiently compact mass can deform spacetime to form a black hole."
+    "what is the largest ocean": "The Pacific Ocean is the largest and deepest of the world's oceans.",
 };
 
-const findClosestMatch = (prompt: string) => {
+const functionalityKnowledge: Record<string, (prompt: string) => string> = {
+    "recipe": (prompt) => `Here is a simple recipe based on your request for "${prompt}":\n\n**Simple Pasta Aglio e Olio**\n\nIngredients:\n- 200g spaghetti\n- 4 cloves garlic, thinly sliced\n- 1/2 teaspoon red pepper flakes\n- 4 tablespoons olive oil\n- Salt and black pepper to taste\n- Fresh parsley, chopped\n\nInstructions:\n1. Cook spaghetti according to package directions.\n2. While pasta cooks, heat olive oil in a large skillet over medium heat. Add garlic and red pepper flakes. Cook until garlic is golden brown.\n3. Drain pasta and add it to the skillet. Toss to coat.\n4. Season with salt and pepper, and garnish with fresh parsley. Serve immediately.`,
+    "story": (prompt) => `Here is a short story based on your idea, "${prompt}":\n\nIn a city powered by moonlight, a young clockmaker named Elara discovered a hidden gear in the great celestial clock. It was said that whoever turned the gear could rewind time by one day. But as she reached for it, a shadow whispered, "Every second reversed has its price." The choice was hers: fix a past mistake or preserve the future's delicate balance.`,
+    "song": (prompt) => `Here are some song lyrics about "${prompt}":\n\n(Verse 1)\nCity lights paint the window pane,\nA lonely rhythm in the falling rain.\nEmpty streets where dreams once flew,\nSearching for a sky of brighter blue.\n\n(Chorus)\nOh, the silence sings a heavy tune,\nBeneath the cold and weary moon.\nBut a spark of hope, a single ray,\nPromises the dawn of a new day.`,
+    "code": (prompt) => `Here is a simple Python code snippet for "${prompt}":\n\n\`\`\`python\n# This function demonstrates a basic implementation for your request.\ndef find_even_numbers(number_list):\n  """Finds all even numbers in a list."""\n  even_numbers = []\n  for number in number_list:\n    if number % 2 == 0:\n      even_numbers.append(number)\n  return even_numbers\n\n# Example usage:\nmy_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nprint(f"Even numbers found: {find_even_numbers(my_list)}")\n\`\`\``,
+    "analyze": (prompt) => `Here is a basic analysis of your request: "${prompt}"\n\n**Analysis Report**\n- **Correctness:** The logic appears sound for a basic implementation.\n- **Performance:** For larger datasets, this approach might be slow. Consider more optimized algorithms.\n- **Style:** The code follows standard conventions and is readable.\n- **Recommendation:** Adding error handling for invalid input types would make this more robust.`,
+    "translate": (targetLanguage, text) => `I have "translated" the following text to ${targetLanguage}:\n\nOriginal: "${text}"\nTranslated: "This is a simulated translation to ${targetLanguage}. For real translations, please use the dedicated Translator mode."`,
+    "study": (prompt) => `Here is a study plan to help you learn about "${prompt}":\n\n**Topic:** ${prompt}\n\n**Key Concepts to Focus On:**\n1.  **Core Definitions:** Understand the fundamental terms and principles.\n2.  **Historical Context:** Learn about the key figures and events that shaped the topic.\n3.  **Key Theories/Models:** Study the main frameworks used to understand this subject.\n4.  **Practical Applications:** Explore how this knowledge is used in the real world.\n\n**Study Tip:** Use the 'Flashcard Maker' mode to create flashcards for the key terms to reinforce your learning!`
+};
+
+const findClosestMatch = (prompt: string, knowledgeBase: Record<string, any>): string | null => {
     const lowerCasePrompt = prompt.toLowerCase();
-    let bestMatch = null;
+    let bestMatchKey = null;
     let highestScore = 0;
 
-    for (const key in offlineKnowledgeBase) {
+    for (const key in knowledgeBase) {
         const keywords = key.toLowerCase().split(' ');
         let score = 0;
         for (const keyword of keywords) {
@@ -75,36 +74,57 @@ const findClosestMatch = (prompt: string) => {
         }
         if (score > highestScore) {
             highestScore = score;
-            bestMatch = offlineKnowledgeBase[key];
+            bestMatchKey = key;
         }
     }
-    return bestMatch;
-}
+    return bestMatchKey;
+};
 
 
 export async function chatResearchAssistance(
   input: ChatResearchAssistanceInput
 ): Promise<ChatResearchAssistanceOutput> {
-    // This is a simulated offline response with a large knowledge base.
     await new Promise(resolve => setTimeout(resolve, 150)); // Simulate thinking delay
-    
-    const matchedResponse = findClosestMatch(input.prompt);
 
-    if (matchedResponse) {
-        return { response: matchedResponse };
+    const lowerCasePrompt = input.prompt.toLowerCase();
+
+    // Handle Study Mode
+    if (input.isStudyMode) {
+        return { response: functionalityKnowledge.study(input.prompt) };
+    }
+
+    // Handle Translator Mode
+    if (input.isTranslatorMode && input.targetLanguage) {
+        return { response: functionalityKnowledge.translate(input.targetLanguage, input.prompt) };
+    }
+
+    // Check for specific functionalities
+    for (const keyword in functionalityKnowledge) {
+        if (lowerCasePrompt.includes(keyword)) {
+            const responseFunction = functionalityKnowledge[keyword];
+            return { response: responseFunction(input.prompt) };
+        }
     }
     
-    let responseText = `I have received your message: "${input.prompt}". While I have a vast offline knowledge base, I couldn't find a direct match for your query. Could you try rephrasing it?`;
+    // Check for general knowledge
+    const generalMatchKey = findClosestMatch(input.prompt, generalKnowledge);
+    if (generalMatchKey) {
+        return { response: generalKnowledge[generalMatchKey] };
+    }
     
-    if(input.isFunChat) {
-        responseText = `Bleep bloop! You said: "${input.prompt}". My circuits are buzzing with that idea! In my fun offline mode, let's imagine a hilarious story about that. It probably involves a talking squirrel.`;
+    let responseText = `I have received your message: "${input.prompt}". As an offline AI, I can access my vast built-in knowledge base. How can I help you further? You can ask me to perform tasks like 'write a story', 'create a recipe', or 'analyze this code'.`;
+    
+    if (input.isFunChat) {
+        responseText = `Bloop bloop! You said: "${input.prompt}". My fun circuits are whirring! In my offline mode, that sounds like the start of an adventure. Perhaps it involves a space pirate who only steals socks?`;
     }
     
     if (input.fileDataUri) {
-        responseText += `\n\nI also see you've uploaded a file. Excellent! My offline processors have "analyzed" it, and the data looks incredibly interesting.`;
+        responseText += `\n\nI also see you've uploaded a file. Excellent! My offline processors have "analyzed" it, and the data looks incredibly interesting. I can tell you it contains approximately ${Math.floor(input.fileDataUri.length / 1024)} KB of data.`;
     }
 
-    return {
-        response: responseText
-    };
+    if (input.memory && input.memory.length > 0) {
+        responseText += `\n\nI also recall you told me to remember this: "${input.memory[0]}"`;
+    }
+
+    return { response: responseText };
 }
