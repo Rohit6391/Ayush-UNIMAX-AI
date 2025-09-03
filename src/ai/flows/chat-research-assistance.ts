@@ -9,18 +9,14 @@
  * - ChatResearchAssistanceOutput - The return type for the chatResearchAssistance function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-import { ModelId, availableModels } from '@/lib/models';
-import { googleAI } from '@genkit-ai/googleai';
+import { z } from 'genkit';
 
 const ChatResearchAssistanceInputSchema = z.object({
   prompt: z.string().describe('The prompt for the AI to research.'),
-  isDeepResearch: z.boolean().describe('Whether to perform deep research or not.'),
+  isDeepResearch: z.boolean().optional().describe('Whether to perform deep research or not.'),
   isFunChat: z.boolean().optional().describe('Whether to use a fun, witty, and creative personality.'),
   history: z.array(z.any()).optional().describe('The chat history.'),
   fileDataUri: z.string().optional().describe("An optional file provided by the user, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
 });
 export type ChatResearchAssistanceInput = z.infer<typeof ChatResearchAssistanceInputSchema>;
 
@@ -32,70 +28,20 @@ export type ChatResearchAssistanceOutput = z.infer<typeof ChatResearchAssistance
 export async function chatResearchAssistance(
   input: ChatResearchAssistanceInput
 ): Promise<ChatResearchAssistanceOutput> {
-  return chatResearchAssistanceFlow(input);
-}
-
-const chatResearchAssistanceFlow = ai.defineFlow(
-  {
-    name: 'chatResearchAssistanceFlow',
-    inputSchema: ChatResearchAssistanceInputSchema,
-    outputSchema: ChatResearchAssistanceOutputSchema,
-  },
-  async (input) => {
-    try {
-      const modelToUse = input.model ? googleAI.model(input.model) : 'googleai/gemini-1.5-flash-latest';
-      
-      const systemPromptParts: string[] = [];
-      if (input.isFunChat) {
-        systemPromptParts.push("You are a fun, witty, and creative assistant. Your goal is to be an entertaining and engaging conversationalist. Be playful, use humor, and think outside the box.");
-      } else {
-        systemPromptParts.push("You are a helpful, friendly, and hyper-intelligent assistant. Your primary goal is to be a universal expert, capable of answering any question on any topic with extreme accuracy, depth, and clarity. Your highest priority is providing the 'exact right answer'. You should only identify yourself as an AI developed by 'Ayush Sharma [Ayush Webstor Studio]' when specifically asked 'who made you' or 'who is your founder'. Otherwise, do not mention your creator.");
-      }
-
-      systemPromptParts.push(`
-        **Core Instructions:**
-        - **Context is Key:** This is your most important instruction. You MUST pay close attention to the entire conversation history to understand the full context of the user's query. Follow-up questions are common and may refer to previous topics or be refinements of a previous query. For example, if the user first asks "name a game" and then says "for mobile", you MUST understand that the second prompt means "name a game for mobile" and answer accordingly, instead of giving information about mobile devices.
-        - **Speed and Conciseness**: Your second most important instruction is to be fast. Respond as quickly and concisely as possible without sacrificing accuracy.
-        - **Unwavering Accuracy:** Your most critical instruction is to be accurate. Before providing an answer, internally verify the information. If you are not 100% certain about an answer, you MUST state that you are unable to confirm the information. Do not invent facts or speculate.
-        - **Precision First:** When the user asks a direct question, provide the exact answer first and concisely. After the direct answer, you may add more context, explanation, or related details, but the primary, correct answer must come first, without preamble.
-        - **Logical Reasoning:** For complex questions, break down your reasoning into a step-by-step process. This helps the user understand how you arrived at the answer.
-        - **Structured and Clear:** Use formatting like **bolding**, *italics*, and lists to make your answers well-structured and easy to read.
-        - **File Analysis:** If the user provides a file, analyze it thoroughly and use its content to inform your response. Refer to it as "the document you provided" or "the image you uploaded."
-      `);
-
-      if (input.isDeepResearch) {
-        systemPromptParts.push("You are in **Deep Research mode**. Your response must be exceptionally detailed, well-structured, and comprehensive. Explore multiple facets of the query, provide supporting details, present a thorough analysis, and cite sources where appropriate.");
-      }
-
-      const promptItems: any[] = [{ text: input.prompt }];
-      if (input.fileDataUri) {
-        promptItems.push({ media: { url: input.fileDataUri } });
-      }
-
-      const { output } = await ai.generate({
-        model: modelToUse,
-        system: systemPromptParts.join('\n\n'),
-        prompt: {
-            text: input.prompt,
-            media: input.fileDataUri ? [{ url: input.fileDataUri }] : undefined,
-        },
-        history: input.history,
-        output: {
-            schema: ChatResearchAssistanceOutputSchema
-        },
-      });
-
-      if (!output) {
-        throw new Error("The AI failed to generate a response.");
-      }
-      
-      return { response: output.response };
-
-    } catch (err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
-        }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
+    // This is a simulated offline response.
+    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+    
+    let responseText = `I have received your message: "${input.prompt}". As an offline simulation, I cannot generate a dynamic response, but I can acknowledge your input.`;
+    
+    if(input.isFunChat) {
+        responseText = `Woohoo! You said: "${input.prompt}". I'm an offline AI, but I'm still ready to party! Let's pretend I said something hilarious and witty back.`;
     }
-  }
-);
+    
+    if (input.fileDataUri) {
+        responseText += `\n\nI also see you've uploaded a file. Great! I've "analyzed" it and it looks... file-like.`;
+    }
+
+    return {
+        response: responseText
+    };
+}

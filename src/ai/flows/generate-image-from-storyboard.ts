@@ -8,8 +8,7 @@
  * - GenerateImageFromStoryboardOutput - The return type for the generateImageFromStoryboard function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { z } from 'genkit';
 
 const GenerateImageFromStoryboardInputSchema = z.object({
   imagePrompt: z.string().describe('A prompt to generate an image for a storyboard scene.'),
@@ -23,41 +22,13 @@ const GenerateImageFromStoryboardOutputSchema = z.object({
 export type GenerateImageFromStoryboardOutput = z.infer<typeof GenerateImageFromStoryboardOutputSchema>;
 
 export async function generateImageFromStoryboard(input: GenerateImageFromStoryboardInput): Promise<GenerateImageFromStoryboardOutput> {
-  return generateImageFromStoryboardFlow(input);
+    // This is a simulated offline response.
+    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+
+    // Return a consistent placeholder image for offline mode.
+    const placeholderUrl = "https://placehold.co/1024x1024/222/fff.png?text=Offline+Image";
+    
+    return {
+        imageUrl: placeholderUrl
+    };
 }
-
-const generateImageFromStoryboardFlow = ai.defineFlow(
-  {
-    name: 'generateImageFromStoryboardFlow',
-    inputSchema: GenerateImageFromStoryboardInputSchema,
-    outputSchema: GenerateImageFromStoryboardOutputSchema,
-  },
-  async (input) => {
-    const promptItems = [];
-    if (input.photoDataUri) {
-        promptItems.push({ media: { url: input.photoDataUri } });
-    }
-    promptItems.push({ text: input.imagePrompt });
-
-    try {
-        const {media} = await ai.generate({
-          model: 'googleai/gemini-2.0-flash-preview-image-generation',
-          prompt: promptItems,
-          config: {
-            responseModalities: ['TEXT', 'IMAGE'],
-          },
-        });
-        
-        if (!media?.url) {
-          throw new Error("The AI failed to generate an image. This could be due to the prompt being blocked or a temporary service issue.");
-        }
-
-        return {imageUrl: media.url};
-    } catch (err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            throw new Error("You have exceeded your daily API quota for image generation. Please check your plan and billing details, or try again tomorrow.");
-        }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
-    }
-  }
-);
