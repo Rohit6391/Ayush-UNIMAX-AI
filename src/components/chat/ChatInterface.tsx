@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save, SlidersHorizontal, BookOpen, Search, Languages } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, Save, SlidersHorizontal, BookOpen, Languages } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -41,7 +41,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     // Tools State
     const [isDeepResearch, setIsDeepResearch] = useState(false);
     const [isStudyMode, setIsStudyMode] = useState(false);
-    const [isWebSearch, setIsWebSearch] = useState(false);
     const [isTranslatorMode, setIsTranslatorMode] = useState(false);
     const [targetLanguage, setTargetLanguage] = useState('English');
 
@@ -196,7 +195,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 model,
                 memory: memoryToUse,
                 isStudyMode,
-                isWebSearch,
                 isTranslatorMode,
                 targetLanguage,
              });
@@ -266,7 +264,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     )
 
     return (
-        <div className="flex flex-col h-full max-w-4xl mx-auto">
+        <div className="flex flex-col h-full max-w-7xl mx-auto w-full">
             <input 
               type="file" 
               ref={fileInputRef} 
@@ -332,12 +330,12 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 )}
                 <div className="flex items-center w-full bg-background border-2 border-input focus-within:border-primary focus-within:ring-0 rounded-lg transition-colors p-1 gap-1">
                     <div className="flex items-center">
-                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File">
+                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading || isHandsFree}>
                             <Plus />
                         </Button>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" title="Tools">
+                            <Button variant="ghost" size="icon" title="Tools" disabled={isLoading}>
                               <SlidersHorizontal />
                             </Button>
                           </DropdownMenuTrigger>
@@ -349,9 +347,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                             </DropdownMenuCheckboxItem>
                              <DropdownMenuCheckboxItem checked={isStudyMode} onCheckedChange={setIsStudyMode}>
                                 <BookOpen className="mr-2 h-4 w-4" /> Study and Learn
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem checked={isWebSearch} onCheckedChange={setIsWebSearch}>
-                                <Search className="mr-2 h-4 w-4" /> Web Search
                             </DropdownMenuCheckboxItem>
                              <DropdownMenuCheckboxItem checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode}>
                                 <Languages className="mr-2 h-4 w-4" /> Translator
@@ -380,13 +375,13 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder={isListening ? "Listening..." : (isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI..."))}
+                        placeholder={isListening ? "Listening..." : (isHandsFree ? "Hands-free mode is active. Start speaking." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI..."))}
                         className="flex-1 w-full bg-transparent border-none focus:ring-0 resize-none min-h-[24px] p-0" 
                         rows={1}
                         disabled={isHandsFree || isLoading}
                     />
                     <div className="flex items-center">
-                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''}>
+                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''} disabled={isLoading}>
                             {isListening ? <Waves /> : <Mic />}
                         </Button>
                         <Button onClick={() => handleSend()} disabled={isHandsFree || isLoading || (!input.trim() && !uploadedFile)} size="icon">

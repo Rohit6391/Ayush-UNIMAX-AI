@@ -25,20 +25,48 @@ const ChatResearchAssistanceOutputSchema = z.object({
 });
 export type ChatResearchAssistanceOutput = z.infer<typeof ChatResearchAssistanceOutputSchema>;
 
+// Simulated offline knowledge base
+const offlineKnowledgeBase: Record<string, string> = {
+    "hello": "Hello there! How can I assist you today in this offline simulation?",
+    "who are you": "I am Ayush Unimax AI, an advanced AI assistant created by Ayush Sharma. I'm currently running in offline mode.",
+    "what can you do": "In my offline mode, I can answer some basic questions, remember information you provide me, and demonstrate the chat functionality of this application. For full capabilities, I would need an internet connection.",
+    "capital of france": "The capital of France is Paris.",
+    "how does a computer work": "A computer works by processing data through its Central Processing Unit (CPU) based on instructions stored in its memory, and then showing the results on an output device like a monitor.",
+    "what is the meaning of life": "That is a profound philosophical question! In this offline mode, I can tell you that many believe it's about finding happiness, creating connections, and leaving a positive impact on the world.",
+};
+
+const findClosestMatch = (prompt: string) => {
+    const lowerCasePrompt = prompt.toLowerCase();
+    // Simple keyword matching
+    for (const key in offlineKnowledgeBase) {
+        if (lowerCasePrompt.includes(key)) {
+            return offlineKnowledgeBase[key];
+        }
+    }
+    return null;
+}
+
+
 export async function chatResearchAssistance(
   input: ChatResearchAssistanceInput
 ): Promise<ChatResearchAssistanceOutput> {
     // This is a simulated offline response.
-    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 250)); // Simulate thinking delay
     
-    let responseText = `I have received your message: "${input.prompt}". As an offline simulation, I cannot generate a dynamic response, but I can acknowledge your input.`;
+    const matchedResponse = findClosestMatch(input.prompt);
+
+    if (matchedResponse) {
+        return { response: matchedResponse };
+    }
+    
+    let responseText = `I have received your message: "${input.prompt}". As an offline simulation, I have limited knowledge but I will do my best to help.`;
     
     if(input.isFunChat) {
-        responseText = `Woohoo! You said: "${input.prompt}". I'm an offline AI, but I'm still ready to party! Let's pretend I said something hilarious and witty back.`;
+        responseText = `Bleep bloop! You said: "${input.prompt}". I'm a fun offline AI, and I think that's super interesting! Let's pretend I just told a great joke about it.`;
     }
     
     if (input.fileDataUri) {
-        responseText += `\n\nI also see you've uploaded a file. Great! I've "analyzed" it and it looks... file-like.`;
+        responseText += `\n\nI also see you've uploaded a file. Great! I've "analyzed" it and it looks fascinating.`;
     }
 
     return {
