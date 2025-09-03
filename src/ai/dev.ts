@@ -29,5 +29,3 @@ import '@/ai/flows/transaction-pattern-finder.ts';
 import '@/ai/flows/credit-risk-analyzer.ts';
 import '@/ai/flows/investment-portfolio-optimizer.ts';
 import '@/ai/flows/financial-statement-summarizer.ts';
-import '@/ai/flows/extract-text-from-file.ts';
-import '@/ai/flows/about-ai-chat.ts';
