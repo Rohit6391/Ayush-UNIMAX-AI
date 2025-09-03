@@ -4,7 +4,9 @@ import { ModelId } from '@/lib/models';
 
 export const ai = genkit({
   plugins: [
-    googleAI(),
+    googleAI({
+      apiKey: process.env.GEMINI_API_KEY,
+    }),
   ],
   logLevel: 'debug',
   model: 'googleai/gemini-1.5-flash-latest',
