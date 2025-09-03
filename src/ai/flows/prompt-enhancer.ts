@@ -55,7 +55,7 @@ const enhancePromptFlow = ai.defineFlow(
         }
         return output;
     } catch(err: any) {
-        if (err.message && err.message.includes('429')) {
+        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
             throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
         }
         // Re-throw other errors

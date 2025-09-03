@@ -40,18 +40,26 @@ const generateImageFromStoryboardFlow = ai.defineFlow(
     }
     promptItems.push({ text: input.imagePrompt });
 
-    const {media} = await ai.generate({
-      model: 'googleai/gemini-2.0-flash-preview-image-generation',
-      prompt: promptItems,
-      config: {
-        responseModalities: ['TEXT', 'IMAGE'],
-      },
-    });
-    
-    if (!media?.url) {
-      throw new Error("The AI failed to generate an image from the provided prompt. The model may be unavailable or the prompt may have been blocked.");
-    }
+    try {
+        const {media} = await ai.generate({
+          model: 'googleai/gemini-2.0-flash-preview-image-generation',
+          prompt: promptItems,
+          config: {
+            responseModalities: ['TEXT', 'IMAGE'],
+          },
+        });
+        
+        if (!media?.url) {
+          throw new Error("The AI failed to generate an image from the provided prompt. The model may be unavailable or the prompt may have been blocked.");
+        }
 
-    return {imageUrl: media.url};
+        return {imageUrl: media.url};
+    } catch(err: any) {
+        if (err.message && err.message.includes('429')) {
+            throw new Error("You have exceeded your daily API quota for image generation. Please check your plan and billing details, or try again tomorrow.");
+        }
+        // Re-throw other errors
+        throw err;
+    }
   }
 );
