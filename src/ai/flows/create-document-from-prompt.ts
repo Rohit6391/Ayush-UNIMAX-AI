@@ -2,17 +2,15 @@
 'use server';
 
 /**
- * @fileOverview A document creation AI agent.
+ * @fileOverview A document creation agent. This is an offline simulation.
  *
  * - createDocumentFromPrompt - A function that handles the document creation process.
  * - CreateDocumentFromPromptInput - The input type for the createDocumentFromPrompt function.
- * - CreateDocumentFromPromptOutput - The return type for the createDocumentFromPrompt function.
+ * - CreateDocumentFromPromptOutput - The return type for the createDocumentFromprompt function.
  */
 
-import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { ModelId, availableModels } from '@/lib/models';
-import { googleAI } from '@genkit-ai/googleai';
 
 const CreateDocumentFromPromptInputSchema = z.object({
   prompt: z.string().describe('The prompt for generating the document.'),
@@ -28,46 +26,26 @@ const CreateDocumentFromPromptOutputSchema = z.object({
 export type CreateDocumentFromPromptOutput = z.infer<typeof CreateDocumentFromPromptOutputSchema>;
 
 export async function createDocumentFromPrompt(input: CreateDocumentFromPromptInput): Promise<CreateDocumentFromPromptOutput> {
-  return createDocumentFromPromptFlow(input);
+    await new Promise(resolve => setTimeout(resolve, 200)); // Simulate processing delay
+
+    let documentContent = `This is an offline-generated document based on your prompt:\n\n---\n\n${input.prompt}\n\n---\n\nThis demonstrates the document creation functionality. For full dynamic content generation, an online connection would be required.`;
+
+    if (input.isJsonOutput) {
+        documentContent = JSON.stringify({
+            status: "OK",
+            prompt: input.prompt,
+            message: "This is a simulated JSON response from an offline model.",
+            data: {
+                exampleKey: "exampleValue",
+                items: [1, 2, 3]
+            }
+        }, null, 2);
+    }
+    
+    if (input.fileDataUri) {
+      documentContent = `This document was generated using your prompt and the file you uploaded.\n\n` + documentContent;
+    }
+
+    return { document: documentContent };
 }
 
-const prompt = ai.definePrompt({
-  name: 'createDocumentFromPromptPrompt',
-  input: {schema: CreateDocumentFromPromptInputSchema},
-  output: {schema: CreateDocumentFromPromptOutputSchema},
-  prompt: `Generate a document based on the following prompt. If a file is provided, use it as context for your response. The output should be the raw content of the document. If the prompt asks for a JSON object, return ONLY the valid JSON string. Otherwise, return the raw text. Do not add any extra commentary or explanation unless the prompt specifically asks for it.
-
-  {{#if fileDataUri}}
-  **Contextual File:**
-  {{media url=fileDataUri}}
-  {{/if}}
-  
-  {{#if isJsonOutput}}
-  You must provide your response as a valid JSON object.
-  {{/if}}
-
-  **Prompt:**
-  {{{prompt}}}`,
-});
-
-const createDocumentFromPromptFlow = ai.defineFlow(
-  {
-    name: 'createDocumentFromPromptFlow',
-    inputSchema: CreateDocumentFromPromptInputSchema,
-    outputSchema: CreateDocumentFromPromptOutputSchema,
-  },
-  async input => {
-    try {
-        const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
-        if (!output) {
-            throw new Error("The AI failed to generate a response.");
-        }
-        return output;
-    } catch(err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
-        }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
-    }
-  }
-);

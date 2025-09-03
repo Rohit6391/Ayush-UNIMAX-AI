@@ -2,17 +2,15 @@
 'use server';
 
 /**
- * @fileOverview A file editor AI agent.
+ * @fileOverview A file editor agent. This is an offline simulation.
  *
  * - editFilesFromPrompt - A function that handles the prompt to edit files.
  * - EditFilesFromPromptInput - The input type for the editFilesFromPrompt function.
  * - EditFilesFromPromptOutput - The return type for the editFilesFromPrompt function.
  */
 
-import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { ModelId, availableModels } from '@/lib/models';
-import { googleAI } from '@genkit-ai/googleai';
 
 const EditFilesFromPromptInputSchema = z.object({
   fileContent: z.string().describe('The content of the file to be edited.'),
@@ -27,39 +25,25 @@ const EditFilesFromPromptOutputSchema = z.object({
 export type EditFilesFromPromptOutput = z.infer<typeof EditFilesFromPromptOutputSchema>;
 
 export async function editFilesFromPrompt(input: EditFilesFromPromptInput): Promise<EditFilesFromPromptOutput> {
-  return editFilesFromPromptFlow(input);
-}
+  await new Promise(resolve => setTimeout(resolve, 200));
 
-const prompt = ai.definePrompt({
-  name: 'editFilesFromPromptPrompt',
-  input: {schema: EditFilesFromPromptInputSchema},
-  output: {schema: EditFilesFromPromptOutputSchema},
-  prompt: `You are an expert file editor AI. Your task is to edit the given file content based on the user's instruction and return ONLY the new, fully edited content of the file. Do not include any other explanation, commentary, or markdown formatting. Your response must be the raw text of the modified file.
-
-**Instruction**: "{{{prompt}}}"
-
---- FILE CONTENT ---
-{{{fileContent}}}`,
-});
-
-const editFilesFromPromptFlow = ai.defineFlow(
-  {
-    name: 'editFilesFromPromptFlow',
-    inputSchema: EditFilesFromPromptInputSchema,
-    outputSchema: EditFilesFromPromptOutputSchema,
-  },
-  async input => {
-    try {
-        const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
-        if (!output) {
-            throw new Error("The AI failed to generate a response.");
-        }
-        return output;
-    } catch(err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
-        }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
-    }
+  const editedContent = `/* 
+  * AI-SIMULATED EDIT 
+  * Your instruction was: "${input.prompt}"
+  * The original content has been commented out below and this new content was added to simulate the edit.
+  */
+  
+  .edited-by-ai {
+    border: 2px solid limegreen;
+    padding: 1rem;
+    background-color: #f0fff0;
   }
-);
+
+  /*
+  --- ORIGINAL CONTENT ---
+  ${input.fileContent}
+  */
+  `;
+
+  return { fileContent: editedContent };
+}

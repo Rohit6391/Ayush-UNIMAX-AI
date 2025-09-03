@@ -2,17 +2,15 @@
 'use server';
 
 /**
- * @fileOverview An AI agent that enhances a user's prompt to be more effective.
+ * @fileOverview An AI agent that enhances a user's prompt to be more effective. This is an offline simulation.
  *
  * - enhancePrompt - A function that handles the prompt enhancement.
  * - EnhancePromptInput - The input type for the function.
  * - EnhancePromptOutput - The return type for the function.
  */
 
-import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { ModelId, availableModels } from '@/lib/models';
-import { googleAI } from '@genkit-ai/googleai';
 
 const EnhancePromptInputSchema = z.object({
   prompt: z.string().describe('The user-written prompt to be enhanced.'),
@@ -26,38 +24,12 @@ const EnhancePromptOutputSchema = z.object({
 export type EnhancePromptOutput = z.infer<typeof EnhancePromptOutputSchema>;
 
 export async function enhancePrompt(input: EnhancePromptInput): Promise<EnhancePromptOutput> {
-  return enhancePromptFlow(input);
+    // In this offline version, we will just add a simple prefix to show it was "enhanced".
+    await new Promise(resolve => setTimeout(resolve, 50)); // Simulate processing delay
+
+    const enhancedPrompt = `A detailed, high-quality, and creative version of: ${input.prompt}`;
+    
+    return {
+        enhancedPrompt
+    };
 }
-
-const prompt = ai.definePrompt({
-  name: 'enhancePrompt',
-  input: { schema: EnhancePromptInputSchema },
-  output: { schema: EnhancePromptOutputSchema },
-  prompt: `You are a prompt engineering expert. Your task is to rewrite the user's prompt to be more specific, detailed, and effective for a large language model. Add context, constraints, and a clear desired output format if appropriate, but stick to the user's core intent.
-
-  **User's Original Prompt:**
-  "{{{prompt}}}"
-  `,
-});
-
-const enhancePromptFlow = ai.defineFlow(
-  {
-    name: 'enhancePromptFlow',
-    inputSchema: EnhancePromptInputSchema,
-    outputSchema: EnhancePromptOutputSchema,
-  },
-  async (input) => {
-    try {
-        const { output } = await prompt(input, { model: input.model ? googleAI.model(input.model) : undefined });
-        if (!output) {
-          throw new Error('Failed to enhance prompt.');
-        }
-        return output;
-    } catch(err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
-        }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
-    }
-  }
-);

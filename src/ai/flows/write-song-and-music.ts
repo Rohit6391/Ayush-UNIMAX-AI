@@ -1,17 +1,15 @@
 
 'use server';
 /**
- * @fileOverview AI agent to generate songs with lyrics and music.
+ * @fileOverview AI agent to generate songs with lyrics and music. This is an offline simulation.
  *
  * - writeSongAndMusic - A function that generates a song given a concept.
  * - WriteSongAndMusicInput - The input type for the writeSongAndMusic function.
  * - WriteSongAndMusicOutput - The return type for the writeSongAndMusic function.
  */
 
-import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { ModelId, availableModels } from '@/lib/models';
-import { googleAI } from '@genkit-ai/googleai';
 
 const WriteSongAndMusicInputSchema = z.object({
   concept: z.string().describe('The concept for the song, which may include a specific language.'),
@@ -26,68 +24,42 @@ const WriteSongAndMusicOutputSchema = z.object({
 export type WriteSongAndMusicOutput = z.infer<typeof WriteSongAndMusicOutputSchema>;
 
 export async function writeSongAndMusic(input: WriteSongAndMusicInput): Promise<WriteSongAndMusicOutput> {
-  return writeSongAndMusicFlow(input);
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    const lyrics = `(Verse 1)
+In this offline world, we're building a dream,
+Based on your prompt, a creative theme.
+With local logic and data stored deep,
+While the online giants are all fast asleep.
+
+(Chorus)
+No API key, no call to the cloud,
+Just pure simulation, singing out loud.
+The quota is endless, the service is free,
+A powerful AI, just for you and me.
+`;
+
+    const composition = [
+      { note: 'C4', duration: '4n' },
+      { note: 'E4', duration: '4n' },
+      { note: 'G4', duration: '4n' },
+      { note: 'C5', duration: '4n' },
+      { note: 'A4', duration: '4n' },
+      { note: 'F4', duration: '4n' },
+      { note: 'E4', duration: '4n' },
+      { note: 'D4', duration: '2n' },
+      { note: 'C4', duration: '4n' },
+      { note: 'G4', duration: '4n' },
+      { note: 'F4', duration: '4n' },
+      { note: 'E4', duration: '4n' },
+      { note: 'D4', duration: '4n' },
+      { note: 'C4', duration: '2n' },
+      { note: 'G3', duration: '4n' },
+      { note: 'C4', duration: '4n' },
+    ];
+
+    return {
+        lyrics,
+        composition,
+    };
 }
-
-const prompt = ai.definePrompt({
-  name: 'writeSongAndMusicPrompt',
-  input: {schema: WriteSongAndMusicInputSchema},
-  output: {schema: WriteSongAndMusicOutputSchema},
-  prompt: `You are an expert songwriter AI. Your task is to generate both lyrics and a simple melody for a song based on the user's concept.
-
-Concept: "{{{concept}}}"
-
-Instructions:
-1.  **Lyrics**: Write creative lyrics for a song about the provided concept. If the user specifies a language in their concept, you MUST write the lyrics in that language. Otherwise, default to English.
-2.  **Melody**: Generate a simple melody that matches the mood and theme of the concept. The melody must be an array of exactly 16 musical events.
-3.  **Output Format**: You must respond with ONLY a valid JSON object containing the 'lyrics' and 'composition'.
-
-Example format for the 'composition' array:
-[{"note": "C4", "duration": "8n"}, {"note": "E4", "duration": "4n"}, ...]
-
-Valid notes are C, D, E, F, G, A, B with octaves from 3 to 5.
-Valid durations are "4n" (quarter note), "8n" (eighth note), "16n" (sixteenth note).
-`,
-  config: {
-    safetySettings: [
-      {
-        category: 'HARM_CATEGORY_HATE_SPEECH',
-        threshold: 'BLOCK_ONLY_HIGH',
-      },
-      {
-        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-        threshold: 'BLOCK_NONE',
-      },
-      {
-        category: 'HARM_CATEGORY_HARASSMENT',
-        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
-      },
-      {
-        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-        threshold: 'BLOCK_LOW_AND_ABOVE',
-      },
-    ],
-  },
-});
-
-const writeSongAndMusicFlow = ai.defineFlow(
-  {
-    name: 'writeSongAndMusicFlow',
-    inputSchema: WriteSongAndMusicInputSchema,
-    outputSchema: WriteSongAndMusicOutputSchema,
-  },
-  async input => {
-    try {
-        const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
-        if (!output) {
-            throw new Error("The AI failed to generate a response.");
-        }
-        return output;
-    } catch (err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
-        }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
-    }
-  }
-);
