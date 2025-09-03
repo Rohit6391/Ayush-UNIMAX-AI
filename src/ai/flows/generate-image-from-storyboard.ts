@@ -33,7 +33,6 @@ const generateImageFromStoryboardFlow = ai.defineFlow(
     outputSchema: GenerateImageFromStoryboardOutputSchema,
   },
   async (input) => {
-
     const promptItems = [];
     if (input.photoDataUri) {
         promptItems.push({ media: { url: input.photoDataUri } });
@@ -50,16 +49,15 @@ const generateImageFromStoryboardFlow = ai.defineFlow(
         });
         
         if (!media?.url) {
-          throw new Error("The AI failed to generate an image from the provided prompt. The model may be unavailable or the prompt may have been blocked.");
+          throw new Error("The AI failed to generate an image. This could be due to the prompt being blocked or a temporary service issue.");
         }
 
         return {imageUrl: media.url};
-    } catch(err: any) {
-        if (err.message && err.message.includes('429')) {
+    } catch (err: any) {
+        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
             throw new Error("You have exceeded your daily API quota for image generation. Please check your plan and billing details, or try again tomorrow.");
         }
-        // Re-throw other errors
-        throw err;
+        throw new Error(`An unexpected server error occurred: ${err.message}`);
     }
   }
 );
