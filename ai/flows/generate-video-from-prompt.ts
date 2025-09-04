@@ -31,12 +31,13 @@ export async function generateVideoFromPrompt(
 
 // Helper function to fetch the video and convert it to a data URI
 async function videoToDataUri(video: MediaPart): Promise<{ videoUrl: string, contentType: string }> {
-    if (!video.media?.url || !process.env.GEMINI_API_KEY) {
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY_FALLBACK;
+    if (!video.media?.url || !apiKey) {
         throw new Error('Video URL or API key is missing.');
     }
   
     // Add API key to the download URL
-    const videoDownloadUrl = `${video.media.url}&key=${process.env.GEMINI_API_KEY}`;
+    const videoDownloadUrl = `${video.media.url}&key=${apiKey}`;
     
     const response = await fetch(videoDownloadUrl);
     if (!response.ok || !response.body) {
