@@ -19,12 +19,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '25mb',
-      // Increase timeout for long-running actions like video generation
-      serverActionsTimeout: 120000,
-    },
+  serverActions: {
+    bodySizeLimit: '25mb',
+    // Increase timeout for long-running actions like video generation
+    serverActionsTimeout: 120000,
   },
 };
 
