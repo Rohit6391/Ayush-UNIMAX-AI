@@ -2,13 +2,10 @@ import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/googleai';
 import { ModelId } from '@/lib/models';
 
-// Use the user's personal key if available, otherwise use the public fallback.
-const geminiApiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY_FALLBACK;
-
 export const ai = genkit({
   plugins: [
     googleAI({
-      apiKey: geminiApiKey,
+      apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
     }),
   ],
   logLevel: 'debug',

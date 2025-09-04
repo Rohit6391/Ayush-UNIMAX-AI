@@ -38,25 +38,28 @@ const prompt = ai.definePrompt({
   name: 'translateTextAIPrompt',
   input: {schema: TranslateTextAIInputSchema},
   output: {schema: TranslateTextAIOutputSchema},
-  prompt: `You are a professional translator and text extractor.
-
-Your task is to perform two steps:
-1.  If a file is provided, extract all text from the file and place it in the 'extractedText' output field.
-2.  Translate the provided text (either from the 'text' input field or the text you just extracted) from {{#if sourceLanguage}}{{sourceLanguage}}{{else}}the auto-detected language{{/if}} to {{targetLanguage}}.
+  prompt: `You are a professional translator and text extractor. Your single most important task is to translate text accurately.
 
 **Instructions:**
-- If the user provides a file in 'fileDataUri', you MUST first analyze the file and extract its text content. The extracted text should be the source for the translation.
-- If no file is provided, use the content of the 'text' field as the source for the translation.
-- Your primary output is the translated text in the 'translation' field. Do not include any other commentary in the translation.
-- If the source language was not provided, you MUST set the 'detectedSourceLanguage' field in your response to the language you detected.
 
+1.  **Determine Source Text**:
+    *   If a file is provided in \`fileDataUri\`, you MUST first analyze the file and extract its text content. This extracted text is your source for translation. Place the extracted text in the 'extractedText' output field.
+    *   If no file is provided, you MUST use the content of the 'text' input field as the source for translation.
+
+2.  **Translate**:
+    *   You MUST translate the source text from {{#if sourceLanguage}}{{sourceLanguage}}{{else}}the auto-detected language{{/if}} into **{{targetLanguage}}**.
+    *   The translation MUST be the only content in the 'translation' output field. Do not add any extra commentary, greetings, or explanations to the translation itself.
+
+3.  **Detect Language (If Necessary)**:
+    *   If the \`sourceLanguage\` was not provided in the input, you MUST identify the language of the source text and set the 'detectedSourceLanguage' field in your response.
+
+**Source File to Analyze (if provided):**
 {{#if fileDataUri}}
-File to analyze:
 {{media url=fileDataUri}}
 {{/if}}
 
+**Source Text to Translate (if no file):**
 {{#if text}}
-Text to translate:
 {{{text}}}
 {{/if}}`,
 });
