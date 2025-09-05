@@ -101,45 +101,38 @@ const generateVideoWithNarrationFlow = ai.defineFlow(
     outputSchema: GenerateVideoWithNarrationOutputSchema,
   },
   async (input) => {
-    try {
-        // Step 1: Generate the storyboard structure
-        const { output: storyboard } = await storyboardPrompt(input);
-        if (!storyboard || !storyboard.scenes || storyboard.scenes.length === 0) {
-            throw new Error('The AI failed to generate a valid storyboard structure. Please try a different prompt.');
-        }
-
-        // Step 2: Generate an image for each scene in parallel
-        const imageGenerationPromises = storyboard.scenes.map((scene, index) => {
-            const photoForScene = index === 0 ? input.photoDataUri : undefined;
-            return generateImageFromStoryboard({ 
-                imagePrompt: scene.image_prompt,
-                photoDataUri: photoForScene,
-            });
-        });
-        const generatedImages = await Promise.all(imageGenerationPromises);
-
-        // Combine scene data with newly generated image URLs
-        const scenesWithImages: Scene[] = storyboard.scenes.map((scene, index) => ({
-            narration: scene.narration,
-            imageUrl: generatedImages[index].imageUrl,
-        }));
-        
-        // Step 3: Combine all narration parts into a single script
-        const fullNarrationScript = storyboard.scenes.map(scene => scene.narration).join(' ');
-
-        // Step 4: Generate a single audio file for the entire script
-        const { audioDataUri } = await textToSpeech({ text: fullNarrationScript, language: input.language });
-        
-        // Step 5: Return the final combined output
-        return {
-            scenes: scenesWithImages,
-            narrationAudioUrl: audioDataUri,
-        };
-    } catch (err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
-        }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
+    // Step 1: Generate the storyboard structure
+    const { output: storyboard } = await storyboardPrompt(input);
+    if (!storyboard || !storyboard.scenes || storyboard.scenes.length === 0) {
+        throw new Error('The AI failed to generate a valid storyboard structure. Please try a different prompt.');
     }
+
+    // Step 2: Generate an image for each scene in parallel
+    const imageGenerationPromises = storyboard.scenes.map((scene, index) => {
+        const photoForScene = index === 0 ? input.photoDataUri : undefined;
+        return generateImageFromStoryboard({ 
+            imagePrompt: scene.image_prompt,
+            photoDataUri: photoForScene,
+        });
+    });
+    const generatedImages = await Promise.all(imageGenerationPromises);
+
+    // Combine scene data with newly generated image URLs
+    const scenesWithImages: Scene[] = storyboard.scenes.map((scene, index) => ({
+        narration: scene.narration,
+        imageUrl: generatedImages[index].imageUrl,
+    }));
+    
+    // Step 3: Combine all narration parts into a single script
+    const fullNarrationScript = storyboard.scenes.map(scene => scene.narration).join(' ');
+
+    // Step 4: Generate a single audio file for the entire script
+    const { audioDataUri } = await textToSpeech({ text: fullNarrationScript, language: input.language });
+    
+    // Step 5: Return the final combined output
+    return {
+        scenes: scenesWithImages,
+        narrationAudioUrl: audioDataUri,
+    };
   }
 );

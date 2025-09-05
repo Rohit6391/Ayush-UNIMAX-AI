@@ -77,17 +77,10 @@ const writeSongAndMusicFlow = ai.defineFlow(
     outputSchema: WriteSongAndMusicOutputSchema,
   },
   async input => {
-    try {
-        const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
-        if (!output) {
-            throw new Error("The AI failed to generate a song.");
-        }
-        return output;
-    } catch (err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
-        }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
+    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    if (!output) {
+        throw new Error("The AI failed to generate a song.");
     }
+    return output;
   }
 );

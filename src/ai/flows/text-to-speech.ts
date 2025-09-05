@@ -94,10 +94,10 @@ const textToSpeechFlow = ai.defineFlow(
         audioDataUri: 'data:audio/wav;base64,' + wavBase64,
       };
     } catch (err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
+        if (err.message && err.message.includes('429')) {
             throw new Error('You have exceeded the daily quota for audio generation. Please try again tomorrow.');
         }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
+        throw err;
     }
   }
 );

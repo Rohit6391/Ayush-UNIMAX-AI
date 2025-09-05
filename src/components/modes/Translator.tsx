@@ -229,7 +229,7 @@ export function Translator({ mode }: { mode: any }) {
                                         ref={fileInputRef} 
                                         onChange={handleFileChange} 
                                         className="hidden" 
-                                        accept="image/*,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        accept="image/*,text/plain,application/pdf"
                                     />
                                     {previewUrl && file?.type.startsWith('image/') ? (
                                         <img src={previewUrl} alt="Upload preview" className="max-h-full max-w-full p-2 object-contain" />

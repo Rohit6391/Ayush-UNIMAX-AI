@@ -40,7 +40,7 @@ const prompt = ai.definePrompt({
   Based on the user's prompt, determine the best chart type (bar, line, or pie) and construct the data and configuration objects.
 
   **Instructions:**
-  1.  **Chart Type**: Determine if the user wants a 'bar', 'line', 'pie' chart.
+  1.  **Chart Type**: Determine if the user wants a 'bar', 'line', or 'pie' chart.
   2.  **Data Array**: Create a 'data' array of objects.
       *   For 'bar' and 'line' charts, each object should have a key for the x-axis (e.g., 'month', 'category') and one or more keys for the y-axis values. You MUST identify the x-axis key and set it in the 'xAxisKey' field.
       *   For 'pie' charts, each object must have a 'name' key for the label and a 'value' key for the numerical value. 'xAxisKey' should be omitted for pie charts.
@@ -62,17 +62,10 @@ const generateChartFromPromptFlow = ai.defineFlow(
     outputSchema: GenerateChartFromPromptOutputSchema,
   },
   async (input) => {
-    try {
-        const { output } = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
-        if (!output) {
-          throw new Error('Failed to generate chart data from prompt.');
-        }
-        return output;
-    } catch (err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
-        }
-        throw new Error(`An unexpected server error occurred: ${err.message}`);
+    const { output } = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+    if (!output) {
+      throw new Error('Failed to generate chart data from prompt.');
     }
+    return output;
   }
 );

@@ -2,9 +2,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import { useModes } from '@/components/providers/ModeProvider';
 import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
@@ -12,18 +12,9 @@ import { enhancePrompt } from '@/ai/flows/prompt-enhancer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
+import { Switch } from '../ui/switch';
+import { Label } from '../ui/label';
 import { useToast } from '@/hooks/use-toast';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
-} from "@/components/ui/dropdown-menu"
-import { Input } from '../ui/input';
-
 
 interface Message {
     role: 'user' | 'model';
@@ -31,20 +22,13 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat, model, memories, addMemory } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
     const { user } = useAuth();
     const { toast } = useToast();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
-    // Tools State
     const [isDeepResearch, setIsDeepResearch] = useState(false);
-    const [isStudyMode, setIsStudyMode] = useState(false);
-    const [isTranslatorMode, setIsTranslatorMode] = useState(false);
-    const [targetLanguage, setTargetLanguage] = useState('English');
-
-
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -68,7 +52,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat, activeChat, setActiveChat]);
+    }, [isFunChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -86,7 +70,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 } else {
                     setInput(prev => prev ? `${prev} ${transcript}` : transcript);
                 }
-                setIsListening(false);
             };
 
             recognitionRef.current.onerror = (event: any) => {
@@ -141,7 +124,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         if (!input.trim() || isLoading) return;
         setIsLoading(true);
         try {
-            const { enhancedPrompt } = await enhancePrompt({ prompt: input, model });
+            const { enhancedPrompt } = await enhancePrompt({ prompt: input });
             setInput(enhancedPrompt);
             toast({ title: "Prompt Enhanced", description: "Your prompt has been improved." });
         } catch (error: any) {
@@ -160,6 +143,16 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         setIsLoading(true);
         setInput(''); // Clear input immediately
         
+        // Enhance prompt if in hands-free mode
+        if (isHandsFree) {
+            try {
+                const { enhancedPrompt } = await enhancePrompt({ prompt: currentInput });
+                currentInput = enhancedPrompt;
+            } catch (error) {
+                console.error("Failed to enhance prompt in hands-free mode, using original.", error);
+            }
+        }
+
         const userMessageText = currentInput;
         const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
@@ -183,8 +176,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 }
                 return m;
             });
-            
-            const memoryToUse = memories.map(m => m.text);
 
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
@@ -192,11 +183,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
-                model,
-                memory: memoryToUse,
-                isStudyMode,
-                isTranslatorMode,
-                targetLanguage,
+                model
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
@@ -242,11 +229,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             recognitionRef.current.start();
         }
     };
-    
-    const handleSaveToMemory = (text: string) => {
-        addMemory(text);
-        toast({ title: "Saved to Memory", description: "The AI will now remember this information." });
-    }
 
     const UserAvatar = () => (
         <Avatar className="h-10 w-10">
@@ -264,32 +246,15 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     )
 
     return (
-        <div className="flex flex-col h-full max-w-7xl mx-auto w-full">
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              onChange={handleFileChange} 
-              className="hidden" 
-              accept="image/*,text/plain,application/pdf"
-            />
+        <div className="flex flex-col h-full max-w-4xl mx-auto">
+            <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg, index) => (
-                        <div key={index} className={`group flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div key={index} className={`flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.role === 'model' && <ModelAvatar />}
-                            <div className={`relative max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
+                            <div className={`max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}</p>
-                                {msg.role === 'model' && msg.text.length > 10 && (
-                                     <Button 
-                                        variant="ghost" 
-                                        size="icon" 
-                                        className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        title="Save to Memory"
-                                        onClick={() => handleSaveToMemory(msg.text)}
-                                     >
-                                        <Save size={16} />
-                                     </Button>
-                                )}
                             </div>
                             {msg.role === 'user' && <UserAvatar />}
                         </div>
@@ -328,65 +293,54 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         </Button>
                     </div>
                 )}
-                <div className="flex items-center w-full bg-background border-2 border-input focus-within:border-primary focus-within:ring-0 rounded-lg transition-colors p-1 gap-1">
-                    <div className="flex items-center">
-                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading || isHandsFree}>
-                            <Plus />
-                        </Button>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" title="Tools" disabled={isLoading}>
-                              <SlidersHorizontal />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                            <DropdownMenuLabel>AI Tools</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                             <DropdownMenuCheckboxItem checked={isDeepResearch} onCheckedChange={setIsDeepResearch}>
-                                <Sparkles className="mr-2 h-4 w-4" /> Deep Research
-                            </DropdownMenuCheckboxItem>
-                             <DropdownMenuCheckboxItem checked={isStudyMode} onCheckedChange={setIsStudyMode}>
-                                <BookOpen className="mr-2 h-4 w-4" /> Study and Learn
-                            </DropdownMenuCheckboxItem>
-                             <DropdownMenuCheckboxItem checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode}>
-                                <Languages className="mr-2 h-4 w-4" /> Translator
-                             </DropdownMenuCheckboxItem>
-                             {isTranslatorMode && (
-                                <div className="p-2">
-                                    <Input 
-                                        placeholder="Target Language..." 
-                                        value={targetLanguage} 
-                                        onChange={(e) => setTargetLanguage(e.target.value)}
-                                        className="h-8"
-                                    />
-                                </div>
-                             )}
-                             <DropdownMenuSeparator />
-                             <DropdownMenuItem onSelect={handleEnhancePrompt} disabled={!input || isLoading}>
-                               <Sparkles className="mr-2 h-4 w-4" /> Enhance Prompt
-                             </DropdownMenuItem>
-                             <DropdownMenuCheckboxItem checked={isHandsFree} onCheckedChange={setIsHandsFree}>
-                                <Mic className="mr-2 h-4 w-4" /> Hands-Free Mode
-                             </DropdownMenuCheckboxItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
+                <div className="relative">
                     <Textarea 
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder={isListening ? "Listening..." : (isHandsFree ? "Hands-free mode is active. Start speaking." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI..."))}
-                        className="flex-1 w-full bg-transparent border-none focus:ring-0 resize-none min-h-[24px] p-0" 
+                        placeholder={isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI...")}
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1}
                         disabled={isHandsFree || isLoading}
                     />
-                    <div className="flex items-center">
-                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''} disabled={isLoading}>
-                            {isListening ? <Waves /> : <Mic />}
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isHandsFree || isLoading}>
+                            <Plus size={20} />
                         </Button>
-                        <Button onClick={() => handleSend()} disabled={isHandsFree || isLoading || (!input.trim() && !uploadedFile)} size="icon">
-                            <Send />
+                    </div>
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                         <Button 
+                            onClick={handleListen} 
+                            variant="ghost" 
+                            size="icon" 
+                            title="Dictate" 
+                            className={isListening ? 'text-destructive' : ''}
+                            disabled={isHandsFree || isLoading}
+                        >
+                            {isListening ? <Waves size={20} /> : <Mic size={20} />}
                         </Button>
+                        <Button onClick={() => handleSend()} disabled={isLoading || isHandsFree || !input.trim()} size="icon">
+                            <Send size={20} />
+                        </Button>
+                    </div>
+                </div>
+                 <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-4">
+                         {!isFunChat && (
+                         <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
+                            <Switch id="deep-research" checked={isDeepResearch} onCheckedChange={setIsDeepResearch} />
+                            <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
+                            <Label htmlFor="deep-research">Deep Research</Label>
+                        </label>
+                        )}
+                         <Button variant="ghost" onClick={handleEnhancePrompt} className="flex items-center gap-2 cursor-pointer hover:text-foreground p-0 h-auto text-sm" disabled={!input || isLoading || isHandsFree}>
+                            <Sparkles size={16} />
+                            Enhance Prompt
+                        </Button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Label htmlFor="hands-free-mode" className="cursor-pointer">Hands-Free</Label>
+                        <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />
                     </div>
                 </div>
             </div>
