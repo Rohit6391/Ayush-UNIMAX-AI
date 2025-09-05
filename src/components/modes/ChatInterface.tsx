@@ -2,9 +2,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
@@ -12,9 +12,11 @@ import { enhancePrompt } from '@/ai/flows/prompt-enhancer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
+import { useToast } from '@/hooks/use-toast';
+import { Input } from '../ui/input';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
-import { useToast } from '@/hooks/use-toast';
+
 
 interface Message {
     role: 'user' | 'model';
@@ -28,7 +30,14 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    
+    // Tools State
     const [isDeepResearch, setIsDeepResearch] = useState(false);
+    const [isStudyMode, setIsStudyMode] = useState(false);
+    const [isTranslatorMode, setIsTranslatorMode] = useState(false);
+    const [targetLanguage, setTargetLanguage] = useState('English');
+
+
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -52,7 +61,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat]);
+    }, [isFunChat, activeChat, setActiveChat]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -70,6 +79,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 } else {
                     setInput(prev => prev ? `${prev} ${transcript}` : transcript);
                 }
+                setIsListening(false);
             };
 
             recognitionRef.current.onerror = (event: any) => {
@@ -143,16 +153,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         setIsLoading(true);
         setInput(''); // Clear input immediately
         
-        // Enhance prompt if in hands-free mode
-        if (isHandsFree) {
-            try {
-                const { enhancedPrompt } = await enhancePrompt({ prompt: currentInput });
-                currentInput = enhancedPrompt;
-            } catch (error) {
-                console.error("Failed to enhance prompt in hands-free mode, using original.", error);
-            }
-        }
-
         const userMessageText = currentInput;
         const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
@@ -176,14 +176,16 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 }
                 return m;
             });
-
+            
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
                 isDeepResearch, 
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
-                model
+                isStudyMode,
+                isTranslatorMode,
+                targetLanguage,
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
@@ -229,7 +231,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             recognitionRef.current.start();
         }
     };
-
+    
     const UserAvatar = () => (
         <Avatar className="h-10 w-10">
             <AvatarImage src={user?.photoURL || undefined} />
@@ -247,14 +249,31 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
 
     return (
         <div className="flex flex-col h-full max-w-4xl mx-auto">
-            <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              onChange={handleFileChange} 
+              className="hidden" 
+              accept="image/*,text/plain,application/pdf"
+            />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg, index) => (
-                        <div key={index} className={`flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div key={index} className={`group flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.role === 'model' && <ModelAvatar />}
-                            <div className={`max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
+                            <div className={`relative max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}</p>
+                                {msg.role === 'model' && msg.text.length > 10 && (
+                                     <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        title="Save to Memory"
+                                        onClick={() => {}}
+                                     >
+                                        <Save size={16} />
+                                     </Button>
+                                )}
                             </div>
                             {msg.role === 'user' && <UserAvatar />}
                         </div>
@@ -324,8 +343,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         </Button>
                     </div>
                 </div>
-                 <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-4">
+                 <div className="flex flex-wrap items-center justify-between mt-2 text-sm text-muted-foreground gap-y-2">
+                    <div className="flex items-center gap-x-4 gap-y-2 flex-wrap">
                          {!isFunChat && (
                          <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
                             <Switch id="deep-research" checked={isDeepResearch} onCheckedChange={setIsDeepResearch} />
@@ -333,6 +352,26 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                             <Label htmlFor="deep-research">Deep Research</Label>
                         </label>
                         )}
+                        <label htmlFor="study-mode" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
+                            <Switch id="study-mode" checked={isStudyMode} onCheckedChange={setIsStudyMode} />
+                            <BookOpen size={16} className={isStudyMode ? 'text-primary' : ''}/>
+                            <Label htmlFor="study-mode">Study Mode</Label>
+                        </label>
+                        <div className="flex items-center gap-2">
+                            <label htmlFor="translator-mode" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
+                                <Switch id="translator-mode" checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode} />
+                                <Languages size={16} className={isTranslatorMode ? 'text-primary' : ''}/>
+                                <Label htmlFor="translator-mode">Translator</Label>
+                            </label>
+                             {isTranslatorMode && (
+                                <Input 
+                                    placeholder="Language" 
+                                    value={targetLanguage} 
+                                    onChange={(e) => setTargetLanguage(e.target.value)}
+                                    className="h-7 w-28 text-xs"
+                                />
+                             )}
+                        </div>
                          <Button variant="ghost" onClick={handleEnhancePrompt} className="flex items-center gap-2 cursor-pointer hover:text-foreground p-0 h-auto text-sm" disabled={!input || isLoading || isHandsFree}>
                             <Sparkles size={16} />
                             Enhance Prompt
@@ -347,3 +386,5 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         </div>
     );
 }
+
+    
