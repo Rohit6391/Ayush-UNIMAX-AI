@@ -13,21 +13,9 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { ModelId, availableModels } from '@/lib/models';
 import { googleAI } from '@genkit-ai/googleai';
+import { TranslateTextAIInputSchema, TranslateTextAIOutputSchema } from '@/ai/schemas';
 
-const TranslateTextAIInputSchema = z.object({
-  text: z.string().optional().describe('The text to translate. Can be empty if a file is provided.'),
-  targetLanguage: z.string().describe('The target language for the translation.'),
-  sourceLanguage: z.string().optional().describe('The source language of the text. If not provided, it should be auto-detected.'),
-  fileDataUri: z.string().optional().describe("An optional file (image or document) to extract text from, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
-});
 export type TranslateTextAIInput = z.infer<typeof TranslateTextAIInputSchema>;
-
-const TranslateTextAIOutputSchema = z.object({
-  translation: z.string().describe('The translated text.'),
-  detectedSourceLanguage: z.string().optional().describe('The auto-detected source language, if it was not provided in the input.'),
-  extractedText: z.string().optional().describe('The text extracted from the provided file, if any.'),
-});
 export type TranslateTextAIOutput = z.infer<typeof TranslateTextAIOutputSchema>;
 
 export async function translateText(input: TranslateTextAIInput): Promise<TranslateTextAIOutput> {
@@ -71,13 +59,23 @@ const translateTextAIFlow = ai.defineFlow(
     outputSchema: TranslateTextAIOutputSchema,
   },
   async input => {
-    if (!input.text && !input.fileDataUri) {
-      throw new Error("Either text or a file must be provided for translation.");
+    try {
+        if (!input.text && !input.fileDataUri) {
+          throw new Error("Either text or a file must be provided for translation.");
+        }
+        const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+        if (!output) {
+            throw new Error("The AI failed to generate a response.");
+        }
+        return output;
+    } catch (err: any) {
+        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
+            if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+                 throw new Error("The public quota has been reached. To unlock unlimited use, please add your personal, free Gemini API key to the .env file as instructed in the README.");
+            }
+            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
+        }
+        throw new Error(`An unexpected server error occurred: ${err.message}`);
     }
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
-    if (!output) {
-        throw new Error("The AI failed to generate a response.");
-    }
-    return output;
   }
 );

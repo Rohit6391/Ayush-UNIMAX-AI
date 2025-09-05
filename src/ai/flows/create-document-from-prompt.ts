@@ -13,18 +13,10 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { ModelId, availableModels } from '@/lib/models';
 import { googleAI } from '@genkit-ai/googleai';
+import { CreateDocumentFromPromptInputSchema, CreateDocumentFromPromptOutputSchema } from '@/ai/schemas';
 
-const CreateDocumentFromPromptInputSchema = z.object({
-  prompt: z.string().describe('The prompt for generating the document.'),
-  fileDataUri: z.string().optional().describe("An optional file (image or document) to extract text from, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
-  model: z.enum(availableModels).optional().describe('The model to use for generation.'),
-  isJsonOutput: z.boolean().optional().describe('Whether the output should be a JSON string.'),
-});
+
 export type CreateDocumentFromPromptInput = z.infer<typeof CreateDocumentFromPromptInputSchema>;
-
-const CreateDocumentFromPromptOutputSchema = z.object({
-  document: z.string().describe('The generated document, which could be a raw string or a JSON string.'),
-});
 export type CreateDocumentFromPromptOutput = z.infer<typeof CreateDocumentFromPromptOutputSchema>;
 
 export async function createDocumentFromPrompt(input: CreateDocumentFromPromptInput): Promise<CreateDocumentFromPromptOutput> {
@@ -57,10 +49,20 @@ const createDocumentFromPromptFlow = ai.defineFlow(
     outputSchema: CreateDocumentFromPromptOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
-    if (!output) {
-        throw new Error("The AI failed to generate a response.");
+    try {
+        const {output} = await prompt(input, {model: input.model ? googleAI.model(input.model) : undefined});
+        if (!output) {
+            throw new Error("The AI failed to generate a response.");
+        }
+        return output;
+    } catch (err: any) {
+        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
+            if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+                 throw new Error("The public quota has been reached. To unlock unlimited use, please add your personal, free Gemini API key to the .env file as instructed in the README.");
+            }
+            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
+        }
+        throw new Error(`An unexpected server error occurred: ${err.message}`);
     }
-    return output;
   }
 );
