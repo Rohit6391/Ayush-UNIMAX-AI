@@ -13,16 +13,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
 import { useToast } from '@/hooks/use-toast';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
-} from "@/components/ui/dropdown-menu"
 import { Input } from '../ui/input';
+import { Switch } from '../ui/switch';
+import { Label } from '../ui/label';
 
 
 interface Message {
@@ -31,7 +24,7 @@ interface Message {
 }
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat, model, memories, addMemory } = useModes();
+    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
     const { user } = useAuth();
     const { toast } = useToast();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -184,15 +177,12 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 return m;
             });
             
-            const memoryToUse = memories.map(m => m.text);
-
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
                 isDeepResearch, 
                 history: historyToSend, 
                 fileDataUri: fileDataUri, 
                 isFunChat,
-                memory: memoryToUse,
                 isStudyMode,
                 isTranslatorMode,
                 targetLanguage,
@@ -242,11 +232,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         }
     };
     
-    const handleSaveToMemory = (text: string) => {
-        addMemory(text);
-        toast({ title: "Saved to Memory", description: "The AI will now remember this information." });
-    }
-
     const UserAvatar = () => (
         <Avatar className="h-10 w-10">
             <AvatarImage src={user?.photoURL || undefined} />
@@ -263,7 +248,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     )
 
     return (
-        <div className="flex flex-col h-full max-w-7xl mx-auto w-full">
+        <div className="flex flex-col h-full max-w-4xl mx-auto">
             <input 
               type="file" 
               ref={fileInputRef} 
@@ -284,7 +269,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                                         size="icon" 
                                         className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
                                         title="Save to Memory"
-                                        onClick={() => handleSaveToMemory(msg.text)}
+                                        onClick={() => {}}
                                      >
                                         <Save size={16} />
                                      </Button>
@@ -327,65 +312,74 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         </Button>
                     </div>
                 )}
-                <div className="flex items-center w-full bg-background border-2 border-input focus-within:border-primary focus-within:ring-0 rounded-lg transition-colors p-1 gap-1">
-                    <div className="flex items-center">
-                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isLoading || isHandsFree}>
-                            <Plus />
-                        </Button>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" title="Tools" disabled={isLoading}>
-                              <SlidersHorizontal />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                            <DropdownMenuLabel>AI Tools</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                             <DropdownMenuCheckboxItem checked={isDeepResearch} onCheckedChange={setIsDeepResearch}>
-                                <Sparkles className="mr-2 h-4 w-4" /> Deep Research
-                            </DropdownMenuCheckboxItem>
-                             <DropdownMenuCheckboxItem checked={isStudyMode} onCheckedChange={setIsStudyMode}>
-                                <BookOpen className="mr-2 h-4 w-4" /> Study and Learn
-                            </DropdownMenuCheckboxItem>
-                             <DropdownMenuCheckboxItem checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode}>
-                                <Languages className="mr-2 h-4 w-4" /> Translator
-                             </DropdownMenuCheckboxItem>
-                             {isTranslatorMode && (
-                                <div className="p-2">
-                                    <Input 
-                                        placeholder="Target Language..." 
-                                        value={targetLanguage} 
-                                        onChange={(e) => setTargetLanguage(e.target.value)}
-                                        className="h-8"
-                                    />
-                                </div>
-                             )}
-                             <DropdownMenuSeparator />
-                             <DropdownMenuItem onSelect={handleEnhancePrompt} disabled={!input || isLoading}>
-                               <Sparkles className="mr-2 h-4 w-4" /> Enhance Prompt
-                             </DropdownMenuItem>
-                             <DropdownMenuCheckboxItem checked={isHandsFree} onCheckedChange={setIsHandsFree}>
-                                <Mic className="mr-2 h-4 w-4" /> Hands-Free Mode
-                             </DropdownMenuCheckboxItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
+                <div className="relative">
                     <Textarea 
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder={isListening ? "Listening..." : (isHandsFree ? "Hands-free mode is active. Start speaking." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI..."))}
-                        className="flex-1 w-full bg-transparent border-none focus:ring-0 resize-none min-h-[24px] p-0" 
+                        placeholder={isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI...")}
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1}
                         disabled={isHandsFree || isLoading}
                     />
-                    <div className="flex items-center">
-                        <Button onClick={handleListen} variant="ghost" size="icon" title="Dictate" className={isListening ? 'text-destructive' : ''} disabled={isLoading}>
-                            {isListening ? <Waves /> : <Mic />}
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isHandsFree || isLoading}>
+                            <Plus size={20} />
                         </Button>
-                        <Button onClick={() => handleSend()} disabled={isHandsFree || isLoading || (!input.trim() && !uploadedFile)} size="icon">
-                            <Send />
+                    </div>
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                         <Button 
+                            onClick={handleListen} 
+                            variant="ghost" 
+                            size="icon" 
+                            title="Dictate" 
+                            className={isListening ? 'text-destructive' : ''}
+                            disabled={isHandsFree || isLoading}
+                        >
+                            {isListening ? <Waves size={20} /> : <Mic size={20} />}
                         </Button>
+                        <Button onClick={() => handleSend()} disabled={isLoading || isHandsFree || !input.trim()} size="icon">
+                            <Send size={20} />
+                        </Button>
+                    </div>
+                </div>
+                 <div className="flex flex-wrap items-center justify-between mt-2 text-sm text-muted-foreground gap-y-2">
+                    <div className="flex items-center gap-x-4 gap-y-2 flex-wrap">
+                         {!isFunChat && (
+                         <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
+                            <Switch id="deep-research" checked={isDeepResearch} onCheckedChange={setIsDeepResearch} />
+                            <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
+                            <Label htmlFor="deep-research">Deep Research</Label>
+                        </label>
+                        )}
+                        <label htmlFor="study-mode" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
+                            <Switch id="study-mode" checked={isStudyMode} onCheckedChange={setIsStudyMode} />
+                            <BookOpen size={16} className={isStudyMode ? 'text-primary' : ''}/>
+                            <Label htmlFor="study-mode">Study Mode</Label>
+                        </label>
+                        <div className="flex items-center gap-2">
+                            <label htmlFor="translator-mode" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
+                                <Switch id="translator-mode" checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode} />
+                                <Languages size={16} className={isTranslatorMode ? 'text-primary' : ''}/>
+                                <Label htmlFor="translator-mode">Translator</Label>
+                            </label>
+                             {isTranslatorMode && (
+                                <Input 
+                                    placeholder="Language" 
+                                    value={targetLanguage} 
+                                    onChange={(e) => setTargetLanguage(e.target.value)}
+                                    className="h-7 w-28 text-xs"
+                                />
+                             )}
+                        </div>
+                         <Button variant="ghost" onClick={handleEnhancePrompt} className="flex items-center gap-2 cursor-pointer hover:text-foreground p-0 h-auto text-sm" disabled={!input || isLoading || isHandsFree}>
+                            <Sparkles size={16} />
+                            Enhance Prompt
+                        </Button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Label htmlFor="hands-free-mode" className="cursor-pointer">Hands-Free</Label>
+                        <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />
                     </div>
                 </div>
             </div>
