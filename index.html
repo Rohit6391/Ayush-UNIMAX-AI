@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayush Unimax AI Studio - Offline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .dark {
+            --background: 220 15% 15%;
+            --foreground: 210 40% 98%;
+            --card: 220 15% 20%;
+            --card-foreground: 210 40% 98%;
+            --primary: 220 53% 47%;
+            --primary-foreground: 210 40% 98%;
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            --border: 217.2 32.6% 17.5%;
+            --input: 217.2 32.6% 17.5%;
+        }
+        body {
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark">
+
+    <div class="flex flex-col items-center justify-start h-full text-center p-4 md:p-8">
+        <div class="w-full max-w-4xl">
+            <div class="rounded-lg border shadow-sm" style="background-color: hsl(var(--card)); color: hsl(var(--card-foreground)); border-color: hsl(var(--border));">
+                <div class="flex flex-col space-y-1.5 p-6">
+                    <div class="flex flex-col sm:flex-row items-center gap-4 text-left">
+                        <div class="p-3 rounded-full" style="background-color: hsla(var(--primary), 0.1);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold font-headline">Website Maker</h2>
+                            <p class="text-md" style="color: hsl(var(--muted-foreground));">Generate, preview, and import websites.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 pt-0">
+                    <textarea placeholder="e.g., A professional portfolio for a graphic designer" class="flex min-h-[80px] w-full rounded-md border bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm" style="border-color: hsl(var(--input));" rows="3"></textarea>
+                    <button id="generate-button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full mt-4" style="background-color: hsl(var(--primary)); color: hsl(var(--primary-foreground));">
+                        Create Website Maker
+                    </button>
+
+                    <div id="ai-notice" class="mt-4 p-4 text-sm rounded-md bg-red-900/20 text-red-300 border border-red-500/50" style="display: none;">
+                        <h3 class="font-bold">Functionality Disabled</h3>
+                        <p>This is a static HTML file. The AI generation and other interactive features require an internet connection and are disabled in this offline version.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generate-button').addEventListener('click', function() {
+            var notice = document.getElementById('ai-notice');
+            notice.style.display = 'block';
+            setTimeout(() => {
+                 notice.style.display = 'none';
+            }, 5000);
+        });
+    </script>
+
+</body>
+</html>
