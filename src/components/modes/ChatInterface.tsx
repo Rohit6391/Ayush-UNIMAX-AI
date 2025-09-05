@@ -359,19 +359,27 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                                             <Switch id="study-mode" checked={isStudyMode} onCheckedChange={setIsStudyMode} />
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <Label htmlFor="translator-mode" className="flex items-center gap-2">
-                                                <Languages size={16} /> Translator
+                                            <Label htmlFor="hands-free-mode" className="flex items-center gap-2">
+                                                <Mic size={16} /> Hands-Free
                                             </Label>
-                                            <Switch id="translator-mode" checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode} />
+                                            <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />
                                         </div>
-                                        {isTranslatorMode && (
-                                            <Input 
-                                                placeholder="Target Language (e.g., French)" 
-                                                value={targetLanguage} 
-                                                onChange={(e) => setTargetLanguage(e.target.value)}
-                                                className="h-9"
-                                            />
-                                        )}
+                                        <div className="space-y-2">
+                                            <div className="flex items-center justify-between">
+                                                <Label htmlFor="translator-mode" className="flex items-center gap-2">
+                                                    <Languages size={16} /> Translator
+                                                </Label>
+                                                <Switch id="translator-mode" checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode} />
+                                            </div>
+                                             {isTranslatorMode && (
+                                                <Input 
+                                                    placeholder="Target Language (e.g., French)" 
+                                                    value={targetLanguage} 
+                                                    onChange={(e) => setTargetLanguage(e.target.value)}
+                                                    className="h-9"
+                                                />
+                                             )}
+                                        </div>
                                         <Separator />
                                          <Button variant="outline" onClick={handleEnhancePrompt} disabled={!input || isLoading}>
                                             <Sparkles className="mr-2" size={16}/> Enhance Prompt
@@ -395,12 +403,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         <Button onClick={() => handleSend()} disabled={isLoading || isHandsFree || (!input.trim() && !uploadedFile)} size="icon">
                             <Send size={20} />
                         </Button>
-                    </div>
-                </div>
-                 <div className="flex items-center justify-end mt-2 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                        <Label htmlFor="hands-free-mode" className="cursor-pointer">Hands-Free</Label>
-                        <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />
                     </div>
                 </div>
             </div>
