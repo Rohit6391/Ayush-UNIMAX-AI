@@ -1,11 +1,7 @@
 
-'use server';
-
 /**
  * @fileOverview This file contains shared Zod schemas and TypeScript types
- * used across different AI flows. It is marked with 'use server' to indicate
- * it's part of the server-side logic but is structured to be safely imported
- * by other server components.
+ * used across different AI flows.
  */
 
 import { z } from 'genkit';
