@@ -14,11 +14,12 @@ import { BrainCircuit, LogIn, Search } from 'lucide-react';
 import { useAuth } from './providers/AuthProvider';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import React from 'react';
 
 export function Dashboard() {
   const { activeMode, setActiveMode, activeChat, setActiveChat } = useModes();
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
-  const { user } = useAuth();
+  const { user, isAuthLoading } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
 
   const currentMode = modes.find(m => m.id === activeMode);
@@ -34,6 +35,14 @@ export function Dashboard() {
   const filteredModes = modes.filter(mode =>
     mode.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (isAuthLoading) {
+    return (
+       <div className="flex items-center justify-center h-screen bg-background text-foreground">
+        <BrainCircuit className="animate-pulse h-12 w-12 text-primary" />
+      </div>
+    )
+  }
 
   return (
     <SidebarProvider defaultOpen={false}>
@@ -84,13 +93,15 @@ export function Dashboard() {
             <Header setIsSignInModalOpen={setIsSignInModalOpen} activeModeName={currentMode?.name || 'Ayush Unimax AI Studio'} />
             <main className="flex-1 overflow-y-auto bg-background dark:bg-background/50">
               {user && ActiveComponent && (
-                <ActiveComponent 
-                  mode={currentMode} 
-                  key={activeMode}
-                  initialMessages={activeChat}
-                  setInitialMessages={setActiveChat}
-                  {...currentMode.componentProps}
-                />
+                 <React.Suspense fallback={<div className="flex h-full w-full items-center justify-center"><BrainCircuit className="h-16 w-16 animate-pulse text-primary" /></div>}>
+                    <ActiveComponent 
+                      mode={currentMode} 
+                      key={activeMode}
+                      initialMessages={activeChat}
+                      setInitialMessages={setActiveChat}
+                      {...currentMode.componentProps}
+                    />
+                 </React.Suspense>
               )}
               {!user && (
                  <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-background">
@@ -117,3 +128,4 @@ export function Dashboard() {
     </SidebarProvider>
   );
 }
+

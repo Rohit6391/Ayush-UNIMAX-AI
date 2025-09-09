@@ -6,7 +6,7 @@ import { AuthProvider } from "./AuthProvider";
 import { ModeProvider } from "./ModeProvider";
 import { ScriptLoader } from "../ScriptLoader";
 import { Toaster } from "../ui/toaster";
-import { MemoryProvider } from "@/hooks/use-memory";
+import { MemoryProvider } from "./MemoryProvider";
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (

@@ -5,6 +5,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect, useCa
 import { type ModeId } from '@/lib/modes';
 import { useAuth } from './AuthProvider';
 import { ModelId, availableModels } from '@/lib/models';
+import { useMemory } from '@/components/providers/MemoryProvider';
 
 export interface HistoryItem {
   id: number;
@@ -14,13 +15,6 @@ export interface HistoryItem {
   date: Date;
   fullConversation?: any[];
 }
-
-export interface Memory {
-  id: string;
-  text: string;
-  timestamp: number;
-}
-
 
 interface ModeContextType {
   activeMode: ModeId;
@@ -38,9 +32,6 @@ interface ModeContextType {
   activeChat: any[];
   setActiveChat: (chat: any[]) => void;
   model: ModelId;
-  memories: Memory[];
-  addMemory: (text: string) => void;
-  deleteMemory: (id: string) => void;
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
@@ -55,6 +46,7 @@ const mediaGeneratingModes: ModeId[] = [
 
 export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
+  const { memories, addMemory, deleteMemory } = useMemory();
   const [activeMode, setActiveMode] = useState<ModeId>('chat');
   const [isHistoryPanelOpen, setIsHistoryPanelOpen] = useState(false);
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
@@ -63,59 +55,7 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const [activeChat, setActiveChat] = useState<any[]>([]);
   const model = availableModels[0];
 
-  // Memory State
-  const [memories, setMemories] = useState<Memory[]>([]);
-  const memoryKey = user ? `memory_${user.uid}` : 'memory_guest';
   const historyKey = user ? `history_${user.uid}` : 'history_guest';
-
-  // Load Memories
-  useEffect(() => {
-    const loadMemories = () => {
-      try {
-        const localMemories = localStorage.getItem(memoryKey);
-        if (localMemories) {
-          const parsedMemories: Memory[] = JSON.parse(localMemories);
-          setMemories(parsedMemories.sort((a, b) => b.timestamp - a.timestamp));
-        } else {
-          setMemories([]);
-        }
-      } catch (e) {
-        console.error("Failed to load memories from localStorage", e);
-        setMemories([]);
-      }
-    };
-    loadMemories();
-  }, [user, memoryKey]);
-
-  const saveMemories = useCallback((updatedMemories: Memory[]) => {
-      try {
-          localStorage.setItem(memoryKey, JSON.stringify(updatedMemories));
-      } catch (e) {
-          console.error("Failed to save memories to localStorage", e);
-      }
-  }, [memoryKey]);
-
-  const addMemory = useCallback((text: string) => {
-    const newMemory: Memory = {
-      id: `${Date.now()}-${Math.random()}`,
-      text,
-      timestamp: Date.now(),
-    };
-    setMemories(prev => {
-        const updated = [newMemory, ...prev];
-        saveMemories(updated);
-        return updated;
-    });
-  }, [saveMemories]);
-
-  const deleteMemory = useCallback((id: string) => {
-    setMemories(prev => {
-        const updated = prev.filter(m => m.id !== id);
-        saveMemories(updated);
-        return updated;
-    });
-  }, [saveMemories]);
-
 
   useEffect(() => {
     const loadHistory = () => {
@@ -155,7 +95,13 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     const updatedHistoryForState = [{...newHistoryItem, data: data}, ...history];
     setHistory(updatedHistoryForState);
     
-    const updatedHistoryForStorage = [newHistoryItem, ...history];
+    const updatedHistoryForStorage = [newHistoryItem, ...history.map(item => {
+        // Ensure existing items in history don't have large data URIs before saving
+        if (mediaGeneratingModes.includes(item.type) && typeof item.data === 'string' && item.data.startsWith('data:')) {
+            return {...item, data: `[Media data not stored for mode: ${item.type}]`}
+        }
+        return item;
+    })];
 
     try {
         localStorage.setItem(historyKey, JSON.stringify(updatedHistoryForStorage));
