@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -18,6 +18,7 @@ import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '../ui/separator';
+import { useMemory } from '../providers/MemoryProvider';
 
 
 interface Message {
@@ -27,6 +28,7 @@ interface Message {
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
     const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
+    const { memories, addMemory } = useMemory();
     const { user } = useAuth();
     const { toast } = useToast();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -152,15 +154,26 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         let currentInput = typeof text === 'string' ? text : input;
         if ((!currentInput.trim() && !uploadedFile) || isLoading) return;
         
-        setIsLoading(true);
-        setInput(''); // Clear input immediately
-        
         const userMessageText = currentInput;
         const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
         setMessages(updatedMessages);
         setActiveChat(updatedMessages);
+        setInput('');
 
+        // Offline check
+        if (typeof window !== 'undefined' && !window.navigator.onLine) {
+            const offlineMessage: Message = {
+                role: 'model',
+                text: "It looks like you're offline. I can't process new requests right now, but I'll be ready as soon as you reconnect!"
+            };
+            setMessages(prev => [...prev, offlineMessage]);
+            setActiveChat(prev => [...prev, offlineMessage]);
+            return;
+        }
+
+        setIsLoading(true);
+        
         try {
             let fileDataUri: string | undefined;
             if (uploadedFile) {
@@ -179,6 +192,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 return m;
             });
             
+            const memoryToUse = memories.map(m => m.text);
+
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
                 isDeepResearch, 
@@ -188,6 +203,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 isStudyMode,
                 isTranslatorMode,
                 targetLanguage,
+                memory: memoryToUse.length > 0 ? memoryToUse : undefined,
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
@@ -271,7 +287,10 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                                         size="icon" 
                                         className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
                                         title="Save to Memory"
-                                        onClick={() => {}}
+                                        onClick={() => {
+                                            addMemory(msg.text)
+                                            toast({title: "Memory Saved", description: "The AI will remember this information."})
+                                        }}
                                      >
                                         <Save size={16} />
                                      </Button>
@@ -409,3 +428,4 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         </div>
     );
 }
+
