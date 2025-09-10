@@ -1,11 +1,11 @@
 
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { type ModeId } from '@/lib/modes';
 import { useAuth } from './AuthProvider';
 import { ModelId, availableModels } from '@/lib/models';
-import { useMemory } from '@/components/providers/MemoryProvider';
+import { useMemory } from './MemoryProvider';
 
 export interface HistoryItem {
   id: number;
@@ -35,14 +35,6 @@ interface ModeContextType {
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
-
-// Modes that generate large data URIs that shouldn't be stored in localStorage
-const mediaGeneratingModes: ModeId[] = [
-    'photo_generator', 
-    'photo_editor', 
-    'video_generator',
-    'sound_generator',
-];
 
 export const ModeProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
@@ -80,37 +72,18 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   
 
   const addHistoryItem = async (type: ModeId, prompt: string, data: any, fullConversation?: any[]) => {
-    let storableData = data;
+    const newHistoryItem: HistoryItem = { id: Date.now(), type, prompt, data, date: new Date(), fullConversation };
     
-    if (mediaGeneratingModes.includes(type)) {
-        if (typeof data === 'string' && data.startsWith('data:')) {
-            storableData = `[Media data not stored for mode: ${type}]`;
-        } else if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
-            storableData = `[Complex media object not stored for mode: ${type}]`;
-        }
-    }
-
-    const newHistoryItem: HistoryItem = { id: Date.now(), type, prompt, data: storableData, date: new Date(), fullConversation };
-    
-    const updatedHistoryForState = [{...newHistoryItem, data: data}, ...history];
-    setHistory(updatedHistoryForState);
-    
-    const updatedHistoryForStorage = [newHistoryItem, ...history.map(item => {
-        // Ensure existing items in history don't have large data URIs before saving
-        if (mediaGeneratingModes.includes(item.type) && typeof item.data === 'string' && item.data.startsWith('data:')) {
-            return {...item, data: `[Media data not stored for mode: ${item.type}]`}
-        }
-        return item;
-    })];
+    const updatedHistory = [newHistoryItem, ...history];
+    setHistory(updatedHistory);
 
     try {
-        localStorage.setItem(historyKey, JSON.stringify(updatedHistoryForStorage));
+        localStorage.setItem(historyKey, JSON.stringify(updatedHistory));
     } catch (e: any) {
         console.error("Failed to save history:", e);
         if (e.name === 'QuotaExceededError') {
-            const prunedHistory = updatedHistoryForStorage.slice(0, 20);
+            const prunedHistory = updatedHistory.slice(0, 50);
             localStorage.setItem(historyKey, JSON.stringify(prunedHistory));
-            setHistory(prunedHistory);
         }
     }
   };
@@ -132,6 +105,7 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
   };
   
   const handleSetActiveMode = (modeId: ModeId) => {
+    // Reset chat history when switching between chat modes or to other modes
     if (activeMode !== modeId && (activeMode === 'chat' || activeMode === 'fun_chat' || modeId === 'chat' || modeId === 'fun_chat')) {
         setActiveChat([]);
     }
@@ -154,9 +128,6 @@ export const ModeProvider = ({ children }: { children: ReactNode }) => {
     activeChat,
     setActiveChat,
     model,
-    memories,
-    addMemory,
-    deleteMemory,
   };
 
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;

@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { createContext, useState, ReactNode, useCallback, useEffect, useContext } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useCallback, useEffect } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 
 export interface Memory {
@@ -18,7 +18,7 @@ interface MemoryContextType {
 
 const MemoryContext = createContext<MemoryContextType | undefined>(undefined);
 
-export const MemoryProvider = ({ children }: { children: ReactNode }) => {
+export const MemoryProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth();
   const [memories, setMemories] = useState<Memory[]>([]);
 

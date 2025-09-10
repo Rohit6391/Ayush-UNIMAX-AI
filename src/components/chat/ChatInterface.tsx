@@ -18,7 +18,7 @@ import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '../ui/separator';
-import { useMemory } from '../providers/MemoryProvider';
+import { useMemory } from '@/components/providers/MemoryProvider';
 
 
 interface Message {
@@ -28,7 +28,7 @@ interface Message {
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
     const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
-    const { memories, addMemory, deleteMemory } = useMemory();
+    const { memories, addMemory } = useMemory();
     const { user } = useAuth();
     const { toast } = useToast();
     const [messages, setMessages] = useState<Message[]>([]);

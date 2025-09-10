@@ -13,6 +13,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { formatDistanceToNow } from 'date-fns';
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
+import { useMemory } from "../providers/MemoryProvider";
 
 const getIconForType = (type: HistoryItem['type']) => {
     const mode = modes.find(m => m.id === type);
@@ -54,7 +55,7 @@ const HistoryCard = ({ item }: { item: HistoryItem }) => {
 };
 
 const MemoryManager = () => {
-    const { memories, addMemory, deleteMemory } = useModes();
+    const { memories, addMemory, deleteMemory } = useMemory();
     const [newMemory, setNewMemory] = useState("");
 
     const handleAddMemory = () => {

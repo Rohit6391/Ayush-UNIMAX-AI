@@ -5,7 +5,6 @@ import { ThemeProvider } from "./ThemeProvider";
 import { AuthProvider } from "./AuthProvider";
 import { ModeProvider } from "./ModeProvider";
 import { ScriptLoader } from "../ScriptLoader";
-import { Toaster } from "../ui/toaster";
 import { MemoryProvider } from "./MemoryProvider";
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
@@ -16,7 +15,6 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
           <ModeProvider>
               {children}
               <ScriptLoader />
-              <Toaster />
           </ModeProvider>
         </MemoryProvider>
       </AuthProvider>
