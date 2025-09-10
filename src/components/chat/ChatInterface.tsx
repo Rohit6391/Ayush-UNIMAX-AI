@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -16,6 +16,9 @@ import { useToast } from '@/hooks/use-toast';
 import { Input } from '../ui/input';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Separator } from '../ui/separator';
+import { useMemory } from '../providers/MemoryProvider';
 
 
 interface Message {
@@ -25,6 +28,7 @@ interface Message {
 
 export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
     const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
+    const { memories, addMemory, deleteMemory } = useMemory();
     const { user } = useAuth();
     const { toast } = useToast();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -150,15 +154,26 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         let currentInput = typeof text === 'string' ? text : input;
         if ((!currentInput.trim() && !uploadedFile) || isLoading) return;
         
-        setIsLoading(true);
-        setInput(''); // Clear input immediately
-        
         const userMessageText = currentInput;
         const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
         setMessages(updatedMessages);
         setActiveChat(updatedMessages);
+        setInput('');
 
+        // Offline check
+        if (typeof window !== 'undefined' && !window.navigator.onLine) {
+            const offlineMessage: Message = {
+                role: 'model',
+                text: "It looks like you're offline. I can't process new requests right now, but I'll be ready as soon as you reconnect!"
+            };
+            setMessages(prev => [...prev, offlineMessage]);
+            setActiveChat(prev => [...prev, offlineMessage]);
+            return;
+        }
+
+        setIsLoading(true);
+        
         try {
             let fileDataUri: string | undefined;
             if (uploadedFile) {
@@ -177,6 +192,8 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 return m;
             });
             
+            const memoryToUse = memories.map(m => m.text);
+
             const result = await chatResearchAssistance({ 
                 prompt: userMessageText, 
                 isDeepResearch, 
@@ -186,6 +203,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 isStudyMode,
                 isTranslatorMode,
                 targetLanguage,
+                memory: memoryToUse.length > 0 ? memoryToUse : undefined,
              });
             const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
@@ -269,7 +287,10 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                                         size="icon" 
                                         className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
                                         title="Save to Memory"
-                                        onClick={() => {}}
+                                        onClick={() => {
+                                            addMemory(msg.text)
+                                            toast({title: "Memory Saved", description: "The AI will remember this information."})
+                                        }}
                                      >
                                         <Save size={16} />
                                      </Button>
@@ -318,14 +339,74 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
                         placeholder={isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI...")}
-                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-12 pr-24 resize-none transition-colors min-h-[52px]" 
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-24 pr-24 resize-none transition-colors min-h-[52px]" 
                         rows={1}
                         disabled={isHandsFree || isLoading}
                     />
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
                         <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isHandsFree || isLoading}>
                             <Plus size={20} />
                         </Button>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="ghost" size="icon" title="Tools" disabled={isHandsFree || isLoading}>
+                                    <SlidersHorizontal size={20} />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-80">
+                                <div className="grid gap-4">
+                                    <div className="space-y-2">
+                                        <h4 className="font-medium leading-none">Tools</h4>
+                                        <p className="text-sm text-muted-foreground">
+                                            Adjust settings to tailor the AI's response.
+                                        </p>
+                                    </div>
+                                    <Separator />
+                                    <div className="grid gap-4">
+                                        {!isFunChat && (
+                                            <div className="flex items-center justify-between">
+                                                <Label htmlFor="deep-research" className="flex items-center gap-2">
+                                                    <Sparkles size={16} /> Deep Research
+                                                </Label>
+                                                <Switch id="deep-research" checked={isDeepResearch} onCheckedChange={setIsDeepResearch} />
+                                            </div>
+                                        )}
+                                        <div className="flex items-center justify-between">
+                                            <Label htmlFor="study-mode" className="flex items-center gap-2">
+                                                <BookOpen size={16} /> Study Mode
+                                            </Label>
+                                            <Switch id="study-mode" checked={isStudyMode} onCheckedChange={setIsStudyMode} />
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <Label htmlFor="hands-free-mode" className="flex items-center gap-2">
+                                                <Mic size={16} /> Hands-Free
+                                            </Label>
+                                            <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="flex items-center justify-between">
+                                                <Label htmlFor="translator-mode" className="flex items-center gap-2">
+                                                    <Languages size={16} /> Translator
+                                                </Label>
+                                                <Switch id="translator-mode" checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode} />
+                                            </div>
+                                             {isTranslatorMode && (
+                                                <Input 
+                                                    placeholder="Target Language (e.g., French)" 
+                                                    value={targetLanguage} 
+                                                    onChange={(e) => setTargetLanguage(e.target.value)}
+                                                    className="h-9"
+                                                />
+                                             )}
+                                        </div>
+                                        <Separator />
+                                         <Button variant="outline" onClick={handleEnhancePrompt} disabled={!input || isLoading}>
+                                            <Sparkles className="mr-2" size={16}/> Enhance Prompt
+                                        </Button>
+                                    </div>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
                     </div>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                          <Button 
@@ -338,48 +419,9 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         >
                             {isListening ? <Waves size={20} /> : <Mic size={20} />}
                         </Button>
-                        <Button onClick={() => handleSend()} disabled={isLoading || isHandsFree || !input.trim()} size="icon">
+                        <Button onClick={() => handleSend()} disabled={isLoading || isHandsFree || (!input.trim() && !uploadedFile)} size="icon">
                             <Send size={20} />
                         </Button>
-                    </div>
-                </div>
-                 <div className="flex flex-wrap items-center justify-between mt-2 text-sm text-muted-foreground gap-y-2">
-                    <div className="flex items-center gap-x-4 gap-y-2 flex-wrap">
-                         {!isFunChat && (
-                         <label htmlFor="deep-research" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
-                            <Switch id="deep-research" checked={isDeepResearch} onCheckedChange={setIsDeepResearch} />
-                            <Sparkles size={16} className={isDeepResearch ? 'text-primary' : ''}/>
-                            <Label htmlFor="deep-research">Deep Research</Label>
-                        </label>
-                        )}
-                        <label htmlFor="study-mode" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
-                            <Switch id="study-mode" checked={isStudyMode} onCheckedChange={setIsStudyMode} />
-                            <BookOpen size={16} className={isStudyMode ? 'text-primary' : ''}/>
-                            <Label htmlFor="study-mode">Study Mode</Label>
-                        </label>
-                        <div className="flex items-center gap-2">
-                            <label htmlFor="translator-mode" className="flex items-center gap-2 cursor-pointer hover:text-foreground">
-                                <Switch id="translator-mode" checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode} />
-                                <Languages size={16} className={isTranslatorMode ? 'text-primary' : ''}/>
-                                <Label htmlFor="translator-mode">Translator</Label>
-                            </label>
-                             {isTranslatorMode && (
-                                <Input 
-                                    placeholder="Language" 
-                                    value={targetLanguage} 
-                                    onChange={(e) => setTargetLanguage(e.target.value)}
-                                    className="h-7 w-28 text-xs"
-                                />
-                             )}
-                        </div>
-                         <Button variant="ghost" onClick={handleEnhancePrompt} className="flex items-center gap-2 cursor-pointer hover:text-foreground p-0 h-auto text-sm" disabled={!input || isLoading || isHandsFree}>
-                            <Sparkles size={16} />
-                            Enhance Prompt
-                        </Button>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Label htmlFor="hands-free-mode" className="cursor-pointer">Hands-Free</Label>
-                        <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />
                     </div>
                 </div>
             </div>

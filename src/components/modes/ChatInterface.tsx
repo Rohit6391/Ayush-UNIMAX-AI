@@ -2,252 +2,82 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff } from 'lucide-react';
+import { Send, User, BrainCircuit, Bot } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
-import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
-import { textToSpeech } from '@/ai/flows/text-to-speech';
-import { enhancePrompt } from '@/ai/flows/prompt-enhancer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
-import { useToast } from '@/hooks/use-toast';
-import { Input } from '../ui/input';
-import { Switch } from '../ui/switch';
-import { Label } from '../ui/label';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Separator } from '../ui/separator';
-import { useMemory } from '../providers/MemoryProvider';
-
 
 interface Message {
     role: 'user' | 'model';
     text: string;
 }
 
-export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
-    const { memories, addMemory } = useMemory();
+// Offline Q&A Database
+const offlineResponses: { [key: string]: string } = {
+    "hello": "Hello! As an offline AI, I have a limited set of responses. How can I help you today?",
+    "hi": "Hi there! I'm an offline AI assistant. Ask me about my creator or purpose.",
+    "how are you": "As an AI, I don't have feelings, but I'm operating at full capacity! Thanks for asking.",
+    "who are you": "I am Ayush Unimax AI, a universal AI assistant designed to help with a wide range of tasks.",
+    "who made you": "I was created by Ayush Sharma of Ayush Webtor Studio.",
+    "what can you do": "I have many modes! I can generate code, create images and video storyboards, write songs, translate languages, and much more. Explore the sidebar to see all my capabilities.",
+    "what is your purpose": "My purpose is to be a comprehensive and powerful AI partner for developers, writers, designers, and creators of all kinds.",
+    "what features do you have": "I have specialized modes for AI Chat, Photo & Video Generation, Code Generation, Website Creation, and many other creative and technical tasks.",
+    "tell me a joke": "Why don't scientists trust atoms? Because they make up everything!",
+    "help": "You can ask me questions like 'Who made you?' or 'What can you do?'.",
+};
+
+const defaultResponse = "I'm sorry, my offline capabilities are limited. I can't answer that question. Try asking 'help' to see what I can respond to.";
+
+
+export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunChat?: boolean }) {
+    const { addHistoryItem, activeChat, setActiveChat } = useModes();
     const { user } = useAuth();
-    const { toast } = useToast();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
-    // Tools State
-    const [isDeepResearch, setIsDeepResearch] = useState(false);
-    const [isStudyMode, setIsStudyMode] = useState(false);
-    const [isTranslatorMode, setIsTranslatorMode] = useState(false);
-    const [targetLanguage, setTargetLanguage] = useState('English');
-
-
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    // Voice & Hands-Free States
-    const [isHandsFree, setIsHandsFree] = useState(false);
-    const [isListening, setIsListening] = useState(false);
-    const [isSpeaking, setIsSpeaking] = useState(false);
-    const recognitionRef = useRef<any>(null);
-    const audioRef = useRef<HTMLAudioElement | null>(null);
-
 
     useEffect(() => {
         if (activeChat && activeChat.length > 0) {
             setMessages(activeChat);
         } else {
             const initialGreeting = isFunChat 
-                ? "Hello! I'm the Fun Chat AI. Ready for some creative brainstorming or a playful chat? Let's get weird!"
-                : "Hello! I am Ayush Unimax AI. How can I assist you today?";
+                ? "Hello! I'm the Fun Chat AI. I'm currently running in offline mode with a set of fun, pre-written responses. Ask away!"
+                : "Hello! I am Ayush Unimax AI, currently in offline mode. I can answer basic questions about my purpose and creator.";
             const initialMessage = { role: 'model', text: initialGreeting };
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
     }, [isFunChat, activeChat, setActiveChat]);
     
-     // Initialize SpeechRecognition and Audio elements
-    useEffect(() => {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (SpeechRecognition) {
-            recognitionRef.current = new SpeechRecognition();
-            recognitionRef.current.continuous = false;
-            recognitionRef.current.interimResults = false;
-            recognitionRef.current.lang = 'en-US';
-
-            recognitionRef.current.onresult = (event: any) => {
-                const transcript = event.results[0][0].transcript;
-                if (isHandsFree) {
-                    handleSend(transcript);
-                } else {
-                    setInput(prev => prev ? `${prev} ${transcript}` : transcript);
-                }
-                setIsListening(false);
-            };
-
-            recognitionRef.current.onerror = (event: any) => {
-                 console.error('Speech recognition error:', event.error)
-                 setIsListening(false);
-            };
-            recognitionRef.current.onend = () => setIsListening(false);
-        }
-
-        audioRef.current = new Audio();
-        const audio = audioRef.current;
-        const onSpeakingEnd = () => {
-            setIsSpeaking(false);
-            if (isHandsFree) {
-                handleListen(); // Listen for the next command after AI finishes speaking
-            }
-        };
-        audio.addEventListener('ended', onSpeakingEnd);
-        audio.addEventListener('pause', onSpeakingEnd);
-
-        return () => {
-            audio.removeEventListener('ended', onSpeakingEnd);
-             audio.removeEventListener('pause', onSpeakingEnd);
-            if (recognitionRef.current) {
-                recognitionRef.current.stop();
-            }
-        };
-    }, [isHandsFree]);
-
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            setUploadedFile(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviewUrl(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
+    const getOfflineResponse = (query: string): string => {
+        const cleanedQuery = query.toLowerCase().trim().replace(/[?.,!]/g, '');
+        return offlineResponses[cleanedQuery] || defaultResponse;
     };
-    
-    const removeFile = () => {
-        setUploadedFile(null);
-        setPreviewUrl(null);
-        if(fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
-    };
-    
-    const handleEnhancePrompt = async () => {
+
+    const handleSend = async () => {
         if (!input.trim() || isLoading) return;
-        setIsLoading(true);
-        try {
-            const { enhancedPrompt } = await enhancePrompt({ prompt: input });
-            setInput(enhancedPrompt);
-            toast({ title: "Prompt Enhanced", description: "Your prompt has been improved." });
-        } catch (error: any) {
-            toast({ variant: "destructive", title: "Enhancement Failed", description: error.message });
-            console.error("Failed to enhance prompt:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-
-    const handleSend = async (text?: string) => {
-        let currentInput = typeof text === 'string' ? text : input;
-        if ((!currentInput.trim() && !uploadedFile) || isLoading) return;
         
-        const userMessageText = currentInput;
+        const userMessageText = input;
         const newUserMessage: Message = { role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
         setMessages(updatedMessages);
         setActiveChat(updatedMessages);
         setInput('');
-
-        // Offline check
-        if (typeof window !== 'undefined' && !window.navigator.onLine) {
-            const offlineMessage: Message = {
-                role: 'model',
-                text: "It looks like you're offline. I can't process new requests right now, but I'll be ready as soon as you reconnect!"
-            };
-            setMessages(prev => [...prev, offlineMessage]);
-            setActiveChat(prev => [...prev, offlineMessage]);
-            return;
-        }
-
         setIsLoading(true);
-        
-        try {
-            let fileDataUri: string | undefined;
-            if (uploadedFile) {
-                fileDataUri = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = (event) => resolve(event.target?.result as string);
-                    reader.onerror = (error) => reject(error);
-                    reader.readAsDataURL(uploadedFile);
-                });
-            }
 
-            const historyToSend = messages.map(m => {
-                if (m.role === 'model' && isFunChat) {
-                    return { role: m.role, text: `(You are a fun, witty, and creative assistant) ${m.text}` }
-                }
-                return m;
-            });
+        // Simulate thinking and get offline response
+        setTimeout(() => {
+            const aiResponseText = getOfflineResponse(userMessageText);
+            const aiMessage: Message = { role: 'model', text: aiResponseText };
             
-            const memoryToUse = memories.map(m => m.text);
-
-            const result = await chatResearchAssistance({ 
-                prompt: userMessageText, 
-                isDeepResearch, 
-                history: historyToSend, 
-                fileDataUri: fileDataUri, 
-                isFunChat,
-                isStudyMode,
-                isTranslatorMode,
-                targetLanguage,
-                memory: memoryToUse.length > 0 ? memoryToUse : undefined,
-             });
-            const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
             setActiveChat(prev => [...prev, aiMessage]);
-            addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, result.response, [...updatedMessages, aiMessage]);
-
-            if (isHandsFree && result.response) {
-                try {
-                    const audioResult = await textToSpeech({ text: result.response });
-                    if (audioResult.audioDataUri && audioRef.current) {
-                        setIsSpeaking(true);
-                        audioRef.current.src = audioResult.audioDataUri;
-                        audioRef.current.play().catch(e => console.error("Audio playback error:", e));
-                    }
-                } catch (audioError: any) {
-                    console.error("TTS Error:", audioError);
-                    const errorMessage: Message = { role: 'model', text: `I couldn't generate audio for my response. Reason: ${audioError.message}` };
-                     setMessages(prev => [...prev, errorMessage]);
-                    setActiveChat(prev => [...prev, errorMessage]);
-                     if (isHandsFree) {
-                        setIsSpeaking(false);
-                        handleListen();
-                    }
-                }
-            }
-
-        } catch (error: any) {
-            const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}.` };
-            setMessages(prev => [...prev, errorMessage]);
-        } finally {
+            addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, aiResponseText, [...updatedMessages, aiMessage]);
             setIsLoading(false);
-            removeFile();
-            if (!isHandsFree) setIsListening(false);
-        }
-    };
-    
-    const handleListen = () => {
-        if (!recognitionRef.current) return;
-        if (isListening) {
-            recognitionRef.current.stop();
-        } else if (!isSpeaking && !isLoading) {
-            setIsListening(true);
-            recognitionRef.current.start();
-        }
+        }, 500); // 0.5 second delay
     };
     
     const UserAvatar = () => (
@@ -267,13 +97,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
 
     return (
         <div className="flex flex-col h-full max-w-4xl mx-auto">
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              onChange={handleFileChange} 
-              className="hidden" 
-              accept="image/*,text/plain,application/pdf"
-            />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg, index) => (
@@ -281,25 +104,11 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                             {msg.role === 'model' && <ModelAvatar />}
                             <div className={`relative max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}</p>
-                                {msg.role === 'model' && msg.text.length > 10 && (
-                                     <Button 
-                                        variant="ghost" 
-                                        size="icon" 
-                                        className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        title="Save to Memory"
-                                        onClick={() => {
-                                            addMemory(msg.text)
-                                            toast({title: "Memory Saved", description: "The AI will remember this information."})
-                                        }}
-                                     >
-                                        <Save size={16} />
-                                     </Button>
-                                )}
                             </div>
                             {msg.role === 'user' && <UserAvatar />}
                         </div>
                     ))}
-                    {(isLoading || isListening || isSpeaking) && (
+                    {isLoading && (
                         <div className="flex items-start gap-4 justify-start">
                              <ModelAvatar />
                              <div className="max-w-xl p-4 rounded-2xl bg-card text-card-foreground rounded-bl-none">
@@ -314,118 +123,24 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                 </div>
             </ScrollArea>
             <div className="p-4 bg-card/50 backdrop-blur-sm border-t border-border">
-                {previewUrl && (
-                    <div className="relative mb-2 w-24 h-24 rounded-md overflow-hidden border">
-                        {uploadedFile?.type.startsWith('image/') ? (
-                            <img src={previewUrl} alt="File preview" className="w-full h-full object-cover" />
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground text-xs p-2">
-                               {uploadedFile?.name}
-                            </div>
-                        )}
-                        <Button
-                            variant="destructive"
-                            size="icon"
-                            className="absolute top-1 right-1 h-6 w-6"
-                            onClick={removeFile}
-                        >
-                            <X size={14} />
-                        </Button>
-                    </div>
-                )}
                 <div className="relative">
                     <Textarea 
                         value={input} 
                         onChange={(e) => setInput(e.target.value)} 
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }} 
-                        placeholder={isHandsFree ? "Hands-free mode is active..." : (isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI...")}
-                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pl-24 pr-24 resize-none transition-colors min-h-[52px]" 
+                        placeholder={isFunChat ? "Ask me something fun..." : "Message Ayush Unimax AI..."}
+                        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 pr-12 resize-none transition-colors min-h-[52px]" 
                         rows={1}
-                        disabled={isHandsFree || isLoading}
+                        disabled={isLoading}
                     />
-                     <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                        <Button onClick={() => fileInputRef.current?.click()} variant="ghost" size="icon" title="Upload File" disabled={isHandsFree || isLoading}>
-                            <Plus size={20} />
-                        </Button>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" title="Tools" disabled={isHandsFree || isLoading}>
-                                    <SlidersHorizontal size={20} />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-80">
-                                <div className="grid gap-4">
-                                    <div className="space-y-2">
-                                        <h4 className="font-medium leading-none">Tools</h4>
-                                        <p className="text-sm text-muted-foreground">
-                                            Adjust settings to tailor the AI's response.
-                                        </p>
-                                    </div>
-                                    <Separator />
-                                    <div className="grid gap-4">
-                                        {!isFunChat && (
-                                            <div className="flex items-center justify-between">
-                                                <Label htmlFor="deep-research" className="flex items-center gap-2">
-                                                    <Sparkles size={16} /> Deep Research
-                                                </Label>
-                                                <Switch id="deep-research" checked={isDeepResearch} onCheckedChange={setIsDeepResearch} />
-                                            </div>
-                                        )}
-                                        <div className="flex items-center justify-between">
-                                            <Label htmlFor="study-mode" className="flex items-center gap-2">
-                                                <BookOpen size={16} /> Study Mode
-                                            </Label>
-                                            <Switch id="study-mode" checked={isStudyMode} onCheckedChange={setIsStudyMode} />
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <Label htmlFor="hands-free-mode" className="flex items-center gap-2">
-                                                <Mic size={16} /> Hands-Free
-                                            </Label>
-                                            <Switch id="hands-free-mode" checked={isHandsFree} onCheckedChange={setIsHandsFree} />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <div className="flex items-center justify-between">
-                                                <Label htmlFor="translator-mode" className="flex items-center gap-2">
-                                                    <Languages size={16} /> Translator
-                                                </Label>
-                                                <Switch id="translator-mode" checked={isTranslatorMode} onCheckedChange={setIsTranslatorMode} />
-                                            </div>
-                                             {isTranslatorMode && (
-                                                <Input 
-                                                    placeholder="Target Language (e.g., French)" 
-                                                    value={targetLanguage} 
-                                                    onChange={(e) => setTargetLanguage(e.target.value)}
-                                                    className="h-9"
-                                                />
-                                             )}
-                                        </div>
-                                        <Separator />
-                                         <Button variant="outline" onClick={handleEnhancePrompt} disabled={!input || isLoading}>
-                                            <Sparkles className="mr-2" size={16}/> Enhance Prompt
-                                        </Button>
-                                    </div>
-                                </div>
-                            </PopoverContent>
-                        </Popover>
-                    </div>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                         <Button 
-                            onClick={handleListen} 
-                            variant="ghost" 
-                            size="icon" 
-                            title="Dictate" 
-                            className={isListening ? 'text-destructive' : ''}
-                            disabled={isHandsFree || isLoading}
-                        >
-                            {isListening ? <Waves size={20} /> : <Mic size={20} />}
-                        </Button>
-                        <Button onClick={() => handleSend()} disabled={isLoading || isHandsFree || (!input.trim() && !uploadedFile)} size="icon">
+                        <Button onClick={() => handleSend()} disabled={isLoading || !input.trim()} size="icon">
                             <Send size={20} />
                         </Button>
                     </div>
                 </div>
+                 <p className="text-xs text-muted-foreground mt-2 text-center">Chat AI is in offline mode.</p>
             </div>
         </div>
     );
 }
-
