@@ -5,7 +5,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { type ModeId } from '@/lib/modes';
 import { useAuth } from './AuthProvider';
 import { ModelId, availableModels } from '@/lib/models';
-import { useMemory } from './MemoryProvider';
+import { useMemory } from '@/hooks/use-memory';
 
 export interface HistoryItem {
   id: number;

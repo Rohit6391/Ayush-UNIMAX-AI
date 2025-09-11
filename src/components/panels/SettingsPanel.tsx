@@ -13,7 +13,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { formatDistanceToNow } from 'date-fns';
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
-import { useMemory } from "../providers/MemoryProvider";
+import { useMemory } from "@/hooks/use-memory";
 
 const getIconForType = (type: HistoryItem['type']) => {
     const mode = modes.find(m => m.id === type);
@@ -100,7 +100,6 @@ const MemoryManager = () => {
         </div>
     )
 }
-
 
 export function SettingsPanel() {
   const { isSettingsPanelOpen, setIsSettingsPanelOpen, history, setActiveMode } = useModes();
