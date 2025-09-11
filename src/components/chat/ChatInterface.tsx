@@ -327,7 +327,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                         <div key={msg.id} className={`group flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.role === 'model' && <ModelAvatar />}
                             <div className="flex flex-col gap-2 max-w-xl">
-                                <div className={`relative p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
+                                <div className={`p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                     <p className="whitespace-pre-wrap">{msg.text}</p>
                                 </div>
                                 {msg.role === 'model' && msg.id !== 'initial-greeting' && msg.text.length > 10 && (
