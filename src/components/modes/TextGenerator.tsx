@@ -54,10 +54,12 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
 
     } catch (err: any) {
       let errorMessageText = `Failed to generate: ${err.message}`;
-      if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-          errorMessageText = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
-      } else if (err.message && (err.message.includes('503') || err.message.toLowerCase().includes('overloaded'))) {
-          errorMessageText = "The AI model is currently busy. Please try again in a few moments.";
+      if (err.message) {
+        if (err.message.includes('429') || err.message.toLowerCase().includes('quota')) {
+            errorMessageText = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
+        } else if (err.message.includes('503') || err.message.toLowerCase().includes('overloaded')) {
+            errorMessageText = "The AI model is currently busy or overloaded. Please try again in a few moments.";
+        }
       }
       setError(errorMessageText);
     } finally {

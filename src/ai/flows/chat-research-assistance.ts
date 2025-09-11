@@ -103,12 +103,16 @@ const chatResearchAssistanceFlow = ai.defineFlow(
         }
         return output;
     } catch (err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            // Check if the user is using the fallback key
-            if (!process.env.GEMINI_API_KEY) {
-                 throw new Error("The public quota has been reached. To unlock unlimited use, please add your personal, free Gemini API key to the .env file as instructed in the README.");
+        if (err.message) {
+            if (err.message.includes('429') || err.message.toLowerCase().includes('quota')) {
+                if (!process.env.GEMINI_API_KEY) {
+                     throw new Error("The public quota has been reached. To unlock unlimited use, please add your personal, free Gemini API key to the .env file as instructed in the README.");
+                }
+                throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
             }
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
+            if (err.message.includes('503') || err.message.toLowerCase().includes('overloaded')) {
+                throw new Error("The AI model is currently busy or overloaded. Please try again in a few moments.");
+            }
         }
         throw new Error(`An unexpected server error occurred: ${err.message}`);
     }
