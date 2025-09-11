@@ -2,35 +2,19 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Bot } from 'lucide-react';
+import { Send, User, BrainCircuit, Bot, WifiOff } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
+import { offlineResponses, defaultOfflineResponse, getOfflineResponse } from '@/lib/offline-data';
 
 interface Message {
     role: 'user' | 'model';
     text: string;
 }
-
-// Offline Q&A Database
-const offlineResponses: { [key: string]: string } = {
-    "hello": "Hello! As an offline AI, I have a limited set of responses. How can I help you today?",
-    "hi": "Hi there! I'm an offline AI assistant. Ask me about my creator or purpose.",
-    "how are you": "As an AI, I don't have feelings, but I'm operating at full capacity! Thanks for asking.",
-    "who are you": "I am Ayush Unimax AI, a universal AI assistant designed to help with a wide range of tasks.",
-    "who made you": "I was created by Ayush Sharma of Ayush Webtor Studio.",
-    "what can you do": "I have many modes! I can generate code, create images and video storyboards, write songs, translate languages, and much more. Explore the sidebar to see all my capabilities.",
-    "what is your purpose": "My purpose is to be a comprehensive and powerful AI partner for developers, writers, designers, and creators of all kinds.",
-    "what features do you have": "I have specialized modes for AI Chat, Photo & Video Generation, Code Generation, Website Creation, and many other creative and technical tasks.",
-    "tell me a joke": "Why don't scientists trust atoms? Because they make up everything!",
-    "help": "You can ask me questions like 'Who made you?' or 'What can you do?'.",
-};
-
-const defaultResponse = "I'm sorry, my offline capabilities are limited. I can't answer that question. Try asking 'help' to see what I can respond to.";
-
 
 export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunChat?: boolean }) {
     const { addHistoryItem, activeChat, setActiveChat } = useModes();
@@ -38,25 +22,38 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isOffline, setIsOffline] = useState(false);
+
+    useEffect(() => {
+        const handleOnlineStatus = () => setIsOffline(!navigator.onLine);
+        window.addEventListener('online', handleOnlineStatus);
+        window.addEventListener('offline', handleOnlineStatus);
+        handleOnlineStatus(); // Set initial state
+
+        return () => {
+            window.removeEventListener('online', handleOnlineStatus);
+            window.removeEventListener('offline', handleOnlineStatus);
+        };
+    }, []);
 
     useEffect(() => {
         if (activeChat && activeChat.length > 0) {
             setMessages(activeChat);
         } else {
-            const initialGreeting = isFunChat 
-                ? "Hello! I'm the Fun Chat AI. I'm currently running in offline mode with a set of fun, pre-written responses. Ask away!"
-                : "Hello! I am Ayush Unimax AI, currently in offline mode. I can answer basic questions about my purpose and creator.";
+            let initialGreeting = "Hello! I am Ayush Unimax AI. How can I assist you today?";
+            if (isFunChat) {
+                initialGreeting = "Hello! I'm the Fun Chat AI. Ready for some creative brainstorming or a playful chat? Let's get weird!";
+            }
+            if (isOffline) {
+                 initialGreeting += " I am currently in offline mode and can answer a wide range of general questions.";
+            }
+
             const initialMessage = { role: 'model', text: initialGreeting };
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat, activeChat, setActiveChat]);
+    }, [isFunChat, activeChat, setActiveChat, isOffline]);
     
-    const getOfflineResponse = (query: string): string => {
-        const cleanedQuery = query.toLowerCase().trim().replace(/[?.,!]/g, '');
-        return offlineResponses[cleanedQuery] || defaultResponse;
-    };
-
     const handleSend = async () => {
         if (!input.trim() || isLoading) return;
         
@@ -68,16 +65,33 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         setInput('');
         setIsLoading(true);
 
-        // Simulate thinking and get offline response
-        setTimeout(() => {
-            const aiResponseText = getOfflineResponse(userMessageText);
-            const aiMessage: Message = { role: 'model', text: aiResponseText };
-            
+        if (isOffline) {
+             setTimeout(() => {
+                const aiResponseText = getOfflineResponse(userMessageText);
+                const aiMessage: Message = { role: 'model', text: aiResponseText };
+                
+                setMessages(prev => [...prev, aiMessage]);
+                setActiveChat(prev => [...prev, aiMessage]);
+                addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, aiResponseText, [...updatedMessages, aiMessage]);
+                setIsLoading(false);
+            }, 500);
+            return;
+        }
+
+        try {
+            // This part will only run when online
+            const { chatResearchAssistance } = await import('@/ai/flows/chat-research-assistance');
+            const result = await chatResearchAssistance({ prompt: userMessageText, isDeepResearch: false, history: messages, isFunChat });
+            const aiMessage: Message = { role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
             setActiveChat(prev => [...prev, aiMessage]);
-            addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, aiResponseText, [...updatedMessages, aiMessage]);
+            addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, result.response, [...updatedMessages, aiMessage]);
+        } catch (error: any) {
+            const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}.` };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
             setIsLoading(false);
-        }, 500); // 0.5 second delay
+        }
     };
     
     const UserAvatar = () => (
@@ -139,7 +153,11 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                         </Button>
                     </div>
                 </div>
-                 <p className="text-xs text-muted-foreground mt-2 text-center">Chat AI is in offline mode.</p>
+                 {isOffline && (
+                    <p className="text-xs text-amber-500 mt-2 text-center flex items-center justify-center gap-2">
+                        <WifiOff size={14} /> You are currently offline. Responses are generated locally.
+                    </p>
+                 )}
             </div>
         </div>
     );
