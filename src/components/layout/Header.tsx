@@ -4,8 +4,10 @@
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useModes } from '@/components/providers/ModeProvider';
 import { Button } from '@/components/ui/button';
-import { History, LogOut, Settings, Info, PanelLeft } from 'lucide-react';
+import { History, LogOut, Settings, Info, PanelLeft, WifiOff } from 'lucide-react';
 import { SidebarTrigger } from '../ui/sidebar';
+import { useState, useEffect } from 'react';
+import { Badge } from '../ui/badge';
 
 interface HeaderProps {
   setIsSignInModalOpen: (isOpen: boolean) => void;
@@ -15,6 +17,19 @@ interface HeaderProps {
 export function Header({ setIsSignInModalOpen, activeModeName }: HeaderProps) {
   const { user, signOut } = useAuth();
   const { setIsHistoryPanelOpen, setIsSettingsPanelOpen, setIsAboutPanelOpen } = useModes();
+  const [isOffline, setIsOffline] = useState(false);
+
+  useEffect(() => {
+    const handleOnlineStatus = () => setIsOffline(!navigator.onLine);
+    window.addEventListener('online', handleOnlineStatus);
+    window.addEventListener('offline', handleOnlineStatus);
+    handleOnlineStatus();
+
+    return () => {
+      window.removeEventListener('online', handleOnlineStatus);
+      window.removeEventListener('offline', handleOnlineStatus);
+    };
+  }, []);
 
   const handleSignOut = async () => {
     await signOut();
@@ -27,6 +42,12 @@ export function Header({ setIsSignInModalOpen, activeModeName }: HeaderProps) {
         <h1 className="text-xl md:text-2xl font-headline font-bold text-foreground">
           {activeModeName}
         </h1>
+        {isOffline && (
+            <Badge variant="destructive" className="flex items-center gap-1.5">
+                <WifiOff size={14} />
+                Offline
+            </Badge>
+        )}
       </div>
       <div className="flex items-center gap-2 md:gap-4">
         <Button onClick={() => setIsHistoryPanelOpen(p => !p)} variant="ghost" size="icon" title="History">
