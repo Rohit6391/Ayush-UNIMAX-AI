@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff, Volume2, Loader2 } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff, Volume2, Loader2, Copy, Check } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -52,6 +52,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
     const audioRef = useRef<HTMLAudioElement | null>(null);
     
     const [isOffline, setIsOffline] = useState(false);
+    const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
 
      useEffect(() => {
         const handleOnlineStatus = () => setIsOffline(!navigator.onLine);
@@ -204,6 +205,13 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         }
     };
 
+    const handleCopy = (message: Message) => {
+        navigator.clipboard.writeText(message.text).then(() => {
+            setCopiedMessageId(message.id);
+            setTimeout(() => setCopiedMessageId(null), 2000);
+        });
+    };
+
 
     const handleSend = async (text?: string) => {
         const currentInput = typeof text === 'string' ? text : input;
@@ -341,9 +349,9 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg) => (
-                        <div key={msg.id} className={`group flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div key={msg.id} className={`flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.role === 'model' && <ModelAvatar />}
-                            <div className="flex flex-col gap-1 max-w-xl">
+                            <div className="flex flex-col gap-2 max-w-xl">
                                 <div className={`p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                     <p className="whitespace-pre-wrap">{msg.text}</p>
                                 </div>
@@ -356,7 +364,16 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                                             title="Listen to this message"
                                             onClick={() => handleListenToMessage(msg)}
                                         >
-                                            {isSpeaking && speakingMessageId === msg.id ? <Loader2 className="animate-spin" /> : <Volume2 size={16} />}
+                                            {isSpeaking && speakingMessageId === msg.id ? <Loader2 className="animate-spin" size={16} /> : <Volume2 size={16} />}
+                                        </Button>
+                                         <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="h-7 w-7 text-muted-foreground"
+                                            title="Copy message"
+                                            onClick={() => handleCopy(msg)}
+                                        >
+                                             {copiedMessageId === msg.id ? <Check size={16} className="text-primary"/> : <Copy size={16} />}
                                         </Button>
                                         <Button 
                                             variant="ghost" 
