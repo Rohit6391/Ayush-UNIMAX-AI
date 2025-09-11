@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff, Volume2, Loader2, Copy, Check } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff, Volume2, Loader2, Copy, Check, Share2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -212,6 +212,19 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         });
     };
 
+    const handleShare = (message: Message) => {
+        if (navigator.share) {
+            navigator.share({
+                title: 'AI Chat Response',
+                text: message.text,
+            }).catch(err => console.error("Share failed:", err));
+        } else {
+            // Fallback for browsers that don't support Web Share API
+            handleCopy(message);
+            toast({ title: "Copied to Clipboard", description: "Share API not available. Message copied instead."});
+        }
+    };
+
 
     const handleSend = async (text?: string) => {
         const currentInput = typeof text === 'string' ? text : input;
@@ -355,7 +368,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                                 <div className={`p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                     <p className="whitespace-pre-wrap">{msg.text}</p>
                                 </div>
-                                {msg.role === 'model' && msg.id !== 'initial-greeting' && msg.text.length > 10 && !isLoading && (
+                                {msg.role === 'model' && msg.id !== 'initial-greeting' && msg.text.length > 1 && !isLoading && (
                                      <div className="flex items-center gap-1 self-start">
                                         <Button 
                                             variant="ghost" 
@@ -386,6 +399,15 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                                             }}
                                         >
                                             <Save size={16} />
+                                        </Button>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-7 w-7 text-muted-foreground"
+                                            title="Share"
+                                            onClick={() => handleShare(msg)}
+                                        >
+                                            <Share2 size={16} />
                                         </Button>
                                     </div>
                                 )}
@@ -527,3 +549,5 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         </div>
     );
 }
+
+    
