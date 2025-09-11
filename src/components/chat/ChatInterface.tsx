@@ -206,16 +206,17 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
 
 
     const handleSend = async (text?: string) => {
-        let currentInput = typeof text === 'string' ? text : input;
+        const currentInput = typeof text === 'string' ? text : input;
         if ((!currentInput.trim() && !uploadedFile) || isLoading) return;
-        
+
         const userMessageText = currentInput;
         const newUserMessage: Message = { id: `user-${Date.now()}`, role: 'user', text: userMessageText };
-        const updatedMessages = [...messages, newUserMessage];
-        setMessages(updatedMessages);
-        setActiveChat(updatedMessages);
+        
+        setMessages(prev => [...prev, newUserMessage]);
         setInput('');
         setIsLoading(true);
+
+        const historyToSend = [...messages, newUserMessage].map(m => ({ role: m.role, text: m.text }));
 
          if (isOffline) {
              setTimeout(async () => {
@@ -224,20 +225,31 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                 
                 setMessages(prev => [...prev, aiMessage]);
                 setActiveChat(prev => [...prev, aiMessage]);
-                addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, aiResponseText, [...updatedMessages, aiMessage]);
+                addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, aiResponseText, [...historyToSend, aiMessage]);
                 
                  if (isHandsFree) {
-                    handleListenToMessage(aiMessage);
+                    try {
+                        const { textToSpeech } = await import('@/ai/flows/text-to-speech');
+                        const audioResult = await textToSpeech({ text: aiResponseText });
+                        if (audioResult.audioDataUri && audioRef.current) {
+                            playAudio(audioResult.audioDataUri, aiMessage.id);
+                        }
+                    } catch (audioError) {
+                        console.error("TTS failed in offline mode:", audioError);
+                        setIsSpeaking(false);
+                        handleListen();
+                    }
                 }
                 
                 setIsLoading(false);
             }, 500);
+            removeFile();
             return;
         }
 
         try {
              const { chatResearchAssistance } = await import('@/ai/flows/chat-research-assistance');
-             
+
             let fileDataUri: string | undefined;
             if (uploadedFile) {
                 fileDataUri = await new Promise((resolve, reject) => {
@@ -248,13 +260,6 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                 });
             }
 
-            const historyToSend = messages.map(m => {
-                if (m.role === 'model' && isFunChat) {
-                    return { role: m.role, text: `(You are a fun, witty, and creative assistant) ${m.text}` }
-                }
-                return {role: m.role, text: m.text};
-            });
-            
             const memoryToUse = memories.map(m => m.text);
 
             const result = await chatResearchAssistance({ 
@@ -271,19 +276,31 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
             const aiMessage: Message = { id: `model-${Date.now()}`, role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
             setActiveChat(prev => [...prev, aiMessage]);
-            addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, result.response, [...updatedMessages, aiMessage]);
+            addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, result.response, [...historyToSend, aiMessage]);
 
             if (isHandsFree && result.response) {
-                handleListenToMessage(aiMessage);
+                try {
+                    const { textToSpeech } = await import('@/ai/flows/text-to-speech');
+                    const audioResult = await textToSpeech({ text: result.response });
+                    if (audioResult.audioDataUri && audioRef.current) {
+                        playAudio(audioResult.audioDataUri, aiMessage.id);
+                    }
+                } catch (audioError: any) {
+                    const errorMsg: Message = { id: `model-error-${Date.now()}`, role: 'model', text: `I couldn't generate audio for my response. Reason: ${audioError.message}` };
+                    setMessages(prev => [...prev, errorMsg]);
+                     if (isHandsFree) {
+                        setIsSpeaking(false);
+                        handleListen();
+                    }
+                }
             }
 
         } catch (error: any) {
-            const errorMessage: Message = { id: `error-${Date.now()}`, role: 'model', text: `An error occurred: ${error.message}.` };
+            const errorMessage: Message = { id: `model-error-${Date.now()}`, role: 'model', text: `An error occurred: ${error.message}.` };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
             removeFile();
-            if (!isHandsFree) setIsListening(false);
         }
     };
     
@@ -323,14 +340,14 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
             />
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
-                    {messages.map((msg, index) => (
+                    {messages.map((msg) => (
                         <div key={msg.id} className={`group flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.role === 'model' && <ModelAvatar />}
-                            <div className="flex flex-col gap-2 max-w-xl">
+                            <div className="flex flex-col gap-1 max-w-xl">
                                 <div className={`p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                     <p className="whitespace-pre-wrap">{msg.text}</p>
                                 </div>
-                                {msg.role === 'model' && msg.id !== 'initial-greeting' && msg.text.length > 10 && (
+                                {msg.role === 'model' && msg.id !== 'initial-greeting' && msg.text.length > 10 && !isLoading && (
                                      <div className="flex items-center gap-1 self-start">
                                         <Button 
                                             variant="ghost" 
@@ -359,7 +376,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                             {msg.role === 'user' && <UserAvatar/>}
                         </div>
                     ))}
-                    {(isLoading || isListening || (isSpeaking && isHandsFree)) && (
+                    {isLoading && (
                         <div className="flex items-start gap-4 justify-start">
                              <ModelAvatar />
                              <div className="max-w-xl p-4 rounded-2xl bg-card text-card-foreground rounded-bl-none">
