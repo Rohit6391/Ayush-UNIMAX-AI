@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff, Volume2, Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -19,6 +19,7 @@ import { useMemory } from '@/hooks/use-memory';
 import { getOfflineResponse } from '@/lib/offline-data';
 
 interface Message {
+    id: string;
     role: 'user' | 'model';
     text: string;
 }
@@ -46,6 +47,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
     const [isHandsFree, setIsHandsFree] = useState(false);
     const [isListening, setIsListening] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
+    const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
     const recognitionRef = useRef<any>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     
@@ -66,7 +68,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
 
     useEffect(() => {
         if (activeChat && activeChat.length > 0) {
-            setMessages(activeChat);
+            setMessages(activeChat.map(m => ({...m, id: m.id || `${m.role}-${Math.random()}`})));
         } else {
             let initialGreeting = "Hello! I am Ayush Unimax AI. How can I assist you today?";
             if (isFunChat) {
@@ -75,7 +77,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
              if (isOffline) {
                  initialGreeting += " I am currently in offline mode and can answer a wide range of general questions.";
             }
-            const initialMessage = { role: 'model', text: initialGreeting };
+            const initialMessage: Message = { id: 'initial-greeting', role: 'model', text: initialGreeting };
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
@@ -111,6 +113,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         const audio = audioRef.current;
         const onSpeakingEnd = () => {
             setIsSpeaking(false);
+            setSpeakingMessageId(null);
             if (isHandsFree) {
                 handleListen(); // Listen for the next command after AI finishes speaking
             }
@@ -164,13 +167,50 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         }
     };
 
+    const playAudio = (audioDataUri: string, messageId: string) => {
+        if (audioRef.current) {
+            setSpeakingMessageId(messageId);
+            setIsSpeaking(true);
+            audioRef.current.src = audioDataUri;
+            audioRef.current.play().catch(e => {
+                console.error("Audio playback error:", e);
+                setIsSpeaking(false);
+                setSpeakingMessageId(null);
+            });
+        }
+    };
+    
+    const handleListenToMessage = async (message: Message) => {
+        if (isSpeaking) {
+            audioRef.current?.pause();
+            return;
+        }
+
+        setSpeakingMessageId(message.id);
+        setIsSpeaking(true);
+        
+        try {
+            const { textToSpeech } = await import('@/ai/flows/text-to-speech');
+            const audioResult = await textToSpeech({ text: message.text });
+            playAudio(audioResult.audioDataUri, message.id);
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: 'Audio Failed',
+                description: error.message,
+            });
+            setIsSpeaking(false);
+            setSpeakingMessageId(null);
+        }
+    };
+
 
     const handleSend = async (text?: string) => {
         let currentInput = typeof text === 'string' ? text : input;
         if ((!currentInput.trim() && !uploadedFile) || isLoading) return;
         
         const userMessageText = currentInput;
-        const newUserMessage: Message = { role: 'user', text: userMessageText };
+        const newUserMessage: Message = { id: `user-${Date.now()}`, role: 'user', text: userMessageText };
         const updatedMessages = [...messages, newUserMessage];
         setMessages(updatedMessages);
         setActiveChat(updatedMessages);
@@ -180,26 +220,14 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
          if (isOffline) {
              setTimeout(async () => {
                 const aiResponseText = getOfflineResponse(userMessageText);
-                const aiMessage: Message = { role: 'model', text: aiResponseText };
+                const aiMessage: Message = { id: `model-${Date.now()}`, role: 'model', text: aiResponseText };
                 
                 setMessages(prev => [...prev, aiMessage]);
                 setActiveChat(prev => [...prev, aiMessage]);
                 addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, aiResponseText, [...updatedMessages, aiMessage]);
                 
                  if (isHandsFree) {
-                    try {
-                        const { textToSpeech } = await import('@/ai/flows/text-to-speech');
-                        const audioResult = await textToSpeech({ text: aiResponseText });
-                        if (audioResult.audioDataUri && audioRef.current) {
-                            setIsSpeaking(true);
-                            audioRef.current.src = audioResult.audioDataUri;
-                            audioRef.current.play().catch(e => console.error("Audio playback error:", e));
-                        }
-                    } catch (audioError) {
-                        console.error("TTS failed in offline mode:", audioError);
-                        setIsSpeaking(false);
-                        handleListen();
-                    }
+                    handleListenToMessage(aiMessage);
                 }
                 
                 setIsLoading(false);
@@ -209,8 +237,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
 
         try {
              const { chatResearchAssistance } = await import('@/ai/flows/chat-research-assistance');
-             const { textToSpeech } = await import('@/ai/flows/text-to-speech');
-
+             
             let fileDataUri: string | undefined;
             if (uploadedFile) {
                 fileDataUri = await new Promise((resolve, reject) => {
@@ -225,7 +252,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                 if (m.role === 'model' && isFunChat) {
                     return { role: m.role, text: `(You are a fun, witty, and creative assistant) ${m.text}` }
                 }
-                return m;
+                return {role: m.role, text: m.text};
             });
             
             const memoryToUse = memories.map(m => m.text);
@@ -241,33 +268,17 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                 targetLanguage,
                 memory: memoryToUse.length > 0 ? memoryToUse : undefined,
              });
-            const aiMessage: Message = { role: 'model', text: result.response };
+            const aiMessage: Message = { id: `model-${Date.now()}`, role: 'model', text: result.response };
             setMessages(prev => [...prev, aiMessage]);
             setActiveChat(prev => [...prev, aiMessage]);
             addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, result.response, [...updatedMessages, aiMessage]);
 
             if (isHandsFree && result.response) {
-                try {
-                    const audioResult = await textToSpeech({ text: result.response });
-                    if (audioResult.audioDataUri && audioRef.current) {
-                        setIsSpeaking(true);
-                        audioRef.current.src = audioResult.audioDataUri;
-                        audioRef.current.play().catch(e => console.error("Audio playback error:", e));
-                    }
-                } catch (audioError: any) {
-                    console.error("TTS Error:", audioError);
-                    const errorMessage: Message = { role: 'model', text: `I couldn't generate audio for my response. Reason: ${audioError.message}` };
-                     setMessages(prev => [...prev, errorMessage]);
-                    setActiveChat(prev => [...prev, errorMessage]);
-                     if (isHandsFree) {
-                        setIsSpeaking(false);
-                        handleListen();
-                    }
-                }
+                handleListenToMessage(aiMessage);
             }
 
         } catch (error: any) {
-            const errorMessage: Message = { role: 'model', text: `An error occurred: ${error.message}.` };
+            const errorMessage: Message = { id: `error-${Date.now()}`, role: 'model', text: `An error occurred: ${error.message}.` };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
@@ -313,29 +324,40 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6">
                     {messages.map((msg, index) => (
-                        <div key={index} className={`group flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div key={msg.id} className={`group flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.role === 'model' && <ModelAvatar />}
                             <div className={`relative max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}</p>
                                 {msg.role === 'model' && msg.text.length > 10 && (
-                                     <Button 
-                                        variant="ghost" 
-                                        size="icon" 
-                                        className="absolute -bottom-2 -right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        title="Save to Memory"
-                                        onClick={() => {
-                                            addMemory(msg.text)
-                                            toast({title: "Memory Saved", description: "The AI will remember this information."})
-                                        }}
-                                     >
-                                        <Save size={16} />
-                                     </Button>
+                                    <div className="absolute -bottom-2 -right-2 flex gap-1">
+                                        <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            title="Save to Memory"
+                                            onClick={() => {
+                                                addMemory(msg.text)
+                                                toast({title: "Memory Saved", description: "The AI will remember this information."})
+                                            }}
+                                        >
+                                            <Save size={16} />
+                                        </Button>
+                                         <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            title="Listen to this message"
+                                            onClick={() => handleListenToMessage(msg)}
+                                        >
+                                            {isSpeaking && speakingMessageId === msg.id ? <Loader2 className="animate-spin" /> : <Volume2 size={16} />}
+                                        </Button>
+                                    </div>
                                 )}
                             </div>
-                            {msg.role === 'user' && <UserAvatar />}
+                            {msg.role === 'user' && <UserAvatar/>}
                         </div>
                     ))}
-                    {(isLoading || isListening || isSpeaking) && (
+                    {(isLoading || isListening || (isSpeaking && isHandsFree)) && (
                         <div className="flex items-start gap-4 justify-start">
                              <ModelAvatar />
                              <div className="max-w-xl p-4 rounded-2xl bg-card text-card-foreground rounded-bl-none">
