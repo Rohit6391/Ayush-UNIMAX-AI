@@ -6,9 +6,6 @@ import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHo
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
-import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
-import { textToSpeech } from '@/ai/flows/text-to-speech';
-import { enhancePrompt } from '@/ai/flows/prompt-enhancer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
@@ -18,16 +15,16 @@ import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '../ui/separator';
-import { useMemory } from '@/components/providers/MemoryProvider';
-
+import { useMemory } from '@/hooks/use-memory';
+import { getOfflineResponse } from '@/lib/offline-data';
 
 interface Message {
     role: 'user' | 'model';
     text: string;
 }
 
-export function ChatInterface({ mode, initialMessages, setInitialMessages, isFunChat = false }: { mode: any, initialMessages: Message[], setInitialMessages: (messages: Message[]) => void, isFunChat?: boolean }) {
-    const { addHistoryItem, activeChat, setActiveChat, model } = useModes();
+export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunChat?: boolean }) {
+    const { addHistoryItem, activeChat, setActiveChat } = useModes();
     const { memories, addMemory } = useMemory();
     const { user } = useAuth();
     const { toast } = useToast();
@@ -41,7 +38,6 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     const [isTranslatorMode, setIsTranslatorMode] = useState(false);
     const [targetLanguage, setTargetLanguage] = useState('English');
 
-
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -52,20 +48,38 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
     const [isSpeaking, setIsSpeaking] = useState(false);
     const recognitionRef = useRef<any>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    
+    const [isOffline, setIsOffline] = useState(false);
+
+     useEffect(() => {
+        const handleOnlineStatus = () => setIsOffline(!navigator.onLine);
+        window.addEventListener('online', handleOnlineStatus);
+        window.addEventListener('offline', handleOnlineStatus);
+        handleOnlineStatus(); // Set initial state
+
+        return () => {
+            window.removeEventListener('online', handleOnlineStatus);
+            window.removeEventListener('offline', handleOnlineStatus);
+        };
+    }, []);
 
 
     useEffect(() => {
         if (activeChat && activeChat.length > 0) {
             setMessages(activeChat);
         } else {
-            const initialGreeting = isFunChat 
-                ? "Hello! I'm the Fun Chat AI. Ready for some creative brainstorming or a playful chat? Let's get weird!"
-                : "Hello! I am Ayush Unimax AI. How can I assist you today?";
+            let initialGreeting = "Hello! I am Ayush Unimax AI. How can I assist you today?";
+            if (isFunChat) {
+                initialGreeting = "Hello! I'm the Fun Chat AI. Ready for some creative brainstorming or a playful chat? Let's get weird!";
+            }
+             if (isOffline) {
+                 initialGreeting += " I am currently in offline mode and can answer a wide range of general questions.";
+            }
             const initialMessage = { role: 'model', text: initialGreeting };
             setMessages([initialMessage]);
             setActiveChat([initialMessage]);
         }
-    }, [isFunChat, activeChat, setActiveChat]);
+    }, [isFunChat, activeChat, setActiveChat, isOffline]);
     
      // Initialize SpeechRecognition and Audio elements
     useEffect(() => {
@@ -138,6 +152,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         if (!input.trim() || isLoading) return;
         setIsLoading(true);
         try {
+            const { enhancePrompt } = await import('@/ai/flows/prompt-enhancer');
             const { enhancedPrompt } = await enhancePrompt({ prompt: input });
             setInput(enhancedPrompt);
             toast({ title: "Prompt Enhanced", description: "Your prompt has been improved." });
@@ -160,21 +175,42 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
         setMessages(updatedMessages);
         setActiveChat(updatedMessages);
         setInput('');
+        setIsLoading(true);
 
-        // Offline check
-        if (typeof window !== 'undefined' && !window.navigator.onLine) {
-            const offlineMessage: Message = {
-                role: 'model',
-                text: "It looks like you're offline. I can't process new requests right now, but I'll be ready as soon as you reconnect!"
-            };
-            setMessages(prev => [...prev, offlineMessage]);
-            setActiveChat(prev => [...prev, offlineMessage]);
+         if (isOffline) {
+             setTimeout(async () => {
+                const aiResponseText = getOfflineResponse(userMessageText);
+                const aiMessage: Message = { role: 'model', text: aiResponseText };
+                
+                setMessages(prev => [...prev, aiMessage]);
+                setActiveChat(prev => [...prev, aiMessage]);
+                addHistoryItem(isFunChat ? 'fun_chat' : 'chat', userMessageText, aiResponseText, [...updatedMessages, aiMessage]);
+                
+                 if (isHandsFree) {
+                    try {
+                        const { textToSpeech } = await import('@/ai/flows/text-to-speech');
+                        const audioResult = await textToSpeech({ text: aiResponseText });
+                        if (audioResult.audioDataUri && audioRef.current) {
+                            setIsSpeaking(true);
+                            audioRef.current.src = audioResult.audioDataUri;
+                            audioRef.current.play().catch(e => console.error("Audio playback error:", e));
+                        }
+                    } catch (audioError) {
+                        console.error("TTS failed in offline mode:", audioError);
+                        setIsSpeaking(false);
+                        handleListen();
+                    }
+                }
+                
+                setIsLoading(false);
+            }, 500);
             return;
         }
 
-        setIsLoading(true);
-        
         try {
+             const { chatResearchAssistance } = await import('@/ai/flows/chat-research-assistance');
+             const { textToSpeech } = await import('@/ai/flows/text-to-speech');
+
             let fileDataUri: string | undefined;
             if (uploadedFile) {
                 fileDataUri = await new Promise((resolve, reject) => {
@@ -424,6 +460,11 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
                         </Button>
                     </div>
                 </div>
+                 {isOffline && (
+                    <p className="text-xs text-amber-500 mt-2 text-center flex items-center justify-center gap-2">
+                        <WifiOff size={14} /> You are currently offline. Responses are generated locally.
+                    </p>
+                 )}
             </div>
         </div>
     );

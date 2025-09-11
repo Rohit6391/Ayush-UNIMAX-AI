@@ -5,7 +5,7 @@ import { ThemeProvider } from "./ThemeProvider";
 import { AuthProvider } from "./AuthProvider";
 import { ModeProvider } from "./ModeProvider";
 import { ScriptLoader } from "../ScriptLoader";
-import { MemoryProvider } from "./MemoryProvider";
+import { MemoryProvider } from "@/hooks/use-memory";
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
