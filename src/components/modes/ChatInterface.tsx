@@ -213,14 +213,19 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         });
     };
 
-    const handleShare = (message: Message) => {
+    const handleShare = async (message: Message) => {
         if (navigator.share) {
-            navigator.share({
-                title: 'AI Chat Response',
-                text: message.text,
-            }).catch(err => console.error("Share failed:", err));
+            try {
+                await navigator.share({
+                    title: 'AI Chat Response',
+                    text: message.text,
+                });
+            } catch (err) {
+                console.error("Share failed:", err);
+                handleCopy(message);
+                toast({ title: "Share Failed", description: "Message copied to clipboard instead."});
+            }
         } else {
-            // Fallback for browsers that don't support Web Share API
             handleCopy(message);
             toast({ title: "Copied to Clipboard", description: "Share API not available. Message copied instead."});
         }
