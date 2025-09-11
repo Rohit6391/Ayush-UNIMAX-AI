@@ -326,14 +326,25 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                     {messages.map((msg, index) => (
                         <div key={msg.id} className={`group flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             {msg.role === 'model' && <ModelAvatar />}
-                            <div className={`relative max-w-xl p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
-                                <p className="whitespace-pre-wrap">{msg.text}</p>
-                                {msg.role === 'model' && msg.text.length > 10 && (
-                                    <div className="absolute -bottom-2 -right-2 flex gap-1">
+                            <div className="flex flex-col gap-2 max-w-xl">
+                                <div className={`relative p-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card text-card-foreground rounded-bl-none'}`}>
+                                    <p className="whitespace-pre-wrap">{msg.text}</p>
+                                </div>
+                                {msg.role === 'model' && msg.id !== 'initial-greeting' && msg.text.length > 10 && (
+                                     <div className="flex items-center gap-1 self-start">
                                         <Button 
                                             variant="ghost" 
                                             size="icon" 
-                                            className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            className="h-7 w-7 text-muted-foreground"
+                                            title="Listen to this message"
+                                            onClick={() => handleListenToMessage(msg)}
+                                        >
+                                            {isSpeaking && speakingMessageId === msg.id ? <Loader2 className="animate-spin" /> : <Volume2 size={16} />}
+                                        </Button>
+                                        <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="h-7 w-7 text-muted-foreground"
                                             title="Save to Memory"
                                             onClick={() => {
                                                 addMemory(msg.text)
@@ -341,15 +352,6 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                                             }}
                                         >
                                             <Save size={16} />
-                                        </Button>
-                                         <Button 
-                                            variant="ghost" 
-                                            size="icon" 
-                                            className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            title="Listen to this message"
-                                            onClick={() => handleListenToMessage(msg)}
-                                        >
-                                            {isSpeaking && speakingMessageId === msg.id ? <Loader2 className="animate-spin" /> : <Volume2 size={16} />}
                                         </Button>
                                     </div>
                                 )}
