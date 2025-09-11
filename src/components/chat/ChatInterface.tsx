@@ -100,11 +100,12 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                 } else {
                     setInput(prev => prev ? `${prev} ${transcript}` : transcript);
                 }
-                setIsListening(false);
             };
 
             recognitionRef.current.onerror = (event: any) => {
-                 console.error('Speech recognition error:', event.error)
+                if (event.error !== 'no-speech' && event.error !== 'aborted') {
+                    console.error('Speech recognition error:', event.error);
+                }
                  setIsListening(false);
             };
             recognitionRef.current.onend = () => setIsListening(false);
@@ -212,14 +213,21 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         });
     };
 
-    const handleShare = (message: Message) => {
+    const handleShare = async (message: Message) => {
         if (navigator.share) {
-            navigator.share({
-                title: 'AI Chat Response',
-                text: message.text,
-            }).catch(err => console.error("Share failed:", err));
+            try {
+                await navigator.share({
+                    title: 'AI Chat Response',
+                    text: message.text,
+                });
+            } catch (err: any) {
+                if (err.name !== 'AbortError') {
+                    console.error("Share failed:", err);
+                    handleCopy(message);
+                    toast({ title: "Share Blocked", description: "The share action was blocked. Message copied to clipboard instead."});
+                }
+            }
         } else {
-            // Fallback for browsers that don't support Web Share API
             handleCopy(message);
             toast({ title: "Copied to Clipboard", description: "Share API not available. Message copied instead."});
         }
