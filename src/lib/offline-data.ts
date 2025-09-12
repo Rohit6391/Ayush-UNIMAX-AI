@@ -216,19 +216,42 @@ export const defaultOfflineResponse = "I'm sorry, my offline capabilities are li
 export function getOfflineResponse(query: string): string {
     const cleanedQuery = query.toLowerCase().trim().replace(/[?.,!]/g, '');
     
-    // Exact match check first for performance
+    // Check for an exact match first for performance
     if (offlineResponses[cleanedQuery]) {
         const possibleAnswers = offlineResponses[cleanedQuery];
         return possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
     }
 
-    // Then check for keywords
+    // Then, find the best keyword match
+    let bestMatchKey: string | null = null;
+    let highestScore = 0;
+
     for (const key in offlineResponses) {
-        if (cleanedQuery.includes(key)) {
-            const possibleAnswers = offlineResponses[key];
-            return possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
+        const keywords = key.split(' ');
+        let score = 0;
+        keywords.forEach(keyword => {
+            if (cleanedQuery.includes(keyword)) {
+                score++;
+            }
+        });
+
+        // Give a bonus for a higher percentage of keyword matches
+        if (keywords.length > 0) {
+            const matchPercentage = score / keywords.length;
+            score += matchPercentage; // Prioritize more complete matches
+        }
+
+        if (score > highestScore) {
+            highestScore = score;
+            bestMatchKey = key;
         }
     }
+
+    if (bestMatchKey && highestScore > 0) {
+         const possibleAnswers = offlineResponses[bestMatchKey];
+        return possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
+    }
+
 
     // A simple fallback for greetings
     if (cleanedQuery.startsWith("hello") || cleanedQuery.startsWith("hi")) {
