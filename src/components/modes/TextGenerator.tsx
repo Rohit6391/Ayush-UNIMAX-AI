@@ -1,15 +1,16 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { createDocumentFromPrompt } from '@/ai/flows/create-document-from-prompt';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Settings, AlertTriangle } from 'lucide-react';
+import { Settings, AlertTriangle, WifiOff } from 'lucide-react';
 import { ModeWrapper } from './ModeWrapper';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { getOfflineResponse } from '@/lib/offline-data';
 
 interface TextGeneratorProps {
   mode: any;
@@ -26,6 +27,19 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
   const [isLoading, setIsLoading] = useState(false);
   const [resultText, setResultText] = useState('');
   const [error, setError] = useState('');
+  const [isOffline, setIsOffline] = useState(false);
+
+  useEffect(() => {
+    const handleOnlineStatus = () => setIsOffline(!navigator.onLine);
+    window.addEventListener('online', handleOnlineStatus);
+    window.addEventListener('offline', handleOnlineStatus);
+    handleOnlineStatus();
+
+    return () => {
+      window.removeEventListener('online', handleOnlineStatus);
+      window.removeEventListener('offline', handleOnlineStatus);
+    };
+  }, []);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -35,6 +49,16 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
     setIsLoading(true);
     setResultText('');
     setError('');
+
+    if (isOffline) {
+        setTimeout(() => {
+            const response = getOfflineResponse(prompt);
+            setResultText(response);
+            addHistoryItem(mode.id, prompt, response);
+            setIsLoading(false);
+        }, 500);
+        return;
+    }
     
     try {
       let result;
@@ -79,6 +103,12 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
       <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-4">
         {isLoading ? <><Settings className="animate-spin mr-2" /> Generating...</> : buttonText}
       </Button>
+      
+      {isOffline && (
+        <p className="text-xs text-amber-500 mt-2 text-center flex items-center justify-center gap-2">
+            <WifiOff size={14} /> You are currently offline. Responses are generated from a local knowledge base.
+        </p>
+      )}
 
       {error && (
         <Alert variant="destructive" className="mt-6 text-left">
