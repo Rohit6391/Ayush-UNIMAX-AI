@@ -30,6 +30,9 @@ export const offlineResponses: { [key: string]: string[] } = {
     "algebra": ["Algebra is a branch of mathematics that uses symbols and letters to represent numbers and quantities in formulas and equations."],
     "calculus": ["Calculus is a branch of mathematics focused on limits, functions, derivatives, integrals, and infinite series. It's essential for understanding change."],
     "geometry": ["Geometry is the branch of mathematics concerned with properties of space such as the distance, shape, size, and relative position of figures."],
+    "gravity": ["Gravity is the universal force of attraction acting between all matter. It's what keeps your feet on the ground and what keeps the planets in orbit around the sun."],
+    "evolution": ["Evolution is the process by which different kinds of living organisms are thought to have developed and diversified from earlier forms during the history of the earth. Natural selection is a key mechanism of evolution."],
+    "dna": ["DNA, or deoxyribonucleic acid, is a molecule that contains the biological instructions that make each species unique. It is the hereditary material in humans and almost all other organisms."],
     "science": [
         "Science is the systematic study of the physical and natural world through observation and experimentation. Key branches include biology, chemistry, and physics.",
         "Newton's First Law of Motion states that an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force.",
@@ -43,6 +46,8 @@ export const offlineResponses: { [key: string]: string[] } = {
         "The first World War lasted from 1914 to 1918. It was a global conflict involving the Central Powers and the Allied Powers.",
         "The Renaissance was a period of great cultural, artistic, and scientific change in Europe that spanned from the 14th to the 17th century."
     ],
+    "world war ii": ["World War II was a global war that lasted from 1939 to 1945. It involved the vast majority of the world's countries—including all of the great powers—forming two opposing military alliances: the Allies and the Axis."],
+    "roman empire": ["The Roman Empire was one of the most powerful and influential civilizations in world history, known for its achievements in law, engineering, architecture, and language. It began in 27 BC and lasted until the fall of the Western Empire in 476 AD."],
     "geography": [
         "Geography is the study of places and the relationships between people and their environments. The capital of France is Paris, and the longest river in the world is the Nile.",
         "The Earth's seven continents are Asia, Africa, North America, South America, Antarctica, Europe, and Australia."
@@ -62,14 +67,23 @@ export const offlineResponses: { [key: string]: string[] } = {
     ],
     "capital of japan": ["The capital of Japan is Tokyo."],
     "capital of india": ["The capital of India is New Delhi."],
+    "capital of uttarakhand": ["The winter capital of Uttarakhand is Dehradun, and the summer capital is Gairsain."],
     "capital of canada": ["The capital of Canada is Ottawa."],
     "capital of australia": ["The capital of Australia is Canberra."],
     "capital of usa": ["The capital of the United States of America is Washington, D.C."],
     "capital of uk": ["The capital of the United Kingdom is London."],
     "capital of france": ["The capital of France is Paris."],
     "capital of germany": ["The capital of Germany is Berlin."],
+    "capital of china": ["The capital of China is Beijing."],
+    "capital of russia": ["The capital of Russia is Moscow."],
+    "capital of brazil": ["The capital of Brazil is Brasília."],
+    "capital of italy": ["The capital of Italy is Rome."],
+    "capital of spain": ["The capital of Spain is Madrid."],
+    "capital of pakistan": ["The capital of Pakistan is Islamabad."],
     "highest mountain": ["Mount Everest, part of the Himalayas, is the highest mountain on Earth above sea level."],
     "largest ocean": ["The Pacific Ocean is the largest and deepest of the world's five oceans."],
+    "largest desert": ["The largest desert in the world is the Antarctic Polar Desert. The largest hot desert is the Sahara."],
+    "longest river": ["The longest river in the world is the Nile River, flowing through northeastern Africa."],
 
     // 4. Technology
     "python": [
@@ -80,6 +94,8 @@ export const offlineResponses: { [key: string]: string[] } = {
     ],
     "html": ["HTML stands for HyperText Markup Language. It's the standard markup language for documents designed to be displayed in a web browser."],
     "css": ["CSS, or Cascading Style Sheets, is a style sheet language used for describing the presentation of a document written in a markup language like HTML."],
+    "sql": ["SQL (Structured Query Language) is a standard language for managing and manipulating databases. You can use it to query, insert, update, and delete data."],
+    "react": ["React is a popular JavaScript library for building user interfaces, particularly for single-page applications. It allows developers to create reusable UI components."],
     "debugging": [
       "Debugging is the process of finding and resolving defects or problems within a computer program that prevent correct operation. Common methods include using a debugger tool, adding print statements to check variable values, or reviewing code logic step-by-step."
     ],
@@ -93,6 +109,7 @@ export const offlineResponses: { [key: string]: string[] } = {
      "api": [
         "An API, or Application Programming Interface, is a set of rules and protocols that allows different software applications to communicate with each other. It defines the methods and data formats that applications can use to request and exchange information."
     ],
+     "blockchain": ["A blockchain is a decentralized, distributed, and often public, digital ledger consisting of records called blocks that is used to record transactions across many computers so that any involved block cannot be altered retroactively, without the alteration of all subsequent blocks."],
 
     // 5. Personal Help
     "motivation": [
@@ -112,8 +129,9 @@ export const offlineResponses: { [key: string]: string[] } = {
     "how to be productive": [
         "To be more productive, try breaking large tasks into smaller, manageable steps. This makes them less daunting and provides a sense of accomplishment as you complete each part."
     ],
+    "public speaking": ["To improve at public speaking, practice your speech multiple times, make eye contact with your audience, and use gestures to emphasize your points. Remember to speak slowly and clearly. It's okay to be nervous!"],
 
-    // 6. Creative & Fun
+    // 6. Creative work
     "story": [
         "Once upon a time, in a forest made of glass, there lived a fox who could talk, but only in riddles. One day, he met a girl who could only answer in questions, and their conversation changed the forest forever.",
         "In a city where it always rained, a clockmaker built a machine that could capture and store moments of sunshine. He gave them away to people on the gloomiest days."
@@ -122,20 +140,9 @@ export const offlineResponses: { [key: string]: string[] } = {
         "The sun dips low, a painter's stroke,\nA canvas sky, a day bespoke.\nThe stars ignite, a silent fire,\nAnd whisper dreams, and hopes inspire.",
         "An old brick wall, with mossy seams,\nHolds tales of sunlit, forgotten dreams.\nA silent witness, standing tall,\nThrough winter's frost and summer's squall."
     ],
-    "joke": [
-        "Why don't scientists trust atoms? Because they make up everything!",
-        "I told my wife she was drawing her eyebrows too high. She looked surprised.",
-        "What do you call cheese that isn't yours? Nacho cheese.",
-        "I'm reading a book on anti-gravity. It's impossible to put down!"
-    ],
-    "riddle": [
-        "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I? ... An echo.",
-        "What has an eye, but cannot see? ... A needle.",
-        "What has to be broken before you can use it? ... An egg.",
-        "What is full of holes but still holds water? ... A sponge."
-    ],
+    "write a song": ["How about a song about a journey? Verse 1: 'The dusty road, a winding thread, through fields of green, the words unsaid.' Chorus: 'Oh, the miles they fly, beneath the sky, with every step, a reason why.'"],
 
-    // 7. Professional & Business
+    // 7. Professional/Business
     "resume": [
         "When writing a resume, use action verbs to describe your accomplishments (e.g., 'managed', 'created', 'implemented'). Quantify your achievements with numbers whenever possible to show impact (e.g., 'Increased sales by 15%').",
         "A good resume should be tailored to the specific job you're applying for. Highlight the skills and experiences that are most relevant to the job description."
@@ -152,6 +159,7 @@ export const offlineResponses: { [key: string]: string[] } = {
     "interview tip": [
         "During a job interview, use the STAR method to answer behavioral questions: describe the Situation, the Task you had to do, the Action you took, and the Result of your action. It provides a clear and compelling story."
     ],
+    "negotiation": ["A key negotiation tactic is to know your BATNA (Best Alternative to a Negotiated Agreement). This is your best course of action if you can't reach a deal, and it gives you a strong position to negotiate from."],
 
     // 8. Daily Life
     "cook pasta": [
@@ -163,8 +171,9 @@ export const offlineResponses: { [key: string]: string[] } = {
     "how to tie a tie": [
         "The simplest knot is the Four-in-Hand. 1. Drape the tie around your neck with the wide end on your right, hanging lower than the narrow end. 2. Cross the wide end over the narrow end. 3. Bring it back underneath. 4. Cross it over the front again. 5. Pull the wide end up through the loop around your neck. 6. Tuck it down through the knot you've just made in front. 7. Tighten carefully."
     ],
-
-    // 9. Opinion & Philosophy
+    "make coffee": ["To make coffee using a drip machine: 1. Fill the reservoir with cold water. 2. Place a filter in the basket. 3. Add ground coffee (a general rule is 1-2 tablespoons per 6 ounces of water). 4. Close the basket and press the 'start' button."],
+    
+    // 9. Opinion/Philosophy
     "social media": [
         "The pros of social media include staying connected with people across the globe and quick access to information and news. The cons can include privacy concerns, mental health impacts from social comparison, and the rapid spread of misinformation.",
     ],
@@ -175,7 +184,23 @@ export const offlineResponses: { [key: string]: string[] } = {
         "That's one of the biggest questions! There's no single answer. Philosophers have debated it for centuries. Some believe it's to seek happiness, some to find knowledge, others to create and contribute, and many find meaning in their relationships with others or through spirituality."
     ],
     
-    // 10. Special (games, roleplay, imagination)
+    // 10. Fun, Jokes, and Games
+    "joke": [
+        "Why don't scientists trust atoms? Because they make up everything!",
+        "I told my wife she was drawing her eyebrows too high. She looked surprised.",
+        "What do you call cheese that isn't yours? Nacho cheese.",
+        "I'm reading a book on anti-gravity. It's impossible to put down!",
+        "Why did the scarecrow win an award? Because he was outstanding in his field!",
+        "I would tell you a joke about construction, but I'm still working on it.",
+        "Why don’t skeletons fight each other? They don’t have the guts."
+    ],
+    "riddle": [
+        "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I? ... An echo.",
+        "What has an eye, but cannot see? ... A needle.",
+        "What has to be broken before you can use it? ... An egg.",
+        "What is full of holes but still holds water? ... A sponge.",
+        "What is always in front of you but can’t be seen? ... The future."
+    ],
     "game": [
         "In many role-playing games (RPGs), you create a character and go on adventures, gaining experience to level up your skills and become more powerful. A popular example is Dungeons & Dragons.",
         "Chess is a strategy board game for two players. The goal is to checkmate the opponent's king, putting it in a position where it is under attack and cannot escape."
@@ -191,6 +216,13 @@ export const defaultOfflineResponse = "I'm sorry, my offline capabilities are li
 export function getOfflineResponse(query: string): string {
     const cleanedQuery = query.toLowerCase().trim().replace(/[?.,!]/g, '');
     
+    // Exact match check first for performance
+    if (offlineResponses[cleanedQuery]) {
+        const possibleAnswers = offlineResponses[cleanedQuery];
+        return possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
+    }
+
+    // Then check for keywords
     for (const key in offlineResponses) {
         if (cleanedQuery.includes(key)) {
             const possibleAnswers = offlineResponses[key];
