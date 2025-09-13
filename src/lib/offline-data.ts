@@ -1,12 +1,15 @@
+
 /**
  * This file contains the offline knowledge base and logic for the AI assistant.
  * When the app is offline, the ChatInterface uses getOfflineResponse to provide answers.
  */
 
-// A vast, structured knowledge base for offline use.
+// A vast, structured knowledge base for offline use, organized by topic for efficient searching.
 export const offlineKnowledgeBase: Record<string, any> = {
+    // 1. Geography
     geography: {
         capitals: {
+            // World Capitals
             "afghanistan": "Kabul", "albania": "Tirana", "algeria": "Algiers", "andorra": "Andorra la Vella", "angola": "Luanda",
             "antigua and barbuda": "St. John's", "argentina": "Buenos Aires", "armenia": "Yerevan", "australia": "Canberra", "austria": "Vienna",
             "azerbaijan": "Baku", "bahamas": "Nassau", "bahrain": "Manama", "bangladesh": "Dhaka", "barbados": "Bridgetown",
@@ -40,8 +43,9 @@ export const offlineKnowledgeBase: Record<string, any> = {
             "syria": "Damascus", "taiwan": "Taipei", "tanzania": "Dodoma", "thailand": "Bangkok", "timor-leste": "Dili", "togo": "Lomé",
             "tonga": "Nukuʻalofa", "trinidad and tobago": "Port of Spain", "tunisia": "Tunis", "turkey": "Ankara", "turkmenistan": "Ashgabat",
             "tuvalu": "Funafuti", "uganda": "Kampala", "ukraine": "Kyiv", "united arab emirates": "Abu Dhabi", "united kingdom": "London",
-            "united states of america": "Washington, D.C.", "uruguay": "Montevideo", "uzbekistan": "Tashkent", "vanuatu": "Port Vila", "vatican city": "Vatican City",
+            "united states of america": "Washington, D.C.", "usa": "Washington, D.C.", "uruguay": "Montevideo", "uzbekistan": "Tashkent", "vanuatu": "Port Vila", "vatican city": "Vatican City",
             "venezuela": "Caracas", "vietnam": "Hanoi", "yemen": "Sana'a", "zambia": "Lusaka", "zimbabwe": "Harare",
+            // Indian States & UTs
             "andhra pradesh": "Amaravati", "arunachal pradesh": "Itanagar", "assam": "Dispur", "bihar": "Patna", "chhattisgarh": "Raipur",
             "goa": "Panaji", "gujarat": "Gandhinagar", "haryana": "Chandigarh", "himachal pradesh": "Shimla", "jharkhand": "Ranchi",
             "karnataka": "Bengaluru", "kerala": "Thiruvananthapuram", "madhya pradesh": "Bhopal", "maharashtra": "Mumbai", "manipur": "Imphal",
@@ -50,6 +54,7 @@ export const offlineKnowledgeBase: Record<string, any> = {
             "uttar pradesh": "Lucknow", "uttarakhand": "Dehradun (Winter), Gairsain (Summer)", "west bengal": "Kolkata", "andaman and nicobar islands": "Port Blair",
             "chandigarh": "Chandigarh", "dadra and nagar haveli and daman and diu": "Daman", "delhi": "New Delhi", "jammu and kashmir": "Srinagar (Summer), Jammu (Winter)",
             "ladakh": "Leh", "lakshadweep": "Kavaratti", "puducherry": "Puducherry",
+            // US States
             "alabama": "Montgomery", "alaska": "Juneau", "arizona": "Phoenix", "arkansas": "Little Rock", "california": "Sacramento",
             "colorado": "Denver", "connecticut": "Hartford", "delaware": "Dover", "florida": "Tallahassee", "georgia": "Atlanta",
             "hawaii": "Honolulu", "idaho": "Boise", "illinois": "Springfield", "indiana": "Indianapolis", "iowa": "Des Moines",
@@ -60,92 +65,88 @@ export const offlineKnowledgeBase: Record<string, any> = {
             "oklahoma": "Oklahoma City", "oregon": "Salem", "pennsylvania": "Harrisburg", "rhode island": "Providence", "south carolina": "Columbia",
             "south dakota": "Pierre", "tennessee": "Nashville", "texas": "Austin", "utah": "Salt Lake City", "vermont": "Montpelier",
             "virginia": "Richmond", "washington": "Olympia", "west virginia": "Charleston", "wisconsin": "Madison", "wyoming": "Cheyenne",
+            // Canadian Provinces
             "ontario": "Toronto", "quebec": "Quebec City", "nova scotia": "Halifax", "new brunswick": "Fredericton", "manitoba": "Winnipeg",
             "british columbia": "Victoria", "prince edward island": "Charlottetown", "saskatchewan": "Regina", "alberta": "Edmonton",
             "newfoundland and labrador": "St. John's",
+            // Other major state/province capitals
             "bavaria": "Munich"
-        },
-        currencies: {
-            "india": "Indian Rupee (INR)", "united states": "United States Dollar (USD)", "united kingdom": "Pound Sterling (GBP)", "japan": "Japanese Yen (JPY)", "european union": "Euro (EUR)"
-        },
-        languages: {
-            "spain": "Spanish", "france": "French", "china": "Mandarin", "india": "Hindi and English are official languages, with many other regional languages."
         },
         records: {
             "largest country": "By land area, Russia is the largest country in the world.",
             "smallest country": "Vatican City is the smallest country in the world.",
             "most populous country": "India is the most populous country in the world, followed by China.",
-            "longest river": "The Nile River in Africa is the longest river in the world.",
+            "longest river": "The Nile River in Africa is the longest river in the world, closely followed by the Amazon River in South America.",
             "highest mountain": "Mount Everest, in the Himalayas, is the highest mountain peak above sea level.",
+            "biggest desert": "The Antarctic Polar Desert is the world's largest desert. The largest hot desert is the Sahara.",
             "largest desert": "The Antarctic Polar Desert is the world's largest desert. The largest hot desert is the Sahara.",
             "largest ocean": "The Pacific Ocean is the largest and deepest of the world's five oceans.",
         },
-        national_symbols: {
-            "national animal of india": "The Bengal Tiger.",
-            "national bird of india": "The Indian Peacock.",
-            "national flower of india": "The Lotus.",
-            "national tree of india": "The Banyan Tree.",
-            "national fruit of india": "The Mango."
-        },
         misc: {
             "seven wonders": "The New Seven Wonders of the World include the Taj Mahal, Colosseum, Christ the Redeemer, Machu Picchu, Chichen Itza, Petra, and the Great Wall of China.",
-            "national parks": "India has over 100 national parks, including Jim Corbett, Kaziranga, and Gir.",
-            "world heritage sites": "UNESCO World Heritage Sites are places of special cultural or physical significance, like the Taj Mahal, the Great Wall of China, and Machu Picchu."
+            "national parks in india": "India has over 100 national parks. Famous ones include Jim Corbett National Park, Kaziranga National Park, and Gir National Park.",
         }
     },
+    // 2. History
     history: {
-        india: {
-            "father of the nation": "Mahatma Gandhi is revered as the 'Father of the Nation' in India.",
-            "year of independence": "India gained independence from British rule on August 15, 1947.",
-            "first prime minister": "Jawaharlal Nehru was the first Prime Minister of independent India.",
-            "first president": "Dr. Rajendra Prasad was the first President of independent India.",
-            "important battles": "Key battles include the Battle of Plassey (1757), which established British supremacy, and the Battles of Panipat which shaped the Mughal empire.",
-            "famous dynasties": "Major dynasties include the Maurya, Gupta, and Mughal Empires.",
-            "monument builders": "The Taj Mahal was built by Mughal emperor Shah Jahan. The Red Fort was also built by him."
-        },
-        world: {
-            "world war 1": "World War I lasted from 1914 to 1918.",
-            "world war 2": "World War II took place from 1939 to 1945.",
-            "french revolution": "The French Revolution was a period of major social upheaval in France that began in 1789.",
-            "american revolution": "The American Revolution was the war fought from 1775 to 1783 through which 13 of Great Britain's North American colonies threw off British rule to establish the United States of America."
-        }
+        "independence of india": "India gained independence from British rule on August 15, 1947.",
+        "first prime minister of india": "Jawaharlal Nehru was the first Prime Minister of independent India.",
+        "first president of india": "Dr. Rajendra Prasad was the first President of independent India.",
+        "father of the nation of india": "Mahatma Gandhi is revered as the 'Father of the Nation' in India for his leadership in the non-violent independence movement.",
+        "world war 1": "World War I, also known as the Great War, lasted from 1914 to 1918.",
+        "world war 2": "World War II was a global conflict that lasted from 1939 to 1945.",
+        "french revolution": "The French Revolution was a period of major social and political upheaval in France that began in 1789, leading to the end of the monarchy and the establishment of a republic.",
+        "who built the taj mahal": "The Taj Mahal was commissioned in 1632 by the Mughal emperor Shah Jahan to house the tomb of his favorite wife, Mumtaz Mahal."
     },
+    // 3. Science & Math
     science: {
-        physics: {
-            "newton's laws": "Newton's First Law (Inertia), Second Law (F=ma), and Third Law (Action-Reaction) are fundamental principles of classical mechanics.",
-            "theory of relativity": "Albert Einstein's theory of relativity includes Special Relativity (E=mc²) and General Relativity (gravity as a curvature of spacetime)."
-        },
-        chemistry: {
-            "periodic table": "The periodic table is a tabular arrangement of the chemical elements, ordered by their atomic number.",
-            "ph scale": "The pH scale measures how acidic or basic a substance is. It ranges from 0 to 14. A pH of 7 is neutral, less than 7 is acidic, and greater than 7 is basic."
-        },
-        biology: {
-            "photosynthesis": "Photosynthesis is the process used by plants, algae, and some bacteria to convert light energy into chemical energy.",
-            "dna": "DNA, or deoxyribonucleic acid, is the molecule that carries the genetic instructions for the development, functioning, growth, and reproduction of all known organisms.",
-            "human body": "The human body has 206 bones. The largest organ is the skin. The brain is the control center."
-        },
-        space: {
-            "planets": "The eight planets in our solar system are Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune.",
-            "first man on moon": "Neil Armstrong was the first human to walk on the moon in 1969 during the Apollo 11 mission.",
-        }
+        "newton's laws of motion": "Newton's laws of motion are three basic laws of classical mechanics. 1st Law (Inertia): An object remains at rest or in uniform motion unless acted upon by a force. 2nd Law: The acceleration of an object is directly proportional to the net force and inversely proportional to its mass (F=ma). 3rd Law: For every action, there is an equal and opposite reaction.",
+        "theory of relativity": "Albert Einstein's theory of relativity has two parts. Special relativity deals with the relationship between space and time for objects moving at constant speeds. General relativity is a theory of gravitation, describing it as a property of the curvature of spacetime.",
+        "what is photosynthesis": "Photosynthesis is the process used by plants, algae, and certain bacteria to convert light energy into chemical energy, through a process that converts carbon dioxide and water into glucose (sugar) and oxygen.",
+        "what is dna": "DNA, or deoxyribonucleic acid, is the hereditary material in humans and almost all other organisms. It contains the genetic instructions for the development, functioning, growth, and reproduction of all known living things.",
+        "planets in our solar system": "The eight planets in our solar system are Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune.",
+        "first man on the moon": "Neil Armstrong, an American astronaut, was the first human to walk on the moon on July 20, 1969, during the Apollo 11 mission.",
+        "pythagorean theorem": "The Pythagorean theorem states that in a right-angled triangle, the square of the length of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the lengths of the other two sides. The formula is a² + b² = c²."
     },
+    // 4. Technology & AI
     technology: {
-        "what is ai": "Artificial Intelligence (AI) is a wide-ranging branch of computer science concerned with building smart machines capable of performing tasks that typically require human intelligence.",
-        "what is programming": "Programming is the process of creating a set of instructions that tell a computer how to perform a task.",
-        "python": "Python is a high-level, general-purpose programming language known for its simple, readable syntax.",
-        "javascript": "JavaScript is a programming language that is one of the core technologies of the World Wide Web, alongside HTML and CSS."
+        "what is ai": "Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think like humans and mimic their actions. The term may also be applied to any machine that exhibits traits associated with a human mind such as learning and problem-solving.",
+        "what is programming": "Programming is the process of creating a set of instructions that tell a computer how to perform a task. These instructions are written in a programming language, such as Python, Java, or C++.",
+        "what is python": "Python is a high-level, interpreted, general-purpose programming language. Its design philosophy emphasizes code readability with the use of significant indentation. It's widely used in web development, data science, artificial intelligence, and more.",
+        "what is javascript": "JavaScript is a programming language that is one of the core technologies of the World Wide Web, alongside HTML and CSS. It enables interactive web pages and is an essential part of web applications."
     },
+    // 5. Creative & Fun
     creative: {
         "tell me a joke": [
             "Why don't scientists trust atoms? Because they make up everything!",
             "I'm reading a book on anti-gravity. It's impossible to put down!",
-            "Why did the scarecrow win an award? Because he was outstanding in his field!"
+            "Why did the scarecrow win an award? Because he was outstanding in his field!",
+            "Why don't skeletons fight each other? They don't have the guts.",
+            "What do you call a fake noodle? An Impasta!"
         ],
         "tell me a riddle": [
-            "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I? ... A map.",
-            "What has an eye, but cannot see? ... A needle.",
-            "What has to be broken before you can use it? ... An egg."
+            { question: "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?", answer: "A map." },
+            { question: "What has an eye, but cannot see?", answer: "A needle." },
+            { question: "What has to be broken before you can use it?", answer: "An egg." },
+            { question: "I’m tall when I’m young, and I’m short when I’m old. What am I?", answer: "A candle." }
+        ],
+        "story prompt": [
+            "Write a short story about a librarian who discovers a secret, hidden chapter in every book they touch.",
+            "Create a story about a world where people's shadows have a life of their own.",
+            "Tell a tale of a chef whose food allows people to relive their favorite memories."
         ]
+    },
+    // 6. General & Default Responses
+    general: {
+        "who are you": "I am the Ayush Unimax AI, a universal AI assistant created by Ayush Sharma of Ayush Webtor Studio. I am designed to be helpful across a wide range of tasks, even when offline.",
+        "who made you": "I was created by Ayush Sharma at Ayush Webtor Studio.",
+        "what can you do": "I can answer questions on many topics like history, geography, and science. I can also help with creative tasks, solve math problems, write text, and much more. My capabilities are organized into different 'modes' in this application.",
+        "hello": "Hello! I'm Ayush Unimax AI. How can I assist you today?",
+        "hi": "Hello there! How can I help you?",
+        "hey": "Hey! What can I do for you?",
+        "thank you": "You're welcome! Is there anything else I can help you with?",
+        "thanks": "You're welcome!",
+        "how are you": "As an AI, I don't have feelings, but I'm operating at full capacity and ready to help. What's on your mind?"
     },
     default: [
         "That's an excellent question. However, my knowledge on that specific topic is limited in offline mode. I can answer many questions about history, science, geography, and more.",
@@ -154,9 +155,20 @@ export const offlineKnowledgeBase: Record<string, any> = {
     ]
 };
 
+/**
+ * Searches the offline knowledge base for an answer to the user's query.
+ * @param query The user's input string.
+ * @returns A string containing the best found answer, or a default response.
+ */
 export function getOfflineResponse(query: string): string {
     const cleanedQuery = query.toLowerCase().trim().replace(/[?.,!]/g, '');
 
+    // 1. Direct command/greeting check
+    if (offlineKnowledgeBase.general[cleanedQuery]) {
+        return offlineKnowledgeBase.general[cleanedQuery];
+    }
+    
+    // 2. Specialized question patterns (e.g., "capital of X")
     const capitalMatch = cleanedQuery.match(/^(?:what is the |what's the |)capital of (.+)/);
     if (capitalMatch && capitalMatch[1]) {
         const place = capitalMatch[1].trim();
@@ -164,48 +176,68 @@ export function getOfflineResponse(query: string): string {
             return `The capital of ${place.charAt(0).toUpperCase() + place.slice(1)} is ${offlineKnowledgeBase.geography.capitals[place]}.`;
         }
     }
-
+    
     const reverseCapitalMatch = cleanedQuery.match(/^(?:which country has|which state has) (.+) as its capital/);
     if (reverseCapitalMatch && reverseCapitalMatch[1]) {
         const capital = reverseCapitalMatch[1].trim();
         for (const place in offlineKnowledgeBase.geography.capitals) {
-            if (offlineKnowledgeBase.geography.capitals[place].toLowerCase().includes(capital)) {
+            if (offlineKnowledgeBase.geography.capitals[place].toLowerCase() === capital) {
                 return `${capital.charAt(0).toUpperCase() + capital.slice(1)} is the capital of ${place.charAt(0).toUpperCase() + place.slice(1)}.`;
             }
         }
     }
 
-    const findBestMatch = (branch: any): string | null => {
-        if (typeof branch !== 'object' || branch === null) return null;
+    // 3. Creative requests
+    if (cleanedQuery.includes("joke")) {
+        const jokes = offlineKnowledgeBase.creative.joke;
+        return jokes[Math.floor(Math.random() * jokes.length)];
+    }
+    if (cleanedQuery.includes("riddle")) {
+        const riddles = offlineKnowledgeBase.creative.riddle;
+        const chosenRiddle = riddles[Math.floor(Math.random() * riddles.length)];
+        return `${chosenRiddle.question}\n\nAnswer: ${chosenRiddle.answer}`;
+    }
+
+    // 4. General keyword-based search across the entire knowledge base
+    const findBestMatch = (branch: any, queryWords: string[]): { match: string | null, score: number } => {
+        let bestMatch = { match: null as string | null, score: 0 };
+        
+        if (typeof branch !== 'object' || branch === null) return bestMatch;
+
         for (const key in branch) {
-            if (cleanedQuery.includes(key.toLowerCase())) {
-                const value = branch[key];
-                if (typeof value === 'string') return value;
-                if (Array.isArray(value)) return value[Math.floor(Math.random() * value.length)];
+            const keyWords = key.toLowerCase().split(" ");
+            let currentScore = 0;
+            queryWords.forEach(word => {
+                if (keyWords.includes(word)) {
+                    currentScore++;
+                }
+            });
+
+            if (currentScore > bestMatch.score) {
+                 const value = branch[key];
+                 if (typeof value === 'string') {
+                    bestMatch = { match: value, score: currentScore };
+                 }
             }
+            
+            // Recurse into nested objects
             if (typeof branch[key] === 'object') {
-                const nestedMatch = findBestMatch(branch[key]);
-                if (nestedMatch) return nestedMatch;
+                const nestedResult = findBestMatch(branch[key], queryWords);
+                if (nestedResult.score > bestMatch.score) {
+                    bestMatch = nestedResult;
+                }
             }
         }
-        return null;
+        return bestMatch;
     };
 
-    const match = findBestMatch(offlineKnowledgeBase);
-    if (match) return match;
-    
-    if (cleanedQuery.startsWith("hello") || cleanedQuery.startsWith("hi") || cleanedQuery === "hey") {
-        return "Hello! I'm running in offline mode. I can answer questions on a variety of general knowledge topics. How can I help you?";
-    }
-    
-    if (cleanedQuery.includes("who are you") || cleanedQuery.includes("what are you")) {
-        return "I am the Ayush Unimax AI, a universal AI assistant created by Ayush Sharma of Ayush Webtor Studio.";
+    const queryWords = cleanedQuery.split(" ");
+    const matchResult = findBestMatch(offlineKnowledgeBase, queryWords);
+    if (matchResult.match && matchResult.score > 0) {
+        return matchResult.match;
     }
 
-    if (cleanedQuery.includes("who made you") || cleanedQuery.includes("creator")) {
-        return "I was created by Ayush Sharma at Ayush Webtor Studio.";
-    }
-
+    // 5. Default fallback response
     const defaultAnswers = offlineKnowledgeBase.default;
     return defaultAnswers[Math.floor(Math.random() * defaultAnswers.length)];
 }

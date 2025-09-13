@@ -62,27 +62,29 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
     
     try {
       let result;
+      let finalResultText = '';
       if (flow) {
         result = await flow({ prompt });
         const resultKey = Object.keys(result)[0];
-        setResultText(result[resultKey]);
-      } else if (generatePrompt) {
-        const fullPrompt = generatePrompt(prompt);
-        result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
-        setResultText(result.document);
+        finalResultText = result[resultKey];
       } else {
-        // Fallback to createDocumentFromPrompt if no specific flow/prompt is provided
-        result = await createDocumentFromPrompt({ prompt: prompt, model });
-        setResultText(result.document);
+        const fullPrompt = generatePrompt ? generatePrompt(prompt) : prompt;
+        result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
+        finalResultText = result.document;
       }
       
-      addHistoryItem(mode.id, prompt, resultText);
+      setResultText(finalResultText);
+      addHistoryItem(mode.id, prompt, finalResultText);
 
     } catch (err: any) {
       let errorMessageText = `Failed to generate: ${err.message}`;
       if (err.message) {
         if (err.message.includes('429') || err.message.toLowerCase().includes('quota')) {
-            errorMessageText = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
+            if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+                errorMessageText = "The public quota has been reached. To unlock unlimited use, please add your personal, free Gemini API key to the .env file as instructed in the README.";
+            } else {
+                errorMessageText = "You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.";
+            }
         } else if (err.message.includes('503') || err.message.toLowerCase().includes('overloaded')) {
             errorMessageText = "The AI model is currently busy or overloaded. Please try again in a few moments.";
         }
