@@ -37,7 +37,7 @@ export function AIJokeWriter({ mode }: { mode: any }) {
             const randomIndex = Math.floor(Math.random() * jokes.length);
             const randomJoke = jokes[randomIndex];
             setResultText(randomJoke);
-            addHistoryItem(mode.id, prompt || `A joke about ${prompt}`, randomJoke);
+            addHistoryItem(mode.id, prompt || `A random joke`, randomJoke);
         } catch (err: any) {
             setError("Failed to generate joke.");
         } finally {
@@ -46,80 +46,43 @@ export function AIJokeWriter({ mode }: { mode: any }) {
     };
 
     return (
-        <TextGenerator
-            mode={mode}
-            promptPlaceholder="Give me a topic for a joke."
-            buttonText="Generate Joke"
-            generatePrompt={(prompt) => `Write a joke about: "${prompt}"`}
-            resultTitle="Generated Joke"
-        />
+        <ModeWrapper mode={mode}>
+            <Textarea
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="Give me a topic for a joke, or just click the button for a random one!"
+                className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors"
+                rows={4}
+            />
+            <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-4">
+                {isLoading ? <><Settings className="animate-spin mr-2" /> Generating...</> : "Tell Me a Joke"}
+            </Button>
+
+            {error && (
+                <Alert variant="destructive" className="mt-6 text-left">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+                </Alert>
+            )}
+
+            <div className="mt-6 w-full">
+                {isLoading && (
+                <Card className="w-full h-64 bg-muted/50 flex items-center justify-center animate-pulse">
+                    <mode.icon className="h-16 w-16 text-muted-foreground" />
+                </Card>
+                )}
+                {resultText && !isLoading && (
+                <Card className="text-left">
+                    <CardHeader>
+                    <CardTitle>Here's a Joke!</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                    <pre className="whitespace-pre-wrap leading-relaxed font-sans">{resultText}</pre>
+                    </CardContent>
+                </Card>
+                )}
+            </div>
+        </ModeWrapper>
     );
-}
-
-// Re-using TextGenerator for UI, but the logic is self-contained above.
-// This is a simplified version of TextGenerator to show UI structure.
-function TextGenerator({ mode, promptPlaceholder, buttonText, resultTitle }: any) {
-  const [prompt, setPrompt] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [resultText, setResultText] = useState('');
-  const [error, setError] = useState('');
-
-  const handleGenerate = async () => {
-    setIsLoading(true);
-    setResultText('');
-    setError('');
-    
-    // Simulate async operation
-    await new Promise(resolve => setTimeout(resolve, 250));
-
-    try {
-        const randomIndex = Math.floor(Math.random() * jokes.length);
-        const randomJoke = jokes[randomIndex];
-        setResultText(randomJoke);
-    } catch (err: any) {
-        setError("Failed to generate joke.");
-    } finally {
-        setIsLoading(false);
-    }
-  };
-
-  return (
-    <ModeWrapper mode={mode}>
-      <Textarea
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        placeholder={promptPlaceholder}
-        className="w-full bg-background border-2 border-input focus:border-primary focus:ring-0 rounded-lg p-3 resize-none transition-colors"
-        rows={4}
-      />
-      <Button onClick={handleGenerate} disabled={isLoading} className="w-full mt-4">
-        {isLoading ? <><Settings className="animate-spin mr-2" /> Generating...</> : buttonText}
-      </Button>
-
-      {error && (
-        <Alert variant="destructive" className="mt-6 text-left">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-      <div className="mt-6 w-full">
-        {isLoading && (
-          <Card className="w-full h-64 bg-muted/50 flex items-center justify-center animate-pulse">
-            <mode.icon className="h-16 w-16 text-muted-foreground" />
-          </Card>
-        )}
-        {resultText && !isLoading && (
-          <Card className="text-left">
-            <CardHeader>
-              <CardTitle>{resultTitle}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <pre className="whitespace-pre-wrap leading-relaxed font-sans">{resultText}</pre>
-            </CardContent>
-          </Card>
-        )}
-      </div>
-    </ModeWrapper>
-  );
 }
