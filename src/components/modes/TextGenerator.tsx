@@ -71,7 +71,9 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
         result = await createDocumentFromPrompt({ prompt: fullPrompt, model });
         setResultText(result.document);
       } else {
-        throw new Error("No generation logic provided.");
+        // Fallback to createDocumentFromPrompt if no specific flow/prompt is provided
+        result = await createDocumentFromPrompt({ prompt: prompt, model });
+        setResultText(result.document);
       }
       
       addHistoryItem(mode.id, prompt, resultText);
