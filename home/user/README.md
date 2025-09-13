@@ -15,7 +15,7 @@ To unlock the full, unlimited power of this application, you need your own free,
 ### **Step 2: Add the Key to Your Project**
 
 1.  In the file explorer on the left, find the `.env` file.
-2.  Open it and add the following line, pasting your key after the `=` sign:
+2.  Open it and paste your API key directly after the `=` sign. The line should look like this:
 
     ```
     NEXT_PUBLIC_GEMINI_API_KEY=PASTE_YOUR_API_KEY_HERE
