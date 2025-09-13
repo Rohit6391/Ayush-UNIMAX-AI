@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff, Volume2, Loader2, Copy, Check } from 'lucide-react';
+import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHorizontal, BookOpen, Languages, Save, WifiOff, Volume2, Loader2, Copy, Check, Share2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
@@ -213,6 +213,27 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         });
     };
 
+    const handleShare = async (message: Message) => {
+        const shareData = {
+            title: 'AI Chat Response',
+            text: message.text,
+        };
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                throw new Error("Web Share API not supported");
+            }
+        } catch (err) {
+            // Fallback to copy
+            handleCopy(message);
+            toast({
+                title: "Share not available",
+                description: "Message copied to clipboard instead.",
+            });
+        }
+    };
+
     const handleSend = async (text?: string) => {
         const currentInput = typeof text === 'string' ? text : input;
         if ((!currentInput.trim() && !uploadedFile) || isLoading) return;
@@ -375,6 +396,15 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                                             onClick={() => handleCopy(msg)}
                                         >
                                              {copiedMessageId === msg.id ? <Check size={16} className="text-primary"/> : <Copy size={16} />}
+                                        </Button>
+                                        <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="h-7 w-7 text-muted-foreground"
+                                            title="Share message"
+                                            onClick={() => handleShare(msg)}
+                                        >
+                                             <Share2 size={16} />
                                         </Button>
                                         <Button 
                                             variant="ghost" 
