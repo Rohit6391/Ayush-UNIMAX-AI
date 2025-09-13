@@ -52,7 +52,7 @@ export function TextGenerator({ mode, promptPlaceholder, buttonText, generatePro
 
     if (isOffline) {
         setTimeout(() => {
-            const response = getOfflineResponse(prompt);
+            const response = getOfflineResponse(prompt, mode.id);
             setResultText(response);
             addHistoryItem(mode.id, prompt, response);
             setIsLoading(false);
