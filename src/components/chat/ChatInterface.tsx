@@ -103,7 +103,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
             };
 
             recognitionRef.current.onerror = (event: any) => {
-                if (event.error !== 'no-speech' && event.error !== 'aborted') {
+                 if (event.error !== 'no-speech' && event.error !== 'aborted') {
                     console.error('Speech recognition error:', event.error);
                 }
                  setIsListening(false);

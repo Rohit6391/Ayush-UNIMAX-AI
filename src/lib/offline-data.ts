@@ -6,7 +6,6 @@
 
 // A vast, structured knowledge base for offline use, organized by topic for efficient searching.
 export const offlineKnowledgeBase: Record<string, any> = {
-    // 1. Geography
     geography: {
         capitals: {
             // World Capitals
@@ -54,7 +53,7 @@ export const offlineKnowledgeBase: Record<string, any> = {
             "uttar pradesh": "Lucknow", "uttarakhand": "Dehradun (Winter), Gairsain (Summer)", "west bengal": "Kolkata", "andaman and nicobar islands": "Port Blair",
             "chandigarh": "Chandigarh", "dadra and nagar haveli and daman and diu": "Daman", "delhi": "New Delhi", "jammu and kashmir": "Srinagar (Summer), Jammu (Winter)",
             "ladakh": "Leh", "lakshadweep": "Kavaratti", "puducherry": "Puducherry",
-            // US States
+             // US States
             "alabama": "Montgomery", "alaska": "Juneau", "arizona": "Phoenix", "arkansas": "Little Rock", "california": "Sacramento",
             "colorado": "Denver", "connecticut": "Hartford", "delaware": "Dover", "florida": "Tallahassee", "georgia": "Atlanta",
             "hawaii": "Honolulu", "idaho": "Boise", "illinois": "Springfield", "indiana": "Indianapolis", "iowa": "Des Moines",
@@ -65,7 +64,7 @@ export const offlineKnowledgeBase: Record<string, any> = {
             "oklahoma": "Oklahoma City", "oregon": "Salem", "pennsylvania": "Harrisburg", "rhode island": "Providence", "south carolina": "Columbia",
             "south dakota": "Pierre", "tennessee": "Nashville", "texas": "Austin", "utah": "Salt Lake City", "vermont": "Montpelier",
             "virginia": "Richmond", "washington": "Olympia", "west virginia": "Charleston", "wisconsin": "Madison", "wyoming": "Cheyenne",
-            // Canadian Provinces
+             // Canadian Provinces
             "ontario": "Toronto", "quebec": "Quebec City", "nova scotia": "Halifax", "new brunswick": "Fredericton", "manitoba": "Winnipeg",
             "british columbia": "Victoria", "prince edward island": "Charlottetown", "saskatchewan": "Regina", "alberta": "Edmonton",
             "newfoundland and labrador": "St. John's",
@@ -79,7 +78,6 @@ export const offlineKnowledgeBase: Record<string, any> = {
             "longest river": "The Nile River in Africa is the longest river in the world, closely followed by the Amazon River in South America.",
             "highest mountain": "Mount Everest, in the Himalayas, is the highest mountain peak above sea level.",
             "biggest desert": "The Antarctic Polar Desert is the world's largest desert. The largest hot desert is the Sahara.",
-            "largest desert": "The Antarctic Polar Desert is the world's largest desert. The largest hot desert is the Sahara.",
             "largest ocean": "The Pacific Ocean is the largest and deepest of the world's five oceans.",
         },
         misc: {
@@ -87,7 +85,6 @@ export const offlineKnowledgeBase: Record<string, any> = {
             "national parks in india": "India has over 100 national parks. Famous ones include Jim Corbett National Park, Kaziranga National Park, and Gir National Park.",
         }
     },
-    // 2. History
     history: {
         "independence of india": "India gained independence from British rule on August 15, 1947.",
         "first prime minister of india": "Jawaharlal Nehru was the first Prime Minister of independent India.",
@@ -98,7 +95,6 @@ export const offlineKnowledgeBase: Record<string, any> = {
         "french revolution": "The French Revolution was a period of major social and political upheaval in France that began in 1789, leading to the end of the monarchy and the establishment of a republic.",
         "who built the taj mahal": "The Taj Mahal was commissioned in 1632 by the Mughal emperor Shah Jahan to house the tomb of his favorite wife, Mumtaz Mahal."
     },
-    // 3. Science & Math
     science: {
         "newton's laws of motion": "Newton's laws of motion are three basic laws of classical mechanics. 1st Law (Inertia): An object remains at rest or in uniform motion unless acted upon by a force. 2nd Law: The acceleration of an object is directly proportional to the net force and inversely proportional to its mass (F=ma). 3rd Law: For every action, there is an equal and opposite reaction.",
         "theory of relativity": "Albert Einstein's theory of relativity has two parts. Special relativity deals with the relationship between space and time for objects moving at constant speeds. General relativity is a theory of gravitation, describing it as a property of the curvature of spacetime.",
@@ -108,14 +104,12 @@ export const offlineKnowledgeBase: Record<string, any> = {
         "first man on the moon": "Neil Armstrong, an American astronaut, was the first human to walk on the moon on July 20, 1969, during the Apollo 11 mission.",
         "pythagorean theorem": "The Pythagorean theorem states that in a right-angled triangle, the square of the length of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the lengths of the other two sides. The formula is a² + b² = c²."
     },
-    // 4. Technology & AI
     technology: {
         "what is ai": "Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think like humans and mimic their actions. The term may also be applied to any machine that exhibits traits associated with a human mind such as learning and problem-solving.",
         "what is programming": "Programming is the process of creating a set of instructions that tell a computer how to perform a task. These instructions are written in a programming language, such as Python, Java, or C++.",
         "what is python": "Python is a high-level, interpreted, general-purpose programming language. Its design philosophy emphasizes code readability with the use of significant indentation. It's widely used in web development, data science, artificial intelligence, and more.",
         "what is javascript": "JavaScript is a programming language that is one of the core technologies of the World Wide Web, alongside HTML and CSS. It enables interactive web pages and is an essential part of web applications."
     },
-    // 5. Creative & Fun
     creative: {
         "tell me a joke": [
             "Why don't scientists trust atoms? Because they make up everything!",
@@ -136,7 +130,6 @@ export const offlineKnowledgeBase: Record<string, any> = {
             "Tell a tale of a chef whose food allows people to relive their favorite memories."
         ]
     },
-    // 6. General & Default Responses
     general: {
         "who are you": "I am the Ayush Unimax AI, a universal AI assistant created by Ayush Sharma of Ayush Webtor Studio. I am designed to be helpful across a wide range of tasks, even when offline.",
         "who made you": "I was created by Ayush Sharma at Ayush Webtor Studio.",
@@ -168,7 +161,7 @@ export function getOfflineResponse(query: string): string {
         return offlineKnowledgeBase.general[cleanedQuery];
     }
     
-    // 2. Specialized question patterns (e.g., "capital of X")
+    // 2. Specialized question patterns
     const capitalMatch = cleanedQuery.match(/^(?:what is the |what's the |)capital of (.+)/);
     if (capitalMatch && capitalMatch[1]) {
         const place = capitalMatch[1].trim();
@@ -189,16 +182,16 @@ export function getOfflineResponse(query: string): string {
 
     // 3. Creative requests
     if (cleanedQuery.includes("joke")) {
-        const jokes = offlineKnowledgeBase.creative.joke;
+        const jokes = offlineKnowledgeBase.creative["tell me a joke"];
         return jokes[Math.floor(Math.random() * jokes.length)];
     }
     if (cleanedQuery.includes("riddle")) {
-        const riddles = offlineKnowledgeBase.creative.riddle;
+        const riddles = offlineKnowledgeBase.creative["tell me a riddle"];
         const chosenRiddle = riddles[Math.floor(Math.random() * riddles.length)];
         return `${chosenRiddle.question}\n\nAnswer: ${chosenRiddle.answer}`;
     }
 
-    // 4. General keyword-based search across the entire knowledge base
+    // 4. General keyword-based search
     const findBestMatch = (branch: any, queryWords: string[]): { match: string | null, score: number } => {
         let bestMatch = { match: null as string | null, score: 0 };
         
@@ -220,7 +213,6 @@ export function getOfflineResponse(query: string): string {
                  }
             }
             
-            // Recurse into nested objects
             if (typeof branch[key] === 'object') {
                 const nestedResult = findBestMatch(branch[key], queryWords);
                 if (nestedResult.score > bestMatch.score) {
@@ -237,7 +229,7 @@ export function getOfflineResponse(query: string): string {
         return matchResult.match;
     }
 
-    // 5. Default fallback response
+    // 5. Default fallback
     const defaultAnswers = offlineKnowledgeBase.default;
     return defaultAnswers[Math.floor(Math.random() * defaultAnswers.length)];
 }
