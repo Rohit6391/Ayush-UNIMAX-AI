@@ -13,8 +13,18 @@ export async function POST(request: Request) {
       );
     }
     
-    // IMPORTANT: Use an empty API key for the Canvas environment.
-    const apiKey = "";
+    // IMPORTANT: Do not use a real API key in this file.
+    // The key is provided securely by the environment.
+    const apiKey = process.env.GEMINI_API_KEY || "";
+    if (!apiKey) {
+      // This is a server-side error, so we can log it.
+      console.error('Gemini API Key not found in environment variables.');
+      return NextResponse.json(
+        {error: 'The server is not configured for AI requests. Please contact the administrator.'},
+        {status: 500}
+      );
+    }
+    
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
     const payload = {
@@ -53,8 +63,4 @@ export async function POST(request: Request) {
   } catch (error: any) {
     console.error('API Route Error:', error);
     return NextResponse.json(
-      {error: `An internal server error occurred: ${error.message}`},
-      {status: 500}
-    );
-  }
-}
+      {error: `An internal server error occurred: ${error.message
