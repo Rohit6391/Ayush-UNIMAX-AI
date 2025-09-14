@@ -3,8 +3,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
 import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
@@ -88,7 +88,7 @@ export function ChatInterface({ mode, initialMessages, setInitialMessages, isFun
             }
         };
         audio.addEventListener('ended', onSpeakingEnd);
-        audio.addEventListener('pause', onSpeakingEnd);
+         audio.addEventListener('pause', onSpeakingEnd);
 
         return () => {
             audio.removeEventListener('ended', onSpeakingEnd);
