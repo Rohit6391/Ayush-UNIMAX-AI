@@ -113,7 +113,7 @@ const chatResearchAssistanceFlow = ai.defineFlow(
             flowInput.fileDataUri = undefined; // Clear the file data URI to avoid re-processing
         }
 
-        const {output} = await prompt(flowInput);
+        const {output} = await prompt(flowInput, {model: input.model ? googleAI.model(input.model) : undefined});
         if (!output) {
             throw new Error("The AI failed to generate a response.");
         }
