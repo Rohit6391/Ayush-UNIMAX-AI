@@ -113,18 +113,14 @@ const chatResearchAssistanceFlow = ai.defineFlow(
             flowInput.fileDataUri = undefined; // Clear the file data URI to avoid re-processing
         }
 
-        const {output} = await prompt(flowInput, {model: input.model ? googleAI.model(input.model) : undefined});
+        const {output} = await prompt(flowInput);
         if (!output) {
             throw new Error("The AI failed to generate a response.");
         }
         return output;
     } catch (err: any) {
-        if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
-            // Check if the user is using the fallback key
-            if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
-                 throw new Error("The public quota has been reached. To unlock unlimited use, please add your personal, free Gemini API key to the .env file as instructed in the README.");
-            }
-            throw new Error("You have exceeded your daily API quota. Please check your plan and billing details, or try again tomorrow.");
+       if (err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota'))) {
+            throw new Error("All available API keys have reached their daily quota. To continue, please add a new, free personal API key to your .env file as described in the README.");
         }
         throw new Error(`An unexpected server error occurred: ${err.message}`);
     }
