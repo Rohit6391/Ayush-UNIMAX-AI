@@ -1,15 +1,16 @@
+
 "use client";
 
 import { useModes, HistoryItem } from "@/components/providers/ModeProvider";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Card, CardHeader } from "@/components/ui/card";
-import { Moon, Sun, BarChart3, BrainCircuit } from "lucide-react";
+import { Moon, Sun, BarChart3, BrainCircuit, Brain } from "lucide-react";
 import { useTheme } from "next-themes";
 import { modes } from "@/lib/modes";
 import { ScrollArea } from "../ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
-import { ApiKeyManager } from "./ApiKeyManager";
+import { MemoryManager } from "./MemoryManager";
 
 const getIconForType = (type: HistoryItem['type']) => {
     const mode = modes.find(m => m.id === type);
@@ -69,7 +70,7 @@ export function SettingsPanel() {
         <Tabs defaultValue="creations" className="flex-1 flex flex-col min-h-0">
           <TabsList className="grid w-full grid-cols-3 shrink-0">
             <TabsTrigger value="creations">Creations</TabsTrigger>
-            <TabsTrigger value="apikeys">API Keys</TabsTrigger>
+            <TabsTrigger value="memory">Memory</TabsTrigger>
             <TabsTrigger value="settings">Theme</TabsTrigger>
           </TabsList>
           <ScrollArea className="flex-1 -mx-6 mt-4">
@@ -88,8 +89,8 @@ export function SettingsPanel() {
                         </div>
                     )}
                 </TabsContent>
-                <TabsContent value="apikeys">
-                    <ApiKeyManager />
+                 <TabsContent value="memory">
+                    <MemoryManager />
                 </TabsContent>
                 <TabsContent value="settings">
                     <div className="space-y-6">

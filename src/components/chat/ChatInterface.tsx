@@ -6,14 +6,17 @@ import { Send, User, BrainCircuit, Sparkles, Plus, X, Mic, Waves, Bot, SlidersHo
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useModes } from '@/components/providers/ModeProvider';
+import { chatResearchAssistance } from '@/ai/flows/chat-research-assistance';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { enhancePrompt } from '@/ai/flows/prompt-enhancer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '../providers/AuthProvider';
-import { useToast } from '@/hooks/use-toast';
-import { Input } from '../ui/input';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useToast } from '@/hooks/use-toast';
+import { Input } from '../ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Separator } from '../ui/separator';
 import { useMemory } from '@/hooks/use-memory';
 import { getOfflineResponse } from '@/lib/offline-data';
@@ -157,7 +160,6 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         if (!input.trim() || isLoading) return;
         setIsLoading(true);
         try {
-            const { enhancePrompt } = await import('@/ai/flows/prompt-enhancer');
             const { enhancedPrompt } = await enhancePrompt({ prompt: input });
             setInput(enhancedPrompt);
             toast({ title: "Prompt Enhanced", description: "Your prompt has been improved." });
@@ -192,7 +194,6 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         setIsSpeaking(true);
         
         try {
-            const { textToSpeech } = await import('@/ai/flows/text-to-speech');
             const audioResult = await textToSpeech({ text: message.text });
             playAudio(audioResult.audioDataUri, message.id);
         } catch (error: any) {
@@ -249,7 +250,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
 
          if (isOffline) {
              setTimeout(async () => {
-                const aiResponseText = getOfflineResponse(userMessageText);
+                const aiResponseText = getOfflineResponse(userMessageText, mode.id);
                 const aiMessage: Message = { id: `model-${Date.now()}`, role: 'model', text: aiResponseText };
                 
                 setMessages(prev => [...prev, aiMessage]);
@@ -258,7 +259,6 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                 
                  if (isHandsFree) {
                     try {
-                        const { textToSpeech } = await import('@/ai/flows/text-to-speech');
                         const audioResult = await textToSpeech({ text: aiResponseText });
                         if (audioResult.audioDataUri && audioRef.current) {
                             playAudio(audioResult.audioDataUri, aiMessage.id);
@@ -277,8 +277,6 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
         }
 
         try {
-             const { chatResearchAssistance } = await import('@/ai/flows/chat-research-assistance');
-
             let fileDataUri: string | undefined;
             if (uploadedFile) {
                 fileDataUri = await new Promise((resolve, reject) => {
@@ -310,7 +308,6 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
 
             if (isHandsFree && result.response) {
                 try {
-                    const { textToSpeech } = await import('@/ai/flows/text-to-speech');
                     const audioResult = await textToSpeech({ text: result.response });
                     if (audioResult.audioDataUri && audioRef.current) {
                         playAudio(audioResult.audioDataUri, aiMessage.id);
@@ -551,7 +548,7 @@ export function ChatInterface({ mode, isFunChat = false }: { mode: any, isFunCha
                 </div>
                  {isOffline && (
                     <p className="text-xs text-amber-500 mt-2 text-center flex items-center justify-center gap-2">
-                        <WifiOff size={14} /> You are currently offline. Responses are generated locally.
+                        <WifiOff size={14} /> You are currently offline. Responses are generated from a local knowledge base.
                     </p>
                  )}
             </div>
