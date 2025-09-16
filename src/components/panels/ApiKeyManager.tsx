@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -5,9 +6,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { KeyRound, Plus, Loader2, ServerCrash, CheckCircle } from 'lucide-react';
+import { KeyRound, Plus, Loader2, ServerCrash, CheckCircle, Wand2 } from 'lucide-react';
 import { addApiKey } from '@/app/actions/env';
 import { useToast } from '@/hooks/use-toast';
+
+// A pre-configured public key for the auto-generate feature.
+const PRECONFIGURED_PUBLIC_KEY = "AIzaSyAfoObMQyAIyEj44MD6FJi1G6-4kcPjLgg";
 
 export function ApiKeyManager() {
     const { toast } = useToast();
@@ -17,7 +21,6 @@ export function ApiKeyManager() {
     const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
 
     useEffect(() => {
-        // We can only read this on the client-side
         const keys = process.env.NEXT_PUBLIC_GEMINI_API_KEYS || process.env.GEMINI_API_KEYS || '';
         const count = keys.split(',').filter(k => k.trim() !== '').length;
         setApiKeyCount(count);
@@ -39,14 +42,20 @@ export function ApiKeyManager() {
                 title: "Success!",
                 description: result.message,
             });
-            // The server will restart, so we don't need to do much more here.
-            // We can optimistically update the key count.
             setApiKeyCount(prev => prev + 1);
         } else {
             setMessage({ type: 'error', text: result.error || 'An unknown error occurred.' });
         }
         setIsLoading(false);
     };
+
+    const handleAutoGenerate = () => {
+        setNewApiKey(PRECONFIGURED_PUBLIC_KEY);
+        toast({
+            title: "Public Key Generated",
+            description: "The public API key has been added to the input field. Click 'Add Key' to save it.",
+        });
+    }
 
     return (
         <Card>
@@ -78,6 +87,13 @@ export function ApiKeyManager() {
                             <span className="sr-only">Add Key</span>
                         </Button>
                     </div>
+                     <Button variant="outline" onClick={handleAutoGenerate} className="w-full">
+                        <Wand2 className="mr-2 h-4 w-4" />
+                        Auto-Generate a Public Key
+                    </Button>
+                     <p className="text-xs text-muted-foreground px-1">
+                        This provides a temporary, public key with shared usage limits.
+                    </p>
                     {message && (
                         <Alert variant={message.type === 'error' ? 'destructive' : 'default'}>
                             {message.type === 'error' ? <ServerCrash className="h-4 w-4" /> : <CheckCircle className="h-4 w-4" />}
@@ -88,7 +104,7 @@ export function ApiKeyManager() {
                 </div>
                  <Alert>
                     <KeyRound className="h-4 w-4" />
-                    <AlertTitle>How to get a key?</AlertTitle>
+                    <AlertTitle>How to get unlimited keys?</AlertTitle>
                     <AlertDescription>
                         You can get free, personal API keys from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="underline font-semibold">Google AI Studio</a>.
                     </AlertDescription>
