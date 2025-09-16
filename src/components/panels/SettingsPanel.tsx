@@ -5,7 +5,7 @@ import { useModes, HistoryItem } from "@/components/providers/ModeProvider";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Card, CardHeader } from "@/components/ui/card";
-import { Moon, Sun, BarChart3, BrainCircuit, Brain } from "lucide-react";
+import { Moon, Sun, BarChart3, BrainCircuit } from "lucide-react";
 import { useTheme } from "next-themes";
 import { modes } from "@/lib/modes";
 import { ScrollArea } from "../ui/scroll-area";
@@ -68,7 +68,7 @@ export function SettingsPanel() {
           </SheetDescription>
         </SheetHeader>
         <Tabs defaultValue="creations" className="flex-1 flex flex-col min-h-0">
-          <TabsList className="grid w-full grid-cols-3 shrink-0">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="creations">Creations</TabsTrigger>
             <TabsTrigger value="memory">Memory</TabsTrigger>
             <TabsTrigger value="settings">Theme</TabsTrigger>
